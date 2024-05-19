@@ -19,12 +19,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"estellacoding.github.io","root":"/blog/","images":"/blog/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/blog/js/config.js"></script>
 
-    <meta name="description" content="當 Hexo 基本設定及文章完成撰寫後，就可以公開發佈了 ，本文主要說明如何部署 Hexo 部落格到 GitHub Pages。從建立 GitHub Repo 的注意事項、安裝 Hexo 一鍵佈署工具、修改 Hexo config，到最後部署時 GitHub Pages 的相關設定，跟著我的這些步驟，相信你也能輕鬆地完成部署喔!">
+    <meta name="description" content="當設定好 Hexo 基本設定及完成文章撰寫後，就可以公開發佈了 。本文主要說明如何部署 Hexo 部落格網站到 GitHub Pages。從建立 GitHub Repo 的命名注意事項、安裝 Hexo 一鍵佈署工具、修改 Hexo config 檔案，到最後部署時 GitHub Pages 的相關設定。跟著我的這些步驟，相信你也能輕鬆地完成部署喔!">
 <meta property="og:type" content="article">
 <meta property="og:title" content="如何部署 Hexo 部落格到 GitHub Pages">
 <meta property="og:url" content="https://estellacoding.github.io/blog/deploy-Hexo2github/index.html">
 <meta property="og:site_name" content="Stella Coding">
-<meta property="og:description" content="當 Hexo 基本設定及文章完成撰寫後，就可以公開發佈了 ，本文主要說明如何部署 Hexo 部落格到 GitHub Pages。從建立 GitHub Repo 的注意事項、安裝 Hexo 一鍵佈署工具、修改 Hexo config，到最後部署時 GitHub Pages 的相關設定，跟著我的這些步驟，相信你也能輕鬆地完成部署喔!">
+<meta property="og:description" content="當設定好 Hexo 基本設定及完成文章撰寫後，就可以公開發佈了 。本文主要說明如何部署 Hexo 部落格網站到 GitHub Pages。從建立 GitHub Repo 的命名注意事項、安裝 Hexo 一鍵佈署工具、修改 Hexo config 檔案，到最後部署時 GitHub Pages 的相關設定。跟著我的這些步驟，相信你也能輕鬆地完成部署喔!">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/meme%2Fcute-as-me%2Cwhy-need-to-work.jpg?alt=media&amp;token=05035a68-c532-40b5-b2c7-f96936bc5d78">
 <meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-4%2Fhexo-deploy2github-1.png?alt=media&amp;token=d4ecc720-ddd5-495e-bedb-b8d4c41bb6a5">
@@ -235,7 +235,7 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><p>當 Hexo 基本設定及文章完成撰寫後，就可以公開發佈了 <i class="fa-solid fa-face-laugh-squint" style="color: #0091ff;"></i>，本文主要說明如何部署 Hexo 部落格到 GitHub Pages。從建立 GitHub Repo 的注意事項、安裝 Hexo 一鍵佈署工具、修改 Hexo config，到最後部署時 GitHub Pages 的相關設定，跟著我的這些步驟，相信你也能輕鬆地完成部署喔!</p>
+    <div class="post-body" itemprop="articleBody"><p>當設定好 Hexo 基本設定及完成文章撰寫後，就可以公開發佈了 <i class="fa-solid fa-face-laugh-squint" style="color: #0091ff;"></i>。本文主要說明如何部署 Hexo 部落格網站到 GitHub Pages。從建立 GitHub Repo 的命名注意事項、安裝 Hexo 一鍵佈署工具、修改 Hexo config 檔案，到最後部署時 GitHub Pages 的相關設定。跟著我的這些步驟，相信你也能輕鬆地完成部署喔!</p>
 <span id="more"></span>
 <h1>建立 GitHub Repo</h1>
 <p>要先完成 Git 安裝及 GitHub 帳號申請。在 <a href="/blog/build-Hexo-blog-local-from-scratch/#%E5%AE%89%E8%A3%9D-Node-js-%E5%8F%8A-Git">這篇</a> 文章中有提到，Git 安裝方式及檢查 Git 是否安裝成功。另外，也需完成 <a target="_blank" rel="noopener" href="https://github.com/">申請 Github 帳號</a>。</p>
