@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.2.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="mask-icon" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"estellacoding.github.io","root":"/blog/","images":"/blog/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/blog/js/config.js"></script>
+
+    <meta name="description" content="本文主要介紹如何在 Hexo 部落格中新增及撰寫文章。在 Hexo 中，可以透過一行指令新增文章，並有三種模板種類：post、page 和 draft。文章可以在 VS Code 中用 markdown 語法撰寫，且 Hexo 本身也有內建的語法，可以讓文字有不同的呈現格式。最後，文章的圖片需要另外找放圖片空間，如 imgur 或 Firebase Storage，並透過複製連結的方式插入文章中。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何在 Hexo 部落格中新增文章">
+<meta property="og:url" content="https://estellacoding.github.io/blog/create-new-article/index.html">
+<meta property="og:site_name" content="Stella Coding">
+<meta property="og:description" content="本文主要介紹如何在 Hexo 部落格中新增及撰寫文章。在 Hexo 中，可以透過一行指令新增文章，並有三種模板種類：post、page 和 draft。文章可以在 VS Code 中用 markdown 語法撰寫，且 Hexo 本身也有內建的語法，可以讓文字有不同的呈現格式。最後，文章的圖片需要另外找放圖片空間，如 imgur 或 Firebase Storage，並透過複製連結的方式插入文章中。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-3%2Fhexo-article-1.png?alt=media&amp;token=2923137a-9089-420c-9c48-2ba6656b18eb">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-3%2Fhexo-article-3.png?alt=media&amp;token=38630234-3012-4aef-8e02-0ef0120244be">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-3%2Fhexo-article-2.png?alt=media&amp;token=1acf52e8-3013-4363-89bb-ee2f4a8912d6">
+<meta property="og:image" content="https://i.imgur.com/cBWkD2R.jpg">
+<meta property="og:image" content="https://i.imgur.com/COnXOV4.jpg">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-3%2Fhexo-article-5.png?alt=media&amp;token=ec8ac28d-2f49-4fbc-b9c0-d910e53814cd">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-3%2Fhexo-article-4.png?alt=media&amp;token=b279ef62-1c19-40b6-94b6-07bfe32d4078">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-3%2Fhexo-firebase-1.png?alt=media&amp;token=575a6ba1-633d-4b78-af60-193f71ba8164">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-3%2Fhexo-firebase-2.png?alt=media&amp;token=872c63f6-a6e6-4b56-9101-c6c2f5b11ac2">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-3%2Fhexo-firebase-3.png?alt=media&amp;token=d88d9df1-9abd-431a-812c-b6c4cd491a37">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-3%2Fhexo-firebase-4.png?alt=media&amp;token=72858479-e608-4e53-a411-908a6f3efb72">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-3%2Fhexo-firebase-5.png?alt=media&amp;token=5208c14c-74a3-4977-aa7c-439fc0b2ae44">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-3%2Fhexo-firebase-6.png?alt=media&amp;token=f74d0a5f-90b5-4852-bb70-81671a5ef1c2">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-3%2Fhexo-firebase-7.png?alt=media&amp;token=97c33f40-37ce-48f4-bc4a-167d01cb417f">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-3%2Fhexo-firebase-8.png?alt=media&amp;token=5c78796e-7d5d-4f50-beac-7cca5e69e36d">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-3%2Fhexo-firebase-9.png?alt=media&amp;token=711d89e6-1cd9-4225-b588-d7fe334dfa86">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-3%2Fhexo-firebase-10.png?alt=media&amp;token=3f1ee71b-a1b1-405e-a574-42d783c240be">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-3%2Fhexo-firebase-11.png?alt=media&amp;token=b8bb31e6-28c2-4882-b006-86f4bd2561eb">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-3%2Fhexo-firebase-12.png?alt=media&amp;token=70f05014-e3c2-4842-b155-ab1cabb66eb7">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-3%2Fhexo-firebase-13.png?alt=media&amp;token=a647762b-b353-49b8-8d02-b3c4ee5a30fb">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-3%2Fhexo-firebase-14.png?alt=media&amp;token=98a6c0d5-0ead-4141-bc61-0672a492ce6f">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-3%2Fhexo-firebase-15.png?alt=media&amp;token=86d7d57d-bb15-4039-a288-c6d2a9ccd013">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-3%2Fhexo-firebase-16.png?alt=media&amp;token=f93360b9-a3d9-4a6d-a559-3c6ac3465f76">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-3%2Fhexo-firebase-17.png?alt=media&amp;token=f7646644-c565-4f0e-b33d-5ad73a2f9609">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-3%2Fhexo-firebase-17.png?alt=media&amp;token=f7646644-c565-4f0e-b33d-5ad73a2f9609">
+<meta property="article:published_time" content="2024-05-19T03:11:11.000Z">
+<meta property="article:modified_time" content="2024-05-19T03:11:11.000Z">
+<meta property="article:author" content="Stella">
+<meta property="article:tag" content="Hexo">
+<meta property="article:tag" content="Blog">
+<meta property="article:tag" content="Tutorial">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-3%2Fhexo-article-1.png?alt=media&amp;token=2923137a-9089-420c-9c48-2ba6656b18eb">
+
+
+<link rel="canonical" href="https://estellacoding.github.io/blog/create-new-article/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://estellacoding.github.io/blog/create-new-article/","path":"create-new-article/","title":"如何在 Hexo 部落格中新增文章"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>如何在 Hexo 部落格中新增文章 | Stella Coding</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/blog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/blog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Stella Coding</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Nothing is impossible.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/blog/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/blog/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/blog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">新增文章</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E6%9D%BF%E7%A8%AE%E9%A1%9E"><span class="nav-number">1.1.</span> <span class="nav-text">模板種類</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E7%AB%A0%E5%85%A7%E5%AE%B9"><span class="nav-number">1.2.</span> <span class="nav-text">文章內容</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">2.</span> <span class="nav-text">撰寫文章</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%99%E9%A1%8C"><span class="nav-number">2.1.</span> <span class="nav-text">標題</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%A3%E7%B5%90"><span class="nav-number">2.2.</span> <span class="nav-text">連結</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A0%85%E7%9B%AE%E6%B8%85%E5%96%AE"><span class="nav-number">2.3.</span> <span class="nav-text">項目清單</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%84%A1%E5%BA%8F%E6%B8%85%E5%96%AE"><span class="nav-number">2.3.1.</span> <span class="nav-text">無序清單</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%89%E5%BA%8F%E6%B8%85%E5%96%AE"><span class="nav-number">2.3.2.</span> <span class="nav-text">有序清單</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A8%8B%E5%BC%8F%E7%A2%BC"><span class="nav-number">2.4.</span> <span class="nav-text">程式碼</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A8%8B%E5%BC%8F%E7%A2%BC%E5%8D%80%E5%A1%8A"><span class="nav-number">2.4.1.</span> <span class="nav-text">程式碼區塊</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A8%8B%E5%BC%8F%E7%A2%BC%E7%89%87%E6%AE%B5"><span class="nav-number">2.4.2.</span> <span class="nav-text">程式碼片段</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%96%E7%89%87"><span class="nav-number">2.5.</span> <span class="nav-text">圖片</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E7%94%A8%E5%8D%80%E5%A1%8A"><span class="nav-number">2.6.</span> <span class="nav-text">引用區塊</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%A7%E5%AE%B9%E6%91%98%E8%A6%81"><span class="nav-number">2.7.</span> <span class="nav-text">內容摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96-i-class-fa-solid-fa-fire-fa-bounce-style-color-0091ff-i-%E9%99%B8%E7%BA%8C%E6%9B%B4%E6%96%B0"><span class="nav-number">2.8.</span> <span class="nav-text">其他 (陸續更新)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A8%E6%A0%BC"><span class="nav-number">2.8.1.</span> <span class="nav-text">表格</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E8%BE%A6%E4%BA%8B%E9%A0%85"><span class="nav-number">2.8.2.</span> <span class="nav-text">代辦事項</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">3.</span> <span class="nav-text">文章圖片</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%81%B8%E6%93%87%E5%9C%96%E7%89%87%E7%A9%BA%E9%96%93"><span class="nav-number">3.1.</span> <span class="nav-text">選擇圖片空間</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8A%E5%82%B3%E5%9C%96%E7%89%87"><span class="nav-number">3.2.</span> <span class="nav-text">上傳圖片</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A4%87%E8%A3%BD%E5%9C%96%E7%89%87%E9%80%A3%E7%B5%90"><span class="nav-number">3.3.</span> <span class="nav-text">複製圖片連結</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%92%E5%85%A5%E5%9C%96%E7%89%87%E5%88%B0%E6%96%87%E7%AB%A0%E4%B8%AD"><span class="nav-number">3.4.</span> <span class="nav-text">插入圖片到文章中</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Stella"
+      src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+  <p class="site-author-name" itemprop="name">Stella</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/blog/archives/">
+          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/blog/categories/">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/blog/tags/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/estellacoding" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;estellacoding" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.instagram.com/stellacoding/" title="Instagram → https:&#x2F;&#x2F;www.instagram.com&#x2F;stellacoding&#x2F;" rel="noopener me" target="_blank"><i class="fab fa-instagram fa-fw"></i>Instagram</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://estellacoding.github.io/blog/create-new-article/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+      <meta itemprop="name" content="Stella">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Stella Coding">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="如何在 Hexo 部落格中新增文章 | Stella Coding">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          如何在 Hexo 部落格中新增文章
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2024-05-19 11:11:11" itemprop="dateCreated datePublished" datetime="2024-05-19T11:11:11+08:00">2024-05-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/Hexo/" itemprop="url" rel="index"><span itemprop="name">Hexo</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>本文主要介紹如何在 Hexo 部落格中新增及撰寫文章。在 Hexo 中，可以透過一行指令新增文章，並有三種模板種類：post、page 和 draft。文章可以在 VS Code 中用 markdown 語法撰寫，且 Hexo 本身也有內建的語法，可以讓文字有不同的呈現格式。最後，文章的圖片需要另外找放圖片空間，如 imgur 或 Firebase Storage，並透過複製連結的方式插入文章中。</p>
+<span id="more"></span>
+<h1>新增文章</h1>
+<p>在 Hexo 中可以簡單用一行指令就可以新增文章，文章會在 source/_posts裡，產生如 <code>create-new-article.md</code> 的檔案，<code>.md</code> 副檔名代表爲 markdown 的檔案格式。</p>
+<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo <span class="keyword">new</span> <span class="type"></span>[layout] &lt;title&gt;</span><br><span class="line">hexo <span class="keyword">new</span> <span class="type"></span>&#x27;create-<span class="keyword">new</span><span class="type"></span>-article<span class="string">&#x27;</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-3%2Fhexo-article-1.png?alt=media&amp;token=2923137a-9089-420c-9c48-2ba6656b18eb" alt="新增文章語法"></p>
+<h2 id="模板種類"><a class="header-anchor" href="#模板種類"></a>模板種類</h2>
+<p>Hexo 有3種模板種類(layout)：post、page 和 draft。</p>
+<ul>
+<li><code>hexo new &lt;title&gt;</code>: 沒有加上 layout，預設值是新增文章，會放在 <code>source/_posts</code>。</li>
+<li><code>hexo new page &lt;title&gt; </code>: 新增頁面，產生 <code>index.md</code> 檔，並放入新的資料夾 <code>source/&lt;title&gt;</code>。通常是用於新增一個獨立頁面，可彈性調整內容。</li>
+<li><code>hexo new draft &lt;title&gt;</code>: 新增草稿，產生 <code>&lt;title&gt;.md</code> 檔，並放入資料夾 <code>source/_drafts</code>。</li>
+</ul>
+<figure class="highlight gauss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo <span class="keyword">new</span> &lt;<span class="built_in">title</span>&gt;</span><br><span class="line">hexo <span class="keyword">new</span> page &lt;<span class="built_in">title</span>&gt;</span><br><span class="line">hexo <span class="keyword">new</span> draft &lt;<span class="built_in">title</span>&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-3%2Fhexo-article-3.png?alt=media&amp;token=38630234-3012-4aef-8e02-0ef0120244be" alt="新增文章頁面草稿"></p>
+<h2 id="文章內容"><a class="header-anchor" href="#文章內容"></a>文章內容</h2>
+<p>新增文章檔案的最上方會有 <code>---</code> 分隔的區域，是 Hexo 文章的 Front-matter，用於指定個別檔案的變數。新增文章檔案的預設值會有 title 、date 及 tags。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">test</span></span><br><span class="line"><span class="attr">date:</span> <span class="number">2024-05-18 16:43:15</span></span><br><span class="line"><span class="attr">tags:</span></span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-3%2Fhexo-article-2.png?alt=media&amp;token=1acf52e8-3013-4363-89bb-ee2f4a8912d6" alt="新增文章內容預設值"></p>
+<p>通常會再加上tags、categories，在 <a href="/blog/change-Hexo-theme/#%E6%96%B0%E5%A2%9E%E6%96%87%E7%AB%A0%E7%9A%84%E6%A8%99%E7%B1%A4%E5%8F%8A%E5%88%86%E9%A1%9E">這篇</a> 文章中有提到，如果在文章中加上標籤、分類，這樣導覽列的標籤、分類頁面，就會自動分組進入該標籤、分類，並計算各別標籤、分類的文章數量。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">如何在</span> <span class="string">Hexo</span> <span class="string">部落格中新增文章</span></span><br><span class="line"><span class="attr">date:</span> <span class="number">2024-05-18 11:11:11</span></span><br><span class="line"><span class="attr">updated:</span> <span class="number">2024-05-19 11:11:11</span></span><br><span class="line"><span class="attr">tags:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">Hexo</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">Blog</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">Tutorial</span></span><br><span class="line"><span class="attr">categories:</span> <span class="string">Hexo</span></span><br><span class="line"><span class="attr">comments:</span> <span class="literal">true</span></span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure>
+<p>其他參數請看 <a target="_blank" rel="noopener" href="https://hexo.io/zh-tw/docs/front-matter">Hexo官方文件-Front-matter</a>。</p>
+<p>下面會說明在寫文章時常用的 markdown 及 Hexo 本身內建的語法。</p>
+<h1>撰寫文章</h1>
+<p>用 Hexo 架設部落格的其中一個好處就是文章可以在 VS Code 中用 markdown 語法撰寫，且 Hexo 本身也有內建的語法，可以讓文字有不同的呈現格式。</p>
+<h2 id="標題"><a class="header-anchor" href="#標題"></a>標題</h2>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># This is an H1</span><br><span class="line">## This is an H2</span><br><span class="line">### This is an H3</span><br><span class="line">#### This is an H4</span><br><span class="line">##### This is an H5</span><br><span class="line">###### This is an H6</span><br></pre></td></tr></table></figure>
+<h2 id="連結"><a class="header-anchor" href="#連結"></a>連結</h2>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="name">連結名稱</span>](<span class="name">超連結</span>)</span><br></pre></td></tr></table></figure>
+<div class="note default"><p>網頁呈現樣子:<br>
+<a target="_blank" rel="noopener" href="https://israynotarray.com/other/20191111/1875438261/">Markdown 基礎與入門教學手冊</a></p>
+</div>
+<h2 id="項目清單"><a class="header-anchor" href="#項目清單"></a>項目清單</h2>
+<h3 id="無序清單"><a class="header-anchor" href="#無序清單"></a>無序清單</h3>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">*</span> 這是 *</span><br><span class="line"><span class="bullet">+</span> 這是 + </span><br><span class="line"><span class="bullet">-</span> 這是 -</span><br></pre></td></tr></table></figure>
+<div class="note default"><p>網頁呈現樣子:</p>
+<ul>
+<li>這是 *</li>
+</ul>
+<ul>
+<li>這是 +</li>
+</ul>
+<ul>
+<li>這是 -</li>
+</ul>
+</div>
+<h3 id="有序清單"><a class="header-anchor" href="#有序清單"></a>有序清單</h3>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">1</span>. 這是 <span class="number">1</span>.</span><br><span class="line"><span class="attribute">2</span>. 這是 <span class="number">2</span>. </span><br><span class="line"><span class="attribute">3</span>. 這是 <span class="number">3</span>.</span><br></pre></td></tr></table></figure>
+<div class="note default"><p>網頁呈現樣子:</p>
+<ol>
+<li>這是 1.</li>
+<li>這是 2.</li>
+<li>這是 3.</li>
+</ol>
+</div>
+<h2 id="程式碼"><a class="header-anchor" href="#程式碼"></a>程式碼</h2>
+<h3 id="程式碼區塊"><a class="header-anchor" href="#程式碼區塊"></a>程式碼區塊</h3>
+<p>📍 Hexo 用法</p>
+<figure class="highlight django"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="template-tag">&#123;% <span class="name">codeblock</span> %&#125;</span><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">hello world</span></span><br><span class="line"><span class="language-xml"></span><span class="template-tag">&#123;% <span class="name">endcodeblock</span> %&#125;</span></span><br></pre></td></tr></table></figure>
+<div class="note default"><p>網頁呈現樣子:</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">hello world</span></span><br></pre></td></tr></table></figure></div>
+<p>📍 Markdown 用法<br>
+前後是用 3 個反引號(Backtick)，反引號的位置在鍵盤中數字鍵 1 的左邊，上方符號是 ~。使用要注意反單引號 ` 常容易和單引號 ’ 混淆。</p>
+<figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">``</span><span class="string">`</span></span><br><span class="line"><span class="string">hello world</span></span><br><span class="line"><span class="string">`</span><span class="string">``</span></span><br></pre></td></tr></table></figure>
+<div class="note default"><p>網頁呈現樣子:</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">hello world</span></span><br></pre></td></tr></table></figure></div>
+<h3 id="程式碼片段"><a class="header-anchor" href="#程式碼片段"></a>程式碼片段</h3>
+<p>前後是用 1 個反引號。會將字用灰底包住。除了程式碼，如果想把字將前後的字給突顯出來也可用，如也適合拿來標示檔案名稱等。</p>
+<figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">`hello world`</span></span><br></pre></td></tr></table></figure>
+<div class="note default"><p>網頁呈現樣子:<br>
+<code>hello world</code></p>
+</div>
+<h2 id="圖片"><a class="header-anchor" href="#圖片"></a>圖片</h2>
+<p>📍 Hexo 用法</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;% <span class="selector-tag">img</span> <span class="selector-attr">[嚇歪]</span> https://i.imgur.com/cBWkD2R.jpg %&#125;</span><br></pre></td></tr></table></figure>
+<div class="note default"><p>網頁呈現樣子:<br>
+<img src="https://i.imgur.com/cBWkD2R.jpg" class="[嚇歪]"></p>
+</div>
+<p>📍 Markdown 用法</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">!<span class="selector-attr">[備胎]</span>(<span class="attribute">https</span>:<span class="comment">//i.imgur.com/COnXOV4.jpg)</span></span><br></pre></td></tr></table></figure>
+<div class="note default"><p>網頁呈現樣子:<br>
+<img src="https://i.imgur.com/COnXOV4.jpg" alt="備胎"></p>
+</div>
+<h2 id="引用區塊"><a class="header-anchor" href="#引用區塊"></a>引用區塊</h2>
+<p>📍 Hexo 用法</p>
+<figure class="highlight django"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="template-tag">&#123;% <span class="name">blockquote</span> %&#125;</span><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">這是一段文字</span></span><br><span class="line"><span class="language-xml"></span><span class="template-tag">&#123;% <span class="name">endblockquote</span> %&#125;</span></span><br></pre></td></tr></table></figure>
+<div class="note default"><p>網頁呈現樣子:</p>
+<blockquote><p>這是一段文字</p>
+</blockquote></div>
+<p>其他提示塊語法請看 <a target="_blank" rel="noopener" href="https://jinnsjj.github.io/uncategorized/hexo-next-note/">在hexo-NexT中插入note提示块</a>。</p>
+<p>📍 Markdown 用法</p>
+<figure class="highlight node-repl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">&gt;</span> <span class="language-javascript">這是一段文字</span></span><br></pre></td></tr></table></figure>
+<div class="note default"><p>網頁呈現樣子:</p>
+<blockquote>
+<p>這是一段文字</p>
+</blockquote>
+</div>
+<h2 id="內容摘要"><a class="header-anchor" href="#內容摘要"></a>內容摘要</h2>
+<p>通常首頁是預設看到文章全部的內文，如果只想看到內容摘要，那可以在想要出現的內容下方加上 <code>&lt;!-- more --&gt;</code>，則首頁就只會看到該篇文章的內容摘要。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">主要說明如何在 Hexo 部落格中新增及撰寫文章。</span><br><span class="line"><span class="comment">&lt;!-- more --&gt;</span></span><br></pre></td></tr></table></figure>
+<p>首頁是預設看到文章全部的內文。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-3%2Fhexo-article-5.png?alt=media&amp;token=ec8ac28d-2f49-4fbc-b9c0-d910e53814cd" alt="文章內容摘要"></p>
+<p>調整後，首頁就只會看到該篇文章的內容摘要。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-3%2Fhexo-article-4.png?alt=media&amp;token=b279ef62-1c19-40b6-94b6-07bfe32d4078" alt="文章全文"></p>
+<h2 id="其他-i-class-fa-solid-fa-fire-fa-bounce-style-color-0091ff-i-陸續更新"><a class="header-anchor" href="#其他-i-class-fa-solid-fa-fire-fa-bounce-style-color-0091ff-i-陸續更新"></a>其他 (<i class="fa-solid fa-fire fa-bounce" style="color: #0091ff;"></i>陸續更新)</h2>
+<h3 id="表格"><a class="header-anchor" href="#表格"></a>表格</h3>
+<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">|<span class="string"> Syntax      </span>|<span class="string"> Description </span>|</span><br><span class="line">|<span class="string"> ----------- </span>|<span class="string"> ----------- </span>|</span><br><span class="line">|<span class="string"> Header      </span>|<span class="string"> Title       </span>|</span><br><span class="line">|<span class="string"> Paragraph   </span>|<span class="string"> Text        </span>|</span><br></pre></td></tr></table></figure>
+<div class="note default"><p>網頁呈現樣子:</p>
+<table>
+<thead>
+<tr>
+<th>Syntax</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Header</td>
+<td>Title</td>
+</tr>
+<tr>
+<td>Paragraph</td>
+<td>Text</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="代辦事項"><a class="header-anchor" href="#代辦事項"></a>代辦事項</h3>
+<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">- </span>[x] Write the press release</span><br><span class="line"><span class="bullet">- </span>[v] Update the website</span><br><span class="line"><span class="bullet">- </span>[ ] Contact the media</span><br></pre></td></tr></table></figure>
+<div class="note default"><p>網頁呈現樣子:</p>
+<ul>
+<li>[x] Write the press release</li>
+<li>[v] Update the website</li>
+<li>[ ] Contact the media</li>
+</ul>
+</div>
+<p>其他 Hexo 語法請看 <a target="_blank" rel="noopener" href="https://hexo.io/zh-tw/docs/tag-plugins">Hexo官方文件-Tag Plugins</a>。<br>
+其他 Hexo 進階語法請看 <a target="_blank" rel="noopener" href="https://zenreal.github.io/posts/51388/">Hexo 搭建系列 - 基礎寫作流程篇</a>。<br>
+其他 markdown 語法請看 <a target="_blank" rel="noopener" href="https://markdown.tw/">Markdown 文件</a>。<br>
+其他 markdown 進階語法請看 <a target="_blank" rel="noopener" href="https://markdownguide.offshoot.io/extended-syntax/">Extended Syntax</a>。</p>
+<h1>文章圖片</h1>
+<h2 id="選擇圖片空間"><a class="header-anchor" href="#選擇圖片空間"></a>選擇圖片空間</h2>
+<p>因為 github 的 repository 在 <a target="_blank" rel="noopener" href="https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-large-files-on-github">GitHub 官方文件</a> 上有說強烈建議小於 5 GB 以下，所以圖片其實不建議直接跟著 Hexo 部落格上傳到 repo。</p>
+<blockquote>
+<p>We recommend repositories remain small, ideally less than 1 GB, and less than 5 GB is strongly recommended.</p>
+</blockquote>
+<p>需要另外找放圖片空間，簡稱圖床。</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://imgur.com/">imgur</a>: 免費。</li>
+<li><a target="_blank" rel="noopener" href="https://firebase.google.com/">Firebase Storage</a>: 前 5 GB 免費。</li>
+</ul>
+<h2 id="上傳圖片"><a class="header-anchor" href="#上傳圖片"></a>上傳圖片</h2>
+<p>Hexo 上插入圖片應該是我覺得最不友善的地方，因為無法直接上傳或拖拉的方式，需要先上傳到圖床，複製連結，再用 markdown 插入圖片語法。</p>
+<p>目前作法上，我會將每篇文章各開一個資料夾，將這篇文章需要用到的圖片放入該資料夾，且<mark>檔案依照順序命名</mark><s>(我是整理控)</s>。因為文章未完成前，可能都有修改的可能，如文章順序改變，或是圖片不需要了。所以圖片我是放到最後再統一上傳，上傳後複製連結插入文章中。</p>
+<p>我目前用 Firebase Storage。可以儲存影像、音訊、影片，並為其建立可下載的連結。</p>
+<p>進入 <a target="_blank" rel="noopener" href="https://firebase.google.com/">Firebase</a> 後，登入 google 帳號，右上角點擊 Go to console。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-3%2Fhexo-firebase-1.png?alt=media&amp;token=575a6ba1-633d-4b78-af60-193f71ba8164" alt="點擊 Go to console"></p>
+<p>點擊 Create a project 進入建立專案流程設定。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-3%2Fhexo-firebase-2.png?alt=media&amp;token=872c63f6-a6e6-4b56-9101-c6c2f5b11ac2" alt="點擊 Create a project"></p>
+<p>輸入 Project name 專案名稱，打勾選項，點擊 Continue 繼續下一步。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-3%2Fhexo-firebase-3.png?alt=media&amp;token=d88d9df1-9abd-431a-812c-b6c4cd491a37" alt="輸入 Project name 專案名稱"></p>
+<p>預設打勾 Enable Google Analvtics for this proiect，點擊 Continue 繼續下一步。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-3%2Fhexo-firebase-4.png?alt=media&amp;token=72858479-e608-4e53-a411-908a6f3efb72" alt="Enable Google Analvtics"></p>
+<p>Analytics location 選擇 Taiwan 台灣，打勾選項，點擊 Create project 建立專案。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-3%2Fhexo-firebase-5.png?alt=media&amp;token=5208c14c-74a3-4977-aa7c-439fc0b2ae44" alt="Analytics location:Taiwan"></p>
+<p>開始建立 Firebase 專案，要等一下，點擊 Continue 繼續下一步。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-3%2Fhexo-firebase-6.png?alt=media&amp;token=f74d0a5f-90b5-4852-bb70-81671a5ef1c2" alt="開始建立 Firebase 專案"></p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-3%2Fhexo-firebase-7.png?alt=media&amp;token=97c33f40-37ce-48f4-bc4a-167d01cb417f" alt="建立好 Firebase 專案"></p>
+<p>進入 Firebase 畫面，左側功能列中點擊 Build 下的 Storage。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-3%2Fhexo-firebase-8.png?alt=media&amp;token=5c78796e-7d5d-4f50-beac-7cca5e69e36d" alt="Build/Storage"></p>
+<p>Storage 會自動列進 Project shortcuts 專案捷徑裡，下次點擊就很方便，不用再去功能列找囉。接著，點擊主畫面中的 Get started。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-3%2Fhexo-firebase-9.png?alt=media&amp;token=711d89e6-1cd9-4225-b588-d7fe334dfa86" alt="Get started"></p>
+<p>進入 Set up Cloud Storage 設定儲存空間，點選 Start in production mode，點擊 Next 繼續下一步。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-3%2Fhexo-firebase-10.png?alt=media&amp;token=3f1ee71b-a1b1-405e-a574-42d783c240be" alt="Set up Cloud Storage-Start in production mode"></p>
+<p>Cloud Storage location 選擇 asia-east1，點擊 Done 完成設定。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-3%2Fhexo-firebase-11.png?alt=media&amp;token=b8bb31e6-28c2-4882-b006-86f4bd2561eb" alt="Set up Cloud Storage-asia-east1"></p>
+<p>完成 Firebase Storage 設定，一開始建立是空的，這邊就可以直接上傳照片。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-3%2Fhexo-firebase-12.png?alt=media&amp;token=70f05014-e3c2-4842-b155-ab1cabb66eb7" alt="Set up Cloud Storage done"></p>
+<p>我會依不同文章建立各自的資料夾，點擊 建立資料夾。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-3%2Fhexo-firebase-13.png?alt=media&amp;token=a647762b-b353-49b8-8d02-b3c4ee5a30fb" alt="建立資料夾"></p>
+<p>進入該資料夾後，點擊上傳檔案。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-3%2Fhexo-firebase-14.png?alt=media&amp;token=98a6c0d5-0ead-4141-bc61-0672a492ce6f" alt="上傳檔案"></p>
+<p>圖片名稱顯示在畫面上，就表示該圖片已經成功儲存至 Firebase Storage。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-3%2Fhexo-firebase-15.png?alt=media&amp;token=86d7d57d-bb15-4039-a288-c6d2a9ccd013" alt="上傳檔案成功"></p>
+<h2 id="複製圖片連結"><a class="header-anchor" href="#複製圖片連結"></a>複製圖片連結</h2>
+<p>上傳完成後，點擊要放的檔案，右方出現檔案資訊，點擊檔案名稱右方的 <i class="fa-solid fa-up-right-from-square" style="color: #0091ff;"></i> 圖示。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-3%2Fhexo-firebase-16.png?alt=media&amp;token=f93360b9-a3d9-4a6d-a559-3c6ac3465f76" alt="檔案資訊"></p>
+<p>會開啟一個新瀏覽器視窗及檔案連結，即可複製該檔案連結。</p>
+<figure class="highlight subunit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">檔案連結:</span><br><span class="line">https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo<span class="string">-3</span>%2Fhexo-firebase<span class="string">-17</span>.png?alt=media&amp;token=f7646644-c565<span class="string">-4</span>f0e-b33d<span class="string">-5</span>ad73a2f9609</span><br></pre></td></tr></table></figure>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-3%2Fhexo-firebase-17.png?alt=media&amp;token=f7646644-c565-4f0e-b33d-5ad73a2f9609" alt="複製檔案連結"></p>
+<h2 id="插入圖片到文章中"><a class="header-anchor" href="#插入圖片到文章中"></a>插入圖片到文章中</h2>
+<figure class="highlight subunit"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![取得Firebase的圖片連結](https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo<span class="string">-3</span>%2Fhexo-firebase<span class="string">-16</span>.png?alt=media&amp;token=8dbe4dc4<span class="string">-01</span>cb<span class="string">-4</span>c86-bf65-e37ebdbb020d)</span><br></pre></td></tr></table></figure>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-3%2Fhexo-firebase-17.png?alt=media&amp;token=f7646644-c565-4f0e-b33d-5ad73a2f9609" alt="取得Firebase的圖片連結"></p>
+<p>而關於如何部署 Hexo 部落格到 GitHub 的細節，請看 <a href="blog/deploy-Hexo2github">如何部署 Hexo 部落格到 GitHub</a> 這篇文章。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/blog/tags/Hexo/" rel="tag"># Hexo</a>
+              <a href="/blog/tags/Blog/" rel="tag"># Blog</a>
+              <a href="/blog/tags/Tutorial/" rel="tag"># Tutorial</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/blog/change-Hexo-theme/" rel="prev" title="如何替換 Hexo 部落格主題">
+                  <i class="fa fa-angle-left"></i> 如何替換 Hexo 部落格主題
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/blog/deploy-Hexo2github/" rel="next" title="如何部署 Hexo 部落格到 GitHub Pages">
+                  如何部署 Hexo 部落格到 GitHub Pages <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Stella</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/blog/js/comments.js"></script><script src="/blog/js/utils.js"></script><script src="/blog/js/motion.js"></script><script src="/blog/js/sidebar.js"></script><script src="/blog/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

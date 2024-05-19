@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.2.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="mask-icon" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"estellacoding.github.io","root":"/blog/","images":"/blog/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/blog/js/config.js"></script>
+
+    <meta name="description" content="本文主要介紹如何替換 Hexo 部落格主題。介紹如何在 Hexo 中使用 NexT 主題，首先下載 NexT 主題以及如何在 Hexo 配置文件中更改主題為 NexT。另外，包括如何更改程式碼區塊樣式、導覽列樣式，以及如何新增導覽列頁面。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何替換 Hexo 部落格主題">
+<meta property="og:url" content="https://estellacoding.github.io/blog/change-Hexo-theme/index.html">
+<meta property="og:site_name" content="Stella Coding">
+<meta property="og:description" content="本文主要介紹如何替換 Hexo 部落格主題。介紹如何在 Hexo 中使用 NexT 主題，首先下載 NexT 主題以及如何在 Hexo 配置文件中更改主題為 NexT。另外，包括如何更改程式碼區塊樣式、導覽列樣式，以及如何新增導覽列頁面。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-2%2Fhexo-theme-1.png?alt=media&token=efb26864-ad9c-4561-b6b2-4c989fb17d75">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-2%2Fhexo-theme-muse.png?alt=media&token=8dd6d676-0714-4952-b23e-e1df05677479">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-2%2Fhexo-theme-mist.png?alt=media&token=659e224b-c6d4-4458-8d36-2ec84bf7303c">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-2%2Fhexo-theme-pisces.png?alt=media&token=f1a9298a-fa7d-4b3b-aa0e-1711cd75a43f">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-2%2Fhexo-theme-gemini.png?alt=media&token=c6e2209e-555d-43f9-b403-c672c9605bef">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-2%2Fhexo-theme-2.png?alt=media&token=3ed99fd8-9387-4eec-9109-800a611dd9ff">
+<meta property="article:published_time" content="2024-05-18T03:11:11.000Z">
+<meta property="article:modified_time" content="2024-05-18T03:11:11.000Z">
+<meta property="article:author" content="Stella">
+<meta property="article:tag" content="Hexo">
+<meta property="article:tag" content="Blog">
+<meta property="article:tag" content="Tutorial">
+<meta property="article:tag" content="Theme">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-2%2Fhexo-theme-1.png?alt=media&token=efb26864-ad9c-4561-b6b2-4c989fb17d75">
+
+
+<link rel="canonical" href="https://estellacoding.github.io/blog/change-Hexo-theme/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://estellacoding.github.io/blog/change-Hexo-theme/","path":"change-Hexo-theme/","title":"如何替換 Hexo 部落格主題"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>如何替換 Hexo 部落格主題 | Stella Coding</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/blog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/blog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Stella Coding</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Nothing is impossible.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/blog/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/blog/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/blog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">挑選主題</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">2.</span> <span class="nav-text">下載 NexT 主題</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">3.</span> <span class="nav-text">更改成使用 NexT 主題</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">4.</span> <span class="nav-text">更改外觀樣式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">5.</span> <span class="nav-text">更改程式碼區塊樣式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">6.</span> <span class="nav-text">更改導覽列樣式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">7.</span> <span class="nav-text">新增導覽列頁面</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">8.</span> <span class="nav-text">新增文章的標籤及分類</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Stella"
+      src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+  <p class="site-author-name" itemprop="name">Stella</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/blog/archives/">
+          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/blog/categories/">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/blog/tags/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/estellacoding" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;estellacoding" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.instagram.com/stellacoding/" title="Instagram → https:&#x2F;&#x2F;www.instagram.com&#x2F;stellacoding&#x2F;" rel="noopener me" target="_blank"><i class="fab fa-instagram fa-fw"></i>Instagram</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://estellacoding.github.io/blog/change-Hexo-theme/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+      <meta itemprop="name" content="Stella">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Stella Coding">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="如何替換 Hexo 部落格主題 | Stella Coding">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          如何替換 Hexo 部落格主題
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2024-05-18 11:11:11" itemprop="dateCreated datePublished" datetime="2024-05-18T11:11:11+08:00">2024-05-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/Hexo/" itemprop="url" rel="index"><span itemprop="name">Hexo</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>本文主要介紹如何替換 Hexo 部落格主題。介紹如何在 Hexo 中使用 NexT 主題，首先下載 NexT 主題以及如何在 Hexo 配置文件中更改主題為 NexT。另外，包括如何更改程式碼區塊樣式、導覽列樣式，以及如何新增導覽列頁面。</p>
+<span id="more"></span>
+<h1>挑選主題</h1>
+<p>Hexo 官方有 <a target="_blank" rel="noopener" href="https://hexo.io/themes/">主題</a> 可供使用(有著很多往下滑不完的數量)。我使用各方大神都推的 NexT，主要原因是 NexT 主題是有在維護的，Github上一直到上週都有更新。</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://theme-next.js.org/">NexT官方網站</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/next-theme/hexo-theme-next">NexT GitHub</a></li>
+</ul>
+<h1>下載 NexT 主題</h1>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cd</span> <span class="symbol">&lt;folder&gt;</span></span><br><span class="line">git clone https://github.<span class="keyword">com</span>/<span class="keyword">next</span>-theme/hexo-theme-<span class="keyword">next</span> themes/<span class="keyword">next</span></span><br></pre></td></tr></table></figure>
+<p>下載完成會在 themes 資料夾下出現 next 的資料夾。</p>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-2%2Fhexo-theme-1.png?alt=media&token=efb26864-ad9c-4561-b6b2-4c989fb17d75" class="[hexo-theme-1.png]" title="[80%] [80%] &quot;title text&quot; &quot;alt text&quot;">
+<h1>更改成使用 NexT 主題</h1>
+<p>完成 NexT 安裝後，進入 Hexo config 檔中，Hexo 預設是使用 landscape，我們要更改成 next。</p>
+<div class="note info"><p>是專案根目錄資料夾底下的 config 檔<br>
+(不是 themes/next 資料夾底下的 config 檔)</p>
+</div>
+<p>進入專案根目錄資料夾底下的 _config.yml</p>
+<figure class="highlight vbnet"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">theme:</span> <span class="keyword">next</span></span><br></pre></td></tr></table></figure>
+<h1>更改外觀樣式</h1>
+<p>NexT 有4種不同樣式可供選擇。</p>
+<ul>
+<li>Muse</li>
+<li>Mist</li>
+<li>Pisces</li>
+<li>Gemini</li>
+</ul>
+<div class="image-row-2">
+  <div class="image-column-2">
+    <figure class="figure-2">
+      <a href="https://theme-next.js.org/muse/" target="_blank">
+        <img class="img-2" src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-2%2Fhexo-theme-muse.png?alt=media&token=8dd6d676-0714-4952-b23e-e1df05677479" alt="NextT-Muse">
+      </a>
+      <figcaption class="figcaption-2">Muse</figcaption>
+    </figure>
+    <figure class="figure-2">
+      <a href="https://theme-next.js.org/mist/" target="_blank">
+        <img class="img-2" src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-2%2Fhexo-theme-mist.png?alt=media&token=659e224b-c6d4-4458-8d36-2ec84bf7303c" alt="NexT-Mist">
+      </a>
+      <figcaption class="figcaption-2">Mist</figcaption>
+    </figure>
+  </div>
+  <div class="image-column-2">
+    <figure class="figure-2">
+      <a href="https://theme-next.js.org/pisces/" target="_blank">
+        <img class="img-2" src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-2%2Fhexo-theme-pisces.png?alt=media&token=f1a9298a-fa7d-4b3b-aa0e-1711cd75a43f" alt="NexT-Pisces">
+      </a>
+      <figcaption class="figcaption-2">Pisces</figcaption>
+    </figure>
+    <figure class="figure-2">
+      <a href="https://theme-next.js.org/" target="_blank">
+        <img class="img-2" src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-2%2Fhexo-theme-gemini.png?alt=media&token=c6e2209e-555d-43f9-b403-c672c9605bef" alt="NexT-Gemini">
+      </a>
+      <figcaption class="figcaption-2">Gemini</figcaption>
+    </figure>
+  </div>
+</div>
+<style>
+.image-row-2 {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.image-column-2 {
+  flex: 0 0 48%; /* Adjust percentage to control the spacing */
+}
+
+.figure-2 {
+  margin: 0;
+  padding: 0;
+}
+
+.img-2 {
+  width: 100%;
+  height: 200px; /* Set a fixed height, adjust as needed */
+  object-fit: cover; /* Maintain aspect ratio and cover the entire area */
+  display: block;
+}
+
+.figcaption-2 {
+  text-align: center;
+  font-size: 0.9em;
+  color: #888;
+  margin-top: -20px;
+  margin-bottom: 30px;
+  padding-top: 0;
+}
+</style>
+<p>進入 themes/next 資料夾底下的 _config.yml</p>
+<div class="note info"><p>進入 themes/next 資料夾底下的 config 檔<br>
+(不是專案根目錄資料夾底下的 config 檔)</p>
+</div>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#scheme: Muse</span></span><br><span class="line"><span class="meta">#scheme: Mist</span></span><br><span class="line"><span class="meta">#scheme: Pisces</span></span><br><span class="line"><span class="symbol">scheme:</span> Gemini</span><br></pre></td></tr></table></figure>
+<h1>更改程式碼區塊樣式</h1>
+<p>如果要撰寫技術文章的話，我覺得程式碼區塊呈現的樣式就蠻重要的，因為每篇基本上都會有這個內容，而右上角的複製的小圖標就是很貼心的小功能。(原設定是關閉的我找了好久~)</p>
+<ul>
+<li>將 <code>copy_button</code> 的 <code>enable</code> 改成 <code>true</code>，讓程式碼區塊的右上角會有一個可以複製的小圖標。</li>
+<li><code>style</code>則有<code>default</code>, <code>flat</code>, <code>mac</code> 可以選擇。</li>
+</ul>
+<p>進入 themes/next 資料夾底下的 _config.yml</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">codeblock:</span></span><br><span class="line">  <span class="string">...</span></span><br><span class="line">  <span class="attr">copy_button:</span></span><br><span class="line">    <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">    <span class="comment"># Available values: default | flat | mac</span></span><br><span class="line">    <span class="attr">style:</span> <span class="string">mac</span></span><br></pre></td></tr></table></figure>
+<h1>更改導覽列樣式</h1>
+<p>我這邊是打開首頁、關於、標籤、分類、歸檔的導覽列。</p>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-2%2Fhexo-theme-2.png?alt=media&token=3ed99fd8-9387-4eec-9109-800a611dd9ff" class="[hexo-theme-1.png]" title="[80%] [80%] &quot;title text&quot; &quot;alt text&quot;">
+<p>進入 themes/next 資料夾底下的 _config.yml，將 menu 底下的 home、about、tags、categories、archives 打開，即將 <code>#</code> 刪除。</p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">menu:</span></span><br><span class="line"><span class="symbol">  home:</span> / || fa fa-home</span><br><span class="line"><span class="symbol">  about:</span> <span class="keyword">/about/</span> || fa fa-user</span><br><span class="line"><span class="symbol">  tags:</span> <span class="keyword">/tags/</span> || fa fa-tags</span><br><span class="line"><span class="symbol">  categories:</span> <span class="keyword">/categories/</span> || fa fa-th</span><br><span class="line"><span class="symbol">  archives:</span> <span class="keyword">/archives/</span> || fa fa-archive</span><br></pre></td></tr></table></figure>
+<h1>新增導覽列頁面</h1>
+<p>上一步打開導覽列的首頁、關於、標籤、分類、歸檔後，你會發現關於、標籤、分類這3頁找不到，這時我們需要手動新增這些頁面。</p>
+<blockquote>
+<p>Cannot GET /blog/about/<br>
+Cannot GET /blog/tags/<br>
+Cannot GET /blog/Cannot GET /blog/categories/</p>
+</blockquote>
+<p>新增 tags、categories、about 這3個頁面。</p>
+<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo <span class="keyword">new</span> <span class="type">page</span> tags</span><br><span class="line">hexo <span class="keyword">new</span> <span class="type">page</span> categories</span><br><span class="line">hexo <span class="keyword">new</span> <span class="type">page</span> about</span><br></pre></td></tr></table></figure>
+<p>修改 source/tags 資料夾中的 <a target="_blank" rel="noopener" href="http://index.md">index.md</a> 檔案，需手動加上 <code>type: &quot;about&quot;</code>。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">About</span></span><br><span class="line"><span class="attr">date:</span> <span class="number">2024-05-17 11:11:11</span></span><br><span class="line"><span class="attr">type:</span> <span class="string">&quot;about&quot;</span></span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure>
+<p>修改 source/categories 資料夾中的 <a target="_blank" rel="noopener" href="http://index.md">index.md</a> 檔案，需手動加上 <code>type: &quot;categories&quot;</code>。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">Categories</span></span><br><span class="line"><span class="attr">date:</span> <span class="number">2024-05-17 11:11:11</span></span><br><span class="line"><span class="attr">type:</span> <span class="string">&quot;categories&quot;</span></span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure>
+<p>修改 source/about 資料夾中的 <a target="_blank" rel="noopener" href="http://index.md">index.md</a> 檔案，需手動加上 <code>type: &quot;tags&quot;</code>。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">Tags</span></span><br><span class="line"><span class="attr">date:</span> <span class="number">2024-05-17 11:11:11</span></span><br><span class="line"><span class="attr">type:</span> <span class="string">&quot;tags&quot;</span></span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure>
+<h1>新增文章的標籤及分類</h1>
+<p>之後新增文章時，都要記得加上標籤、分類，這樣導覽列的標籤、分類頁面，就會自動分組進入該標籤、分類，並計算各別標籤、分類的文章數量。</p>
+<p>比如我們進入 source/_posts 資料夾中的 <a target="_blank" rel="noopener" href="http://hello-world.md">hello-world.md</a> 這篇文章的內容，在 <code>---</code> 中可以修改 title、date、tags、categories 等資訊。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">Hello</span> <span class="string">Hexo</span></span><br><span class="line"><span class="attr">date:</span> <span class="number">2024-05-17 00:00:00</span></span><br><span class="line"><span class="attr">tags:</span> </span><br><span class="line">  <span class="bullet">-</span> <span class="string">Hexo</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">Tutorial</span></span><br><span class="line"><span class="attr">categories:</span> <span class="string">Hexo</span></span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure>
+<p>而關於如何新增文章的細節，請看 <a href="blog/create-new-article">如何新增文章</a> 這篇文章。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/blog/tags/Hexo/" rel="tag"># Hexo</a>
+              <a href="/blog/tags/Blog/" rel="tag"># Blog</a>
+              <a href="/blog/tags/Tutorial/" rel="tag"># Tutorial</a>
+              <a href="/blog/tags/Theme/" rel="tag"># Theme</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/blog/build-Hexo-blog-local-from-scratch/" rel="prev" title="從零開始在本地端架設 Hexo 部落格">
+                  <i class="fa fa-angle-left"></i> 從零開始在本地端架設 Hexo 部落格
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/blog/create-new-article/" rel="next" title="如何在 Hexo 部落格中新增文章">
+                  如何在 Hexo 部落格中新增文章 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Stella</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/blog/js/comments.js"></script><script src="/blog/js/utils.js"></script><script src="/blog/js/motion.js"></script><script src="/blog/js/sidebar.js"></script><script src="/blog/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.2.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="mask-icon" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"estellacoding.github.io","root":"/blog/","images":"/blog/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/blog/js/config.js"></script>
+
+    <meta name="description" content="主要說明如何從零開始在本地端架設 Hexo 部落格。本文詳細說明安裝工具、初始化、更改部落格基本資訊和本地端啟動 Hexo 部落格的步驟。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="從零開始在本地端架設 Hexo 部落格">
+<meta property="og:url" content="https://estellacoding.github.io/blog/build-Hexo-blog-local-from-scratch/index.html">
+<meta property="og:site_name" content="Stella Coding">
+<meta property="og:description" content="主要說明如何從零開始在本地端架設 Hexo 部落格。本文詳細說明安裝工具、初始化、更改部落格基本資訊和本地端啟動 Hexo 部落格的步驟。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-1%2Fhexo-install-2.png?alt=media&token=465d42db-474c-4bc7-a54a-48a36699386b">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-1%2Fhexo-install-3.png?alt=media&token=93dfef60-2dd8-4225-aae4-d8f2753031a2">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-1%2Fhexo-install-4.png?alt=media&token=6af8f292-1253-447f-9fe0-7a5ae926d01c">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-1%2Fhexo-build-1.png?alt=media&token=374b0e57-ad3b-4b1a-9c46-a59829ada537">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-1%2Fhexo-build-2.png?alt=media&token=1b63478d-6b5d-4ad9-a946-4fe1cef58bf3">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-1%2Fhexo-build-3.png?alt=media&token=921609c7-5eb2-4e5d-bcb6-ee2c08a9b652">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-1%2Fhexo-local-activate-1.png?alt=media&token=41e3418a-97cb-4c5a-b1c3-aae3f6fbd4d6">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-1%2Fhexo-local-activate-2.png?alt=media&token=06e87360-24bc-485d-b8e0-61a2fe44acb9">
+<meta property="article:published_time" content="2024-05-17T03:11:11.000Z">
+<meta property="article:modified_time" content="2024-05-20T03:11:11.000Z">
+<meta property="article:author" content="Stella">
+<meta property="article:tag" content="Hexo">
+<meta property="article:tag" content="Blog">
+<meta property="article:tag" content="Tutorial">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-1%2Fhexo-install-2.png?alt=media&token=465d42db-474c-4bc7-a54a-48a36699386b">
+
+
+<link rel="canonical" href="https://estellacoding.github.io/blog/build-Hexo-blog-local-from-scratch/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://estellacoding.github.io/blog/build-Hexo-blog-local-from-scratch/","path":"build-Hexo-blog-local-from-scratch/","title":"從零開始在本地端架設 Hexo 部落格"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>從零開始在本地端架設 Hexo 部落格 | Stella Coding</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/blog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/blog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Stella Coding</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Nothing is impossible.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/blog/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/blog/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/blog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">安裝工具</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D-Node-js-%E5%8F%8A-Git"><span class="nav-number">1.1.</span> <span class="nav-text">安裝 Node.js 及 Git</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D-Hexo-%E7%9A%84%E6%8C%87%E4%BB%A4%E5%B7%A5%E5%85%B7"><span class="nav-number">1.2.</span> <span class="nav-text">安裝 Hexo 的指令工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%B5%E5%BB%BA-Hexo"><span class="nav-number">1.3.</span> <span class="nav-text">創建 Hexo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9B%B4%E6%94%B9%E9%83%A8%E8%90%BD%E6%A0%BC%E5%9F%BA%E6%9C%AC%E8%B3%87%E8%A8%8A"><span class="nav-number">1.4.</span> <span class="nav-text">更改部落格基本資訊</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E7%AB%AF%E5%95%9F%E5%8B%95%E9%83%A8%E8%90%BD%E6%A0%BC"><span class="nav-number">1.5.</span> <span class="nav-text">本地端啟動部落格</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Stella"
+      src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+  <p class="site-author-name" itemprop="name">Stella</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/blog/archives/">
+          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/blog/categories/">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/blog/tags/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/estellacoding" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;estellacoding" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.instagram.com/stellacoding/" title="Instagram → https:&#x2F;&#x2F;www.instagram.com&#x2F;stellacoding&#x2F;" rel="noopener me" target="_blank"><i class="fab fa-instagram fa-fw"></i>Instagram</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://estellacoding.github.io/blog/build-Hexo-blog-local-from-scratch/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+      <meta itemprop="name" content="Stella">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Stella Coding">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="從零開始在本地端架設 Hexo 部落格 | Stella Coding">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          從零開始在本地端架設 Hexo 部落格
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2024-05-17 11:11:11" itemprop="dateCreated datePublished" datetime="2024-05-17T11:11:11+08:00">2024-05-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-05-20 11:11:11" itemprop="dateModified" datetime="2024-05-20T11:11:11+08:00">2024-05-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/Hexo/" itemprop="url" rel="index"><span itemprop="name">Hexo</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>主要說明如何從零開始在本地端架設 Hexo 部落格。本文詳細說明安裝工具、初始化、更改部落格基本資訊和本地端啟動 Hexo 部落格的步驟。</p>
+<span id="more"></span>
+<h1>安裝工具</h1>
+<h2 id="安裝-Node-js-及-Git"><a class="header-anchor" href="#安裝-Node-js-及-Git"></a>安裝 Node.js 及 Git</h2>
+<p>先安裝 Node.js 及 Git</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://nodejs.org/en">Node.js</a></li>
+<li><a target="_blank" rel="noopener" href="https://git-scm.com/">Git</a></li>
+</ul>
+<p>檢查 Node.js 及 Git 是否安裝成功，有出現版本號應該就沒問題。</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">daistella</span>@DaiMacAirM2 ~ % node -v</span><br><span class="line"><span class="attribute">v20</span>.<span class="number">13</span>.<span class="number">1</span></span><br><span class="line"><span class="attribute">daistella</span>@DaiMacAirM2 ~ % npm -v</span><br><span class="line"><span class="attribute">10</span>.<span class="number">5</span>.<span class="number">2</span></span><br><span class="line"><span class="attribute">daistella</span>@DaiMacAirM2 ~ % git -v</span><br><span class="line"><span class="attribute">git</span> version <span class="number">2</span>.<span class="number">43</span>.<span class="number">0</span></span><br></pre></td></tr></table></figure>
+<p>其他 Hexo 語法請看 <a target="_blank" rel="noopener" href="https://hexo.io/zh-tw/docs/">Hexo官方文件</a>。</p>
+<h2 id="安裝-Hexo-的指令工具"><a class="header-anchor" href="#安裝-Hexo-的指令工具"></a>安裝 Hexo 的指令工具</h2>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo-<span class="keyword">cli</span></span><br></pre></td></tr></table></figure>
+<p>如果出現 <code>Error: EACCES: permission denied</code> 錯誤，可加入 sudo 安裝 Hexo 的指令工具。</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`<span class="keyword">Error</span>: EACCES: permission denied, <span class="keyword">mkdir</span> &#x27;/usr/<span class="keyword">local</span>/lib/node_modules/hexo-<span class="keyword">cli</span>&#x27;</span><br></pre></td></tr></table></figure>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-1%2Fhexo-install-2.png?alt=media&token=465d42db-474c-4bc7-a54a-48a36699386b" class="[class names]" title="[80%] [80%] &quot;title text&quot; &quot;alt text&quot;">
+<p>以超級使用者的權限，全局安裝 Hexo CLI 工具，可以在系統的任何地方使用 <code>hexo</code> 指令來管理 Hexo 所架設的部落格。</p>
+<ul>
+<li>sudo: 以超級使用者（root）權限執行命令。</li>
+<li>npm: Node.js 的包管理器，用於安裝、更新和管理 JavaScript 程式包。</li>
+<li>install hexo-cli: 安裝 Hexo CLI。安裝 Hexo CLI 之後，你可以使用 <code>hexo</code> 指令來初始化、生成、部署等指令來管理 Hexo 部落格。</li>
+<li>g: 全局安裝，即把模組安裝在全局範圍，而不是當前專案的 node_modules 目錄中。全局安裝後，可以在系統的任何地方使用這個模組提供的指令。</li>
+</ul>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo npm install -g hexo-<span class="keyword">cli</span></span><br></pre></td></tr></table></figure>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-1%2Fhexo-install-3.png?alt=media&token=93dfef60-2dd8-4225-aae4-d8f2753031a2" class="[class names]" title="[80%] [80%] &quot;title text&quot; &quot;alt text&quot;">
+<p>檢查Hexo的指令工具是否安裝成功</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">hexo -v</span></span><br></pre></td></tr></table></figure>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-1%2Fhexo-install-4.png?alt=media&token=6af8f292-1253-447f-9fe0-7a5ae926d01c" class="[class names]" title="[80%] [80%] &quot;title text&quot; &quot;alt text&quot;">
+<h2 id="創建-Hexo"><a class="header-anchor" href="#創建-Hexo"></a>創建 Hexo</h2>
+<p>在指定資料夾中初始化一個新的 Hexo 專案。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo <span class="keyword">init</span> &lt;folder&gt;</span><br></pre></td></tr></table></figure>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-1%2Fhexo-build-1.png?alt=media&token=374b0e57-ad3b-4b1a-9c46-a59829ada537" class="[class names]" title="[80%] [80%] &quot;title text&quot; &quot;alt text&quot;">
+<p>切換到該專案資料夾中，安裝所有必需的 npm 套件，<code>npm install</code> 會根據 package.json 檔案中的所列套件(dependencies)下載並安裝，以確保 Hexo 專案可以正常運行。</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cd</span> <span class="symbol">&lt;folder&gt;</span></span><br><span class="line">npm install</span><br></pre></td></tr></table></figure>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-1%2Fhexo-build-2.png?alt=media&token=1b63478d-6b5d-4ad9-a946-4fe1cef58bf3" class="[class names]" title="[80%] [80%] &quot;title text&quot; &quot;alt text&quot;">
+<p>安裝完成後，專案資料夾就會有以下檔案。</p>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-1%2Fhexo-build-3.png?alt=media&token=921609c7-5eb2-4e5d-bcb6-ee2c08a9b652" class="[class names]" title="[80%] [80%] &quot;title text&quot; &quot;alt text&quot;">
+<h2 id="更改部落格基本資訊"><a class="header-anchor" href="#更改部落格基本資訊"></a>更改部落格基本資訊</h2>
+<p>進入專案資料夾下的 _config.yml，可以修改部落格的基本資訊，以下是我先修改的地方，<code>permalink</code> 的預設值是 <code>:year/:month/:day/:title/</code>，不過我只想保留 <code>title/</code> 就好。</p>
+<ul>
+<li>title: 網站標題</li>
+<li>subtitle: 網站副標題</li>
+<li>author: 作者名字</li>
+<li>timezone: 時區</li>
+<li>permalink: 文章永久連結的格式</li>
+</ul>
+<figure class="highlight vbnet"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">title:</span> Stella Coding</span><br><span class="line"><span class="symbol">subtitle:</span> <span class="comment">&#x27;Nothing is impossible.&#x27;</span></span><br><span class="line"><span class="symbol">author:</span> Stella</span><br><span class="line"><span class="symbol">timezone:</span> <span class="comment">&#x27;Asia/Taipei&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="symbol">permalink:</span> :title/</span><br></pre></td></tr></table></figure>
+<p>其他 Hexo 配置語法請看 <a target="_blank" rel="noopener" href="https://hexo.io/zh-tw/docs/configuration">Hexo官方文件-配置</a>。</p>
+<h2 id="本地端啟動部落格"><a class="header-anchor" href="#本地端啟動部落格"></a>本地端啟動部落格</h2>
+<figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo <span class="keyword">server</span></span><br></pre></td></tr></table></figure>
+<p>如果出現 <code>Error: ERROR Cannot find module 'hexo'</code> 的錯誤，可加入 sudo 更改權限並重新安裝。</p>
+<figure class="highlight subunit"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Error: </span>ERROR Cannot find module &#x27;hexo&#x27; from &#x27;/Users/daistella/Documents/github_repo/stellacoding&#x27;</span><br></pre></td></tr></table></figure>
+<p>將 .npm 目錄及其所有子目錄和文件的所有權，更改用戶和群組，以解決因權限導致的 npm 安裝錯誤。</p>
+<ul>
+<li>sudo: 以超級使用者（root）權限執行命令。</li>
+<li>chown：更改文件或目錄的所有者。</li>
+<li>R：遞歸地更改目錄下所有文件和子目錄的所有者。</li>
+<li>501:20：指定新的所有者和群組。501 是用戶 ID（UID），20 是用戶群組 ID（GID）。
+<ul>
+<li>可以使用 <code>id</code> 指令來查找這些 ID。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">uid</span>=<span class="number">501</span>(daistella) gid=<span class="number">20</span>(staff) groups=<span class="number">20</span>(staff),<span class="number">12</span>(everyone),<span class="number">61</span>(localaccounts),<span class="number">79</span>(_appserverusr),<span class="number">80</span>(admin),<span class="number">81</span>(_appserveradm),<span class="number">98</span>(_lpadmin),<span class="number">701</span>(com.apple.sharepoint.group.<span class="number">1</span>),<span class="number">33</span>(_appstore),<span class="number">100</span>(_lpoperator),<span class="number">204</span>(_developer),<span class="number">250</span>(_analyticsusers),<span class="number">395</span>(com.apple.access_ftp),<span class="number">398</span>(com.apple.access_screensharing),<span class="number">399</span>(com.apple.access_ssh),<span class="number">400</span>(com.apple.access_remote_ae)</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>/Users/daistella/.npm</code>：要更改所有者的目錄。這個目錄是 npm 在主目錄中儲存其全局配置和緩存的地方。</li>
+</ul>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">sudo</span> chown -R <span class="number">501</span>:<span class="number">20</span> <span class="string">&quot;/Users/daistella/.npm&quot;</span></span><br></pre></td></tr></table></figure>
+<p>先強制刪除當前的 node_modules 目錄，以確保沒有殘留的舊文件或損壞的套件，然後強制重新安裝所有 package.json 檔案中的所列套件。</p>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm -rf node_modules <span class="meta">&amp;&amp; npm install --force</span></span><br></pre></td></tr></table></figure>
+<p>出現 <code>Hexo is running at http://localhost:4000/blog</code> 表示成功。</p>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-1%2Fhexo-local-activate-1.png?alt=media&token=41e3418a-97cb-4c5a-b1c3-aae3f6fbd4d6" class="[class names]" title="[80%] [80%] &quot;title text&quot; &quot;alt text&quot;">
+<p>點擊該連結 <a target="_blank" rel="noopener" href="http://localhost:4000/blog">http://localhost:4000/blog</a> 即可連至本地端 Hexo 部落格。</p>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-1%2Fhexo-local-activate-2.png?alt=media&token=06e87360-24bc-485d-b8e0-61a2fe44acb9" class="[class names]" title="[80%] [80%] &quot;title text&quot; &quot;alt text&quot;">
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/blog/tags/Hexo/" rel="tag"># Hexo</a>
+              <a href="/blog/tags/Blog/" rel="tag"># Blog</a>
+              <a href="/blog/tags/Tutorial/" rel="tag"># Tutorial</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/blog/hello-Hexo/" rel="prev" title="Hello Hexo">
+                  <i class="fa fa-angle-left"></i> Hello Hexo
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/blog/change-Hexo-theme/" rel="next" title="如何替換 Hexo 部落格主題">
+                  如何替換 Hexo 部落格主題 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Stella</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/blog/js/comments.js"></script><script src="/blog/js/utils.js"></script><script src="/blog/js/motion.js"></script><script src="/blog/js/sidebar.js"></script><script src="/blog/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
