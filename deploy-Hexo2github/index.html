@@ -124,7 +124,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">建立 GitHub Repo</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">2.</span> <span class="nav-text">安裝 Hexo 部署工具</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D-hexo-deployer-git"><span class="nav-number">2.1.</span> <span class="nav-text">安裝 hexo-deployer-git</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9-Hexo-config"><span class="nav-number">2.2.</span> <span class="nav-text">修改 Hexo config</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Deployment"><span class="nav-number">2.2.1.</span> <span class="nav-text">Deployment</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#URL"><span class="nav-number">2.2.2.</span> <span class="nav-text">URL</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">3.</span> <span class="nav-text">部屬</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E9%8D%B5%E9%83%A8%E7%BD%B2%E6%8C%87%E4%BB%A4"><span class="nav-number">3.1.</span> <span class="nav-text">一鍵部署指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%96%8B%E5%95%9F-GitHub-Pages"><span class="nav-number">3.2.</span> <span class="nav-text">開啟 GitHub Pages</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B-GitHub-Repo"><span class="nav-number">1.</span> <span class="nav-text">建立 GitHub Repo</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D-Hexo-%E9%83%A8%E7%BD%B2%E5%B7%A5%E5%85%B7"><span class="nav-number">2.</span> <span class="nav-text">安裝 Hexo 部署工具</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D-hexo-deployer-git"><span class="nav-number">2.1.</span> <span class="nav-text">安裝 hexo-deployer-git</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9-Hexo-config"><span class="nav-number">2.2.</span> <span class="nav-text">修改 Hexo config</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Deployment"><span class="nav-number">2.2.1.</span> <span class="nav-text">Deployment</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#URL"><span class="nav-number">2.2.2.</span> <span class="nav-text">URL</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%83%A8%E5%B1%AC"><span class="nav-number">3.</span> <span class="nav-text">部屬</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E9%8D%B5%E9%83%A8%E7%BD%B2%E6%8C%87%E4%BB%A4"><span class="nav-number">3.1.</span> <span class="nav-text">一鍵部署指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%96%8B%E5%95%9F-GitHub-Pages"><span class="nav-number">3.2.</span> <span class="nav-text">開啟 GitHub Pages</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -237,7 +237,7 @@
     
     <div class="post-body" itemprop="articleBody"><p>當設定好 Hexo 基本設定及完成文章撰寫後，就可以公開發佈了 <i class="fa-solid fa-face-laugh-squint" style="color: #0091ff;"></i>。本文主要說明如何部署 Hexo 部落格網站到 GitHub Pages。從建立 GitHub Repo 的命名注意事項、安裝 Hexo 一鍵佈署工具、修改 Hexo config 檔案，到最後部署時 GitHub Pages 的相關設定。</p>
 <span id="more"></span>
-<h1>建立 GitHub Repo</h1>
+<h1 id="建立-GitHub-Repo"><a class="header-anchor" href="#建立-GitHub-Repo"></a>建立 GitHub Repo</h1>
 <p>要先完成 Git 安裝及 GitHub 帳號申請。在 <a href="/blog/build-Hexo-blog-local-from-scratch/#%E5%AE%89%E8%A3%9D-Node-js-%E5%8F%8A-Git">這篇</a> 文章中有提到，Git 安裝方式及檢查 Git 是否安裝成功。另外，也需完成 <a target="_blank" rel="noopener" href="https://github.com/">申請 Github 帳號</a>。</p>
 <div class="note info"><p>注意 repo 名稱會決定部落格網址!</p>
 </div>
@@ -262,7 +262,7 @@
 </ol>
 <p>我選擇用 <code>estellacoding.github.io/blog</code> 呈現部落格的原因是，為了以後可能會將 <code>estellacoding.github.io</code> 當成我的主頁，所以目前就想先空下這個地方，設計我的網站主頁。<s>需要強大的時間管理，希望不會一直都空著。</s></p>
 <p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/meme%2Fcute-as-me%2Cwhy-need-to-work.jpg?alt=media&amp;token=05035a68-c532-40b5-b2c7-f96936bc5d78" alt="cute as me, why need to work"></p>
-<h1>安裝 Hexo 部署工具</h1>
+<h1 id="安裝-Hexo-部署工具"><a class="header-anchor" href="#安裝-Hexo-部署工具"></a>安裝 Hexo 部署工具</h1>
 <p>Hexo 提供了快速方便的<mark>一鍵佈署</mark>功能，讓您只需一個指令就能將網站佈署到伺服器上。</p>
 <h2 id="安裝-hexo-deployer-git"><a class="header-anchor" href="#安裝-hexo-deployer-git"></a>安裝 <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo-deployer-git">hexo-deployer-git</a></h2>
 <figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">npm</span> install hexo-deployer-git --save</span><br><span class="line"><span class="built_in">npm</span> list hexo-deployer-git</span><br></pre></td></tr></table></figure>
@@ -306,7 +306,7 @@
 <div class="note info"><p>url 後面不要加「/」喔!</p>
 </div>
 <figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># URL</span><br><span class="line">## Set your site url here. For example, <span class="keyword">if</span> you use GitHub Page, set url <span class="keyword">as</span> <span class="string">&#x27;https://username.github.io/project&#x27;</span></span><br><span class="line">url: https:<span class="comment">//estellacoding.github.io/blog</span></span><br></pre></td></tr></table></figure>
-<h1>部屬</h1>
+<h1 id="部屬"><a class="header-anchor" href="#部屬"></a>部屬</h1>
 <h2 id="一鍵部署指令"><a class="header-anchor" href="#一鍵部署指令"></a>一鍵部署指令</h2>
 <p>修改好 _config.yml 後，終於可以準備部署了。<s>從架設+寫文+部署花了我5天R</s>。</p>
 <figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo clean # 清除快取檔案 (db<span class="variable">.json</span>) 和已產生的靜態檔案 (public)</span><br><span class="line">hexo <span class="keyword">generate</span> # 產生靜態檔案</span><br><span class="line">hexo deploy # 部署網站</span><br></pre></td></tr></table></figure>
