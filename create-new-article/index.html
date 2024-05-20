@@ -281,13 +281,15 @@
 <figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># This is an H1</span><br><span class="line">## This is an H2</span><br><span class="line">### This is an H3</span><br><span class="line">#### This is an H4</span><br><span class="line">##### This is an H5</span><br><span class="line">###### This is an H6</span><br></pre></td></tr></table></figure>
 <h2 id="連結"><a class="header-anchor" href="#連結"></a>連結</h2>
 <figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="name">連結名稱</span>](<span class="name">超連結</span>)</span><br></pre></td></tr></table></figure>
-<div class="note default"><p>網頁呈現樣子:<br>
+<div class="tip">
+<p>網頁呈現樣子:<br>
 <a target="_blank" rel="noopener" href="https://israynotarray.com/other/20191111/1875438261/">Markdown 基礎與入門教學手冊</a></p>
 </div>
 <h2 id="項目清單"><a class="header-anchor" href="#項目清單"></a>項目清單</h2>
 <h3 id="無序清單"><a class="header-anchor" href="#無序清單"></a>無序清單</h3>
 <figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">*</span> 這是 *</span><br><span class="line"><span class="bullet">+</span> 這是 + </span><br><span class="line"><span class="bullet">-</span> 這是 -</span><br></pre></td></tr></table></figure>
-<div class="note default"><p>網頁呈現樣子:</p>
+<div class="tip">
+<p>網頁呈現樣子:</p>
 <ul>
 <li>這是 *</li>
 </ul>
@@ -300,7 +302,8 @@
 </div>
 <h3 id="有序清單"><a class="header-anchor" href="#有序清單"></a>有序清單</h3>
 <figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">1</span>. 這是 <span class="number">1</span>.</span><br><span class="line"><span class="attribute">2</span>. 這是 <span class="number">2</span>. </span><br><span class="line"><span class="attribute">3</span>. 這是 <span class="number">3</span>.</span><br></pre></td></tr></table></figure>
-<div class="note default"><p>網頁呈現樣子:</p>
+<div class="tip">
+<p>網頁呈現樣子:</p>
 <ol>
 <li>這是 1.</li>
 <li>這是 2.</li>
@@ -311,40 +314,50 @@
 <h3 id="程式碼區塊"><a class="header-anchor" href="#程式碼區塊"></a>程式碼區塊</h3>
 <p>📍 Hexo 用法</p>
 <figure class="highlight django"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="template-tag">&#123;% <span class="name">codeblock</span> %&#125;</span><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">hello world</span></span><br><span class="line"><span class="language-xml"></span><span class="template-tag">&#123;% <span class="name">endcodeblock</span> %&#125;</span></span><br></pre></td></tr></table></figure>
-<div class="note default"><p>網頁呈現樣子:</p>
-<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">hello world</span></span><br></pre></td></tr></table></figure></div>
+<div class="tip">
+<p>網頁呈現樣子:</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">hello world</span></span><br></pre></td></tr></table></figure>
+</div>
 <p>📍 Markdown 用法<br>
 前後是用 3 個反引號(Backtick)，反引號的位置在鍵盤中數字鍵 1 的左邊，上方符號是 ~。使用要注意反單引號 ` 常容易和單引號 ’ 混淆。</p>
 <figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">``</span><span class="string">`</span></span><br><span class="line"><span class="string">hello world</span></span><br><span class="line"><span class="string">`</span><span class="string">``</span></span><br></pre></td></tr></table></figure>
-<div class="note default"><p>網頁呈現樣子:</p>
-<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">hello world</span></span><br></pre></td></tr></table></figure></div>
+<div class="tip">
+<p>網頁呈現樣子:</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">hello world</span></span><br></pre></td></tr></table></figure>
+</div>
 <h3 id="程式碼片段"><a class="header-anchor" href="#程式碼片段"></a>程式碼片段</h3>
 <p>前後是用 1 個反引號。會將字用灰底包住。除了程式碼，如果想把字將前後的字給突顯出來也可用，如也適合拿來標示檔案名稱等。</p>
 <figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">`hello world`</span></span><br></pre></td></tr></table></figure>
-<div class="note default"><p>網頁呈現樣子:<br>
+<div class="tip">
+<p>網頁呈現樣子:<br>
 <code>hello world</code></p>
 </div>
 <h2 id="圖片"><a class="header-anchor" href="#圖片"></a>圖片</h2>
 <p>📍 Hexo 用法</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;% <span class="selector-tag">img</span> <span class="selector-attr">[嚇歪]</span> https://i.imgur.com/cBWkD2R.jpg %&#125;</span><br></pre></td></tr></table></figure>
-<div class="note default"><p>網頁呈現樣子:<br>
-<img src="https://i.imgur.com/cBWkD2R.jpg" class="[嚇歪]"></p>
+<div class="tip">
+<p>網頁呈現樣子:</p>
+<img src="https://i.imgur.com/cBWkD2R.jpg" class="[嚇歪]">
 </div>
 <p>📍 Markdown 用法</p>
 <figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">!<span class="selector-attr">[備胎]</span>(<span class="attribute">https</span>:<span class="comment">//i.imgur.com/COnXOV4.jpg)</span></span><br></pre></td></tr></table></figure>
-<div class="note default"><p>網頁呈現樣子:<br>
+<div class="tip">
+<p>網頁呈現樣子:<br>
 <img src="https://i.imgur.com/COnXOV4.jpg" alt="備胎"></p>
 </div>
 <h2 id="引用區塊"><a class="header-anchor" href="#引用區塊"></a>引用區塊</h2>
 <p>📍 Hexo 用法</p>
 <figure class="highlight django"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="template-tag">&#123;% <span class="name">blockquote</span> %&#125;</span><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">這是一段文字</span></span><br><span class="line"><span class="language-xml"></span><span class="template-tag">&#123;% <span class="name">endblockquote</span> %&#125;</span></span><br></pre></td></tr></table></figure>
-<div class="note default"><p>網頁呈現樣子:</p>
+<div class="tip">
+<p>網頁呈現樣子:</p>
 <blockquote><p>這是一段文字</p>
-</blockquote></div>
+</blockquote>
+</div>
 <p>其他提示塊語法請看 <a target="_blank" rel="noopener" href="https://jinnsjj.github.io/uncategorized/hexo-next-note/">在hexo-NexT中插入note提示块</a>。</p>
 <p>📍 Markdown 用法</p>
 <figure class="highlight node-repl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">&gt;</span> <span class="language-javascript">這是一段文字</span></span><br></pre></td></tr></table></figure>
-<div class="note default"><p>網頁呈現樣子:</p>
+<div class="tip">
+<p>網頁呈現樣子:</p>
 <blockquote>
 <p>這是一段文字</p>
 </blockquote>
@@ -359,7 +372,8 @@
 <h2 id="其他-i-class-fa-solid-fa-fire-fa-bounce-style-color-0091ff-i-陸續更新"><a class="header-anchor" href="#其他-i-class-fa-solid-fa-fire-fa-bounce-style-color-0091ff-i-陸續更新"></a>其他 (<i class="fa-solid fa-fire fa-bounce" style="color: #0091ff;"></i>陸續更新)</h2>
 <h3 id="表格"><a class="header-anchor" href="#表格"></a>表格</h3>
 <figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">|<span class="string"> Syntax      </span>|<span class="string"> Description </span>|</span><br><span class="line">|<span class="string"> ----------- </span>|<span class="string"> ----------- </span>|</span><br><span class="line">|<span class="string"> Header      </span>|<span class="string"> Title       </span>|</span><br><span class="line">|<span class="string"> Paragraph   </span>|<span class="string"> Text        </span>|</span><br></pre></td></tr></table></figure>
-<div class="note default"><p>網頁呈現樣子:</p>
+<div class="tip">
+<p>網頁呈現樣子:</p>
 <table>
 <thead>
 <tr>
@@ -380,12 +394,13 @@
 </table>
 </div>
 <h3 id="代辦事項"><a class="header-anchor" href="#代辦事項"></a>代辦事項</h3>
-<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">- </span>[x] Write the press release</span><br><span class="line"><span class="bullet">- </span>[v] Update the website</span><br><span class="line"><span class="bullet">- </span>[ ] Contact the media</span><br></pre></td></tr></table></figure>
-<div class="note default"><p>網頁呈現樣子:</p>
-<ul class="contains-task-list">
-<li class="task-list-item"><input class="task-list-item-checkbox" checked="" disabled="" type="checkbox"> Write the press release</li>
-<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> Update the website</li>
-<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> Contact the media</li>
+<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">- </span>[ ] Write the press release</span><br><span class="line"><span class="bullet">- </span>[x] Update the website</span><br><span class="line"><span class="bullet">- </span>[ ] Contact the media</span><br></pre></td></tr></table></figure>
+<div class="tip">
+<p>網頁呈現樣子:</p>
+<ul class="task-list">
+<li class="task-list-item"><input type="checkbox" id="cbx_0" disabled="true"><label for="cbx_0"> Write the press release</label></li>
+<li class="task-list-item"><input type="checkbox" id="cbx_1" checked="true" disabled="true"><label for="cbx_1"> Update the website</label></li>
+<li class="task-list-item"><input type="checkbox" id="cbx_2" disabled="true"><label for="cbx_2"> Contact the media</label></li>
 </ul>
 </div>
 <p>其他 Hexo 語法請看 <a target="_blank" rel="noopener" href="https://hexo.io/zh-tw/docs/tag-plugins">Hexo官方文件-Tag Plugins</a>。<br>
@@ -534,6 +549,12 @@
   
 
 
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"ams","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/blog/js/third-party/math/mathjax.js"></script>
 
 
 
