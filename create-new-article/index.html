@@ -156,7 +156,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/blog/archives/">
-          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-count">6</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -167,7 +167,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/blog/tags/">
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -288,15 +288,15 @@
 <figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># This is an H1</span><br><span class="line">## This is an H2</span><br><span class="line">### This is an H3</span><br><span class="line">#### This is an H4</span><br><span class="line">##### This is an H5</span><br><span class="line">###### This is an H6</span><br></pre></td></tr></table></figure>
 <h2 id="連結"><a class="header-anchor" href="#連結"></a>連結</h2>
 <figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="name">連結名稱</span>](<span class="name">超連結</span>)</span><br></pre></td></tr></table></figure>
-<div class="tip">
-<p>網頁呈現樣子:<br>
-<a target="_blank" rel="noopener" href="https://israynotarray.com/other/20191111/1875438261/">Markdown 基礎與入門教學手冊</a></p>
-</div>
+<p>:::custom_tip<br>
+網頁呈現樣子:<br>
+<a target="_blank" rel="noopener" href="https://israynotarray.com/other/20191111/1875438261/">Markdown 基礎與入門教學手冊</a><br>
+:::</p>
 <h2 id="項目清單"><a class="header-anchor" href="#項目清單"></a>項目清單</h2>
 <h3 id="無序清單"><a class="header-anchor" href="#無序清單"></a>無序清單</h3>
 <figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">*</span> 這是 *</span><br><span class="line"><span class="bullet">+</span> 這是 + </span><br><span class="line"><span class="bullet">-</span> 這是 -</span><br></pre></td></tr></table></figure>
-<div class="tip">
-<p>網頁呈現樣子:</p>
+<p>:::custom_tip<br>
+網頁呈現樣子:</p>
 <ul>
 <li>這是 *</li>
 </ul>
@@ -304,9 +304,9 @@
 <li>這是 +</li>
 </ul>
 <ul>
-<li>這是 -</li>
+<li>這是 -<br>
+:::</li>
 </ul>
-</div>
 <h3 id="有序清單"><a class="header-anchor" href="#有序清單"></a>有序清單</h3>
 <figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">1</span>. 這是 <span class="number">1</span>.</span><br><span class="line"><span class="attribute">2</span>. 這是 <span class="number">2</span>. </span><br><span class="line"><span class="attribute">3</span>. 這是 <span class="number">3</span>.</span><br></pre></td></tr></table></figure>
 <div class="tip">
@@ -399,14 +399,14 @@
 </div>
 <h3 id="刪除線"><a class="header-anchor" href="#刪除線"></a>刪除線</h3>
 <figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">~~我被刪掉了~~</span><br></pre></td></tr></table></figure>
-<div class="tip">
-<p>網頁呈現樣子:<br>
-<s>我被刪掉了</s></p>
-</div>
+<p>:::custom_tip<br>
+網頁呈現樣子:<br>
+<s>我被刪掉了</s><br>
+:::</p>
 <h3 id="表格"><a class="header-anchor" href="#表格"></a>表格</h3>
 <figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">| <span class="title class_">Column</span> <span class="number">1</span> | <span class="title class_">Column</span> <span class="number">2</span> | <span class="title class_">Column</span> <span class="number">3</span> |</span><br><span class="line">|<span class="symbol">:--------</span> |<span class="symbol">:--------</span><span class="symbol">:|</span> --------<span class="symbol">:|</span></span><br><span class="line">| <span class="title class_">Some</span>     |  thing   |     nice |</span><br><span class="line">| <span class="title class_">Text</span>     |   <span class="title class_">Text</span>   |     <span class="title class_">Text</span> |</span><br></pre></td></tr></table></figure>
-<div class="tip">
-<p>網頁呈現樣子:</p>
+<p>:::custom_tip<br>
+網頁呈現樣子:</p>
 <table>
 <thead>
 <tr>
@@ -426,29 +426,33 @@
 <td style="text-align:center">Text</td>
 <td style="text-align:right">Text</td>
 </tr>
+<tr>
+<td style="text-align:left">:::</td>
+<td style="text-align:center"></td>
+<td style="text-align:right"></td>
+</tr>
 </tbody>
 </table>
-</div>
 <h3 id="按鈕"><a class="header-anchor" href="#按鈕"></a>按鈕</h3>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">kbd</span>&gt;</span>cmd<span class="tag">&lt;/<span class="name">kbd</span>&gt;</span> + <span class="tag">&lt;<span class="name">kbd</span>&gt;</span>c<span class="tag">&lt;/<span class="name">kbd</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<div class="tip">
-<p><kbd>cmd</kbd> + <kbd>c</kbd></p>
-</div>
+<p>:::custom_tip<br>
+<kbd>cmd</kbd> + <kbd>c</kbd><br>
+:::</p>
 <h3 id="上標"><a class="header-anchor" href="#上標"></a>上標</h3>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">X<span class="tag">&lt;<span class="name">sup</span>&gt;</span>2<span class="tag">&lt;/<span class="name">sup</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<div class="tip">
-<p>X<sup>2</sup></p>
-</div>
+<p>:::custom_tip<br>
+X<sup>2</sup><br>
+:::</p>
 <h3 id="下標"><a class="header-anchor" href="#下標"></a>下標</h3>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">H<span class="tag">&lt;<span class="name">sub</span>&gt;</span>2<span class="tag">&lt;/<span class="name">sub</span>&gt;</span>O</span><br></pre></td></tr></table></figure>
-<div class="tip">
-<p>H<sub>2</sub>O</p>
-</div>
+<p>:::custom_tip<br>
+H<sub>2</sub>O<br>
+:::</p>
 <h3 id="文字顏色"><a class="header-anchor" href="#文字顏色"></a>文字顏色</h3>
 <figure class="highlight hsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="keyword">font</span> <span class="keyword">color</span>=<span class="string">&quot;blue&quot;</span>&gt;一段藍色文字&lt;/<span class="keyword">font</span>&gt;</span><br></pre></td></tr></table></figure>
-<div class="tip">
-<p><font color="blue">一段藍色文字</font></p>
-</div>
+<p>:::custom_tip<br>
+<font color="blue">一段藍色文字</font><br>
+:::</p>
 <p>而關於使用Hexo NexT 主題時，撰寫文章的進階 Markdown 用法，請看 <a href="blog/marked2markdown-it">Markdown 渲染器從 marked 換成 markdown-it</a> 這篇文章。</p>
 <p>其他 Hexo 語法請看 <a target="_blank" rel="noopener" href="https://hexo.io/zh-tw/docs/tag-plugins">Hexo官方文件-Tag Plugins</a>。<br>
 其他 Hexo 進階語法請看 <a target="_blank" rel="noopener" href="https://zenreal.github.io/posts/51388/">Hexo 搭建系列 - 基礎寫作流程篇</a>。<br>
