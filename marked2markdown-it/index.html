@@ -19,12 +19,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"estellacoding.github.io","root":"/blog/","images":"/blog/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/blog/js/config.js"></script>
 
-    <meta name="description" content="將 Hexo Markdown 預設的渲染器 marked，換成 markdown-it。">
+    <meta name="description" content="本文說明為何將 Hexo Markdown 預設的渲染器 marked，換成 markdown-it。並詳細列出更多在 Hexo 上的進階 Markdown 用法，如插入emoji、代辦事項、數學公式、螢光筆效果、自定義提示區塊、NexT 預設提示區塊，以及 Mermaid 圖表視覺化。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Markdown 渲染器從 marked 換成 markdown-it">
 <meta property="og:url" content="https://estellacoding.github.io/blog/marked2markdown-it/index.html">
 <meta property="og:site_name" content="Stella Coding">
-<meta property="og:description" content="將 Hexo Markdown 預設的渲染器 marked，換成 markdown-it。">
+<meta property="og:description" content="本文說明為何將 Hexo Markdown 預設的渲染器 marked，換成 markdown-it。並詳細列出更多在 Hexo 上的進階 Markdown 用法，如插入emoji、代辦事項、數學公式、螢光筆效果、自定義提示區塊、NexT 預設提示區塊，以及 Mermaid 圖表視覺化。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2024-05-21T03:11:11.000Z">
 <meta property="article:modified_time" content="2024-05-21T03:11:11.000Z">
@@ -227,7 +227,7 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><p>將 Hexo Markdown 預設的渲染器 marked，換成 markdown-it。</p>
+    <div class="post-body" itemprop="articleBody"><p>本文說明為何將 Hexo Markdown 預設的渲染器 marked，換成 markdown-it。並詳細列出更多在 Hexo 上的進階 Markdown 用法，如插入emoji、代辦事項、數學公式、螢光筆效果、自定義提示區塊、NexT 預設提示區塊，以及 Mermaid 圖表視覺化。</p>
 <span id="more"></span>
 <h1 id="更換成-markdown-it-原因"><a class="header-anchor" href="#更換成-markdown-it-原因"></a>更換成 markdown-it 原因</h1>
 <p><a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo-renderer-marked">hexo-renderer-marked</a> 是 Hexo 預設的 Markdown 的渲染器。而換成 <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo-renderer-markdown-it">hexo-renderer-markdown-it</a> 主要是他能支援更多 Markdown 格式，<mark>最重要的就是能用 LaTeX 語法呈現數學公式</mark>。</p>
