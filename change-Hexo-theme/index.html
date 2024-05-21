@@ -32,6 +32,10 @@
 <meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-2%2Fhexo-theme-pisces.png?alt=media&token=f1a9298a-fa7d-4b3b-aa0e-1711cd75a43f">
 <meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-2%2Fhexo-theme-gemini.png?alt=media&token=c6e2209e-555d-43f9-b403-c672c9605bef">
 <meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-2%2Fhexo-theme-2.png?alt=media&token=3ed99fd8-9387-4eec-9109-800a611dd9ff">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-2%2Fhexo-theme-about.png?alt=media&token=a34fde7b-5f59-498c-a7d9-e08fcb290cd7">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-2%2Fhexo-theme-tags.png?alt=media&token=d5ef93eb-76af-4af7-8c9e-1903a12417f1">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-2%2Fhexo-theme-categories.png?alt=media&token=38dbc2b4-0914-4f92-a945-54d8d7d5519a">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-2%2Fhexo-theme-archives.png?alt=media&token=8df1d96a-6206-4b06-8260-63106ebe00af">
 <meta property="article:published_time" content="2024-05-18T03:11:11.000Z">
 <meta property="article:modified_time" content="2024-05-18T03:11:11.000Z">
 <meta property="article:author" content="Stella">
@@ -268,7 +272,7 @@
   <div class="image-column-2">
     <figure class="figure-2">
       <a href="https://theme-next.js.org/muse/" target="_blank">
-        <img class="img-2" src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-2%2Fhexo-theme-muse.png?alt=media&token=8dd6d676-0714-4952-b23e-e1df05677479" alt="NextT-Muse">
+        <img class="img-2" src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-2%2Fhexo-theme-muse.png?alt=media&token=8dd6d676-0714-4952-b23e-e1df05677479" alt="NexT-Muse">
       </a>
       <figcaption class="figcaption-2">Muse</figcaption>
     </figure>
@@ -349,7 +353,7 @@
 <blockquote>
 <p>Cannot GET /blog/about/<br>
 Cannot GET /blog/tags/<br>
-Cannot GET /blog/Cannot GET /blog/categories/</p>
+Cannot GET /blog/categories/</p>
 </blockquote>
 <p>新增 tags、categories、about 這3個頁面。</p>
 <figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo <span class="keyword">new</span> <span class="type">page</span> tags</span><br><span class="line">hexo <span class="keyword">new</span> <span class="type">page</span> categories</span><br><span class="line">hexo <span class="keyword">new</span> <span class="type">page</span> about</span><br></pre></td></tr></table></figure>
@@ -359,6 +363,37 @@ Cannot GET /blog/Cannot GET /blog/categories/</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">Categories</span></span><br><span class="line"><span class="attr">date:</span> <span class="number">2024-05-17 11:11:11</span></span><br><span class="line"><span class="attr">type:</span> <span class="string">&quot;categories&quot;</span></span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure>
 <p>修改 source/about 資料夾中的 <a target="_blank" rel="noopener" href="http://index.md">index.md</a> 檔案，需手動加上 <code>type: &quot;tags&quot;</code>。</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">Tags</span></span><br><span class="line"><span class="attr">date:</span> <span class="number">2024-05-17 11:11:11</span></span><br><span class="line"><span class="attr">type:</span> <span class="string">&quot;tags&quot;</span></span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure>
+<p>調整完後，導覽列的關於、標籤、分類、歸檔頁面呈現如下:</p>
+<div class="image-row-2">
+  <div class="image-column-2">
+    <figure class="figure-2">
+      <a href="https://estellacoding.github.io/blog/about" target="_blank">
+        <img class="img-2" src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-2%2Fhexo-theme-about.png?alt=media&token=a34fde7b-5f59-498c-a7d9-e08fcb290cd7" alt="NexT-About">
+      </a>
+      <figcaption class="figcaption-2">About</figcaption>
+    </figure>
+    <figure class="figure-2">
+      <a href="https://estellacoding.github.io/blog/tags" target="_blank">
+        <img class="img-2" src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-2%2Fhexo-theme-tags.png?alt=media&token=d5ef93eb-76af-4af7-8c9e-1903a12417f1" alt="NexT-Tags">
+      </a>
+      <figcaption class="figcaption-2">Tags</figcaption>
+    </figure>
+  </div>
+  <div class="image-column-2">
+    <figure class="figure-2">
+      <a href="https://estellacoding.github.io/blog/categories/" target="_blank">
+        <img class="img-2" src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-2%2Fhexo-theme-categories.png?alt=media&token=38dbc2b4-0914-4f92-a945-54d8d7d5519a" alt="NexT-Categories">
+      </a>
+      <figcaption class="figcaption-2">Categories</figcaption>
+    </figure>
+    <figure class="figure-2">
+      <a href="https://estellacoding.github.io/blog/archives" target="_blank">
+        <img class="img-2" src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-2%2Fhexo-theme-archives.png?alt=media&token=8df1d96a-6206-4b06-8260-63106ebe00af" alt="NexT-Archives">
+      </a>
+      <figcaption class="figcaption-2">Archives</figcaption>
+    </figure>
+  </div>
+</div>
 <h1 id="新增文章的標籤及分類"><a class="header-anchor" href="#新增文章的標籤及分類"></a>新增文章的標籤及分類</h1>
 <p>之後新增文章時，都要記得加上標籤、分類，這樣導覽列的標籤、分類頁面，就會自動分組進入該標籤、分類，並計算各別標籤、分類的文章數量。</p>
 <p>比如我們進入 source/_posts 資料夾中的 <a target="_blank" rel="noopener" href="http://hello-world.md">hello-world.md</a> 這篇文章的內容，在 <code>---</code> 中可以修改 title、date、tags、categories 等資訊。</p>
