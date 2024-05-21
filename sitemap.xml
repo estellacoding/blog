@@ -2,7 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://estellacoding.github.io/blog/marked2markdown-it/</loc>
+    <loc>https://estellacoding.github.io/blog/create-new-article-advanced/</loc>
+    
+    <lastmod>2024-05-22</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/change-Hexo-theme/</loc>
     
     <lastmod>2024-05-21</lastmod>
     
@@ -11,7 +20,16 @@
   </url>
   
   <url>
-    <loc>https://estellacoding.github.io/blog/create-new-article-advanced/</loc>
+    <loc>https://estellacoding.github.io/blog/create-new-article/</loc>
+    
+    <lastmod>2024-05-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/marked2markdown-it/</loc>
     
     <lastmod>2024-05-21</lastmod>
     
@@ -47,27 +65,9 @@
   </url>
   
   <url>
-    <loc>https://estellacoding.github.io/blog/create-new-article/</loc>
-    
-    <lastmod>2024-05-20</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://estellacoding.github.io/blog/deploy-Hexo2github/</loc>
     
     <lastmod>2024-05-20</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/change-Hexo-theme/</loc>
-    
-    <lastmod>2024-05-18</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
