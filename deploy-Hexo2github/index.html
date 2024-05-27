@@ -34,7 +34,7 @@
 <meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-4%2Fhexo-deploy2github-5.png?alt=media&amp;token=18cc1e1e-9b51-4542-8815-87f4973c8946">
 <meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-4%2Fhexo-deploy2github-6.png?alt=media&amp;token=a061664b-c728-4cdc-94b0-d86410495e94">
 <meta property="article:published_time" content="2024-05-20T03:11:11.000Z">
-<meta property="article:modified_time" content="2024-05-20T03:11:11.000Z">
+<meta property="article:modified_time" content="2024-05-27T03:11:11.000Z">
 <meta property="article:author" content="Stella">
 <meta property="article:tag" content="Hexo">
 <meta property="article:tag" content="Blog">
@@ -222,6 +222,13 @@
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-05-27 11:11:11" itemprop="dateModified" datetime="2024-05-27T11:11:11+08:00">2024-05-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
         <i class="far fa-folder"></i>
       </span>
       <span class="post-meta-item-text">In</span>
@@ -311,6 +318,8 @@
 </div>
 <figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># URL</span><br><span class="line">## Set your site url here. For example, <span class="keyword">if</span> you use GitHub Page, set url <span class="keyword">as</span> <span class="string">&#x27;https://username.github.io/project&#x27;</span></span><br><span class="line">url: https:<span class="comment">//estellacoding.github.io/blog</span></span><br></pre></td></tr></table></figure>
 <h1 id="部屬"><a class="header-anchor" href="#部屬"></a>部屬</h1>
+<p>正式進入部署前，可以先在本機啟動部落格。</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo clean &amp;&amp; hexo <span class="keyword">generate</span> &amp;&amp; hexo server</span><br><span class="line">hexo c &amp;&amp; hexo g &amp;&amp; hexo s</span><br></pre></td></tr></table></figure>
 <h2 id="一鍵部署指令"><a class="header-anchor" href="#一鍵部署指令"></a>一鍵部署指令</h2>
 <p>修改好 _config.yml 後，終於可以準備部署了。<s>從架設+寫文+部署花了我5天R</s>。</p>
 <figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo clean # 清除快取檔案 (db<span class="variable">.json</span>) 和已產生的靜態檔案 (public)</span><br><span class="line">hexo <span class="keyword">generate</span> # 產生靜態檔案</span><br><span class="line">hexo deploy # 部署網站</span><br></pre></td></tr></table></figure>
