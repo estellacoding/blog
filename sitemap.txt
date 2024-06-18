@@ -1,3 +1,4 @@
+https://estellacoding.github.io/blog/automl-introduction/
 https://estellacoding.github.io/blog/deploy-Hexo2github/
 https://estellacoding.github.io/blog/create-new-article-advanced/
 https://estellacoding.github.io/blog/change-Hexo-theme/
@@ -18,4 +19,8 @@ https://estellacoding.github.io/blog/tags/Theme/
 https://estellacoding.github.io/blog/tags/GitHub/
 https://estellacoding.github.io/blog/tags/Markdown/
 https://estellacoding.github.io/blog/tags/GitHub-Pages/
+https://estellacoding.github.io/blog/tags/Machine-Learning/
+https://estellacoding.github.io/blog/tags/AutoML/
+https://estellacoding.github.io/blog/tags/Deep-Learning/
 https://estellacoding.github.io/blog/categories/Hexo/
+https://estellacoding.github.io/blog/categories/AutoML/

@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.2.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="mask-icon" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"estellacoding.github.io","root":"/blog/","images":"/blog/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/blog/js/config.js"></script>
+
+    <meta name="description" content="本系列是這本書「AutoML 自動化機器學習：用 AutoKeras 超輕鬆打造高效能 AI 模型」的學習筆記。 本篇主要是介紹機器學習的工作流程，包含資料擷取、資料預處理、 模型選擇、模型訓練、模型評估及調整、模型部署及模型監控，並介紹 AutoML 基本概念。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【AutoML】自動化機器學習 - AutoML入門">
+<meta property="og:url" content="https://estellacoding.github.io/blog/automl-introduction/index.html">
+<meta property="og:site_name" content="StellaCoding">
+<meta property="og:description" content="本系列是這本書「AutoML 自動化機器學習：用 AutoKeras 超輕鬆打造高效能 AI 模型」的學習筆記。 本篇主要是介紹機器學習的工作流程，包含資料擷取、資料預處理、 模型選擇、模型訓練、模型評估及調整、模型部署及模型監控，並介紹 AutoML 基本概念。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fautoml-introduction%2Faimldl-relationship.png?alt=media&amp;token=5bc1db22-7e1e-4a66-94af-838d093c0e19">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fautoml-introduction%2Fml-tasks.png?alt=media&amp;token=de5057e5-c076-4f2a-a39c-a42579829bd3">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fautoml-introduction%2Fai-team.png?alt=media&amp;token=99ae254b-79ed-4bf3-8e36-a41719a4039f">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fautoml-introduction%2Fml-challenge-data-cleaning.png?alt=media&amp;token=762eebaa-bdc0-4274-a09d-8621b4bbfa7e">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fautoml-introduction%2Fcomparison-table-of-functionality-for-AutoML-tools.png?alt=media&amp;token=17b40eb9-669c-4769-a3d2-254cd27c2e10">
+<meta property="article:published_time" content="2024-06-11T03:11:11.000Z">
+<meta property="article:modified_time" content="2024-06-18T03:11:11.000Z">
+<meta property="article:author" content="Stella">
+<meta property="article:tag" content="Machine Learning">
+<meta property="article:tag" content="AutoML">
+<meta property="article:tag" content="Deep Learning">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fautoml-introduction%2Faimldl-relationship.png?alt=media&amp;token=5bc1db22-7e1e-4a66-94af-838d093c0e19">
+
+
+<link rel="canonical" href="https://estellacoding.github.io/blog/automl-introduction/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://estellacoding.github.io/blog/automl-introduction/","path":"automl-introduction/","title":"【AutoML】自動化機器學習 - AutoML入門"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>【AutoML】自動化機器學習 - AutoML入門 | StellaCoding</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EG0CKC3093"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-EG0CKC3093","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/blog/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/blog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/blog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">StellaCoding</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Nothing is impossible.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/blog/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/blog/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/blog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ML-%E9%9D%A2%E8%87%A8%E7%9A%84%E6%8C%91%E6%88%B0"><span class="nav-number">1.</span> <span class="nav-text">ML 面臨的挑戰</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ML-%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B%E7%9A%84%E4%BB%8B%E7%B4%B9"><span class="nav-number">2.</span> <span class="nav-text">ML 工作流程的介紹</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B3%87%E6%96%99%E6%93%B7%E5%8F%96-Data-Ingestion"><span class="nav-number">2.1.</span> <span class="nav-text">資料擷取(Data Ingestion)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B3%87%E6%96%99%E9%A0%90%E8%99%95%E7%90%86-Data-Preprocessing"><span class="nav-number">2.2.</span> <span class="nav-text">資料預處理(Data Preprocessing)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B3%87%E6%96%99%E6%B8%85%E6%B4%97-Data-Cleaning"><span class="nav-number">2.2.1.</span> <span class="nav-text">資料清洗(Data Cleaning)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%B9%E5%BE%B5%E8%90%83%E5%8F%96-Feature-Extraction"><span class="nav-number">2.2.2.</span> <span class="nav-text">特徵萃取(Feature Extraction)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%B9%E5%BE%B5%E9%81%B8%E5%8F%96-Feature-Selection"><span class="nav-number">2.2.3.</span> <span class="nav-text">特徵選取(Feature Selection)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%B9%E5%BE%B5%E5%B7%A5%E7%A8%8B-Feature-Enginerring"><span class="nav-number">2.2.4.</span> <span class="nav-text">特徵工程(Feature Enginerring)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B3%87%E6%96%99%E9%9A%94%E9%9B%A2-Data-Segregation"><span class="nav-number">2.2.5.</span> <span class="nav-text">資料隔離(Data Segregation)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E9%81%B8%E6%93%87-Model-Selection"><span class="nav-number">2.3.</span> <span class="nav-text">模型選擇(Model Selection)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E8%A8%93%E7%B7%B4-Model-Training"><span class="nav-number">2.4.</span> <span class="nav-text">模型訓練(Model Training)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E8%A9%95%E4%BC%B0-Model-Evaluation"><span class="nav-number">2.5.</span> <span class="nav-text">模型評估(Model Evaluation)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E8%AA%BF%E6%95%B4-Model-Turning"><span class="nav-number">2.6.</span> <span class="nav-text">模型調整(Model Turning)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B2-Model-Deployment"><span class="nav-number">2.7.</span> <span class="nav-text">模型部署(Model Deployment)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E7%9B%A3%E6%8E%A7-Model-Monitoring"><span class="nav-number">2.8.</span> <span class="nav-text">模型監控(Model Monitoring)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%82%BA%E4%BD%95%E8%A6%81%E7%9B%A3%E6%8E%A7%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.8.1.</span> <span class="nav-text">為何要監控模型?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E7%9B%A3%E6%8E%A7%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.8.2.</span> <span class="nav-text">如何監控模型?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A9%B2%E7%9B%A3%E6%8E%A7%E6%A8%A1%E5%9E%8B%E5%93%AA%E4%BA%9B%E9%A0%85%E7%9B%AE"><span class="nav-number">2.8.3.</span> <span class="nav-text">該監控模型哪些項目?</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%80%E9%BA%BC%E6%98%AF-AutoML"><span class="nav-number">3.</span> <span class="nav-text">什麼是 AutoML</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#AutoML-%E7%9A%84%E7%A8%AE%E9%A1%9E"><span class="nav-number">4.</span> <span class="nav-text">AutoML 的種類</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E5%8B%95%E5%8C%96%E7%89%B9%E5%BE%B5%E5%B7%A5%E7%A8%8B"><span class="nav-number">4.1.</span> <span class="nav-text">自動化特徵工程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E5%8B%95%E5%8C%96%E6%A8%A1%E5%9E%8B%E7%A8%AE%E9%A1%9E%E9%81%B8%E6%93%87%E8%88%87%E8%B6%85%E5%8F%83%E6%95%B8%E8%AA%BF%E6%95%B4"><span class="nav-number">4.2.</span> <span class="nav-text">自動化模型種類選擇與超參數調整</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E5%8B%95%E5%8C%96%E7%A5%9E%E7%B6%93%E7%B6%B2%E8%B7%AF%E6%9E%B6%E6%A7%8B%E9%81%B8%E6%93%87"><span class="nav-number">4.3.</span> <span class="nav-text">自動化神經網路架構選擇</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#AutoML-%E5%B7%A5%E5%85%B7"><span class="nav-number">5.</span> <span class="nav-text">AutoML 工具</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B8%BD%E7%B5%90"><span class="nav-number">6.</span> <span class="nav-text">總結</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Stella"
+      src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+  <p class="site-author-name" itemprop="name">Stella</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/blog/archives/">
+          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/blog/categories/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/blog/tags/">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/estellacoding" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;estellacoding" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.instagram.com/stellacoding/" title="Instagram → https:&#x2F;&#x2F;www.instagram.com&#x2F;stellacoding&#x2F;" rel="noopener me" target="_blank"><i class="fab fa-instagram fa-fw"></i>Instagram</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://estellacoding.github.io/blog/automl-introduction/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+      <meta itemprop="name" content="Stella">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StellaCoding">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="【AutoML】自動化機器學習 - AutoML入門 | StellaCoding">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【AutoML】自動化機器學習 - AutoML入門
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2024-06-11 11:11:11" itemprop="dateCreated datePublished" datetime="2024-06-11T11:11:11+08:00">2024-06-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-06-18 11:11:11" itemprop="dateModified" datetime="2024-06-18T11:11:11+08:00">2024-06-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/AutoML/" itemprop="url" rel="index"><span itemprop="name">AutoML</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>本系列是這本書「<a target="_blank" rel="noopener" href="https://www.books.com.tw/products/0010911296">AutoML 自動化機器學習：用 AutoKeras 超輕鬆打造高效能 AI 模型</a>」的學習筆記。</p>
+<p>本篇主要是介紹機器學習的工作流程，包含資料擷取、資料預處理、 模型選擇、模型訓練、模型評估及調整、模型部署及模型監控，並介紹 AutoML 基本概念。</p>
+<span id="more"></span>
+<p>AutoML 雖然名稱上是 ML，不過因為 DL 是 ML 中的一個子領域，而且目前 DL 已成為目前 AI 的主流，因此 DL 幾乎已成為 ML 的代名詞，而本書所提到的 ML 也都是以 DL 為主。</p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fautoml-introduction%2Faimldl-relationship.png?alt=media&amp;token=5bc1db22-7e1e-4a66-94af-838d093c0e19" alt="aimldl-relationship"></p>
+<p>這本書的目標對象是:</p>
+<ol>
+<li>具備基本的 Python 程式基礎</li>
+<li>各種程度的 ML 及 DL 學習者</li>
+<li>想實際在專案中運用自動化機器學習技術</li>
+<li>想找 AutoML 雲端服務以外的替代品</li>
+</ol>
+<h1 id="ML-面臨的挑戰"><a class="header-anchor" href="#ML-面臨的挑戰"></a>ML 面臨的挑戰</h1>
+<p>在正式進入 AutoML 介紹前，先來談談目前 ML 面臨的挑戰。</p>
+<ol>
+<li>80% 時間在進行資料預處理。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fautoml-introduction%2Fml-tasks.png?alt=media&amp;token=de5057e5-c076-4f2a-a39c-a42579829bd3" alt="ml-tasks"></li>
+<li>正確選擇模型以及調整超參數，非常耗時與佔用機器資源。
+<ul>
+<li>沒有任何的演算法模型是可以保證在所有的資料集中表現最好，因此挑選一個好的演算法是自動化機器學習的首要任務。</li>
+<li>許多模型往往依賴於超參數，透過不同的超參數設定可以取得更好的學習結果。</li>
+<li><code>random_state=42</code> 就是一個magic number。<s>(因為，它只是生命、宇宙、一切的答案。)</s></li>
+</ul>
+</li>
+<li>持續監控模型結果。</li>
+<li>持續搜尋新資料以便重新訓練模型。</li>
+<li>AI 專案需要跨專業合作的團隊，資料科學家不是唯一最重要的角色。
+<ul>
+<li>資料科學家的產業知識深度比不上領域專家。</li>
+<li>AI 專案需要跨專業合作的團隊，資料科學家不是唯一最重要的角色。</li>
+<li><s>這樣的團隊組成就像是超能特攻隊般的存在</s>。</li>
+<li><s>可能也找不到一個擁有所有技能的獨角獸通</s>。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fautoml-introduction%2Fai-team.png?alt=media&amp;token=99ae254b-79ed-4bf3-8e36-a41719a4039f" alt="ai-team"></li>
+</ul>
+ <div style="margin-top: -15px; font-size: 14px; color: #555; text-align: center; font-style: normal; font-family: 'Arial', sans-serif;">
+     (資料來源: 
+     <a target="_blank" rel="noopener" href="https://www.perform-global.com/blog/ai-to-success-3-foundation#%e4%ba%8c%e3%80%81%e5%b0%8e%e5%85%a5-ai-%e7%9a%84%e5%9f%ba%e6%9c%ac%e6%a2%9d%e4%bb%b6%e8%88%87%e5%9f%ba%e6%9c%ac%e5%8a%9f-data" style="color: #555; text-decoration: none;">
+         最新調查｜台灣企業 AI 成熟度現況與導入 AI 三大基本面)
+     </a>
+ </div>
+</li>
+</ol>
+<h1 id="ML-工作流程的介紹"><a class="header-anchor" href="#ML-工作流程的介紹"></a>ML 工作流程的介紹</h1>
+<blockquote>
+<p>Machine Learning is not just about building model.</p>
+</blockquote>
+<pre>
+<code class="mermaid">
+
+flowchart LR
+    A[資料擷取] --&gt; B[資料預處理]
+    B --&gt; C[模型選擇]
+    C --&gt; D[模型訓練]
+    D --&gt; E[模型評估&lt;br&gt;模型調整]
+    E --&gt; F[模型部署]
+    F --&gt; G[模型監控]
+    E --&gt; D
+</code>
+</pre>
+<h2 id="資料擷取-Data-Ingestion"><a class="header-anchor" href="#資料擷取-Data-Ingestion"></a>資料擷取(Data Ingestion)</h2>
+<p>機器學習工作流程的第一步是搜集和導入外部資料。當我們希望透過機器學習技術來解決問題時，資料的品質對於模型的預測結果有著至關重要的影響。高品質的資料能夠提供準確且可靠的模型預測。</p>
+<h2 id="資料預處理-Data-Preprocessing"><a class="header-anchor" href="#資料預處理-Data-Preprocessing"></a>資料預處理(Data Preprocessing)</h2>
+<p>機器學習工作流程的第二步是資料預處理，也是最花時間的步驟之一。根據 The Economist <a target="_blank" rel="noopener" href="https://www.economist.com/technology-quarterly/2020/06/11/for-ai-data-are-harder-to-come-by-than-you-think">這篇</a>報導，有 80% 時間在進行資料預處理。(<s>我以為我在做 AI，但原來我在做資料清理</s>)。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fautoml-introduction%2Fml-challenge-data-cleaning.png?alt=media&amp;token=762eebaa-bdc0-4274-a09d-8621b4bbfa7e" alt="ml-challenge-data-cleaning"></p>
+<h3 id="資料清洗-Data-Cleaning"><a class="header-anchor" href="#資料清洗-Data-Cleaning"></a>資料清洗(Data Cleaning)</h3>
+<p>通常包含填補缺失值、處理異常值、移除重複值、雜訊等。</p>
+<ul>
+<li>填補缺失值：使用平均值、中位數、眾數或插值法等方式填補缺失的數據。</li>
+<li>處理異常值：識別並處理離群值，避免其對模型訓練結果的影響。</li>
+<li>移除重複值：刪除資料集中的重複記錄，確保資料的唯一性。</li>
+<li>處理雜訊：清理包含錯誤、亂碼或特殊符號的數據，確保資料的質量。</li>
+</ul>
+<h3 id="特徵萃取-Feature-Extraction"><a class="header-anchor" href="#特徵萃取-Feature-Extraction"></a>特徵萃取(Feature Extraction)</h3>
+<p>特徵萃取是將原始數據中的重要信息提取出來的過程。</p>
+<ul>
+<li>篩選特徵：在不損失有用信息的前提下，去除冗餘或不相關的特徵。</li>
+<li>特徵合併與重整：將相關特徵合併或重構，減少特徵空間的維度，從而降低計算資源消耗。</li>
+</ul>
+<div class="note info"><p>特徵是資料集中每個欄位的數據，代表了數據的不同屬性，對於模型的訓練和預測來說，每個特徵都是一個重要的變數。</p>
+</div>
+<h3 id="特徵選取-Feature-Selection"><a class="header-anchor" href="#特徵選取-Feature-Selection"></a>特徵選取(Feature Selection)</h3>
+<p>特徵選取是在選擇專案真正需要的特徵，移除冗餘或不太相關的特徵資料。特徵數量過多時，需要構建更大型的神經網路，這不僅會增加計算資源的需求，還容易導致訓練過程中的過擬合 (overfitting)。</p>
+<div class="note info"><p>過擬合(overfitting)指的是模型在訓練集上的表現非常好，但在處理未見過的新資料時，預測效果卻很差的情況。</p>
+</div>
+<h3 id="特徵工程-Feature-Enginerring"><a class="header-anchor" href="#特徵工程-Feature-Enginerring"></a>特徵工程(Feature Enginerring)</h3>
+<p>特徵工程包括多個步驟，不同資料來源對特徵工程分類方式解釋就有所不同，但我看到得資料通常也涵蓋「特徵萃取」和「特徵選取」，有時甚至包括「資料清洗」在內。在此，先根據作者的分類方式說明。特徵工程是基於領域知識，運用資料探勘技巧，來將原始資料中隱藏的資訊轉換/萃取為新特徵的過程。</p>
+<h3 id="資料隔離-Data-Segregation"><a class="header-anchor" href="#資料隔離-Data-Segregation"></a>資料隔離(Data Segregation)</h3>
+<p>將資料集分成2份:</p>
+<ul>
+<li>訓練資料集(Train Dataset): 訓練模型的資料集。</li>
+<li>測試資料集(Test Dataset): 測試模型訓練成效的資料集。</li>
+</ul>
+<p>資料預處理完成後，就會進入建模(Modeling)。這個流程會不斷迭代，並需要測試多種不同的模型，直接找到最有效的一種。建模包含模型選擇、模型訓練、模型評估、模型調整。</p>
+<pre class="mermaid">flowchart LR
+    A[/特徵/] --> B[模型選擇]
+    B --> C[模型訓練]
+    C --> 模型評估
+    D[神經網路搜尋]
+    E[超參數調整]
+    模型評估 --> F([模型部署])
+    模型評估 --> C
+    subgraph 模型評估
+    D
+    E
+    end
+    subgraph 建模
+    B
+    C
+    模型評估
+    end</pre>
+<h2 id="模型選擇-Model-Selection"><a class="header-anchor" href="#模型選擇-Model-Selection"></a>模型選擇(Model Selection)</h2>
+<p>選擇模型時主要考量以下幾點:</p>
+<ul>
+<li>可解釋性
+<ul>
+<li>如何明確模型的決策依據?了解模型是如何做出決策。</li>
+</ul>
+</li>
+<li>易於除錯: 當出現錯誤時，我們該如何進行修正?</li>
+<li>資料集的類型: 這會決定適合使用哪種模型。</li>
+<li>資料集的大小
+<ul>
+<li>可取得的資料量?未來是否會變化?</li>
+<li>大型資料集可能需要較為強大的模型與更多計算資源。</li>
+</ul>
+</li>
+<li>資源需求: 有多少硬體資源和時間可以進行訓練與預測。</li>
+</ul>
+<h2 id="模型訓練-Model-Training"><a class="header-anchor" href="#模型訓練-Model-Training"></a>模型訓練(Model Training)</h2>
+<p>將經過資料預處理後的訓練資料集傳入各個候選模型中，讓模型可以利用反向傳播演算法(backpropagation)從中學習，在樣本中尋找模式(pattern)。</p>
+<div class="note info"><p>反向傳播演算法(backpropagation)是指，當神經網路模型在訓練時，資料會以「前向傳播」通過各層神經節點，並計算出一個預測值。該值與訓練資料的實際值之誤差，則會被反向傳給模型的各個節點，此稱為反向傳播，以便更新權重，使其更有機會產生更小的誤差、更準確的預測。</p>
+</div>
+<h2 id="模型評估-Model-Evaluation"><a class="header-anchor" href="#模型評估-Model-Evaluation"></a>模型評估(Model Evaluation)</h2>
+<p>使用測試資料集來衡量模型預測的準確度。</p>
+<h2 id="模型調整-Model-Turning"><a class="header-anchor" href="#模型調整-Model-Turning"></a>模型調整(Model Turning)</h2>
+<p>若模型的訓練表現不理想，可調整超參數來重新訓練，例如學習率(learning rate)、模型使用的最佳化演算法(optimization algorithm)、神經網路的層數和各層的運算方法等。</p>
+<div class="note info"><p>學習率(learning rate)是指模型的學習效率，數值越高表示模型更新幅度越劇烈。學習率過低時，模型收斂緩慢，需花費較長時間進行，也可能陷入局部最佳解而無法繼續最佳化；而學習率過高時，則可能造成更新過快，錯過最佳解位置且無法收斂。</p>
+</div>
+<h2 id="模型部署-Model-Deployment"><a class="header-anchor" href="#模型部署-Model-Deployment"></a>模型部署(Model Deployment)</h2>
+<p>選出最佳模型正式上線，並採用 API 服務的形式來供使用者或其他內部服務取用。</p>
+<h2 id="模型監控-Model-Monitoring"><a class="header-anchor" href="#模型監控-Model-Monitoring"></a>模型監控(Model Monitoring)</h2>
+<p>監控模型在真實世界的表現，並依此來進行調校。</p>
+<pre class="mermaid">flowchart LR
+    A[/原始資料/] --> B[資料預處理]
+    C[建立] --> D[訓練]
+    D --> E[部署]
+    E --> F[監控]
+    F --> C
+    subgraph 模型週期
+    C
+    D
+    E
+    F
+    end
+    B --> 模型週期</pre>
+<h3 id="為何要監控模型"><a class="header-anchor" href="#為何要監控模型"></a>為何要監控模型?</h3>
+<p>以搜尋引擎的使用者為例，一個預測模型會依據使用者特徵，如個人資訊、搜尋類型、點擊紀錄，來決定要顯示的廣告。然而經過一段時間，這些舊的搜尋紀錄可能就無法反映近期的搜尋行為。</p>
+<p>所以對抗模型漂移(model drift)的辦法，就是持續監控模型，確保其預測能力沒有下降，並決定何時或如何重新訓練模型。</p>
+<div class="note info"><p>模型漂移(model drift)指的是隨著時間推移，模型的預測表現會逐漸變差的現象。</p>
+</div>
+<h3 id="如何監控模型"><a class="header-anchor" href="#如何監控模型"></a>如何監控模型?</h3>
+<p>使用模型評估指標，如精確度(accuracy)、召回率(recall)和 F1-score，來持續監控模型的性能。</p>
+<h3 id="該監控模型哪些項目"><a class="header-anchor" href="#該監控模型哪些項目"></a>該監控模型哪些項目?</h3>
+<ul>
+<li>模型本身: 監控目前選用的模型類型、採用的架構、最佳化演算法及超參數設定。</li>
+<li>輸入資料分佈: 將訓練資料與目前輸入的資料進行分佈比較，以確認訓練資料是否能夠反映真實世界的現況。</li>
+<li>部署日期: 記錄模型發佈的日期。</li>
+<li>使用變數: 監控模型所使用的輸入變數。有時候正式環境會使用到某些資料特徵，但我們並未在模型中採用。</li>
+<li>期望與實際差異: 使用散布圖(scatter plot)比較預期結果與實際結果，以識別模型預測的準確性。</li>
+<li>發佈次數: 監控模型被發佈的次數，通常用模型版本號碼來表示。</li>
+<li>運作時間: 記錄模型部署至今所經過的時間。</li>
+</ul>
+<h1 id="什麼是-AutoML"><a class="header-anchor" href="#什麼是-AutoML"></a>什麼是 AutoML</h1>
+<p>AutoML，也稱自動化機器學習，就是一個自動化過程，將上述提到的 ML 工作流程中的每個步驟，從資料預處理到 ML 模型的部署，都以 AI 演算法來自動處理。</p>
+<pre class="mermaid">flowchart LR
+    A[/資料集/] --> B((AutoML))
+    B --> C[部署]</pre>
+<h1 id="AutoML-的種類"><a class="header-anchor" href="#AutoML-的種類"></a>AutoML 的種類</h1>
+<p>一般著重的還是以下最耗時的項目:</p>
+<ul>
+<li>自動化特徵工程</li>
+<li>自動化模型種類選擇與超參數調整</li>
+<li>自動化神經網路架構選擇</li>
+</ul>
+<h2 id="自動化特徵工程"><a class="header-anchor" href="#自動化特徵工程"></a>自動化特徵工程</h2>
+<p>自動化特徵工程能夠不斷產生新的特徵組合，直到 ML 模型獲得良好的預測表現。</p>
+<h2 id="自動化模型種類選擇與超參數調整"><a class="header-anchor" href="#自動化模型種類選擇與超參數調整"></a>自動化模型種類選擇與超參數調整</h2>
+<p>每一種模型都有適合處理的問題種類，若使用自動化模型選擇，我們就可以針對特定的任務找出所有合適的模型，再從中選擇最準確的。</p>
+<p>怎麼替模型找出最佳超參數?</p>
+<ul>
+<li>網格搜尋(Grid Search)</li>
+<li>隨機搜尋(Random Search)</li>
+<li>貝氏搜尋(Bayesian Search)</li>
+<li>Hyperband 搜尋</li>
+</ul>
+<h2 id="自動化神經網路架構選擇"><a class="header-anchor" href="#自動化神經網路架構選擇"></a>自動化神經網路架構選擇</h2>
+<p>設計神經網路架構，即自訂調整神經網路的各層組成方式，是 ML 中最複雜又冗長的任務之一。</p>
+<p>在2010年代中期，有人提出利用演化演算法和強化學習來尋找最佳神經網路架構的搜尋方法，稱作神經網路架構搜索(Neural Architecture Search, NAS)。</p>
+<p>以下列出 NAS 引用次數最多的著作:</p>
+<ul>
+<li>NASNet : Learning Transferable Architecture for Scalable Image Recognition</li>
+<li>AmoebaNet : Regularized Evolution for Image Classifier Architecture Search</li>
+<li>ENAS : Efficient Neural Architecture Search</li>
+</ul>
+<h1 id="AutoML-工具"><a class="header-anchor" href="#AutoML-工具"></a>AutoML 工具</h1>
+<p>以下列出 AutoML 常見的工具。</p>
+<ul>
+<li>AutoKeras</li>
+<li>auto-sklearn</li>
+<li>DataRobot</li>
+<li>Darwin</li>
+<li>H20-DriverlessAl</li>
+<li>Google Cloud AutoML</li>
+<li>Amazon SageMaker Autopilot</li>
+<li>Microsoft Azure Machine Learning</li>
+<li>Tree-based Pipeline Optimization Tool(TPOP)</li>
+<li>Fast and Lightweight AutoML(FLAML)</li>
+</ul>
+<p>透過 Towards Automated Machine Learning: Evaluation and Comparison of AutoML Approaches and Tools <a target="_blank" rel="noopener" href="https://arxiv.org/abs/1908.05557">這篇</a>論文可以看到對主流 AutoML 工具的詳盡比較，並得出以下結論:</p>
+<blockquote>
+<p>主流的商業解決方案如 H2O-DriverlessAl、DataRobot 以及 Darwin，可以讓我們解讀資料綱要、執行特徵工程，並產生詳細的分析結果來供人解讀，至於開源的工具則更強調建模、訓練跟模型評估的自動化，將其他資料層面的任務留給資料科學家進行。</p>
+</blockquote>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fautoml-introduction%2Fcomparison-table-of-functionality-for-AutoML-tools.png?alt=media&amp;token=17b40eb9-669c-4769-a3d2-254cd27c2e10" alt="comparison-table-of-functionality-for-AutoML-tools"></p>
+<div style="margin-top: -15px; font-size: 14px; color: #555; text-align: center; font-style: normal; font-family: 'Arial', sans-serif;">
+    (資料來源: 
+    <a target="_blank" rel="noopener" href="https://arxiv.org/abs/1908.05557" style="color: #555; text-decoration: none;">
+        Fig. 2. Comparison table of functionality for AutoML tools.)
+    </a>
+</div>
+<h1 id="總結"><a class="header-anchor" href="#總結"></a>總結</h1>
+<p>說明 ML 工作流程的不同階段，包含資料擷取、資料預處理、 模型選擇、模型訓練、模型評估及調整、模型部署及模型監控。在傳統 ML 流程中，資料科學家會花費大量時間在不同階段，因而促使自動化機器學習(AutoML)的誕生。</p>
+<p>介紹 AutoML 基本概念，包含超參數最佳化及最佳神經網路架構的搜尋方法。了解 AutoML 的主要概念後，下一篇是關於如何安裝 AutoKeras，並怎麼用 AutoKeras 來訓練一個簡單的神經網路。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/blog/tags/Machine-Learning/" rel="tag"># Machine Learning</a>
+              <a href="/blog/tags/AutoML/" rel="tag"># AutoML</a>
+              <a href="/blog/tags/Deep-Learning/" rel="tag"># Deep Learning</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/blog/create-new-article-advanced/" rel="prev" title="Hexo 撰寫文章的進階語法">
+                  <i class="fa fa-angle-left"></i> Hexo 撰寫文章的進階語法
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Stella</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/blog/js/comments.js"></script><script src="/blog/js/utils.js"></script><script src="/blog/js/motion.js"></script><script src="/blog/js/sidebar.js"></script><script src="/blog/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js","integrity":"sha256-stuqcu2FrjYCXDOytWFA5SoUE/r3nkp6gTglzNSlavU="}}</script>
+  <script src="/blog/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"ams","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/blog/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
