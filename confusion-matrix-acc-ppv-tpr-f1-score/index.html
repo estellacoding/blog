@@ -326,8 +326,8 @@ $$ \text{Accuracy} = \frac{tp + tn}{tp + fp + fn + tn} $$</p>
 <p>精確率(Precision)是指正確預測的正樣本數佔所有預測爲正樣本的數量的比值。<br>
 $$ \text{Precision} = \frac{tp}{tp + fp} $$</p>
 <ul>
-<li>高精確率: 表示在模型預測為正樣本中，大部分都是實際為正的。這意味著模型的誤報(False Positive)較少。</li>
-<li>低精確率: 表示在模型預測為正樣本中，有很多是實際為負的。這意味著模型的誤報(False Positive)較多。</li>
+<li>高精確率: 表示模型預測為正樣本中，大部分是實際為正的。這意味模型的誤報(False Positive)較少。</li>
+<li>低精確率: 表示模型預測為正樣本中，有很多是實際為負的。這意味模型的誤報(False Positive)較多。</li>
 </ul>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> precision_score</span><br><span class="line"><span class="comment"># 計算精確率</span></span><br><span class="line">precision = precision_score(actual, predicted)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;Precision: <span class="subst">&#123;precision:<span class="number">.2</span>f&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
 <figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">Precision</span>: <span class="number">0</span>.<span class="number">60</span></span><br></pre></td></tr></table></figure>
@@ -335,8 +335,8 @@ $$ \text{Precision} = \frac{tp}{tp + fp} $$</p>
 <p>召回率(Recall)是正確預測的正樣本數佔真實正樣本總數的比值。也可稱敏感度(Sensitivity)。<br>
 $$ \text{Recall} = \frac{tp}{tp + fn} $$</p>
 <ul>
-<li>高召回率: 表示實際為正樣本中，大部分都被模型正確預測為正。這意味著模型的漏報(False Negative)較少。</li>
-<li>低召回率: 表示實際為正樣本中，有很多沒有被模型正確預測為正。這意味著模型的漏報(False Negative)較多。</li>
+<li>高召回率: 表示實際為正樣本中，大部分都被模型正確預測為正。這意味模型的漏報(False Negative)較少。</li>
+<li>低召回率: 表示實際為正樣本中，很多沒有被模型正確預測為正。這意味模型的漏報(False Negative)較多。</li>
 </ul>
 <p>在解讀 Precision 和 Recall 時，需要結合具體應用場景考慮。如果錯誤預測的成本很高，則應該更注重 Precision；如果漏報的成本很高，則應該更注重 Recall。根據不同需求選擇合適的指標，才能更好地優化模型性能。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> recall_score</span><br><span class="line"><span class="comment"># 計算召回率</span></span><br><span class="line">recall = recall_score(actual, predicted)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;Recall: <span class="subst">&#123;recall:<span class="number">.2</span>f&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
