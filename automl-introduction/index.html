@@ -32,7 +32,7 @@
 <meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fautoml-introduction%2Fml-challenge-data-cleaning.png?alt=media&amp;token=762eebaa-bdc0-4274-a09d-8621b4bbfa7e">
 <meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fautoml-introduction%2Fcomparison-table-of-functionality-for-AutoML-tools.png?alt=media&amp;token=17b40eb9-669c-4769-a3d2-254cd27c2e10">
 <meta property="article:published_time" content="2024-06-18T03:11:11.000Z">
-<meta property="article:modified_time" content="2024-06-18T03:11:11.000Z">
+<meta property="article:modified_time" content="2024-06-19T03:11:11.000Z">
 <meta property="article:author" content="Stella">
 <meta property="article:tag" content="Machine Learning">
 <meta property="article:tag" content="AutoML">
@@ -139,18 +139,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/blog/archives/">
-          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-count">9</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/blog/categories/">
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">3</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/blog/tags/">
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -215,6 +215,13 @@
       <span class="post-meta-item-text">Posted on</span>
 
       <time title="Created: 2024-06-18 11:11:11" itemprop="dateCreated datePublished" datetime="2024-06-18T11:11:11+08:00">2024-06-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-06-19 11:11:11" itemprop="dateModified" datetime="2024-06-19T11:11:11+08:00">2024-06-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -369,6 +376,11 @@ flowchart LR
 </div>
 <h2 id="模型評估-Model-Evaluation"><a class="header-anchor" href="#模型評估-Model-Evaluation"></a>模型評估(Model Evaluation)</h2>
 <p>使用測試資料集來衡量模型預測的準確度。</p>
+<p>常用效能衡量指標:</p>
+<ul>
+<li>分類模型: <mark>分類是觀察預測值和實際值的正確程度</mark>。常用的是預測準確率(Accuracy)、精確率(Precision)、召回率(Recall)或 F1 Score。而關於機器學習常見的效能衡量指標，請看 <a href="https://estellacoding.github.io/blog/confusion-matrix-acc-ppv-tpr-f1-score/">看了就被混淆的混淆矩陣及相關效能衡量指標</a> 這篇文章。</li>
+<li>迴歸模型: <mark>迴歸是觀察預測值和實際值的差距</mark>。常用的是 MSE、RMSE、MAE、R-Squared($R^2$) 等。</li>
+</ul>
 <h2 id="模型調整-Model-Turning"><a class="header-anchor" href="#模型調整-Model-Turning"></a>模型調整(Model Turning)</h2>
 <p>若模型的訓練表現不理想，可調整超參數來重新訓練，例如學習率(learning rate)、模型使用的最佳化演算法(optimization algorithm)、神經網路的層數和各層的運算方法等。</p>
 <div class="note info"><p>學習率(learning rate)是指模型的學習效率，數值越高表示模型更新幅度越劇烈。學習率過低時，模型收斂緩慢，需花費較長時間進行，也可能陷入局部最佳解而無法繼續最佳化；而學習率過高時，則可能造成更新過快，錯過最佳解位置且無法收斂。</p>
@@ -396,7 +408,8 @@ flowchart LR
 <div class="note info"><p>模型漂移(model drift)指的是隨著時間推移，模型的預測表現會逐漸變差的現象。</p>
 </div>
 <h3 id="如何監控模型"><a class="header-anchor" href="#如何監控模型"></a>如何監控模型?</h3>
-<p>使用模型評估指標，如精確度(accuracy)、召回率(recall)和 F1-score，來持續監控模型的性能。</p>
+<p>如果做完預測後可馬上得到正確答案，那你只要監控常見的效能衡量指標，如預測準確率(Accuracy) 或 F1 Score。</p>
+<p>真實結果的取得經常跟預測結果有一段時間差。例如，在預測電子郵件是否為垃圾信的情形中，使用者可能在過幾個月後才把該信標註為垃圾郵件，此時你就需要用到其他衡量方式。</p>
 <h3 id="該監控模型哪些項目"><a class="header-anchor" href="#該監控模型哪些項目"></a>該監控模型哪些項目?</h3>
 <ul>
 <li>模型本身: 監控目前選用的模型類型、採用的架構、最佳化演算法及超參數設定。</li>
@@ -490,6 +503,9 @@ flowchart LR
                 </a>
             </div>
             <div class="post-nav-item">
+                <a href="/blog/confusion-matrix-acc-ppv-tpr-f1-score/" rel="next" title="看了就被混淆的混淆矩陣及相關效能衡量指標">
+                  看了就被混淆的混淆矩陣及相關效能衡量指標 <i class="fa fa-angle-right"></i>
+                </a>
             </div>
           </div>
     </footer>
