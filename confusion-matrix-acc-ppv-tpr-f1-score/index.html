@@ -26,6 +26,7 @@
 <meta property="og:site_name" content="StellaCoding">
 <meta property="og:description" content="本文介紹機器學習分類模型中的效能衡量指標，重點講解了混淆矩陣，及其相關的各種效能衡量指標，如準確率、精確率、召回率和 F1 Score等。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fconfusion-matrix%2Fconfusion-matrix-formula.png?alt=media&amp;token=d979d102-48d7-48f3-bb32-afee397fc9d0">
 <meta property="article:published_time" content="2024-06-19T03:11:11.000Z">
 <meta property="article:modified_time" content="2024-06-19T03:11:11.000Z">
 <meta property="article:author" content="Stella">
@@ -36,6 +37,7 @@
 <meta property="article:tag" content="Recall">
 <meta property="article:tag" content="F1 Score">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fconfusion-matrix%2Fconfusion-matrix-formula.png?alt=media&amp;token=d979d102-48d7-48f3-bb32-afee397fc9d0">
 
 
 <link rel="canonical" href="https://estellacoding.github.io/blog/confusion-matrix-acc-ppv-tpr-f1-score/">
@@ -304,6 +306,8 @@ FN: False Negative，預測錯誤，預測是No -&gt; 則實際是Yes。</p>
 </table>
 <figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">from sklearn<span class="selector-class">.metrics</span> import confusion_matrix</span><br><span class="line"></span><br><span class="line">actual = <span class="selector-attr">[1, 1, 0, 1, 0, 0, 1, 0, 0, 0]</span></span><br><span class="line">predicted = <span class="selector-attr">[1, 0, 0, 1, 0, 0, 1, 1, 1, 0]</span></span><br><span class="line">tn, fp, fn, tp = <span class="built_in">confusion_matrix</span>(actual, predicted)<span class="selector-class">.ravel</span>()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">print</span><span class="params">(f<span class="string">&quot;True Positive: &#123;tp&#125;&quot;</span>)</span></span></span><br><span class="line"><span class="function"><span class="title">print</span><span class="params">(f<span class="string">&quot;True Negative: &#123;tn&#125;&quot;</span>)</span></span></span><br><span class="line"><span class="function"><span class="title">print</span><span class="params">(f<span class="string">&quot;False Positive: &#123;fp&#125;&quot;</span>)</span></span></span><br><span class="line"><span class="function"><span class="title">print</span><span class="params">(f<span class="string">&quot;False Negative: &#123;fn&#125;&quot;</span>)</span></span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <figure class="highlight mathematica"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">True</span> <span class="built_in">Positive</span><span class="operator">:</span> <span class="number">3</span></span><br><span class="line"><span class="built_in">True</span> <span class="built_in">Negative</span><span class="operator">:</span> <span class="number">4</span></span><br><span class="line"><span class="built_in">False</span> <span class="built_in">Positive</span><span class="operator">:</span> <span class="number">2</span></span><br><span class="line"><span class="built_in">False</span> <span class="built_in">Negative</span><span class="operator">:</span> <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>混淆矩陣(Confusion Matrix)可以繼續延伸至以下多種指標。</p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fconfusion-matrix%2Fconfusion-matrix-formula.png?alt=media&amp;token=d979d102-48d7-48f3-bb32-afee397fc9d0" alt="confusion-matrix-formula"></p>
 <h1 id="準確率"><a class="header-anchor" href="#準確率"></a>準確率</h1>
 <p>準確率(Accuracy)是指正確預測的樣本數佔總預測樣本數的比值。<br>
 $$ \text{Accuracy} = \frac{tp + tn}{tp + fp + fn + tn} $$</p>
