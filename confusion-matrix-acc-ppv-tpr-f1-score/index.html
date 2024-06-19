@@ -261,6 +261,26 @@
 </tr>
 </tbody>
 </table>
+<p>記法可以用字母記憶:</p>
+<ul>
+<li>開頭是預測正確或錯誤。
+<ul>
+<li><mark>開頭是T，表示預測與實際一致，即預測正確</mark>。</li>
+<li>開頭是F，表示預測與實際不一致，即預測錯誤。</li>
+</ul>
+</li>
+<li>第二個字母是預測結果。
+<ul>
+<li><mark>第二個字母是P，表示預測是Yes</mark>。</li>
+<li>第二個字母是N，表示預測是No。</li>
+</ul>
+</li>
+</ul>
+<p>所以這4種代表的意義是:<br>
+TP: True Positive，預測正確，預測是Yes -&gt; 則實際是Yes。<br>
+TN: True Negative，預測正確，預測是No -&gt; 則實際是No。<br>
+FP: False Positive，預測錯誤，預測是Yes -&gt; 則實際是No。<br>
+FN: False Negative，預測錯誤，預測是No -&gt; 則實際是Yes。</p>
 <table>
 <thead>
 <tr>
@@ -282,26 +302,6 @@
 </tr>
 </tbody>
 </table>
-<p>記法可以用字母記憶:</p>
-<ul>
-<li>開頭是預測正確或錯誤。
-<ul>
-<li><mark>開頭是T，表示預測與實際一致，即預測正確</mark>。</li>
-<li>開頭是F，表示預測與實際不一致，即預測錯誤。</li>
-</ul>
-</li>
-<li>第二個字母是預測結果。
-<ul>
-<li><mark>第二個字母是P，表示預測是Yes</mark>。</li>
-<li>第二個字母是N，表示預測是No。</li>
-</ul>
-</li>
-</ul>
-<p>所以這4種代表的意義是:<br>
-TP: True Positive，預測正確，預測是Yes -&gt; 則實際是Yes。<br>
-TN: True Negative，預測正確，預測是No -&gt; 則實際是No。<br>
-FP: False Positive，預測錯誤，預測是Yes -&gt; 則實際是No。<br>
-FN: False Negative，預測錯誤，預測是No -&gt; 則實際是Yes。</p>
 <figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">from sklearn<span class="selector-class">.metrics</span> import confusion_matrix</span><br><span class="line"></span><br><span class="line">actual = <span class="selector-attr">[1, 1, 0, 1, 0, 0, 1, 0, 0, 0]</span></span><br><span class="line">predicted = <span class="selector-attr">[1, 0, 0, 1, 0, 0, 1, 1, 1, 0]</span></span><br><span class="line">tn, fp, fn, tp = <span class="built_in">confusion_matrix</span>(actual, predicted)<span class="selector-class">.ravel</span>()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">print</span><span class="params">(f<span class="string">&quot;True Positive: &#123;tp&#125;&quot;</span>)</span></span></span><br><span class="line"><span class="function"><span class="title">print</span><span class="params">(f<span class="string">&quot;True Negative: &#123;tn&#125;&quot;</span>)</span></span></span><br><span class="line"><span class="function"><span class="title">print</span><span class="params">(f<span class="string">&quot;False Positive: &#123;fp&#125;&quot;</span>)</span></span></span><br><span class="line"><span class="function"><span class="title">print</span><span class="params">(f<span class="string">&quot;False Negative: &#123;fn&#125;&quot;</span>)</span></span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <figure class="highlight mathematica"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">True</span> <span class="built_in">Positive</span><span class="operator">:</span> <span class="number">3</span></span><br><span class="line"><span class="built_in">True</span> <span class="built_in">Negative</span><span class="operator">:</span> <span class="number">4</span></span><br><span class="line"><span class="built_in">False</span> <span class="built_in">Positive</span><span class="operator">:</span> <span class="number">2</span></span><br><span class="line"><span class="built_in">False</span> <span class="built_in">Negative</span><span class="operator">:</span> <span class="number">1</span></span><br></pre></td></tr></table></figure>
 <h1 id="準確率"><a class="header-anchor" href="#準確率"></a>準確率</h1>
