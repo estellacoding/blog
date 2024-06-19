@@ -19,12 +19,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"estellacoding.github.io","root":"/blog/","images":"/blog/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/blog/js/config.js"></script>
 
-    <meta name="description" content="本文介紹機器學習分類模型中的效能衡量指標，重點講解了混淆矩陣及其相關的各種效能衡量指標，如準確率、精確率、召回率和F1 Score。這些指標用於評估模型的預測性能，以幫助理解模型在不同情況下的表現。">
+    <meta name="description" content="本文介紹機器學習分類模型中的效能衡量指標，重點講解了混淆矩陣及其相關的各種效能衡量指標，如準確率、精確率、召回率和F1 Score。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="看了就被混淆的混淆矩陣及相關效能衡量指標">
 <meta property="og:url" content="https://estellacoding.github.io/blog/confusion-matrix-acc-ppv-tpr-f1-score/index.html">
 <meta property="og:site_name" content="StellaCoding">
-<meta property="og:description" content="本文介紹機器學習分類模型中的效能衡量指標，重點講解了混淆矩陣及其相關的各種效能衡量指標，如準確率、精確率、召回率和F1 Score。這些指標用於評估模型的預測性能，以幫助理解模型在不同情況下的表現。">
+<meta property="og:description" content="本文介紹機器學習分類模型中的效能衡量指標，重點講解了混淆矩陣及其相關的各種效能衡量指標，如準確率、精確率、召回率和F1 Score。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2024-06-19T03:11:11.000Z">
 <meta property="article:modified_time" content="2024-06-19T03:11:11.000Z">
@@ -232,7 +232,7 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><p>本文介紹機器學習分類模型中的效能衡量指標，重點講解了混淆矩陣及其相關的各種效能衡量指標，如準確率、精確率、召回率和F1 Score。這些指標用於評估模型的預測性能，以幫助理解模型在不同情況下的表現。</p>
+    <div class="post-body" itemprop="articleBody"><p>本文介紹機器學習分類模型中的效能衡量指標，重點講解了混淆矩陣及其相關的各種效能衡量指標，如準確率、精確率、召回率和F1 Score。</p>
 <span id="more"></span>
 <h1 id="混淆矩陣"><a class="header-anchor" href="#混淆矩陣"></a>混淆矩陣</h1>
 <p>混淆矩陣(Confusion Matrix)也稱為誤差矩陣，是可視化演算法性能的視覺化工具。</p>
