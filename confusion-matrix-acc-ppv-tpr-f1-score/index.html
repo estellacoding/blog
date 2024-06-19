@@ -342,7 +342,7 @@ $$ \text{Recall} = \frac{tp}{tp + fn} $$</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> recall_score</span><br><span class="line"><span class="comment"># 計算召回率</span></span><br><span class="line">recall = recall_score(actual, predicted)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;Recall: <span class="subst">&#123;recall:<span class="number">.2</span>f&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
 <figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">Recall</span>: <span class="number">0</span>.<span class="number">75</span></span><br></pre></td></tr></table></figure>
 <h1 id="F1-Score"><a class="header-anchor" href="#F1-Score"></a>F1 Score</h1>
-<p>在一些應用場景中，我們需要權衡精確率和召回率。</p>
+<p>在一些應用場景中，我們需要權衡精確率和召回率，因此會使用到 F1 Score。</p>
 <ul>
 <li>F1 Score 是精確率和召回率的調和平均數，常用於綜合評估模型的性能。</li>
 <li>F1 Score 介於 0 和 1 之間，值越大表示模型的整體性能越好。</li>
