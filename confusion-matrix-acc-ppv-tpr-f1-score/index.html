@@ -310,13 +310,13 @@
 <figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">from sklearn<span class="selector-class">.metrics</span> import confusion_matrix</span><br><span class="line"></span><br><span class="line">actual = <span class="selector-attr">[1, 1, 0, 1, 0, 0, 1, 0, 0, 0]</span></span><br><span class="line">predicted = <span class="selector-attr">[1, 0, 0, 1, 0, 0, 1, 1, 1, 0]</span></span><br><span class="line">tn, fp, fn, tp = <span class="built_in">confusion_matrix</span>(actual, predicted)<span class="selector-class">.ravel</span>()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">print</span><span class="params">(f<span class="string">&quot;True Positive: &#123;tp&#125;&quot;</span>)</span></span></span><br><span class="line"><span class="function"><span class="title">print</span><span class="params">(f<span class="string">&quot;True Negative: &#123;tn&#125;&quot;</span>)</span></span></span><br><span class="line"><span class="function"><span class="title">print</span><span class="params">(f<span class="string">&quot;False Positive: &#123;fp&#125;&quot;</span>)</span></span></span><br><span class="line"><span class="function"><span class="title">print</span><span class="params">(f<span class="string">&quot;False Negative: &#123;fn&#125;&quot;</span>)</span></span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <figure class="highlight mathematica"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">True</span> <span class="built_in">Positive</span><span class="operator">:</span> <span class="number">3</span></span><br><span class="line"><span class="built_in">True</span> <span class="built_in">Negative</span><span class="operator">:</span> <span class="number">4</span></span><br><span class="line"><span class="built_in">False</span> <span class="built_in">Positive</span><span class="operator">:</span> <span class="number">2</span></span><br><span class="line"><span class="built_in">False</span> <span class="built_in">Negative</span><span class="operator">:</span> <span class="number">1</span></span><br></pre></td></tr></table></figure>
 <p>理解混淆矩陣後，接著來看混淆矩陣的各種指標。</p>
-<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fconfusion-matrix%2Fconfusion-matrix-formula.png?alt=media&amp;token=d979d102-48d7-48f3-bb32-afee397fc9d0" alt="confusion-matrix-formula"><br>
-<div style="margin-top: -15px; font-size: 14px; color: #555; text-align: center; font-style: normal; font-family: 'Arial', sans-serif;"><br>
-(資料來源:<br>
-<a target="_blank" rel="noopener" href="https://ycc.idv.tw/confusion-matrix.html" style="color: #555; text-decoration: none;"><br>
-如何辨別機器學習模型的好壞？秒懂Confusion Matrix)<br>
-</a><br>
-</div></p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fconfusion-matrix%2Fconfusion-matrix-formula.png?alt=media&amp;token=d979d102-48d7-48f3-bb32-afee397fc9d0" alt="confusion-matrix-formula"></p>
+<div style="margin-top: -15px; font-size: 14px; color: #555; text-align: center; font-style: normal; font-family: 'Arial', sans-serif;">
+    (資料來源: 
+    <a target="_blank" rel="noopener" href="https://ycc.idv.tw/confusion-matrix.html" style="color: #555; text-decoration: none;">
+        如何辨別機器學習模型的好壞？秒懂Confusion Matrix)
+    </a>
+</div>
 <h1 id="準確率"><a class="header-anchor" href="#準確率"></a>準確率</h1>
 <p>準確率(Accuracy)是指正確預測的樣本數佔總預測樣本數的比值。<br>
 $$ \text{Accuracy} = \frac{tp + tn}{tp + fp + fn + tn} $$</p>
