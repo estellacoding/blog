@@ -325,16 +325,29 @@ $$ \text{Accuracy} = \frac{tp + tn}{tp + fp + fn + tn} $$</p>
 <h1 id="精確率"><a class="header-anchor" href="#精確率"></a>精確率</h1>
 <p>精確率(Precision)是指正確預測的正樣本數佔所有預測爲正樣本的數量的比值。<br>
 $$ \text{Precision} = \frac{tp}{tp + fp} $$</p>
+<ul>
+<li>高精確率: 表示在模型預測為正樣本中，大部分都是實際為正的。這意味著模型的誤報(False Positive)較少。</li>
+<li>低精確率: 表示在模型預測為正樣本中，有很多是實際為負的。這意味著模型的誤報(False Positive)較多。</li>
+</ul>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> precision_score</span><br><span class="line"><span class="comment"># 計算精確率</span></span><br><span class="line">precision = precision_score(actual, predicted)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;Precision: <span class="subst">&#123;precision:<span class="number">.2</span>f&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
 <figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">Precision</span>: <span class="number">0</span>.<span class="number">60</span></span><br></pre></td></tr></table></figure>
 <h1 id="召回率"><a class="header-anchor" href="#召回率"></a>召回率</h1>
 <p>召回率(Recall)是正確預測的正樣本數佔真實正樣本總數的比值。也可稱敏感度(Sensitivity)。<br>
 $$ \text{Recall} = \frac{tp}{tp + fn} $$</p>
+<ul>
+<li>高召回率: 表示實際為正樣本中，大部分都被模型正確預測為正。這意味著模型的漏報(False Negative)較少。</li>
+<li>低召回率: 表示實際為正樣本中，有很多沒有被模型正確預測為正。這意味著模型的漏報(False Negative)較多。</li>
+</ul>
+<p>在解讀 Precision 和 Recall 時，需要結合具體應用場景考慮。如果錯誤預測的成本很高，則應該更注重 Precision；如果漏報的成本很高，則應該更注重 Recall。根據不同需求選擇合適的指標，才能更好地優化模型性能。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> recall_score</span><br><span class="line"><span class="comment"># 計算召回率</span></span><br><span class="line">recall = recall_score(actual, predicted)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;Recall: <span class="subst">&#123;recall:<span class="number">.2</span>f&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
 <figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">Recall</span>: <span class="number">0</span>.<span class="number">75</span></span><br></pre></td></tr></table></figure>
 <h1 id="F1-Score"><a class="header-anchor" href="#F1-Score"></a>F1 Score</h1>
-<p>F1 Score 是精確率與召回率的調和平均數。<br>
-$$ \text{F1 Score} = \frac{2}{ \frac{1}{Precison} + \frac{1}{Recall} } $$</p>
+<p>在一些應用場景中，我們需要權衡精確率和召回率。</p>
+<ul>
+<li>F1 Score 是精確率和召回率的調和平均數，常用於綜合評估模型的性能。</li>
+<li>F1 Score 介於 0 和 1 之間，值越大表示模型的整體性能越好。</li>
+</ul>
+<p>$$ \text{F1 Score} = \frac{2}{ \frac{1}{Precison} + \frac{1}{Recall} } $$</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> f1_score</span><br><span class="line"><span class="comment"># 計算F1 Score</span></span><br><span class="line">f1 = f1_score(actual, predicted)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;F1 Score: <span class="subst">&#123;f1:<span class="number">.2</span>f&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
 <figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">F1</span> Score: <span class="number">0</span>.<span class="number">67</span></span><br></pre></td></tr></table></figure>
 <h1 id="特異度"><a class="header-anchor" href="#特異度"></a>特異度</h1>
