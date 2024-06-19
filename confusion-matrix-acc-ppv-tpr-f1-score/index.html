@@ -338,7 +338,11 @@ $$ \text{Recall} = \frac{tp}{tp + fn} $$</p>
 <li>高召回率: 表示實際為正樣本中，大部分都被模型正確預測為正。這意味模型的漏報(False Negative)較少。</li>
 <li>低召回率: 表示實際為正樣本中，很多沒有被模型正確預測為正。這意味模型的漏報(False Negative)較多。</li>
 </ul>
-<p>在解讀 Precision 和 Recall 時，需要結合具體應用場景考慮。如果錯誤預測的成本很高，則應該更注重 Precision；如果漏報的成本很高，則應該更注重 Recall。根據不同需求選擇合適的指標，才能更好地優化模型性能。</p>
+<p>在解讀 Precision 和 Recall 時，需要根據不同需求選擇合適的指標，才能更好地優化模型性能。</p>
+<ul>
+<li>如果錯誤預測的成本很高，則應該更注重 Precision。</li>
+<li>如果漏報的成本很高，則應該更注重 Recall。</li>
+</ul>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> recall_score</span><br><span class="line"><span class="comment"># 計算召回率</span></span><br><span class="line">recall = recall_score(actual, predicted)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;Recall: <span class="subst">&#123;recall:<span class="number">.2</span>f&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
 <figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">Recall</span>: <span class="number">0</span>.<span class="number">75</span></span><br></pre></td></tr></table></figure>
 <h1 id="F1-Score"><a class="header-anchor" href="#F1-Score"></a>F1 Score</h1>
