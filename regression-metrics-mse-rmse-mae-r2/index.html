@@ -264,8 +264,22 @@
 <p>$$ R^2 = 1 - \frac{\sum_{i=1}^{n} (y_i-\hat{y_i})^2} {\sum_{i=1}^{n} (y_i - \bar{y_i})^2} $$</p>
 <ul>
 <li>$\bar{y_i}$ 是實際值的平均值。</li>
-<li>分子表示<strong>預測值與實際值平方差之和</strong>，是殘差變異(Residual Variance)</li>
-<li>分母表示<strong>實際值與實際值的平均數的平方差之和</strong>，是總變異(Total Variance)。</li>
+<li>$ \sum_{i=1}^{n} (y_i-\hat{y_i})^2 $
+<ul>
+<li><strong>預測值與實際值平方差之和</strong></li>
+<li>模型未能解釋的變異量</li>
+<li>殘差平方和(Residual Sum of Squares, SSR)</li>
+<li>殘差變異(Residual Variance)</li>
+</ul>
+</li>
+<li>$ \sum_{i=1}^{n} (y_i - \bar{y_i})^2 $
+<ul>
+<li><strong>實際值與實際值的平均數的平方差之和</strong></li>
+<li>數據的總變異量</li>
+<li>總平方和 (Total Sum of Squares, SST)</li>
+<li>總變異(Total Variance)</li>
+</ul>
+</li>
 <li>$ R^2 $ 值介於 0 到 1 之間。
 <ul>
 <li><mark>$ R^2 $ 越接近 1，表示模型解釋變異的能力越強。換句話說，模型能夠準確地預測數據。</mark></li>
