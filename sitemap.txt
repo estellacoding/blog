@@ -1,5 +1,6 @@
 https://estellacoding.github.io/blog/automl-introduction/
 https://estellacoding.github.io/blog/win11-activate-nvidia-mx450-gpu-locally/
+https://estellacoding.github.io/blog/autokeras-mnist/
 https://estellacoding.github.io/blog/automl-dl-introduction/
 https://estellacoding.github.io/blog/matplotlib-draw-double-neural-network-diagram/
 https://estellacoding.github.io/blog/confusion-matrix-acc-ppv-tpr-f1-score/
@@ -50,6 +51,8 @@ https://estellacoding.github.io/blog/tags/Tensorflow/
 https://estellacoding.github.io/blog/tags/Pytorch/
 https://estellacoding.github.io/blog/tags/Anaconda/
 https://estellacoding.github.io/blog/tags/Jupyter-Notebook/
+https://estellacoding.github.io/blog/tags/AutoKeras/
+https://estellacoding.github.io/blog/tags/MNIST/
 https://estellacoding.github.io/blog/categories/Hexo/
 https://estellacoding.github.io/blog/categories/Machine-Learning/
 https://estellacoding.github.io/blog/categories/AutoML/
