@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.2.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="mask-icon" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"estellacoding.github.io","root":"/blog/","images":"/blog/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/blog/js/config.js"></script>
+
+    <meta name="description" content="本文詳細介紹了在 Windows 11 上啟用 NVIDIA MX450 GPU 的步驟，包括確認基本軟硬體、安裝 CUDA 和 cuDNN、驗證 TensorFlow 和 PyTorch 是否可使用 GPU。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Win11 本地端啟動 NVIDIA MX450 GPU 的詳細步驟">
+<meta property="og:url" content="https://estellacoding.github.io/blog/win11-activate-nvidia-mx450-gpu-locally/index.html">
+<meta property="og:site_name" content="StellaCoding">
+<meta property="og:description" content="本文詳細介紹了在 Windows 11 上啟用 NVIDIA MX450 GPU 的步驟，包括確認基本軟硬體、安裝 CUDA 和 cuDNN、驗證 TensorFlow 和 PyTorch 是否可使用 GPU。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmx450-gpu%2F1-device-manager-graphics-card.png?alt=media&amp;token=b37c169a-e958-42de-b47b-c01b86cd3772">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmx450-gpu%2F2-winver-win-version.png?alt=media&amp;token=de418370-a1d6-4245-9aed-ec73d528c27c">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmx450-gpu%2F3-nvidia-control-panel-cuda-version.png?alt=media&amp;token=c96f58e1-cd0d-41cc-85a0-d990adefdb80">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmx450-gpu%2F4-geforce-experience-nvidia-driver.png?alt=media&amp;token=59a853bb-e790-4c63-bba7-3e65568edb58">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmx450-gpu%2F5-nvidia-control-panel-driver-version.png?alt=media&amp;token=6f3c2068-c506-4117-ac2a-cc8d6035ecf4">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmx450-gpu%2F6-cuda_11.2.0_win10_network.png?alt=media&amp;token=02811d21-ef7b-414e-a81d-7a8765d80861">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmx450-gpu%2F7-cuDNN-v8.1-for-cuda-v11.2-win-x86.png?alt=media&amp;token=00bc37b8-0d56-4912-a32b-c1b924dc22ea">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmx450-gpu%2F8-cuda-cudnn-add-to-environment-variable-path.png?alt=media&amp;token=22913db0-40d0-4abb-a1b3-cc0b3a74d166">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmx450-gpu%2F9-nvcc-nvidia-smi.png?alt=media&amp;token=edd433a1-d26f-469a-8afe-094e99ff0044">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmx450-gpu%2F10-tensorflow-config-list-physical-devices.png?alt=media&amp;token=2fdcc098-ef5d-484a-90d6-2a3e81e863af">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmx450-gpu%2F11-tensorflow-device-lib-list-local-devices.png?alt=media&amp;token=3491c3df-72ec-4744-bf7d-10df9b7ed42f">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmx450-gpu%2F12-torch-cuda-is-available.png?alt=media&amp;token=894d5b60-036d-44e2-bb54-b54313c93eb5">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmx450-gpu%2F13-torch-cuda-is-available.png?alt=media&amp;token=372a098e-f226-4676-ae8f-d964afa39d0d">
+<meta property="article:published_time" content="2024-07-01T03:11:11.000Z">
+<meta property="article:modified_time" content="2024-07-01T03:11:11.000Z">
+<meta property="article:author" content="Stella">
+<meta property="article:tag" content="Deep Learning">
+<meta property="article:tag" content="NVIDIA">
+<meta property="article:tag" content="MX450">
+<meta property="article:tag" content="GPU">
+<meta property="article:tag" content="CUDA">
+<meta property="article:tag" content="cuDNN">
+<meta property="article:tag" content="Tensorflow">
+<meta property="article:tag" content="Pytorch">
+<meta property="article:tag" content="Anaconda">
+<meta property="article:tag" content="Jupyter Notebook">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmx450-gpu%2F1-device-manager-graphics-card.png?alt=media&amp;token=b37c169a-e958-42de-b47b-c01b86cd3772">
+
+
+<link rel="canonical" href="https://estellacoding.github.io/blog/win11-activate-nvidia-mx450-gpu-locally/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://estellacoding.github.io/blog/win11-activate-nvidia-mx450-gpu-locally/","path":"win11-activate-nvidia-mx450-gpu-locally/","title":"Win11 本地端啟動 NVIDIA MX450 GPU 的詳細步驟"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Win11 本地端啟動 NVIDIA MX450 GPU 的詳細步驟 | StellaCoding</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EG0CKC3093"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-EG0CKC3093","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/blog/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/blog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/blog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">StellaCoding</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">I am at point A.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/blog/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/blog/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/blog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%A2%BA%E8%AA%8D%E5%9F%BA%E6%9C%AC%E8%BB%9F%E7%A1%AC%E9%AB%94"><span class="nav-number">1.</span> <span class="nav-text">確認基本軟硬體</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A2%BA%E8%AA%8D%E9%A1%AF%E5%8D%A1"><span class="nav-number">1.1.</span> <span class="nav-text">確認顯卡</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A2%BA%E8%AA%8D-Windows-%E7%89%88%E6%9C%AC"><span class="nav-number">1.2.</span> <span class="nav-text">確認 Windows 版本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A2%BA%E8%AA%8D%E9%A1%AF%E5%8D%A1%E6%94%AF%E6%8F%B4-CUDA"><span class="nav-number">1.3.</span> <span class="nav-text">確認顯卡支援 CUDA</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D-CUDA-%E5%92%8C-cuDNN"><span class="nav-number">2.</span> <span class="nav-text">安裝 CUDA 和 cuDNN</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D-NVIDIA-%E6%8E%A7%E5%88%B6%E9%9D%A2%E6%9D%BF"><span class="nav-number">2.1.</span> <span class="nav-text">安裝 NVIDIA 控制面板</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CUDA-%E6%9C%80%E9%AB%98%E6%94%AF%E6%8F%B4%E7%89%88%E6%9C%AC"><span class="nav-number">2.1.1.</span> <span class="nav-text">CUDA 最高支援版本</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D-NVIDIA-%E9%A9%85%E5%8B%95%E7%A8%8B%E5%BC%8F"><span class="nav-number">2.2.</span> <span class="nav-text">安裝 NVIDIA 驅動程式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A2%BA%E8%AA%8D%E9%A9%85%E5%8B%95%E7%A8%8B%E5%BC%8F%E7%89%88%E6%9C%AC"><span class="nav-number">2.2.1.</span> <span class="nav-text">確認驅動程式版本</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D-CUDA"><span class="nav-number">2.3.</span> <span class="nav-text">安裝 CUDA</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D-cuDNN"><span class="nav-number">2.4.</span> <span class="nav-text">安裝 cuDNN</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AA%A2%E6%9F%A5%E6%98%AF%E5%90%A6%E5%AE%89%E8%A3%9D%E6%88%90%E5%8A%9F"><span class="nav-number">2.5.</span> <span class="nav-text">檢查是否安裝成功</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A9%97%E8%AD%89-TensorFlow-%E5%8F%AF%E7%94%A8-GPU"><span class="nav-number">3.</span> <span class="nav-text">驗證 TensorFlow 可用 GPU</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#conda-%E5%BB%BA%E7%AB%8B%E8%99%9B%E6%93%AC%E7%92%B0%E5%A2%83"><span class="nav-number">3.1.</span> <span class="nav-text">conda 建立虛擬環境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D-TensorFlow"><span class="nav-number">3.2.</span> <span class="nav-text">安裝 TensorFlow</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%95%9F%E5%8B%95-Python"><span class="nav-number">3.3.</span> <span class="nav-text">啟動 Python</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-Jupyer-Notebook"><span class="nav-number">3.4.</span> <span class="nav-text">使用 Jupyer Notebook</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A9%97%E8%AD%89-Pytorch-%E5%8F%AF%E7%94%A8-GPU"><span class="nav-number">4.</span> <span class="nav-text">驗證 Pytorch 可用 GPU</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#conda-%E5%BB%BA%E7%AB%8B%E8%99%9B%E6%93%AC%E7%92%B0%E5%A2%83-v2"><span class="nav-number">4.1.</span> <span class="nav-text">conda 建立虛擬環境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D-Pytorch"><span class="nav-number">4.2.</span> <span class="nav-text">安裝 Pytorch</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%95%9F%E5%8B%95-Python-v2"><span class="nav-number">4.3.</span> <span class="nav-text">啟動 Python</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-Jupyer-Notebook-v2"><span class="nav-number">4.4.</span> <span class="nav-text">使用 Jupyer Notebook</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B0%8F%E7%B5%90"><span class="nav-number">5.</span> <span class="nav-text">小結</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Stella"
+      src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+  <p class="site-author-name" itemprop="name">Stella</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/blog/archives/">
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/blog/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/blog/tags/">
+        <span class="site-state-item-count">33</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/estellacoding" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;estellacoding" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.instagram.com/stellacoding/" title="Instagram → https:&#x2F;&#x2F;www.instagram.com&#x2F;stellacoding&#x2F;" rel="noopener me" target="_blank"><i class="fab fa-instagram fa-fw"></i>Instagram</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://estellacoding.github.io/blog/win11-activate-nvidia-mx450-gpu-locally/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+      <meta itemprop="name" content="Stella">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StellaCoding">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Win11 本地端啟動 NVIDIA MX450 GPU 的詳細步驟 | StellaCoding">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Win11 本地端啟動 NVIDIA MX450 GPU 的詳細步驟
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2024-07-01 11:11:11" itemprop="dateCreated datePublished" datetime="2024-07-01T11:11:11+08:00">2024-07-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/GPU/" itemprop="url" rel="index"><span itemprop="name">GPU</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>本文詳細介紹了在 Windows 11 上啟用 NVIDIA MX450 GPU 的步驟，包括確認基本軟硬體、安裝 CUDA 和 cuDNN、驗證 TensorFlow 和 PyTorch 是否可使用 GPU。</p>
+<span id="more"></span>
+<h1 id="確認基本軟硬體"><a class="header-anchor" href="#確認基本軟硬體"></a>確認基本軟硬體</h1>
+<h2 id="確認顯卡"><a class="header-anchor" href="#確認顯卡"></a>確認顯卡</h2>
+<p>Win + R，會出現「執行」對話框。輸入 <code>control /name Microsoft.DeviceManager</code> 可進入裝置管理員，最下方展開顯示卡，就會出現電腦的顯示卡型號。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmx450-gpu%2F1-device-manager-graphics-card.png?alt=media&amp;token=b37c169a-e958-42de-b47b-c01b86cd3772" alt="1-device-manager-graphics-card"></p>
+<h2 id="確認-Windows-版本"><a class="header-anchor" href="#確認-Windows-版本"></a>確認 Windows 版本</h2>
+<p>Win + R，會出現「執行」對話框。輸入 <code>winver</code> 可檢查 Windows 版本。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmx450-gpu%2F2-winver-win-version.png?alt=media&amp;token=de418370-a1d6-4245-9aed-ec73d528c27c" alt="2-winver-win-version"></p>
+<h2 id="確認顯卡支援-CUDA"><a class="header-anchor" href="#確認顯卡支援-CUDA"></a>確認顯卡支援 CUDA</h2>
+<p>因為深度學習的框架，如 TensorFlow 和 PyTorch，都是使用 NVIDIA 的 CUDA 技術來加速運算。因此，需要初步確認電腦上的顯示卡是否支援 CUDA。</p>
+<p>由於我在 <a target="_blank" rel="noopener" href="https://developer.nvidia.com/cuda-gpus">NVIDIA 官方 GPU 支援 CUDA 列表</a> 中並沒有找到 MX450。</p>
+<p>不過經過多方資料的查詢，<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/CUDA#GPUs_supported">wiki CUDA GPUs supported</a> 有看到 MX450，且 NVIDIA 官方 <a target="_blank" rel="noopener" href="https://www.nvidia.com/zh-tw/geforce/gaming-laptops/mx-450/">GeForce MX450</a> 產品介紹，是有寫到支援 NVIDIA GPU Boost。</p>
+<p>初步判斷，MX450 應該有支援 CUDA 吧!(<s>請宇宙給我一個更強大的 GPU 主機讓我玩</s>)，我們就繼續更進一步的安裝驗證來確認是否真的有支援 CUDA!</p>
+<h1 id="安裝-CUDA-和-cuDNN"><a class="header-anchor" href="#安裝-CUDA-和-cuDNN"></a>安裝 CUDA 和 cuDNN</h1>
+<h2 id="安裝-NVIDIA-控制面板"><a class="header-anchor" href="#安裝-NVIDIA-控制面板"></a>安裝 NVIDIA 控制面板</h2>
+<p>先確認電腦有安裝 <a target="_blank" rel="noopener" href="https://apps.microsoft.com/detail/9nf8h0h7wmlt?rtc=1&amp;hl=zh-tw&amp;gl=TW">NVIDIA Control Panel</a>。</p>
+<h3 id="CUDA-最高支援版本"><a class="header-anchor" href="#CUDA-最高支援版本"></a>CUDA 最高支援版本</h3>
+<p>打開 NVIDIA Control Panel，點選左下角「系統資訊」，再點選「元素」，就可看到 CUDA 版本。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmx450-gpu%2F3-nvidia-control-panel-cuda-version.png?alt=media&amp;token=c96f58e1-cd0d-41cc-85a0-d990adefdb80" alt="3-nvidia-control-panel-cuda-version"></p>
+<p>我目前是 NVIDIA CUDA 12.2.147 driver，<mark>但並不是安裝這個版本的 CUDA，而是要根據 <code>tensorflow_gpu-2.10.0</code> 支援的版本安裝相對應的 CUDA 和 cuDNN</mark>。</p>
+<h2 id="安裝-NVIDIA-驅動程式"><a class="header-anchor" href="#安裝-NVIDIA-驅動程式"></a>安裝 NVIDIA 驅動程式</h2>
+<p>安裝 <a target="_blank" rel="noopener" href="https://www.nvidia.com/zh-tw/geforce/drivers/">GeForce Experience</a>。GeForce Experience 會自動偵測電腦的驅動程式版本，並自動下載相對應的驅動程式。(其實可以手動下載驅動程式，但我手動下載發生顯卡不見及<code>nvidia-smi.exe</code>不在原本的該在的位置，所以後來我就還是安裝 GeForce Experience了)。<s>(Win 總是會帶給我很多驚嚇)</s>。</p>
+<p>打開 GeForce Experience，並下載 NVIDIA 驅動程式。這是所有步驟中最耗時的一步。<s>(又想到這過程我因為一直檢查不到 GPU 而來來回回，砍掉重來的血淚QQ)</s><br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmx450-gpu%2F4-geforce-experience-nvidia-driver.png?alt=media&amp;token=59a853bb-e790-4c63-bba7-3e65568edb58" alt="4-geforce-experience-nvidia-driver"></p>
+<h3 id="確認驅動程式版本"><a class="header-anchor" href="#確認驅動程式版本"></a>確認驅動程式版本</h3>
+<p>打開 NVIDIA Control Panel，點選左下角「系統資訊」，再點選「顯示」，就可看到驅動程式版本。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmx450-gpu%2F5-nvidia-control-panel-driver-version.png?alt=media&amp;token=6f3c2068-c506-4117-ac2a-cc8d6035ecf4" alt="5-nvidia-control-panel-driver-version"></p>
+<h2 id="安裝-CUDA"><a class="header-anchor" href="#安裝-CUDA"></a>安裝 CUDA</h2>
+<p>CUDA 安裝版本要非常注意!我一開始誤會要安裝 <a href="">目前電腦的 CUDA 版本 - 12.2</a>，但後來發現當要使用 <code>tensorflow_gpu-2.10.0</code> 時又會一直爆出 CUDA 版本錯誤。所以最好先確認 <code>tensorflow_gpu-2.10.0</code> 支援的 Python、CUDA 和 cuDNN 的版本。</p>
+<table>
+<thead>
+<tr>
+<th>TensorFlow 版本</th>
+<th>Python 版本</th>
+<th>cuDNN</th>
+<th>CUDA 版本</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>tensorflow_gpu-2.10.0</td>
+<td>3.7-3.10</td>
+<td>8.1</td>
+<td>11.2</td>
+</tr>
+</tbody>
+</table>
+<div class="note info"><p>先查詢 <a target="_blank" rel="noopener" href="https://tensorflow.google.cn/install/source_windows?hl=en#gpu">TensorFlow GPU 版本及相關資訊</a></p>
+</div>
+<p>所以我要安裝 CUDA 11.2 版本，前往 <a target="_blank" rel="noopener" href="https://developer.nvidia.com/cuda-11.2.0-download-archive?target_os=Windows&amp;target_arch=x86_64&amp;target_version=10&amp;target_type=exenetwork">CUDA Toolkit 11.2 Downloads</a>，點擊 Windows x86_64 10 network 版本，下載 <code>cuda_11.2.0_win10_network</code> 安裝檔案。</p>
+<p>由於 CUDA 11.2 版本沒有 win 11 可供選擇，所以我也只能選擇 win 10，結果是OK的，我是有成功安裝 CUDA 11.2 版本在 win 11 下~</p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmx450-gpu%2F6-cuda_11.2.0_win10_network.png?alt=media&amp;token=02811d21-ef7b-414e-a81d-7a8765d80861" alt="6-cuda_11.2.0_win10_network"></p>
+<p>安裝好的 CUDA 檔案會放在 <code>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.2</code>。</p>
+<p>NVIDIA 官方安裝流程請看 <a target="_blank" rel="noopener" href="https://docs.nvidia.com/cuda/cuda-installation-guide-microsoft-windows/index.html">CUDA Installation Guide for Microsoft Windows</a>。</p>
+<h2 id="安裝-cuDNN"><a class="header-anchor" href="#安裝-cuDNN"></a>安裝 cuDNN</h2>
+<p>下載 cuDNN 前要先登入 NVIDIA 會員。前往 <a target="_blank" rel="noopener" href="https://developer.nvidia.com/rdp/cudnn-archive">cuDNN Archive</a>，找到cudnn 8.1 版本，「Download cuDNN v8.1.0 (January 26th, 2021), for CUDA 11.0,11.1 and 11.2」，點擊「cuDNN Library for Windows (x86)」，下載 <code>cudnn-11.2-windows-x64-v8.1.0.77</code> zip檔案。</p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmx450-gpu%2F7-cuDNN-v8.1-for-cuda-v11.2-win-x86.png?alt=media&amp;token=00bc37b8-0d56-4912-a32b-c1b924dc22ea" alt="7-cuDNN-v8.1-for-cuda-v11.2-win-x86"></p>
+<ul>
+<li>解壓縮此檔案，將資料夾內容複製至 <code>C:\tools\cuda</code>。</li>
+<li>複製此資料夾中的 <code>bin\cudnn*.dll</code> 到 <code>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.2\bin</code>。</li>
+<li>複製此資料夾中的 <code>include\cudnn*.h</code> 到 <code>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.2\include</code>。</li>
+<li>複製此資料夾中的 <code>lib\x64\cudnn*.lib</code> 到 <code>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.2\lib\x64</code>。</li>
+<li>將以下 CUDA 和 cuDNN 目錄新增至環境變數 PATH。
+<ul>
+<li><code>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.2\bin</code>。</li>
+<li><code>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.2\include</code>。</li>
+<li><code>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.2\extras\CUPTI\lib64</code>。</li>
+<li><code>C:\tools\cuda\bin</code>。</li>
+</ul>
+</li>
+<li>重開機以啟動新的環境變數。</li>
+</ul>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmx450-gpu%2F8-cuda-cudnn-add-to-environment-variable-path.png?alt=media&amp;token=22913db0-40d0-4abb-a1b3-cc0b3a74d166" alt="8-cuda-cudnn-add-to-environment-variable-path"></p>
+<p>NVIDIA 官方安裝流程請看 <a target="_blank" rel="noopener" href="https://docs.nvidia.com/deeplearning/cudnn/latest/installation/windows.html">Installing cuDNN on Windows</a>。</p>
+<p>TensorFlow 官方環境變數說明請看 <a target="_blank" rel="noopener" href="https://www.tensorflow.org/install/gpu?hl=zh-tw#windows_setup">TensorFlow Windows 設定環境變數</a>。</p>
+<h2 id="檢查是否安裝成功"><a class="header-anchor" href="#檢查是否安裝成功"></a>檢查是否安裝成功</h2>
+<p><code>nvcc -V</code> 查看 CUDA 版本 和 <code>nvidia-smi</code> 查看 GPU 狀態。</p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmx450-gpu%2F9-nvcc-nvidia-smi.png?alt=media&amp;token=edd433a1-d26f-469a-8afe-094e99ff0044" alt="9-nvcc-nvidia-smi"></p>
+<h1 id="驗證-TensorFlow-可用-GPU"><a class="header-anchor" href="#驗證-TensorFlow-可用-GPU"></a>驗證 TensorFlow 可用 GPU</h1>
+<h2 id="conda-建立虛擬環境"><a class="header-anchor" href="#conda-建立虛擬環境"></a>conda 建立虛擬環境</h2>
+<p>下載並安裝 <a target="_blank" rel="noopener" href="https://www.anaconda.com/download">Anaconda</a>。</p>
+<p>打開 Anaconda Prompt，Anaconda Prompt 就是 Anaconda 版的 CMD 命令提示窗。</p>
+<p>建立並啟動一個名稱為 tf-env 的虛擬環境，並指定 python 版本為 3.9。</p>
+<figure class="highlight mel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">conda create -n tf-<span class="keyword">env</span> <span class="keyword">python</span>=<span class="number">3.9</span></span><br><span class="line">(base) C:\Users\stella.dai&gt;conda activate tf-<span class="keyword">env</span></span><br><span class="line">(tf-<span class="keyword">env</span>) C:\Users\stella.dai&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="安裝-TensorFlow"><a class="header-anchor" href="#安裝-TensorFlow"></a>安裝 TensorFlow</h2>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">pip</span> install tensorflow-gpu==<span class="number">2</span>.<span class="number">10</span>.<span class="number">0</span></span><br></pre></td></tr></table></figure>
+<h2 id="啟動-Python"><a class="header-anchor" href="#啟動-Python"></a>啟動 Python</h2>
+<p>一行一行輸入以下指令。</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">python</span></span><br><span class="line">import tensorflow <span class="keyword">as</span> <span class="keyword">tf</span></span><br><span class="line"><span class="keyword">tf</span>.config.list_physical_devices(<span class="string">&#x27;GPU&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmx450-gpu%2F10-tensorflow-config-list-physical-devices.png?alt=media&amp;token=2fdcc098-ef5d-484a-90d6-2a3e81e863af" alt="10-tensorflow-config-list-physical-devices"></p>
+<h2 id="使用-Jupyer-Notebook"><a class="header-anchor" href="#使用-Jupyer-Notebook"></a>使用 Jupyer Notebook</h2>
+<p>安装 Jupyter Notebook。</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda <span class="keyword">install</span> jupyter</span><br></pre></td></tr></table></figure>
+<p>安裝 ipykernel，並將虛擬環境 tf-env 配置給 Jupyter Notebook 中名稱為 tf-env 的 Kernel。</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">conda install ipykernel</span><br><span class="line">python -m ipykernel install --<span class="keyword">user</span> <span class="title">--name</span> tf-env --display-name <span class="string">&quot;tf-env&quot;</span></span><br></pre></td></tr></table></figure>
+<p>啟動 Jupyter Notebook。</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">jupyter notebook</span></span><br></pre></td></tr></table></figure>
+<p>開啟一個新的瀏覽器網頁，進入任一資料夾，點選右上角的「New」按鈕，並從選單中選擇 Kernel <code>tf-env</code>。即可在新建立 Notebook 中輸入程式碼，並能將程式碼分割到不同的 cell 中查看執行結果。</p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmx450-gpu%2F11-tensorflow-device-lib-list-local-devices.png?alt=media&amp;token=3491c3df-72ec-4744-bf7d-10df9b7ed42f" alt="11-tensorflow-device-lib-list-local-devices"></p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">from tensorflow<span class="selector-class">.python</span><span class="selector-class">.client</span> import device_lib</span><br><span class="line"><span class="function"><span class="title">print</span><span class="params">(device_lib.list_local_devices()</span></span>)</span><br></pre></td></tr></table></figure>
+<p>有列出 GPU 設備，表示目前虛擬環境中能讓 TensorFlow 使用 GPU 進行運算。</p>
+<ul>
+<li><code>/device:CPU:0</code>: 表示找到一個 CPU 裝置。</li>
+<li><code>/device:GPU:0</code>: 表示找到一個 GPU 設備，名稱為 NVIDIA GeForce MX450。</li>
+</ul>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">[name: <span class="string">&quot;/device:CPU:0&quot;</span></span><br><span class="line"><span class="symbol">device_type:</span> <span class="string">&quot;CPU&quot;</span></span><br><span class="line"><span class="symbol">memory_limit:</span> <span class="number">268435456</span></span><br><span class="line"><span class="title class_">locality</span> <span class="punctuation">&#123;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br><span class="line"><span class="symbol">incarnation:</span> <span class="number">4306435837471063751</span></span><br><span class="line"><span class="symbol">xla_global_id:</span> <span class="number">-1</span></span><br><span class="line">, name: <span class="string">&quot;/device:GPU:0&quot;</span></span><br><span class="line"><span class="symbol">device_type:</span> <span class="string">&quot;GPU&quot;</span></span><br><span class="line"><span class="symbol">memory_limit:</span> <span class="number">1293385524</span></span><br><span class="line"><span class="title class_">locality</span> <span class="punctuation">&#123;</span></span><br><span class="line"><span class="symbol">  bus_id:</span> <span class="number">1</span></span><br><span class="line">  <span class="title class_">links</span> <span class="punctuation">&#123;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br><span class="line"><span class="symbol">incarnation:</span> <span class="number">13913348171336601457</span></span><br><span class="line"><span class="symbol">physical_device_desc:</span> <span class="string">&quot;device: 0, name: NVIDIA GeForce MX450, pci bus id: 0000:01:00.0, compute capability: 7.5&quot;</span></span><br><span class="line"><span class="symbol">xla_global_id:</span> <span class="number">416903419</span></span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<h1 id="驗證-Pytorch-可用-GPU"><a class="header-anchor" href="#驗證-Pytorch-可用-GPU"></a>驗證 Pytorch 可用 GPU</h1>
+<h2 id="conda-建立虛擬環境-v2"><a class="header-anchor" href="#conda-建立虛擬環境-v2"></a>conda 建立虛擬環境</h2>
+<p>打開 Anaconda Prompt。<br>
+建立並啟動一個名稱為 torch-env 的虛擬環境，並指定 python 版本為 3.9。</p>
+<figure class="highlight mel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">conda create -n torch-<span class="keyword">env</span> <span class="keyword">python</span>=<span class="number">3.9</span></span><br><span class="line">(base) C:\Users\stella.dai&gt;conda activate torch-<span class="keyword">env</span></span><br><span class="line">(torch-<span class="keyword">env</span>) C:\Users\stella.dai&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="安裝-Pytorch"><a class="header-anchor" href="#安裝-Pytorch"></a>安裝 Pytorch</h2>
+<p>PyTorch 的<a target="_blank" rel="noopener" href="https://pytorch.org/">官方網站</a> 取得最新的不同作業系統、Python 版本和 CUDA 版本的安裝指令。</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">conda</span> install pytorch torchvision torchaudio pytorch-cuda=<span class="number">11</span>.<span class="number">8</span> -c pytorch -c nvidia</span><br></pre></td></tr></table></figure>
+<h2 id="啟動-Python-v2"><a class="header-anchor" href="#啟動-Python-v2"></a>啟動 Python</h2>
+<p>一行一行輸入以下指令。</p>
+<figure class="highlight ceylon"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">python</span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line">torch.cuda.<span class="keyword">is</span><span class="number">_</span>available()</span><br></pre></td></tr></table></figure>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmx450-gpu%2F12-torch-cuda-is-available.png?alt=media&amp;token=894d5b60-036d-44e2-bb54-b54313c93eb5" alt="12-torch-cuda-is-available.png"></p>
+<h2 id="使用-Jupyer-Notebook-v2"><a class="header-anchor" href="#使用-Jupyer-Notebook-v2"></a>使用 Jupyer Notebook</h2>
+<p>安装 Jupyter Notebook。</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda <span class="keyword">install</span> jupyter</span><br></pre></td></tr></table></figure>
+<p>安裝 ipykernel，並將虛擬環境 torch-env 配置給 Jupyter Notebook 中名稱為 torch-env 的 Kernel。</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">conda install ipykernel</span><br><span class="line">python -m ipykernel install --<span class="keyword">user</span> <span class="title">--name</span> torch-env --display-name <span class="string">&quot;torch-env&quot;</span></span><br></pre></td></tr></table></figure>
+<p>啟動 Jupyter Notebook。</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">jupyter notebook</span></span><br></pre></td></tr></table></figure>
+<p>開啟一個新的瀏覽器網頁，進入任一資料夾，點選右上角的「New」按鈕，並從選單中選擇 Kernel <code>torch-env</code>。</p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmx450-gpu%2F13-torch-cuda-is-available.png?alt=media&amp;token=372a098e-f226-4676-ae8f-d964afa39d0d" alt="13-torch-cuda-is-available"></p>
+<figure class="highlight ceylon"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line">torch.cuda.<span class="keyword">is</span><span class="number">_</span>available()</span><br></pre></td></tr></table></figure>
+<p>True 表示目前虛擬環境中能讓 Pytorch 使用 GPU 進行運算。</p>
+<figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="literal">True</span></span><br></pre></td></tr></table></figure>
+<h1 id="小結"><a class="header-anchor" href="#小結"></a>小結</h1>
+<p>分享我砍掉重來超過10幾次的小提醒:</p>
+<ul>
+<li>TensorFlow 和 Pytorch 的虛擬環境分開。<br>
+TensorFlow 和 Pytorch 不要共用虛擬環境，不然 TensorFlow 會一直偵測不到 GPU。Pytorch 用 CUDA 12, 11.8 都很容易偵測到 GPU，但 TensorFlow 用官方推薦的 CUDA 版本後才成功。</li>
+<li>顯卡不見重裝 NVIDIA 驅動就會回來。<br>
+電腦被我玩到顯卡不見XD，但好險重新安裝 NVIDIA 驅動，就又會顯示在「裝置管理員的顯示卡」及「工作管理員的效能」上面了。</li>
+<li><code>nvidia-smi.exe</code> 也可能被安裝在 <code>C:\Windows\System32</code>。<br>
+原本 <code>nvidia-smi.exe</code> 應該是被自動安裝在 <code>C:\Program Files\NVIDIA Corporation\NVSMI</code>，但可能也是被我玩壞了，找了一堆資料都說如果沒有 NVSMI，可能是驅動沒裝或沒更新或沒裝好，所以我只好反復解除安裝、重新安裝，但都還是沒有這個資料夾 NVSMI 了QQ，但好在我終於在 <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/57100015/how-do-i-run-nvidia-smi-on-windows">這篇</a> 裡看到有人分享 <code>nvidia-smi.exe</code> 也會出現在 <code>C:\Windows\System32</code>。再把 <code>C:\Windows\System32</code> 加入環境變數 PATH 中，就又可以使用 <code>nvidia-smi</code> 這個指令了。</li>
+</ul>
+<p>其他參考資料請看:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://medium.com/@pearl3904/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92-autokeras%E7%92%B0%E5%A2%83%E5%AE%89%E8%A3%9D%E5%AF%A6%E4%BD%9C-gpu%E7%89%88%E6%9C%AC-4ba021e28bb6">【機器學習】AutoKeras環境安裝實作-GPU版本</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_44109827/article/details/124524256">Pytorch-gpu安装（CUDA11.1 + MX450 + Win10）</a></li>
+<li><a target="_blank" rel="noopener" href="https://hackmd.io/@jerrychu/S1QvFG98h">在Win10/11 建立Tensorflow GPU訓練環境20230605</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/blog/tags/Deep-Learning/" rel="tag"># Deep Learning</a>
+              <a href="/blog/tags/NVIDIA/" rel="tag"># NVIDIA</a>
+              <a href="/blog/tags/MX450/" rel="tag"># MX450</a>
+              <a href="/blog/tags/GPU/" rel="tag"># GPU</a>
+              <a href="/blog/tags/CUDA/" rel="tag"># CUDA</a>
+              <a href="/blog/tags/cuDNN/" rel="tag"># cuDNN</a>
+              <a href="/blog/tags/Tensorflow/" rel="tag"># Tensorflow</a>
+              <a href="/blog/tags/Pytorch/" rel="tag"># Pytorch</a>
+              <a href="/blog/tags/Anaconda/" rel="tag"># Anaconda</a>
+              <a href="/blog/tags/Jupyter-Notebook/" rel="tag"># Jupyter Notebook</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/blog/automl-dl-introduction/" rel="prev" title="【AutoML】自動化機器學習 - 深度學習介紹">
+                  <i class="fa fa-angle-left"></i> 【AutoML】自動化機器學習 - 深度學習介紹
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Stella</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/blog/js/comments.js"></script><script src="/blog/js/utils.js"></script><script src="/blog/js/motion.js"></script><script src="/blog/js/sidebar.js"></script><script src="/blog/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js","integrity":"sha256-stuqcu2FrjYCXDOytWFA5SoUE/r3nkp6gTglzNSlavU="}}</script>
+  <script src="/blog/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"ams","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/blog/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
