@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://estellacoding.github.io/blog/autokeras-mnist/</loc>
+    
+    <lastmod>2024-07-01</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://estellacoding.github.io/blog/automl-introduction/</loc>
     
     <lastmod>2024-07-01</lastmod>
@@ -12,15 +21,6 @@
   
   <url>
     <loc>https://estellacoding.github.io/blog/win11-activate-nvidia-mx450-gpu-locally/</loc>
-    
-    <lastmod>2024-07-01</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/autokeras-mnist/</loc>
     
     <lastmod>2024-07-01</lastmod>
     
@@ -182,7 +182,49 @@
 
   
   <url>
+    <loc>https://estellacoding.github.io/blog/tags/AutoML/</loc>
+    <lastmod>2024-07-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/AutoKeras/</loc>
+    <lastmod>2024-07-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/Machine-Learning/</loc>
+    <lastmod>2024-07-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/Deep-Learning/</loc>
+    <lastmod>2024-07-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/MNIST/</loc>
+    <lastmod>2024-07-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://estellacoding.github.io/blog/tags/Hexo/</loc>
+    <lastmod>2024-07-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/Theme/</loc>
     <lastmod>2024-07-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -203,49 +245,7 @@
   </url>
   
   <url>
-    <loc>https://estellacoding.github.io/blog/tags/Theme/</loc>
-    <lastmod>2024-07-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/GitHub/</loc>
-    <lastmod>2024-07-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/Markdown/</loc>
-    <lastmod>2024-07-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/GitHub-Pages/</loc>
-    <lastmod>2024-07-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/Machine-Learning/</loc>
-    <lastmod>2024-07-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/AutoML/</loc>
-    <lastmod>2024-07-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/Deep-Learning/</loc>
+    <loc>https://estellacoding.github.io/blog/tags/Classification/</loc>
     <lastmod>2024-07-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -287,7 +287,21 @@
   </url>
   
   <url>
-    <loc>https://estellacoding.github.io/blog/tags/Classification/</loc>
+    <loc>https://estellacoding.github.io/blog/tags/Markdown/</loc>
+    <lastmod>2024-07-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/GitHub/</loc>
+    <lastmod>2024-07-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/GitHub-Pages/</loc>
     <lastmod>2024-07-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -412,21 +426,14 @@
     <priority>0.2</priority>
   </url>
   
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/AutoKeras/</loc>
-    <lastmod>2024-07-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/MNIST/</loc>
-    <lastmod>2024-07-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
 
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/categories/AutoML/</loc>
+    <lastmod>2024-07-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
   
   <url>
     <loc>https://estellacoding.github.io/blog/categories/Hexo/</loc>
@@ -437,13 +444,6 @@
   
   <url>
     <loc>https://estellacoding.github.io/blog/categories/Machine-Learning/</loc>
-    <lastmod>2024-07-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/categories/AutoML/</loc>
     <lastmod>2024-07-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

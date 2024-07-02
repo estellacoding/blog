@@ -797,6 +797,10 @@ pre code {
     transform: translate(1pt, -2pt) rotate(-1deg);
   }
 }
+.mermaid {
+  margin-bottom: 20px;
+  text-align: center;
+}
 .post-body .note {
   border-radius: 3px;
   margin-bottom: 20px;
@@ -1325,7 +1329,7 @@ pre code {
     vertical-align: middle;
   }
   .links-of-author a::before {
-    background: #ffe038;
+    background: #938b62;
     display: inline-block;
     margin-right: 3px;
     transform: translateY(-2px);
@@ -2451,6 +2455,14 @@ ul.breadcrumb li:last-child {
   border-bottom-color: #111;
   color: #111;
 }
+.gt-header a,
+.gt-comments a,
+.gt-popup a {
+  border-bottom: 0;
+}
+.gt-container .gt-popup .gt-action.is--active::before {
+  top: 0.7em;
+}
 mark.search-keyword {
   background: transparent;
   border-bottom: 1px dashed #ff2a2a;
@@ -2807,7 +2819,7 @@ header.header {
 }
 .fact {
   padding: 1px 0px 0px 20px; /*上右下左*/
-  background-color: #f5f0fa;
-  border-left: 4px solid #6f42c1;
-  color: #6f42c1;
+  background-color: #eef7fa;
+  border-left: 4px solid #428bca;
+  color: #428bca;
 }
