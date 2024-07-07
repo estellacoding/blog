@@ -19,23 +19,33 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"estellacoding.github.io","root":"/blog/","images":"/blog/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/blog/js/config.js"></script>
 
-    <meta property="og:type" content="website">
-<meta property="og:title" content="StellaCoding">
-<meta property="og:url" content="https://estellacoding.github.io/blog/categories/AutoML/index.html">
+    <meta name="description" content="若在部署 Hexo 時，出現無法打開「fsevents.node」的錯誤，可以試著用以下方式解決。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="部署 Hexo 時無法打開「fsevents.node」">
+<meta property="og:url" content="https://estellacoding.github.io/blog/fsevents-node-issue/index.html">
 <meta property="og:site_name" content="StellaCoding">
+<meta property="og:description" content="若在部署 Hexo 時，出現無法打開「fsevents.node」的錯誤，可以試著用以下方式解決。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Ffsevents-node-issue%2Ffsevents-node-issue.png?alt=media&amp;token=8a1e8256-044a-4559-a27d-974e7a53f32f">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Ffsevents-node-issue%2Fpackage-json-fsevents-version.png?alt=media&amp;token=d8bf1951-241e-4a60-a6e7-21b875ecd64e">
+<meta property="article:published_time" content="2024-07-07T03:11:11.000Z">
+<meta property="article:modified_time" content="2024-07-07T03:11:11.000Z">
 <meta property="article:author" content="Stella">
+<meta property="article:tag" content="Hexo">
+<meta property="article:tag" content="Tutorial">
+<meta property="article:tag" content="fsevents">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Ffsevents-node-issue%2Ffsevents-node-issue.png?alt=media&amp;token=8a1e8256-044a-4559-a27d-974e7a53f32f">
 
 
-<link rel="canonical" href="https://estellacoding.github.io/blog/categories/AutoML/">
+<link rel="canonical" href="https://estellacoding.github.io/blog/fsevents-node-issue/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":false,"lang":"en","comments":"","permalink":"","path":"categories/AutoML/index.html","title":""}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://estellacoding.github.io/blog/fsevents-node-issue/","path":"fsevents-node-issue/","title":"部署 Hexo 時無法打開「fsevents.node」"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Category: AutoML | StellaCoding</title>
+<title>部署 Hexo 時無法打開「fsevents.node」 | StellaCoding</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-EG0CKC3093"></script>
   <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-EG0CKC3093","only_pageview":false,"measure_protocol_api_secret":null}</script>
@@ -98,7 +108,7 @@
   
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           Table of Contents
@@ -111,6 +121,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%A2%BA%E8%AA%8D-fsevents-%E7%89%88%E6%9C%AC"><span class="nav-number">1.</span> <span class="nav-text">確認 fsevents 版本</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%B7%E5%88%B6%E9%87%8D%E6%96%B0%E5%AE%89%E8%A3%9D-fsevents"><span class="nav-number">2.</span> <span class="nav-text">強制重新安裝 fsevents</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B8%85%E7%90%86%E5%92%8C%E9%87%8D%E5%BB%BA%E9%A0%85%E7%9B%AE"><span class="nav-number">3.</span> <span class="nav-text">清理和重建項目</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -160,91 +171,111 @@
 
     </div>
 
-    <div class="main-inner category posts-collapse">
+    <div class="main-inner post posts-expand">
 
 
   
+
+
+<div class="post-block">
   
   
-  <div class="post-block">
-    <div class="post-content">
-      <div class="collection-title">
-        <h1 class="collection-header">AutoML
-          <small>Category</small>
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://estellacoding.github.io/blog/fsevents-node-issue/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+      <meta itemprop="name" content="Stella">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StellaCoding">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="部署 Hexo 時無法打開「fsevents.node」 | StellaCoding">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          部署 Hexo 時無法打開「fsevents.node」
         </h1>
-      </div>
 
-      
-    <div class="collection-year">
-      <span class="collection-header">2024</span>
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2024-07-07 11:11:11" itemprop="dateCreated datePublished" datetime="2024-07-07T11:11:11+08:00">2024-07-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/Hexo/" itemprop="url" rel="index"><span itemprop="name">Hexo</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>若在部署 Hexo 時，出現無法打開「fsevents.node」的錯誤，可以試著用以下方式解決。</p>
+<span id="more"></span>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Ffsevents-node-issue%2Ffsevents-node-issue.png?alt=media&amp;token=8a1e8256-044a-4559-a27d-974e7a53f32f" alt="fsevents.node"></p>
+<h1 id="確認-fsevents-版本"><a class="header-anchor" href="#確認-fsevents-版本"></a>確認 fsevents 版本</h1>
+<p>確認 fsevents 在 package.json 中的版本，打開您的 package.json 檔，查看 fsevents 的版本。我的 <code>fsevents</code> 版本為 2.3.3，通常支持 Node.js 10.x 至 14.x。</p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Ffsevents-node-issue%2Fpackage-json-fsevents-version.png?alt=media&amp;token=d8bf1951-241e-4a60-a6e7-21b875ecd64e" alt="fsevents-version-package-json"></p>
+<h1 id="強制重新安裝-fsevents"><a class="header-anchor" href="#強制重新安裝-fsevents"></a>強制重新安裝 fsevents</h1>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">npm</span> install fsevents@<span class="number">2</span>.<span class="number">3</span>.<span class="number">3</span> --force --save-dev</span><br></pre></td></tr></table></figure>
+<h1 id="清理和重建項目"><a class="header-anchor" href="#清理和重建項目"></a>清理和重建項目</h1>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br><span class="line"><span class="built_in">rm</span> -rf node_modules</span><br><span class="line">npm install</span><br></pre></td></tr></table></figure>
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2024-07-01T11:11:11+08:00"
-              content="2024-07-01">
-          07-01
-        </time>
-      </div>
+    
+    
+    
 
-      <div class="post-title">
-          <a class="post-title-link" href="/blog/autokeras-mnist/" itemprop="url">
-            <span itemprop="name">AutoKeras 訓練 MNIST 的圖像分類器和迴歸器</span>
-          </a>
-      </div>
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/blog/tags/Hexo/" rel="tag"># Hexo</a>
+              <a href="/blog/tags/Tutorial/" rel="tag"># Tutorial</a>
+              <a href="/blog/tags/fsevents/" rel="tag"># fsevents</a>
+          </div>
 
-      
-    </header>
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/blog/autokeras-mnist/" rel="prev" title="AutoKeras 訓練 MNIST 的圖像分類器和迴歸器">
+                  <i class="fa fa-angle-left"></i> AutoKeras 訓練 MNIST 的圖像分類器和迴歸器
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
   </article>
+</div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2024-06-26T11:11:11+08:00"
-              content="2024-06-26">
-          06-26
-        </time>
-      </div>
 
-      <div class="post-title">
-          <a class="post-title-link" href="/blog/automl-dl-introduction/" itemprop="url">
-            <span itemprop="name">【AutoML】自動化機器學習 - 深度學習介紹</span>
-          </a>
-      </div>
 
-      
-    </header>
-  </article>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2024-06-18T11:11:11+08:00"
-              content="2024-06-18">
-          06-18
-        </time>
-      </div>
 
-      <div class="post-title">
-          <a class="post-title-link" href="/blog/automl-introduction/" itemprop="url">
-            <span itemprop="name">【AutoML】自動化機器學習 - AutoML入門</span>
-          </a>
-      </div>
 
-      
-    </header>
-  </article>
-
-    </div>
-  </div>
-  
-  
-  
-
+    <div class="comments gitalk-container"></div>
 </div>
   </main>
 
@@ -308,7 +339,7 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
 
-<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"estellacoding","repo":"blog","client_id":"Ov23liBnWPuObZGktbAv","client_secret":"9ed6e261cd75af620744058daafa56b80a53ffa8","admin_user":"estellacoding","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":null,"labels":"gitalk","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"cab24c7bb7211f7f481f178221bb253a"}</script>
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"estellacoding","repo":"blog","client_id":"Ov23liBnWPuObZGktbAv","client_secret":"9ed6e261cd75af620744058daafa56b80a53ffa8","admin_user":"estellacoding","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":null,"labels":"gitalk","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"acb189a533cb080a45e7dac2b4cb7720"}</script>
 <script src="/blog/js/third-party/comments/gitalk.js"></script>
 
 </body>
