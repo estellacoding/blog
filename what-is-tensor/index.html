@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.2.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="mask-icon" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"estellacoding.github.io","root":"/blog/","images":"/blog/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/blog/js/config.js"></script>
+
+    <meta name="description" content="無論是哪種類型的數據(如數值、文字、圖像、音頻)，在進入機器學習模型之前，這些數據都會經過適當的預處理轉換成數值形式，然後進一步轉換成張量(Tensor)供模型使用。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="什麼是張量(Tensor)?">
+<meta property="og:url" content="https://estellacoding.github.io/blog/what-is-tensor/index.html">
+<meta property="og:site_name" content="StellaCoding">
+<meta property="og:description" content="無論是哪種類型的數據(如數值、文字、圖像、音頻)，在進入機器學習模型之前，這些數據都會經過適當的預處理轉換成數值形式，然後進一步轉換成張量(Tensor)供模型使用。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Ftensor%2Ftensor-scalar.png?alt=media&amp;token=c468a24f-912c-41ec-8d46-3ecec9791d28">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Ftensor%2Ftensor-vector.png?alt=media&amp;token=16917919-0ed2-4064-b735-27371f585c96">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Ftensor%2Ftensor-matrix.png?alt=media&amp;token=d4e2f195-8f84-44b6-bdff-84b40f3dc89a">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Ftensor%2Fhouse.png?alt=media&token=5ea58c2b-5e7d-46d7-af0c-668e0a42b86d">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Ftensor%2Ftensor-3d-1.png?alt=media&amp;token=1244fb03-dc71-4f70-9dc1-4cd429d190c0">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Ftensor%2Ftensor-3d-2.png?alt=media&amp;token=35773696-cd2a-4c9e-9c66-e631fe270285">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Ftensor%2Ftensor-figure.png?alt=media&amp;token=59623cc0-2c67-49c4-9ccf-cd8cd25df167">
+<meta property="article:published_time" content="2024-07-08T03:11:11.000Z">
+<meta property="article:modified_time" content="2024-07-09T03:11:11.000Z">
+<meta property="article:author" content="Stella">
+<meta property="article:tag" content="Machine Learning">
+<meta property="article:tag" content="Deep Learning">
+<meta property="article:tag" content="Tensor">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Ftensor%2Ftensor-scalar.png?alt=media&amp;token=c468a24f-912c-41ec-8d46-3ecec9791d28">
+
+
+<link rel="canonical" href="https://estellacoding.github.io/blog/what-is-tensor/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://estellacoding.github.io/blog/what-is-tensor/","path":"what-is-tensor/","title":"什麼是張量(Tensor)?"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>什麼是張量(Tensor)? | StellaCoding</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EG0CKC3093"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-EG0CKC3093","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/blog/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/blog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/blog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">StellaCoding</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">I am at point A.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/blog/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/blog/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/blog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B4%94%E9%87%8F-Scalar"><span class="nav-number">1.</span> <span class="nav-text">純量(Scalar)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%90%91%E9%87%8F-Vector"><span class="nav-number">2.</span> <span class="nav-text">向量(Vector)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%9F%A9%E9%99%A3-Matrix"><span class="nav-number">3.</span> <span class="nav-text">矩陣(Matrix)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3D-%E5%BC%B5%E9%87%8F-3D-Tensor"><span class="nav-number">4.</span> <span class="nav-text">3D 張量(3D Tensor)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%96%E7%89%87%E5%83%8F%E7%B4%A0%E8%B3%87%E8%A8%8A"><span class="nav-number">4.1.</span> <span class="nav-text">圖片像素資訊</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%96%E7%89%87%E5%83%8F%E7%B4%A0-3D-%E5%9C%96"><span class="nav-number">4.2.</span> <span class="nav-text">圖片像素 3D 圖</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4D-%E5%BC%B5%E9%87%8F-4D-Tensor"><span class="nav-number">5.</span> <span class="nav-text">4D 張量(4D Tensor)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B8%B8%E8%A6%8B-QA"><span class="nav-number">6.</span> <span class="nav-text">常見 QA</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3%E7%B6%AD%E5%90%91%E9%87%8F%E8%B7%9F3D%E5%BC%B5%E9%87%8F%E6%80%8E%E9%BA%BC%E5%8D%80%E5%88%86%EF%BC%9F"><span class="nav-number">6.1.</span> <span class="nav-text">3維向量跟3D張量怎麼區分？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B5%90%E8%AB%96"><span class="nav-number">7.</span> <span class="nav-text">結論</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Stella"
+      src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+  <p class="site-author-name" itemprop="name">Stella</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/blog/archives/">
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/blog/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/blog/tags/">
+        <span class="site-state-item-count">37</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/estellacoding" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;estellacoding" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.instagram.com/stellacoding/" title="Instagram → https:&#x2F;&#x2F;www.instagram.com&#x2F;stellacoding&#x2F;" rel="noopener me" target="_blank"><i class="fab fa-instagram fa-fw"></i>Instagram</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://estellacoding.github.io/blog/what-is-tensor/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+      <meta itemprop="name" content="Stella">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StellaCoding">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="什麼是張量(Tensor)? | StellaCoding">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          什麼是張量(Tensor)?
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2024-07-08 11:11:11" itemprop="dateCreated datePublished" datetime="2024-07-08T11:11:11+08:00">2024-07-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-07-09 11:11:11" itemprop="dateModified" datetime="2024-07-09T11:11:11+08:00">2024-07-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/Machine-Learning/" itemprop="url" rel="index"><span itemprop="name">Machine Learning</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>無論是哪種類型的數據(如數值、文字、圖像、音頻)，在進入機器學習模型之前，這些數據都會經過適當的預處理轉換成數值形式，然後進一步轉換成張量(Tensor)供模型使用。</p>
+<span id="more"></span>
+<p>張量(Tensor)為機器學習框架中處理和運算數據的基本單位。</p>
+<ul>
+<li>張量為多維數組(multidimensional array)，能夠<strong>靈活地表示不同類型和不同維度的數據</strong>，可以表示純量(0D張量)、向量(1D張量)、矩陣(2D張量)及更高維度的數據結構。</li>
+<li>深度學習框架(如 TensorFlow 和 PyTorch)設計用來高效地處理張量。<strong>張量運算可以被分解成許多小的計算單元，這些單元可以在 GPU 上並行執行多個運算任務，加速計算過程</strong>。</li>
+</ul>
+<p>這裡我將用房屋數據來舉例每種張量的概念，以幫助我們更好地理解張量的意思。<s>(不然3d,4d用程式呈現是出現一堆矩陣我看起來跟2d都一樣暈啊)</s></p>
+<h1 id="純量-Scalar"><a class="header-anchor" href="#純量-Scalar"></a>純量(Scalar)</h1>
+<p>純量是 0D 張量，只有單一數值。如一個房屋的價格(美元)。</p>
+<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="comment"># 一個房屋的價格(美元)</span></span><br><span class="line">price = tf.constant(<span class="number">250000</span>)  </span><br><span class="line"><span class="built_in">print</span>(price)</span><br></pre></td></tr></table></figure>
+<figure class="highlight elm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">tf</span>.<span class="type">Tensor</span>(<span class="number">250000</span>, shape=(), d<span class="keyword">type</span>=int32)</span><br></pre></td></tr></table></figure>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Ftensor%2Ftensor-scalar.png?alt=media&amp;token=c468a24f-912c-41ec-8d46-3ecec9791d28" alt="tensor-scalar"></p>
+<h1 id="向量-Vector"><a class="header-anchor" href="#向量-Vector"></a>向量(Vector)</h1>
+<p>向量是 1D 張量，是多個數字構成的 1 維陣列。例如，一個房屋的所有特徵，例如面積(平方英尺)、房間數、價格(美元)。</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">import</span> tensorflow as tf</span><br><span class="line"><span class="comment"># 一個房屋的所有特徵，例如面積(平方英尺)、房間數、價格(美元)。</span></span><br><span class="line"><span class="attribute">house_features</span> = tf.constant([<span class="number">1200</span>, <span class="number">3</span>, <span class="number">250000</span>])</span><br><span class="line"><span class="attribute">print</span>(house_features)</span><br></pre></td></tr></table></figure>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">tf</span>.Tensor([  <span class="number">1200</span>      <span class="number">3</span> <span class="number">250000</span>], shape=(<span class="number">3</span>,), dtype=int32)</span><br></pre></td></tr></table></figure>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Ftensor%2Ftensor-vector.png?alt=media&amp;token=16917919-0ed2-4064-b735-27371f585c96" alt="tensor-vector"></p>
+<h1 id="矩陣-Matrix"><a class="header-anchor" href="#矩陣-Matrix"></a>矩陣(Matrix)</h1>
+<p>矩陣是 2D 張量，是多個向量構成的 2 維陣列。例如，房屋數據集的 3 個樣本。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">import tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="meta"># 房屋數據集的3個樣本，每行代表一個房屋樣本的所有特徵(面積、房間數、價格)。</span></span><br><span class="line">house_table_data = tf.constant([</span><br><span class="line">    <span class="meta"># 第一個房屋樣本</span></span><br><span class="line">    [<span class="meta">1200, 3, 250000</span>],</span><br><span class="line"></span><br><span class="line">    <span class="meta"># 第二個房屋樣本</span></span><br><span class="line">    [<span class="meta">1500, 4, 350000</span>],</span><br><span class="line"></span><br><span class="line">    <span class="meta"># 第三個房屋樣本  </span></span><br><span class="line">    [<span class="meta">900, 2, 200000</span>]</span><br><span class="line">])</span><br><span class="line">print(house_table_data)</span><br></pre></td></tr></table></figure>
+<figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">tf.Tensor(</span><br><span class="line">[[ <span class="number"> 1200 </span>    <span class="number"> 3 </span>250000]</span><br><span class="line"> [ <span class="number"> 1500 </span>    <span class="number"> 4 </span>350000]</span><br><span class="line"> [  <span class="number"> 900 </span>    <span class="number"> 2 </span>200000]], shape=(3, 3), dtype=int32)</span><br></pre></td></tr></table></figure>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Ftensor%2Ftensor-matrix.png?alt=media&amp;token=d4e2f195-8f84-44b6-bdff-84b40f3dc89a" alt="tensor-matrix"></p>
+<h1 id="3D-張量-3D-Tensor"><a class="header-anchor" href="#3D-張量-3D-Tensor"></a>3D 張量(3D Tensor)</h1>
+<div style="display: flex; align-items: center;">
+    <p>3D 張量是多個 2D 矩陣構成的陣列。可以用來表示彩色圖像。例如，一張 16x16 的彩色房屋圖片。</p>
+    <img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Ftensor%2Fhouse.png?alt=media&token=5ea58c2b-5e7d-46d7-af0c-668e0a42b86d" alt="16*16-house" style="margin-left: -10px;">
+</div>
+<h2 id="圖片像素資訊"><a class="header-anchor" href="#圖片像素資訊"></a>圖片像素資訊</h2>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"></span><br><span class="line"><span class="comment"># 載入圖像</span></span><br><span class="line">image_path = <span class="string">&#x27;./house.png&#x27;</span></span><br><span class="line">image = Image.<span class="built_in">open</span>(image_path)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 獲取圖像的寬度和高度</span></span><br><span class="line">width, height = image.size</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;圖像的寬度：<span class="subst">&#123;width&#125;</span> 像素&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;圖像的高度：<span class="subst">&#123;height&#125;</span> 像素&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 將圖像轉換為Numpy數組</span></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">image_array = np.array(image)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;圖像的形狀：<span class="subst">&#123;image_array.shape&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 印出左上角1x1的像素RGB值(X=0, Y=0)</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;左上角1x1的像素RGB值(X=0, Y=0): <span class="subst">&#123;image_array[<span class="number">0</span>, <span class="number">0</span>, :]&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">圖像的寬度：16 像素</span><br><span class="line">圖像的高度：16 像素</span><br><span class="line">圖像的形狀：(16, 16, 4)</span><br><span class="line">左上角1x1的像素RGB值(<span class="attribute">X</span>=0, <span class="attribute">Y</span>=0): [255 255 255   0]</span><br></pre></td></tr></table></figure>
+<p>圖形的形狀為 <code>(16, 16, 4)</code> 的 3D 張量。</p>
+<ul>
+<li><code>16</code> 表示圖像的寬度和高度，即圖像是 <code>16x16</code> 像素。</li>
+<li><code>4</code> 表示圖像的通道數量，即紅色R、綠色G、藍色B 和 Alpha 通道A。</li>
+<li>每個通道都是一個 2D 矩陣:
+<ul>
+<li>每個 2D 矩陣的形狀為 <code>(16, 16)</code>，表示特定顏色通道的像素值矩陣。</li>
+<li>每個像素的顏色值由 4 個通道值(RGBA)組成。</li>
+</ul>
+</li>
+<li>左上角 1x1 的像素RGB值:
+<ul>
+<li>左上角 <code>(0, 0)</code> 像素的 RGB 值是 <code>[255, 255, 255, 0]</code>。</li>
+<li>即紅色、綠色和藍色通道的值都是 <code>255</code>。</li>
+<li>第 4 個值 <code>0</code> 是 Alpha 通道的值，表示透明度。<code>0</code> 表示完全透明，<code>255</code> 表示完全不透明。</li>
+</ul>
+</li>
+</ul>
+<h2 id="圖片像素-3D-圖"><a class="header-anchor" href="#圖片像素-3D-圖"></a>圖片像素 3D 圖</h2>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line"><span class="keyword">from</span> PIL import Image</span><br><span class="line">import plotly.graph_objs as go</span><br><span class="line"><span class="keyword">from</span> plotly.subplots import make_subplots</span><br><span class="line"></span><br><span class="line"><span class="comment"># 準備數據</span></span><br><span class="line">x, y = np.meshgrid(range(width), range(height))</span><br><span class="line">x = x.flatten()</span><br><span class="line">y = y.flatten()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 設置Z值為每個像素的RGB值</span></span><br><span class="line">z_r = image_array[:, :, 0].flatten() # R值</span><br><span class="line">z_g = image_array[:, :, 1].flatten() # G值</span><br><span class="line">z_b = image_array[:, :, 2].flatten() # B值</span><br><span class="line"></span><br><span class="line"><span class="comment"># 將顏色值轉換為plotly可用的格式</span></span><br><span class="line">colors = [<span class="string">&#x27;rgb(&#123;&#125;, &#123;&#125;, &#123;&#125;)&#x27;</span>.format(r, g, b) <span class="keyword">for</span> r, g, b <span class="keyword">in</span> image_array[:, :, :3].reshape(-1, 3)]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 創建3D散點圖</span></span><br><span class="line">fig = make_subplots(<span class="attribute">rows</span>=1, <span class="attribute">cols</span>=3,</span><br><span class="line">                    specs=[[&#123;<span class="string">&#x27;type&#x27;</span>: <span class="string">&#x27;scatter3d&#x27;</span>&#125;, &#123;<span class="string">&#x27;type&#x27;</span>: <span class="string">&#x27;scatter3d&#x27;</span>&#125;, &#123;<span class="string">&#x27;type&#x27;</span>: <span class="string">&#x27;scatter3d&#x27;</span>&#125;]],</span><br><span class="line">                    subplot_titles=(<span class="string">&#x27;Red Channel&#x27;</span>, <span class="string">&#x27;Green Channel&#x27;</span>, <span class="string">&#x27;Blue Channel&#x27;</span>))</span><br><span class="line"></span><br><span class="line">trace_r = go.Scatter3d(</span><br><span class="line">    <span class="attribute">x</span>=x,</span><br><span class="line">    <span class="attribute">y</span>=y,</span><br><span class="line">    <span class="attribute">z</span>=z_r,</span><br><span class="line">    <span class="attribute">mode</span>=<span class="string">&#x27;markers&#x27;</span>,</span><br><span class="line">    <span class="attribute">marker</span>=dict(</span><br><span class="line">        <span class="attribute">size</span>=3,</span><br><span class="line">        <span class="attribute">color</span>=colors,</span><br><span class="line">    )</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">trace_g = go.Scatter3d(</span><br><span class="line">    <span class="attribute">x</span>=x,</span><br><span class="line">    <span class="attribute">y</span>=y,</span><br><span class="line">    <span class="attribute">z</span>=z_g,</span><br><span class="line">    <span class="attribute">mode</span>=<span class="string">&#x27;markers&#x27;</span>,</span><br><span class="line">    <span class="attribute">marker</span>=dict(</span><br><span class="line">        <span class="attribute">size</span>=3,</span><br><span class="line">        <span class="attribute">color</span>=colors,</span><br><span class="line">    )</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">trace_b = go.Scatter3d(</span><br><span class="line">    <span class="attribute">x</span>=x,</span><br><span class="line">    <span class="attribute">y</span>=y,</span><br><span class="line">    <span class="attribute">z</span>=z_b,</span><br><span class="line">    <span class="attribute">mode</span>=<span class="string">&#x27;markers&#x27;</span>,</span><br><span class="line">    <span class="attribute">marker</span>=dict(</span><br><span class="line">        <span class="attribute">size</span>=3,</span><br><span class="line">        <span class="attribute">color</span>=colors,</span><br><span class="line">    )</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">fig.add_trace(trace_r, <span class="attribute">row</span>=1, <span class="attribute">col</span>=1)</span><br><span class="line">fig.add_trace(trace_g, <span class="attribute">row</span>=1, <span class="attribute">col</span>=2)</span><br><span class="line">fig.add_trace(trace_b, <span class="attribute">row</span>=1, <span class="attribute">col</span>=3)</span><br><span class="line"></span><br><span class="line">fig.update_layout(<span class="attribute">height</span>=600, <span class="attribute">width</span>=1800, <span class="attribute">title_text</span>=<span class="string">&quot;圖像像素的3D可視化&quot;</span>)</span><br><span class="line"></span><br><span class="line">fig.show()</span><br></pre></td></tr></table></figure>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Ftensor%2Ftensor-3d-1.png?alt=media&amp;token=1244fb03-dc71-4f70-9dc1-4cd429d190c0" alt="tensor-3d-1"></p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Ftensor%2Ftensor-3d-2.png?alt=media&amp;token=35773696-cd2a-4c9e-9c66-e631fe270285" alt="tensor-3d-2"></p>
+<h1 id="4D-張量-4D-Tensor"><a class="header-anchor" href="#4D-張量-4D-Tensor"></a>4D 張量(4D Tensor)</h1>
+<p>4D 張量是多個 3D 張量構成的陣列。可以用來表示影片。例如，一個 11 幀的房屋影片。</p>
+<div style="text-align: center;">
+    <video width="1920" controls>
+        <source src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Ftensor%2Fhouse.mp4?alt=media&token=298e96a8-1abd-4126-92e5-24af92e1e66b" type="video/mp4">
+    </video>
+</div>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"><span class="keyword">from</span> google.colab.patches <span class="keyword">import</span> cv2_imshow</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment"># 載入影片文件</span></span><br><span class="line">video_path = <span class="string">&#x27;./house.mp4&#x27;</span></span><br><span class="line">cap = cv2.VideoCapture(video_path)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 獲取影片的幀數和幀率</span></span><br><span class="line">frame_count = <span class="built_in">int</span>(cap.get(cv2.CAP_PROP_FRAME_COUNT))</span><br><span class="line">fps = cap.get(cv2.CAP_PROP_FPS)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;影片的幀數：<span class="subst">&#123;frame_count&#125;</span>&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;影片的幀率：<span class="subst">&#123;fps&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 逐幀讀取並處理影片</span></span><br><span class="line">frames = []</span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    ret, frame = cap.read()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> ret:</span><br><span class="line">        <span class="keyword">break</span>  <span class="comment"># 如果影片讀取結束，退出循環</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 將每一幀轉換為NumPy數組並添加到frames列表中</span></span><br><span class="line">    frame_array = np.array(frame)</span><br><span class="line">    frames.append(frame_array)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 按下 q 鍵退出</span></span><br><span class="line">    <span class="keyword">if</span> cv2.waitKey(<span class="number">25</span>) &amp; <span class="number">0xFF</span> == <span class="built_in">ord</span>(<span class="string">&#x27;q&#x27;</span>):</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 釋放資源</span></span><br><span class="line">cap.release()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 將frames列表轉換為NumPy數組，可以查看每一幀的具體內容</span></span><br><span class="line"><span class="comment"># 這表示有 11 幅影像，每幅影像的解析度是 1080 像素高 × 1920 像素寬，並且每個像素由 3 個顏色通道（RGB）組成</span></span><br><span class="line">frames_array = np.array(frames)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;影片的形狀：<span class="subst">&#123;frames_array.shape&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">影片的幀數：11</span></span><br><span class="line"><span class="string">影片的幀率：30.0</span></span><br><span class="line"><span class="string">影片的形狀：(11,</span> <span class="number">1080</span><span class="string">,</span> <span class="number">1920</span><span class="string">,</span> <span class="number">3</span><span class="string">)</span></span><br></pre></td></tr></table></figure>
+<p>影片的形狀為 <code>(11, 1080, 1920, 3)</code> 的 4D 張量。</p>
+<ul>
+<li><code>11</code> 表示影片的幀數(frames)。</li>
+<li><code>1080</code> 表示每幀圖像的高度(像素)。</li>
+<li><code>1920</code> 表示每幀圖像的寬度(像素)。</li>
+<li><code>3</code> 表示圖像的通道數量，即紅色R、綠色G、藍色B。</li>
+<li>每幀圖像都是一個 3D 張量。
+<ul>
+<li>每個 3D 張量的形狀為 <code>(1080, 1920, 3)</code>，表示圖像的高度、寬度和顏色通道。</li>
+<li>每個 2D 張量的形狀為 <code>(1080, 1920)</code>，表示特定顏色通道的像素值矩陣。</li>
+<li>每個像素的顏色值由 3 個通道值(RGB)組成。</li>
+</ul>
+</li>
+</ul>
+<h1 id="常見-QA"><a class="header-anchor" href="#常見-QA"></a>常見 QA</h1>
+<h2 id="3維向量跟3D張量怎麼區分？"><a class="header-anchor" href="#3維向量跟3D張量怎麼區分？"></a>3維向量跟3D張量怎麼區分？</h2>
+<figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr"># 3</span>維向量<span class="comment">(3-dimensional vector)</span>，有<span class="number">1</span>個軸<span class="comment">(rank)</span>，軸上有<span class="number">3</span>個元素</span><br><span class="line">vector = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br></pre></td></tr></table></figure>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># <span class="number">3</span>D張量(<span class="number">3</span>D tensor)，有<span class="number">3</span>個軸(rank)，每個軸上可以有不同數量的元素</span><br><span class="line">tensor_3d = <span class="string">[[[1, 2], [3, 4]]</span>, <span class="string">[[5, 6], [7, 8]]</span>, <span class="string">[[9, 10], [11, 12]]</span>]  </span><br></pre></td></tr></table></figure>
+<h1 id="結論"><a class="header-anchor" href="#結論"></a>結論</h1>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Ftensor%2Ftensor-figure.png?alt=media&amp;token=59623cc0-2c67-49c4-9ccf-cd8cd25df167" alt="tensor-figure"></p>
+<div style="margin-top: -15px; font-size: 14px; color: #555; text-align: center; font-style: normal; font-family: 'Arial', sans-serif;">
+    (參考來源: 
+    <a target="_blank" rel="noopener" href="https://medium.com/hunter-cheng/%E6%A9%9F%E4%BD%95%E7%82%BA%E5%BC%B5%E9%87%8F-tensor-%E4%B8%89%E5%88%86%E9%90%98%E5%9C%96%E8%A7%A3%E9%A1%9E%E7%A5%9E%E7%B6%93%E7%B6%B2%E8%B7%AF%E5%9F%BA%E6%9C%AC%E8%B3%87%E6%96%99%E7%B5%90%E6%A7%8B-ab0ccd115aff" style="color: #555; text-decoration: none;">
+        何為張量(Tensor)？三分鐘圖解類神經網路基本資料結構)
+    </a>
+</div>
+<ul>
+<li>0D 張量(純量): 一個單一的數值，例如 <code>1</code>。</li>
+<li>1D 張量(向量): 一維數組，例如 <code>[1, 2, 3, 4]</code>。</li>
+<li>2D 張量(矩陣): 二維數組，例如 <code>[[1, 5], [2, 6], [3, 7], [4, 8]]</code>。</li>
+<li>3D 張量: 三維數組，由多個矩陣組成，例如 <code>[[[1, 5], [2, 6], [3, 7], [4, 8]], ...]</code>。</li>
+<li>4D 張量: 四維數組，由多個 3D 張量組成，例如 <code>(11, 1080, 1920, 3)</code>。</li>
+<li>5D 張量: 五維數組，由多個 4D 張量組成，用於表示更高維度的數據結構。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/blog/tags/Machine-Learning/" rel="tag"># Machine Learning</a>
+              <a href="/blog/tags/Deep-Learning/" rel="tag"># Deep Learning</a>
+              <a href="/blog/tags/Tensor/" rel="tag"># Tensor</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/blog/fsevents-node-issue/" rel="prev" title="部署 Hexo 時無法打開「fsevents.node」">
+                  <i class="fa fa-angle-left"></i> 部署 Hexo 時無法打開「fsevents.node」
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Stella</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/blog/js/comments.js"></script><script src="/blog/js/utils.js"></script><script src="/blog/js/motion.js"></script><script src="/blog/js/sidebar.js"></script><script src="/blog/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js","integrity":"sha256-stuqcu2FrjYCXDOytWFA5SoUE/r3nkp6gTglzNSlavU="}}</script>
+  <script src="/blog/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"ams","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/blog/js/third-party/math/mathjax.js"></script>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"estellacoding","repo":"blog","client_id":"Ov23liBnWPuObZGktbAv","client_secret":"9ed6e261cd75af620744058daafa56b80a53ffa8","admin_user":"estellacoding","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":null,"labels":"gitalk","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"e608333983025b8ed6ca41652449b10b"}</script>
+<script src="/blog/js/third-party/comments/gitalk.js"></script>
+
+</body>
+</html>
