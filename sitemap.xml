@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://estellacoding.github.io/blog/autokeras-data-folder/</loc>
+    
+    <lastmod>2024-07-10</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://estellacoding.github.io/blog/automl-introduction/</loc>
     
     <lastmod>2024-07-09</lastmod>

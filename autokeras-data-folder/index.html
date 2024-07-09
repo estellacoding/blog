@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.2.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="mask-icon" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"estellacoding.github.io","root":"/blog/","images":"/blog/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/blog/js/config.js"></script>
+
+    <meta name="description" content="一般訓練模型時，會將資料集切割成 3 部份，訓練集(train)、驗證集(validation)與測試集(test)。在訓練階段，AutoKeras 會使用訓練集來訓練模型，並使用驗證集來評估訓練表現。當模型訓練完成，我們就會使用測試集做模型的評估。 在本篇中，我們會介紹該如何準備資料集以及資料夾的結構，以便 AutoKeras 能夠正確地讀取數據。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【AutoML】自動化機器學習 - 準備資料集">
+<meta property="og:url" content="https://estellacoding.github.io/blog/autokeras-data-folder/index.html">
+<meta property="og:site_name" content="StellaCoding">
+<meta property="og:description" content="一般訓練模型時，會將資料集切割成 3 部份，訓練集(train)、驗證集(validation)與測試集(test)。在訓練階段，AutoKeras 會使用訓練集來訓練模型，並使用驗證集來評估訓練表現。當模型訓練完成，我們就會使用測試集做模型的評估。 在本篇中，我們會介紹該如何準備資料集以及資料夾的結構，以便 AutoKeras 能夠正確地讀取數據。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-07-10T03:11:11.000Z">
+<meta property="article:modified_time" content="2024-07-10T03:11:11.000Z">
+<meta property="article:author" content="Stella">
+<meta property="article:tag" content="AutoML">
+<meta property="article:tag" content="Machine Learning">
+<meta property="article:tag" content="Deep Learning">
+<meta property="article:tag" content="AutoKeras">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://estellacoding.github.io/blog/autokeras-data-folder/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://estellacoding.github.io/blog/autokeras-data-folder/","path":"autokeras-data-folder/","title":"【AutoML】自動化機器學習 - 準備資料集"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>【AutoML】自動化機器學習 - 準備資料集 | StellaCoding</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EG0CKC3093"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-EG0CKC3093","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/blog/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/blog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/blog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">StellaCoding</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">I am at point A.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/blog/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/blog/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/blog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%8D%E6%8B%86%E5%88%86%E8%A8%93%E7%B7%B4%E5%8F%8A%E6%B8%AC%E8%A9%A6%E8%B3%87%E6%96%99%E9%9B%86"><span class="nav-number">1.</span> <span class="nav-text">不拆分訓練及測試資料集</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B3%87%E6%96%99%E5%A4%BE%E7%B5%90%E6%A7%8B"><span class="nav-number">1.1.</span> <span class="nav-text">資料夾結構</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A8%93%E7%B7%B4%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.2.</span> <span class="nav-text">訓練模型</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8B%86%E5%88%86%E8%A8%93%E7%B7%B4%E5%8F%8A%E6%B8%AC%E8%A9%A6%E8%B3%87%E6%96%99%E9%9B%86"><span class="nav-number">2.</span> <span class="nav-text">拆分訓練及測試資料集</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%96%E5%83%8F%E8%B3%87%E6%96%99%E9%9B%86"><span class="nav-number">2.1.</span> <span class="nav-text">圖像資料集</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A8%93%E7%B7%B4%E8%B3%87%E6%96%99%E9%9B%86"><span class="nav-number">2.1.1.</span> <span class="nav-text">訓練資料集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A9%97%E8%AD%89%E8%B3%87%E6%96%99%E9%9B%86"><span class="nav-number">2.1.2.</span> <span class="nav-text">驗證資料集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B8%AC%E8%A9%A6%E8%B3%87%E6%96%99%E9%9B%86"><span class="nav-number">2.1.3.</span> <span class="nav-text">測試資料集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%87%E5%89%B2%E8%B3%87%E6%96%99%E9%9B%86"><span class="nav-number">2.1.4.</span> <span class="nav-text">切割資料集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A8%93%E7%B7%B4%E6%A8%A1%E5%9E%8B-v2"><span class="nav-number">2.1.5.</span> <span class="nav-text">訓練模型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E5%AD%97%E8%B3%87%E6%96%99%E9%9B%86"><span class="nav-number">2.2.</span> <span class="nav-text">文字資料集</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A8%93%E7%B7%B4%E8%B3%87%E6%96%99%E9%9B%86-v2"><span class="nav-number">2.2.1.</span> <span class="nav-text">訓練資料集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A9%97%E8%AD%89%E8%B3%87%E6%96%99%E9%9B%86-v2"><span class="nav-number">2.2.2.</span> <span class="nav-text">驗證資料集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B8%AC%E8%A9%A6%E8%B3%87%E6%96%99%E9%9B%86-v2"><span class="nav-number">2.2.3.</span> <span class="nav-text">測試資料集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%87%E5%89%B2%E8%B3%87%E6%96%99%E9%9B%86-v2"><span class="nav-number">2.2.4.</span> <span class="nav-text">切割資料集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A8%93%E7%B7%B4%E6%A8%A1%E5%9E%8B-v3"><span class="nav-number">2.2.5.</span> <span class="nav-text">訓練模型</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Stella"
+      src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+  <p class="site-author-name" itemprop="name">Stella</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/blog/archives/">
+          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/blog/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/blog/tags/">
+        <span class="site-state-item-count">37</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/estellacoding" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;estellacoding" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.instagram.com/stellacoding/" title="Instagram → https:&#x2F;&#x2F;www.instagram.com&#x2F;stellacoding&#x2F;" rel="noopener me" target="_blank"><i class="fab fa-instagram fa-fw"></i>Instagram</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://estellacoding.github.io/blog/autokeras-data-folder/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+      <meta itemprop="name" content="Stella">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StellaCoding">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="【AutoML】自動化機器學習 - 準備資料集 | StellaCoding">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【AutoML】自動化機器學習 - 準備資料集
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2024-07-10 11:11:11" itemprop="dateCreated datePublished" datetime="2024-07-10T11:11:11+08:00">2024-07-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/AutoML/" itemprop="url" rel="index"><span itemprop="name">AutoML</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>一般訓練模型時，會將資料集切割成 3 部份，訓練集(train)、驗證集(validation)與測試集(test)。在訓練階段，AutoKeras 會使用訓練集來訓練模型，並使用驗證集來評估訓練表現。當模型訓練完成，我們就會使用測試集做模型的評估。</p>
+<p>在本篇中，我們會介紹該如何準備資料集以及資料夾的結構，以便 AutoKeras 能夠正確地讀取數據。</p>
+<span id="more"></span>
+<h1 id="不拆分訓練及測試資料集"><a class="header-anchor" href="#不拆分訓練及測試資料集"></a>不拆分訓練及測試資料集</h1>
+<p>原始資料並未區分訓練資料集及測試資料集。</p>
+<h2 id="資料夾結構"><a class="header-anchor" href="#資料夾結構"></a>資料夾結構</h2>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">dataset/</span><br><span class="line">    ├── class_a/</span><br><span class="line">    │   ├── a_text_1<span class="selector-class">.txt</span></span><br><span class="line">    │   ├── a_text_2<span class="selector-class">.txt</span></span><br><span class="line">    ├── class_b/</span><br><span class="line">    │   ├── b_text_1<span class="selector-class">.txt</span></span><br><span class="line">    │   ├── b_text_2<span class="selector-class">.txt</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="訓練模型"><a class="header-anchor" href="#訓練模型"></a>訓練模型</h2>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">import os</span><br><span class="line">import numpy <span class="keyword">as</span> np</span><br><span class="line">from sklearn.model_selection import train_test_split</span><br><span class="line">import tensorflow <span class="keyword">as</span> <span class="keyword">tf</span></span><br><span class="line">import autokeras <span class="keyword">as</span> ak</span><br><span class="line"></span><br><span class="line"># 讀取資料並標記類別</span><br><span class="line">texts = []</span><br><span class="line">labels = []</span><br><span class="line">classes = [<span class="string">&#x27;class_a&#x27;</span>, <span class="string">&#x27;class_b&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> label, class_name in enumerate(classes):</span><br><span class="line">    class_dir = os.path.<span class="keyword">join</span>(<span class="string">&#x27;dataset&#x27;</span>, class_name)</span><br><span class="line">    <span class="keyword">for</span> filename in os.listdir(class_dir):</span><br><span class="line">        <span class="keyword">if</span> filename.endswith(<span class="string">&#x27;.txt&#x27;</span>):</span><br><span class="line">            with <span class="keyword">open</span>(os.path.<span class="keyword">join</span>(class_dir, filename), <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> <span class="keyword">file</span>:</span><br><span class="line">                texts.<span class="keyword">append</span>(<span class="keyword">file</span>.<span class="keyword">read</span>())</span><br><span class="line">                labels.<span class="keyword">append</span>(label)</span><br><span class="line"></span><br><span class="line"># 將資料轉換為 Numpy 陣列</span><br><span class="line">texts = np.array(texts)</span><br><span class="line">labels = np.array(labels)</span><br><span class="line"></span><br><span class="line"># 使用 train_test_split 進行切割</span><br><span class="line">x_train, x_test, y_train, y_test = train_test_split(texts, labels, test_size=<span class="number">0.2</span>, random_state=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"># 將資料轉換為 Tensor</span><br><span class="line">x_train = <span class="keyword">tf</span>.convert_to_tensor(x_train)</span><br><span class="line">y_train = <span class="keyword">tf</span>.convert_to_tensor(y_train)</span><br><span class="line">x_test = <span class="keyword">tf</span>.convert_to_tensor(x_test)</span><br><span class="line">y_test = <span class="keyword">tf</span>.convert_to_tensor(y_test)</span><br><span class="line"></span><br><span class="line"># 使用訓練數據集訓練模型，並分配<span class="number">20</span>%的驗證集</span><br><span class="line"><span class="keyword">reg</span> = ak.TextRegressor(max_trials=<span class="number">1</span>)</span><br><span class="line"><span class="keyword">reg</span>.fit(x_train, y_train, epochs=<span class="number">20</span>, validation_split=<span class="number">0.2</span>)</span><br></pre></td></tr></table></figure>
+<h1 id="拆分訓練及測試資料集"><a class="header-anchor" href="#拆分訓練及測試資料集"></a>拆分訓練及測試資料集</h1>
+<p>原始資料有區分訓練資料集及測試資料集。</p>
+<h2 id="圖像資料集"><a class="header-anchor" href="#圖像資料集"></a>圖像資料集</h2>
+<p>將圖像檔案按照以下結構放在資料夾中。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">dataset/</span><br><span class="line">    ├── train/</span><br><span class="line">    │   ├── class_a/</span><br><span class="line">    │   │   ├── a_image_1<span class="selector-class">.jpg</span></span><br><span class="line">    │   │   ├── a_image_2<span class="selector-class">.jpg</span></span><br><span class="line">    │   ├── class_b/</span><br><span class="line">    │   │   ├── b_image_1<span class="selector-class">.jpg</span></span><br><span class="line">    │   │   ├── b_image_2<span class="selector-class">.jpg</span></span><br><span class="line">    ├── test/</span><br><span class="line">    │   ├── class_a/</span><br><span class="line">    │   │   ├── a_image_1<span class="selector-class">.jpg</span></span><br><span class="line">    │   │   ├── a_image_2<span class="selector-class">.jpg</span></span><br><span class="line">    │   ├── class_b/</span><br><span class="line">    │   │   ├── b_image_1<span class="selector-class">.jpg</span></span><br><span class="line">    │   │   ├── b_image_2.jpg</span><br></pre></td></tr></table></figure>
+<h3 id="訓練資料集"><a class="header-anchor" href="#訓練資料集"></a>訓練資料集</h3>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">import autokeras as ak</span><br><span class="line"></span><br><span class="line">train_dataset = ak.image_dataset_from_directory(</span><br><span class="line">    <span class="attribute">directory</span>=<span class="string">&quot;dataset/train&quot;</span>,</span><br><span class="line">    <span class="attribute">batch_size</span>=32,</span><br><span class="line">    <span class="attribute">color_mode</span>=<span class="string">&quot;rgb&quot;</span>,</span><br><span class="line">    image_size=(256, 256),</span><br><span class="line">    <span class="attribute">interpolation</span>=<span class="string">&quot;bilinear&quot;</span>,</span><br><span class="line">    <span class="attribute">shuffle</span>=<span class="literal">True</span>,</span><br><span class="line">    <span class="attribute">seed</span>=123,</span><br><span class="line">    <span class="attribute">validation_split</span>=0.2,  # 訓練資料中分出 20% 作為驗證資料</span><br><span class="line">    <span class="attribute">subset</span>=<span class="string">&quot;training&quot;</span>,  # 指定這是訓練資料集</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h3 id="驗證資料集"><a class="header-anchor" href="#驗證資料集"></a>驗證資料集</h3>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">validation_dataset = ak.image_dataset_from_directory(</span><br><span class="line">    <span class="attribute">directory</span>=<span class="string">&quot;dataset/train&quot;</span>,</span><br><span class="line">    <span class="attribute">batch_size</span>=32,</span><br><span class="line">    <span class="attribute">color_mode</span>=<span class="string">&quot;rgb&quot;</span>,</span><br><span class="line">    image_size=(256, 256),</span><br><span class="line">    <span class="attribute">interpolation</span>=<span class="string">&quot;bilinear&quot;</span>,</span><br><span class="line">    <span class="attribute">shuffle</span>=<span class="literal">True</span>,</span><br><span class="line">    <span class="attribute">seed</span>=123,</span><br><span class="line">    <span class="attribute">validation_split</span>=0.2,  # 訓練資料中分出 20% 作為驗證資料</span><br><span class="line">    <span class="attribute">subset</span>=<span class="string">&quot;validation&quot;</span>,  # 指定這是驗證資料集</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h3 id="測試資料集"><a class="header-anchor" href="#測試資料集"></a>測試資料集</h3>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">test_dataset = ak.image_dataset_from_directory(</span><br><span class="line">    <span class="attribute">directory</span>=<span class="string">&quot;dataset/test&quot;</span>,</span><br><span class="line">    <span class="attribute">batch_size</span>=32,</span><br><span class="line">    <span class="attribute">color_mode</span>=<span class="string">&quot;rgb&quot;</span>,</span><br><span class="line">    image_size=(256, 256),</span><br><span class="line">    <span class="attribute">interpolation</span>=<span class="string">&quot;bilinear&quot;</span>,</span><br><span class="line">    <span class="attribute">shuffle</span>=<span class="literal">False</span>,  # 測試資料集通常不進行隨機打亂</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h3 id="切割資料集"><a class="header-anchor" href="#切割資料集"></a>切割資料集</h3>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># 將tf<span class="selector-class">.data</span><span class="selector-class">.Dataset</span>轉換為Numpy陣列並轉換為Tensor</span><br><span class="line">def <span class="built_in">dataset_to_tensor</span>(dataset):</span><br><span class="line">    images, labels = [], []</span><br><span class="line">    for image_batch, label_batch in dataset:</span><br><span class="line">        images.<span class="built_in">extend</span>(image_batch.<span class="built_in">numpy</span>())</span><br><span class="line">        labels.<span class="built_in">extend</span>(label_batch.<span class="built_in">numpy</span>())</span><br><span class="line">    return tf.<span class="built_in">convert_to_tensor</span>(np.<span class="built_in">array</span>(images)), tf.<span class="built_in">convert_to_tensor</span>(np.<span class="built_in">array</span>(labels))</span><br><span class="line"></span><br><span class="line">x_train, y_train = <span class="built_in">dataset_to_tensor</span>(train_dataset)</span><br><span class="line">x_val, y_val = <span class="built_in">dataset_to_tensor</span>(validation_dataset)</span><br><span class="line">x_test, y_test = <span class="built_in">dataset_to_tensor</span>(test_dataset)</span><br></pre></td></tr></table></figure>
+<h3 id="訓練模型-v2"><a class="header-anchor" href="#訓練模型-v2"></a>訓練模型</h3>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">reg = ak.ImageRegressor(<span class="attribute">max_trials</span>=1)</span><br><span class="line">reg.fit(x_train, y_train, <span class="attribute">epochs</span>=20, validation_data=(x_val, y_val))</span><br></pre></td></tr></table></figure>
+<h2 id="文字資料集"><a class="header-anchor" href="#文字資料集"></a>文字資料集</h2>
+<p>將文字檔案按照以下結構放在資料夾中。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">dataset/</span><br><span class="line">    ├── train/</span><br><span class="line">    │   ├── class_a/</span><br><span class="line">    │   │   ├── a_text_1<span class="selector-class">.txt</span></span><br><span class="line">    │   │   ├── a_text_2<span class="selector-class">.txt</span></span><br><span class="line">    │   ├── class_b/</span><br><span class="line">    │   │   ├── b_text_1<span class="selector-class">.txt</span></span><br><span class="line">    │   │   ├── b_text_2<span class="selector-class">.txt</span></span><br><span class="line">    ├── test/</span><br><span class="line">    │   ├── class_a/</span><br><span class="line">    │   │   ├── a_text_1<span class="selector-class">.txt</span></span><br><span class="line">    │   │   ├── a_text_2<span class="selector-class">.txt</span></span><br><span class="line">    │   ├── class_b/</span><br><span class="line">    │   │   ├── b_text_1<span class="selector-class">.txt</span></span><br><span class="line">    │   │   ├── b_text_2.txt</span><br></pre></td></tr></table></figure>
+<h3 id="訓練資料集-v2"><a class="header-anchor" href="#訓練資料集-v2"></a>訓練資料集</h3>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">import autokeras as ak</span><br><span class="line"></span><br><span class="line">train_dataset = ak.text_dataset_from_directory(</span><br><span class="line">    <span class="attribute">directory</span>=<span class="string">&quot;dataset/train&quot;</span>,</span><br><span class="line">    <span class="attribute">batch_size</span>=32,</span><br><span class="line">    <span class="attribute">validation_split</span>=0.2,  # 訓練資料中分出 20% 作為驗證資料</span><br><span class="line">    <span class="attribute">subset</span>=<span class="string">&quot;training&quot;</span>,  # 指定這是訓練資料集</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h3 id="驗證資料集-v2"><a class="header-anchor" href="#驗證資料集-v2"></a>驗證資料集</h3>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">validation_dataset = ak.text_dataset_from_directory(</span><br><span class="line">    <span class="attribute">directory</span>=<span class="string">&quot;dataset/train&quot;</span>,</span><br><span class="line">    <span class="attribute">batch_size</span>=32,</span><br><span class="line">    <span class="attribute">validation_split</span>=0.2,  # 訓練資料中分出 20% 作為驗證資料</span><br><span class="line">    <span class="attribute">subset</span>=<span class="string">&quot;validation&quot;</span>,  # 指定這是驗證資料集</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h3 id="測試資料集-v2"><a class="header-anchor" href="#測試資料集-v2"></a>測試資料集</h3>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">test_dataset = ak.text_dataset_from_directory(</span><br><span class="line">    <span class="attribute">directory</span>=<span class="string">&quot;dataset/test&quot;</span>,</span><br><span class="line">    <span class="attribute">batch_size</span>=32,</span><br><span class="line">    <span class="attribute">shuffle</span>=<span class="literal">False</span>,  # 測試資料集通常不進行隨機打亂</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>更多 AutoKeras 語法請看 <a target="_blank" rel="noopener" href="https://autokeras.com/utils/">AutoKeras 官方文件 - Utils</a>。</p>
+<h3 id="切割資料集-v2"><a class="header-anchor" href="#切割資料集-v2"></a>切割資料集</h3>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># 將tf<span class="selector-class">.data</span><span class="selector-class">.Dataset</span>轉換為Numpy陣列並轉換為Tensor</span><br><span class="line">def <span class="built_in">dataset_to_tensor</span>(dataset):</span><br><span class="line">    texts, labels = [], []</span><br><span class="line">    for text_batch, label_batch in dataset:</span><br><span class="line">        texts.<span class="built_in">extend</span>(text_batch.<span class="built_in">numpy</span>())</span><br><span class="line">        labels.<span class="built_in">extend</span>(label_batch.<span class="built_in">numpy</span>())</span><br><span class="line">    return tf.<span class="built_in">convert_to_tensor</span>(np.<span class="built_in">array</span>(texts)), tf.<span class="built_in">convert_to_tensor</span>(np.<span class="built_in">array</span>(labels))</span><br><span class="line"></span><br><span class="line">x_train, y_train = <span class="built_in">dataset_to_tensor</span>(train_dataset)</span><br><span class="line">x_val, y_val = <span class="built_in">dataset_to_tensor</span>(validation_dataset)</span><br><span class="line">x_test, y_test = <span class="built_in">dataset_to_tensor</span>(test_dataset)</span><br></pre></td></tr></table></figure>
+<h3 id="訓練模型-v3"><a class="header-anchor" href="#訓練模型-v3"></a>訓練模型</h3>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">reg = ak.TextRegressor(<span class="attribute">max_trials</span>=1)</span><br><span class="line">reg.fit(x_train, y_train, <span class="attribute">epochs</span>=20, validation_data=(x_val, y_val))</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/blog/tags/AutoML/" rel="tag"># AutoML</a>
+              <a href="/blog/tags/Machine-Learning/" rel="tag"># Machine Learning</a>
+              <a href="/blog/tags/Deep-Learning/" rel="tag"># Deep Learning</a>
+              <a href="/blog/tags/AutoKeras/" rel="tag"># AutoKeras</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/blog/what-is-tensor/" rel="prev" title="什麼是張量(Tensor)?">
+                  <i class="fa fa-angle-left"></i> 什麼是張量(Tensor)?
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Stella</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/blog/js/comments.js"></script><script src="/blog/js/utils.js"></script><script src="/blog/js/motion.js"></script><script src="/blog/js/sidebar.js"></script><script src="/blog/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js","integrity":"sha256-stuqcu2FrjYCXDOytWFA5SoUE/r3nkp6gTglzNSlavU="}}</script>
+  <script src="/blog/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"ams","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/blog/js/third-party/math/mathjax.js"></script>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"estellacoding","repo":"blog","client_id":"Ov23liBnWPuObZGktbAv","client_secret":"9ed6e261cd75af620744058daafa56b80a53ffa8","admin_user":"estellacoding","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":null,"labels":"gitalk","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"5d4a12fa7749bdc7cb24bf29b30f7676"}</script>
+<script src="/blog/js/third-party/comments/gitalk.js"></script>
+
+</body>
+</html>
