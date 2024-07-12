@@ -1,6 +1,6 @@
+https://estellacoding.github.io/blog/automl-introduction/
 https://estellacoding.github.io/blog/autokeras-mnist/
 https://estellacoding.github.io/blog/autokeras-data-folder/
-https://estellacoding.github.io/blog/automl-introduction/
 https://estellacoding.github.io/blog/what-is-tensor/
 https://estellacoding.github.io/blog/fsevents-node-issue/
 https://estellacoding.github.io/blog/win11-activate-nvidia-mx450-gpu-locally/

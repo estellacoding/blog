@@ -32,7 +32,7 @@
 <meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fautoml-introduction%2Fml-challenge-data-cleaning.png?alt=media&amp;token=762eebaa-bdc0-4274-a09d-8621b4bbfa7e">
 <meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fautoml-introduction%2Fcomparison-table-of-functionality-for-AutoML-tools.png?alt=media&amp;token=17b40eb9-669c-4769-a3d2-254cd27c2e10">
 <meta property="article:published_time" content="2024-06-18T03:11:11.000Z">
-<meta property="article:modified_time" content="2024-07-09T03:11:11.000Z">
+<meta property="article:modified_time" content="2024-07-12T03:11:11.000Z">
 <meta property="article:author" content="Stella">
 <meta property="article:tag" content="AutoML">
 <meta property="article:tag" content="Machine Learning">
@@ -221,7 +221,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-07-09 11:11:11" itemprop="dateModified" datetime="2024-07-09T11:11:11+08:00">2024-07-09</time>
+      <time title="Modified: 2024-07-12 11:11:11" itemprop="dateModified" datetime="2024-07-12T11:11:11+08:00">2024-07-12</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -415,10 +415,10 @@ flowchart LR
 <h3 id="該監控模型哪些項目"><a class="header-anchor" href="#該監控模型哪些項目"></a>該監控模型哪些項目?</h3>
 <ul>
 <li>模型本身: 監控目前選用的模型類型、採用的架構、最佳化演算法及超參數設定。</li>
-<li>輸入資料分佈: 將訓練資料與目前輸入的資料進行分佈比較，以確認訓練資料是否能夠反映真實世界的現況。</li>
+<li>輸入資料分佈: 比較訓練資料與目前輸入資料，以確認訓練資料是否能夠反映真實世界的現況。</li>
 <li>部署日期: 記錄模型發佈的日期。</li>
-<li>使用變數: 監控模型所使用的輸入變數。有時候正式環境會使用到某些資料特徵，但我們並未在模型中採用。</li>
-<li>期望與實際差異: 使用散布圖(scatter plot)比較預期結果與實際結果，以識別模型預測的準確性。</li>
+<li>使用變數: 監控模型所使用的輸入變數。有時正式環境使用到某些資料特徵，但並未在模型採用。</li>
+<li>期望與實際差異: 如用散佈圖比較預期結果與實際結果，以識別模型預測的準確性。</li>
 <li>發佈次數: 監控模型被發佈的次數，通常用模型版本號碼來表示。</li>
 <li>運作時間: 記錄模型部署至今所經過的時間。</li>
 </ul>
