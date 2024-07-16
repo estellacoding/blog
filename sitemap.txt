@@ -1,6 +1,6 @@
+https://estellacoding.github.io/blog/what-is-tensor/
 https://estellacoding.github.io/blog/autokeras-data-folder/
 https://estellacoding.github.io/blog/matplotlib-draw-double-neural-network-diagram/
-https://estellacoding.github.io/blog/what-is-tensor/
 https://estellacoding.github.io/blog/automl-introduction/
 https://estellacoding.github.io/blog/autokeras-mnist/
 https://estellacoding.github.io/blog/fsevents-node-issue/
