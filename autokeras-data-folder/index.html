@@ -264,11 +264,15 @@
 <h3 id="開始訓練"><a class="header-anchor" href="#開始訓練"></a>開始訓練</h3>
 <p><code>clf.fit</code> 這個方法可接受一個 tf.data.Dataset 對象作為輸入，其中包含了特徵和標籤。</p>
 <ul>
-<li><code>train_dataset</code> 是一個 TensorFlow 的 tf.data.Dataset 對象，包含了以下內容：
+<li><code>train_dataset</code>
+<ul>
+<li>是一個 TensorFlow 的 tf.data.Dataset 對象，包含了以下內容：
 <ul>
 <li>圖像數據：每個批次的圖像已經被調整為指定大小(512x768)和類型(float32)。</li>
 <li>標籤數據：每個圖像對應的標籤，表示該圖像屬於哪一個類別(open 或 close)。</li>
-<li>這個 Dataset 對象是由圖像數據和標籤數據組合而成，已經經過預處理，準備可直接用於訓練模型。</li>
+</ul>
+</li>
+<li>由圖像數據和標籤數據組合而成，已經經過預處理，準備可直接用於訓練模型。</li>
 </ul>
 </li>
 <li><code>validation_split</code> 可以自動從 train_dataset 中拆分出驗證集。
