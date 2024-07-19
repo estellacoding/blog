@@ -32,7 +32,7 @@
 <meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fautoml-introduction%2Fml-challenge-data-cleaning.png?alt=media&amp;token=762eebaa-bdc0-4274-a09d-8621b4bbfa7e">
 <meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fautoml-introduction%2Fcomparison-table-of-functionality-for-AutoML-tools.png?alt=media&amp;token=17b40eb9-669c-4769-a3d2-254cd27c2e10">
 <meta property="article:published_time" content="2024-06-18T03:11:11.000Z">
-<meta property="article:modified_time" content="2024-07-17T03:11:11.000Z">
+<meta property="article:modified_time" content="2024-07-19T03:11:11.000Z">
 <meta property="article:author" content="Stella">
 <meta property="article:tag" content="AutoML">
 <meta property="article:tag" content="Machine Learning">
@@ -139,7 +139,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/blog/archives/">
-          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-count">18</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -150,7 +150,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/blog/tags/">
-        <span class="site-state-item-count">37</span>
+        <span class="site-state-item-count">38</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -221,7 +221,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-07-17 11:11:11" itemprop="dateModified" datetime="2024-07-17T11:11:11+08:00">2024-07-17</time>
+      <time title="Modified: 2024-07-19 11:11:11" itemprop="dateModified" datetime="2024-07-19T11:11:11+08:00">2024-07-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -322,8 +322,13 @@ flowchart LR
 <li>篩選特徵：在不損失有用信息的前提下，去除冗餘或不相關的特徵。</li>
 <li>特徵合併與重整：將相關特徵合併或重構，減少特徵空間的維度，從而降低計算資源消耗。</li>
 </ul>
-<div class="note info"><p><mark>特徵是資料集中每個欄位的數據，代表了數據的不同屬性，通常我們會說特徵(feature)或 X。而標籤是我們希望預測的結果，就是模型訓練的目標，通常我們會說標籤(label)或 Y</mark>。</p>
-<p>對於模型的訓練和預測來說，每個特徵都是一個重要的變數。模型會試著替每個變數找出權重(weight)，與預測結果越有關係的特徵就會獲得越大的權重，進而能找出最佳的預測結果。權重反映了特徵對預測結果的影響力。通過調整這些權重，模型可以逐步提高預測的準確性和精度。</p>
+<div class="note info"><p>特徵是資料集中每個欄位的數據，代表了數據的不同屬性，通常我們會說<mark>特徵(feature)或 x</mark>。而標籤是我們希望預測的結果，就是模型訓練的目標，通常我們會說<mark>標籤(label)或 y</mark>。</p>
+<ul>
+<li>特徵(Feature): 自變量(Independent Variable)、輸入(Input)、預測變量(Predictor Variable)、解釋變量(Explanatory Variable)。</li>
+<li>標籤(Label): 目標(Target)、因變量(Dependent Variable)、輸出(Output)、響應變量(Response Variable)、結果(Outcome)、真實值(Ground Truth)。</li>
+</ul>
+</div>
+<div class="note info"><p>對於模型的訓練和預測來說，每個特徵都是一個重要的變數。模型會試著替每個變數找出權重(weight)，與預測結果越有關係的特徵就會獲得越大的權重，進而能找出最佳的預測結果。權重反映了特徵對預測結果的影響力。通過調整這些權重，模型可以逐步提高預測的準確性和精度。</p>
 </div>
 <h3 id="特徵選取-Feature-Selection"><a class="header-anchor" href="#特徵選取-Feature-Selection"></a>特徵選取(Feature Selection)</h3>
 <p>特徵選取是在選擇專案真正需要的特徵，移除冗餘或不太相關的特徵資料。特徵數量過多時，需要構建更大型的神經網路，這不僅會增加計算資源的需求，還容易導致訓練過程中的過擬合 (overfitting)。</p>

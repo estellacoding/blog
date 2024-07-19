@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.2.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="mask-icon" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"estellacoding.github.io","root":"/blog/","images":"/blog/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/blog/js/config.js"></script>
+
+    <meta name="description" content="本篇文章介紹卷積神經網路(CNN)，並實作了一個自定義的 CNN 模型來識別 MNIST 手寫數據集。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自定義 CNN 架構以識別 MNIST 手寫數據">
+<meta property="og:url" content="https://estellacoding.github.io/blog/cnn-mnist/index.html">
+<meta property="og:site_name" content="StellaCoding">
+<meta property="og:description" content="本篇文章介紹卷積神經網路(CNN)，並實作了一個自定義的 CNN 模型來識別 MNIST 手寫數據集。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://anstekadi.com/FileUploads/ArticleCKEditor/fd18ca12-30ee-4731-a1e6-31c400dd4f11.svg">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fcnn-mnist%2Fcnn-explainer.png?alt=media&amp;token=5b280d94-9c6d-473d-af7d-d49dcf5d814e">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/blog-2222.appspot.com/o/blog%2Fcnn-mnist%2Fmnist-cnn-accuracy-loss.png?alt=media&amp;token=c9100eea-0219-47f5-92cb-cd2020df4a36">
+<meta property="article:published_time" content="2024-07-19T03:11:11.000Z">
+<meta property="article:modified_time" content="2024-07-19T03:11:11.000Z">
+<meta property="article:author" content="Stella">
+<meta property="article:tag" content="Deep Learning">
+<meta property="article:tag" content="MNIST">
+<meta property="article:tag" content="CNN">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://anstekadi.com/FileUploads/ArticleCKEditor/fd18ca12-30ee-4731-a1e6-31c400dd4f11.svg">
+
+
+<link rel="canonical" href="https://estellacoding.github.io/blog/cnn-mnist/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://estellacoding.github.io/blog/cnn-mnist/","path":"cnn-mnist/","title":"自定義 CNN 架構以識別 MNIST 手寫數據"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>自定義 CNN 架構以識別 MNIST 手寫數據 | StellaCoding</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EG0CKC3093"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-EG0CKC3093","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/blog/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/blog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/blog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">StellaCoding</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">I am at point A.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/blog/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/blog/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/blog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%80%E9%BA%BC%E6%98%AF-CNN%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">什麼是 CNN？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CNN-%E7%9A%84%E7%B5%90%E6%A7%8B"><span class="nav-number">2.</span> <span class="nav-text">CNN 的結構</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E7%BE%A9-CNN-%E6%9E%B6%E6%A7%8B%E4%BB%A5%E8%AD%98%E5%88%A5-MNIST-%E6%89%8B%E5%AF%AB%E6%95%B8%E6%93%9A"><span class="nav-number">3.</span> <span class="nav-text">自定義 CNN 架構以識別 MNIST 手寫數據</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Stella"
+      src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+  <p class="site-author-name" itemprop="name">Stella</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/blog/archives/">
+          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/blog/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/blog/tags/">
+        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/estellacoding" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;estellacoding" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.instagram.com/stellacoding/" title="Instagram → https:&#x2F;&#x2F;www.instagram.com&#x2F;stellacoding&#x2F;" rel="noopener me" target="_blank"><i class="fab fa-instagram fa-fw"></i>Instagram</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://estellacoding.github.io/blog/cnn-mnist/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+      <meta itemprop="name" content="Stella">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StellaCoding">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="自定義 CNN 架構以識別 MNIST 手寫數據 | StellaCoding">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          自定義 CNN 架構以識別 MNIST 手寫數據
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2024-07-19 11:11:11" itemprop="dateCreated datePublished" datetime="2024-07-19T11:11:11+08:00">2024-07-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/Deep-Learning/" itemprop="url" rel="index"><span itemprop="name">Deep Learning</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>本篇文章介紹卷積神經網路(CNN)，並實作了一個自定義的 CNN 模型來識別 MNIST 手寫數據集。</p>
+<span id="more"></span>
+<h1 id="什麼是-CNN？"><a class="header-anchor" href="#什麼是-CNN？"></a>什麼是 CNN？</h1>
+<p>卷積神經網路(Convolutional Neural Network, CNN)是一種源自生物大腦視覺皮層神經元運作原理的神經網路。在處理電腦視覺問題方面，CNN 表現出色，如圖像分類、物體檢測、圖像分割等。除此之外，CNN 也被廣泛應用於文本分類等任務。關於什麼是神經網路，請看 <a href="https://estellacoding.github.io/blog/automl-dl-introduction/#%E4%BB%80%E9%BA%BC%E6%98%AF%E7%A5%9E%E7%B6%93%E7%B6%B2%E8%B7%AF%EF%BC%9F%E5%AE%83%E5%A6%82%E4%BD%95%E5%AD%B8%E7%BF%92%EF%BC%9F">【AutoML】自動化機器學習 - 深度學習介紹 - 什麼是神經網路？它如何學習？</a> 這篇文章。</p>
+<p>CNN 由輸入層(Input)、卷積層(Convolution)、池化層(Pooling)、展平層(Flatten)、全連接層(Fully Connected)和輸出層(Output)組成。(可以重複使用多個卷積層與池化層)</p>
+<p><img src="https://anstekadi.com/FileUploads/ArticleCKEditor/fd18ca12-30ee-4731-a1e6-31c400dd4f11.svg" alt="圖3.用CIFAR-10數據集訓練的CIFAR網路模型"></p>
+<div style="margin-top: -15px; font-size: 14px; color: #555; text-align: center; font-style: normal; font-family: 'Arial', sans-serif;">
+    (資料來源: 
+    <a target="_blank" rel="noopener" href="https://anstekadi.com/Article/Detail/3309" style="color: #555; text-decoration: none;">
+        【技術文章】卷積神經網路簡介：什麼是機器學習？ （一）)
+    </a>
+</div>
+<h1 id="CNN-的結構"><a class="header-anchor" href="#CNN-的結構"></a>CNN 的結構</h1>
+<p>CNN 由以下幾個主要部分組成:</p>
+<ol>
+<li>輸入層(Input): 原始圖像數據，通常為像素值矩陣。</li>
+<li>卷積層(Convolution)
+<ul>
+<li>使用卷積核提取圖像的局部特徵。</li>
+<li>通常後接 ReLU 激活函數，引入非線性。</li>
+</ul>
+</li>
+<li>池化層(Pooling)
+<ul>
+<li>降低特徵圖維度，減少計算量。</li>
+<li>多次堆疊卷積層和池化層，以提取更高級的特徵。</li>
+</ul>
+</li>
+<li>展平層(Flatten): 多維特徵轉換為一維向量。</li>
+<li>Dropout 層: 通過隨機丟棄神經元來防止過擬合。</li>
+<li>全連接層(Fully Connected)
+<ul>
+<li>使用 Dense 層進行高層次特徵提取和分類。</li>
+<li>通常使用 ReLU 激活函數。</li>
+</ul>
+</li>
+<li>輸出層(Output)
+<ul>
+<li>通常使用 Dense 層。</li>
+<li>對於多類別分類問題，使用 Softmax 激活函數產生最終的分類概率。</li>
+</ul>
+</li>
+</ol>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fcnn-mnist%2Fcnn-explainer.png?alt=media&amp;token=5b280d94-9c6d-473d-af7d-d49dcf5d814e" alt="cnn-explainer"></p>
+<div style="margin-top: -15px; font-size: 14px; color: #555; text-align: center; font-style: normal; font-family: 'Arial', sans-serif;">
+    (資料來源: 
+    <a target="_blank" rel="noopener" href="https://poloclub.github.io/cnn-explainer/" style="color: #555; text-decoration: none;">
+        CNN Explainer)
+    </a>
+</div>
+<p>關於卷積神經網路視覺化，請看 <a target="_blank" rel="noopener" href="https://poloclub.github.io/cnn-explainer/">CNN Explainer</a>。</p>
+<p>關於卷積神經網路模型運作原理，請看 <a target="_blank" rel="noopener" href="https://sites.google.com/view/zsgititit/home/ji-qi-xue-xi/convolutional-neural-network-juan-ji-shen-jing-wang-lu-suo-xie-weicnn">高中資訊教師黃建庭的教學網站</a>。</p>
+<h1 id="自定義-CNN-架構以識別-MNIST-手寫數據"><a class="header-anchor" href="#自定義-CNN-架構以識別-MNIST-手寫數據"></a>自定義 CNN 架構以識別 MNIST 手寫數據</h1>
+<p>這個 CNN 模型的架構包括:</p>
+<ul>
+<li>三個卷積層(只有前二個後接池化層)用於提取圖像特徵。</li>
+<li>一個展平層: 用於將多維特徵圖轉換為一維向量，以便於輸入到全連接層。</li>
+<li>一個全連接層: 包含 64 個神經元，使用 ReLU 激活函數進行高層次特徵提取和分類。</li>
+<li>一個 Dropout 層: 隨機丟棄 50% 的神經元防止過擬合。</li>
+<li>一個輸出層: 包含 10 個神經元，對應於10個類別(0-9)。</li>
+</ul>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line">import tensorflow as tf</span><br><span class="line"><span class="keyword">from</span> tensorflow.keras import datasets, layers, models, regularizers</span><br><span class="line"><span class="keyword">from</span> tensorflow.keras.preprocessing.image import ImageDataGenerator</span><br><span class="line"><span class="keyword">from</span> tensorflow.keras.callbacks import EarlyStopping</span><br><span class="line">import matplotlib.pyplot as plt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 載入MNIST數據集</span></span><br><span class="line">(train_images, train_labels), (test_images, test_labels) = datasets.mnist.load_data()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 預處理數據</span></span><br><span class="line">train_images = train_images.reshape((60000, 28, 28, 1)).astype(<span class="string">&#x27;float32&#x27;</span>) / 255</span><br><span class="line">test_images = test_images.reshape((10000, 28, 28, 1)).astype(<span class="string">&#x27;float32&#x27;</span>) / 255</span><br><span class="line"></span><br><span class="line"><span class="comment"># 數據增強</span></span><br><span class="line">datagen = ImageDataGenerator(</span><br><span class="line">    <span class="attribute">rotation_range</span>=10,</span><br><span class="line">    <span class="attribute">zoom_range</span>=0.1,</span><br><span class="line">    <span class="attribute">width_shift_range</span>=0.1,</span><br><span class="line">    <span class="attribute">height_shift_range</span>=0.1,</span><br><span class="line">    <span class="attribute">validation_split</span>=0.2  # 在這裡指定驗證集的比例</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用數據生成器進行訓練和驗證</span></span><br><span class="line">train_generator = datagen.flow(train_images, train_labels, <span class="attribute">batch_size</span>=32, <span class="attribute">subset</span>=<span class="string">&#x27;training&#x27;</span>)</span><br><span class="line">validation_generator = datagen.flow(train_images, train_labels, <span class="attribute">batch_size</span>=32, <span class="attribute">subset</span>=<span class="string">&#x27;validation&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 構建CNN模型</span></span><br><span class="line">model = models.Sequential()</span><br><span class="line">model.<span class="built_in">add</span>(layers.Conv2D(32, (3, 3), <span class="attribute">activation</span>=<span class="string">&#x27;relu&#x27;</span>, input_shape=(28, 28, 1), <span class="attribute">kernel_regularizer</span>=regularizers.l2(0.001)))</span><br><span class="line">model.<span class="built_in">add</span>(layers.MaxPooling2D((2, 2)))</span><br><span class="line">model.<span class="built_in">add</span>(layers.Conv2D(64, (3, 3), <span class="attribute">activation</span>=<span class="string">&#x27;relu&#x27;</span>, <span class="attribute">kernel_regularizer</span>=regularizers.l2(0.001)))</span><br><span class="line">model.<span class="built_in">add</span>(layers.MaxPooling2D((2, 2)))</span><br><span class="line">model.<span class="built_in">add</span>(layers.Conv2D(64, (3, 3), <span class="attribute">activation</span>=<span class="string">&#x27;relu&#x27;</span>, <span class="attribute">kernel_regularizer</span>=regularizers.l2(0.001)))</span><br><span class="line">model.<span class="built_in">add</span>(layers.Flatten())</span><br><span class="line">model.<span class="built_in">add</span>(layers.Dense(64, <span class="attribute">activation</span>=<span class="string">&#x27;relu&#x27;</span>))</span><br><span class="line">model.<span class="built_in">add</span>(layers.Dropout(0.5))</span><br><span class="line">model.<span class="built_in">add</span>(layers.Dense(10))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看模型架構</span></span><br><span class="line">model.summary()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 編譯和訓練模型</span></span><br><span class="line">model.compile(<span class="attribute">optimizer</span>=<span class="string">&#x27;adam&#x27;</span>,</span><br><span class="line">              <span class="attribute">loss</span>=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),</span><br><span class="line">              metrics=[<span class="string">&#x27;accuracy&#x27;</span>])</span><br><span class="line"></span><br><span class="line">early_stopping = EarlyStopping(<span class="attribute">monitor</span>=<span class="string">&#x27;val_loss&#x27;</span>, <span class="attribute">patience</span>=3)</span><br><span class="line">history = model.fit(train_generator, <span class="attribute">epochs</span>=50, <span class="attribute">validation_data</span>=validation_generator, callbacks=[early_stopping])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 評估模型</span></span><br><span class="line">test_loss, test_acc = model.evaluate(test_images, test_labels, <span class="attribute">verbose</span>=2)</span><br><span class="line"><span class="built_in">print</span>(f<span class="string">&quot;Test accuracy: &#123;test_acc&#125;&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 繪製訓練和驗證的損失和準確度</span></span><br><span class="line">plt.figure(figsize=(12, 4))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 準確度圖</span></span><br><span class="line">plt.subplot(1, 2, 1)</span><br><span class="line">plt.plot(history.history[<span class="string">&#x27;accuracy&#x27;</span>], <span class="attribute">label</span>=<span class="string">&#x27;Training Accuracy&#x27;</span>)</span><br><span class="line">plt.plot(history.history[<span class="string">&#x27;val_accuracy&#x27;</span>], <span class="attribute">label</span>=<span class="string">&#x27;Validation Accuracy&#x27;</span>)</span><br><span class="line">plt.xlabel(<span class="string">&#x27;Epoch&#x27;</span>)</span><br><span class="line">plt.ylabel(<span class="string">&#x27;Accuracy&#x27;</span>)</span><br><span class="line">plt.legend()</span><br><span class="line">plt.title(<span class="string">&#x27;Accuracy&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 損失圖</span></span><br><span class="line">plt.subplot(1, 2, 2)</span><br><span class="line">plt.plot(history.history[<span class="string">&#x27;loss&#x27;</span>], <span class="attribute">label</span>=<span class="string">&#x27;Training Loss&#x27;</span>)</span><br><span class="line">plt.plot(history.history[<span class="string">&#x27;val_loss&#x27;</span>], <span class="attribute">label</span>=<span class="string">&#x27;Validation Loss&#x27;</span>)</span><br><span class="line">plt.xlabel(<span class="string">&#x27;Epoch&#x27;</span>)</span><br><span class="line">plt.ylabel(<span class="string">&#x27;Loss&#x27;</span>)</span><br><span class="line">plt.legend()</span><br><span class="line">plt.title(<span class="string">&#x27;Loss&#x27;</span>)</span><br><span class="line"></span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">Model:</span> <span class="string">&quot;sequential_9&quot;</span></span><br><span class="line"><span class="string">_________________________________________________________________</span></span><br><span class="line"> <span class="string">Layer</span> <span class="string">(type)</span>                <span class="string">Output</span> <span class="string">Shape</span>              <span class="string">Param</span> <span class="comment">#   </span></span><br><span class="line"><span class="string">=================================================================</span></span><br><span class="line"> <span class="string">conv2d_24</span> <span class="string">(Conv2D)</span>          <span class="string">(None,</span> <span class="number">26</span><span class="string">,</span> <span class="number">26</span><span class="string">,</span> <span class="number">32</span><span class="string">)</span>        <span class="number">320</span>       </span><br><span class="line">                                                                 </span><br><span class="line"> <span class="string">max_pooling2d_16</span> <span class="string">(MaxPooli</span>  <span class="string">(None,</span> <span class="number">13</span><span class="string">,</span> <span class="number">13</span><span class="string">,</span> <span class="number">32</span><span class="string">)</span>        <span class="number">0</span>         </span><br><span class="line"> <span class="string">ng2D)</span>                                                           </span><br><span class="line">                                                                 </span><br><span class="line"> <span class="string">conv2d_25</span> <span class="string">(Conv2D)</span>          <span class="string">(None,</span> <span class="number">11</span><span class="string">,</span> <span class="number">11</span><span class="string">,</span> <span class="number">64</span><span class="string">)</span>        <span class="number">18496</span>     </span><br><span class="line">                                                                 </span><br><span class="line"> <span class="string">max_pooling2d_17</span> <span class="string">(MaxPooli</span>  <span class="string">(None,</span> <span class="number">5</span><span class="string">,</span> <span class="number">5</span><span class="string">,</span> <span class="number">64</span><span class="string">)</span>          <span class="number">0</span>         </span><br><span class="line"> <span class="string">ng2D)</span>                                                           </span><br><span class="line">                                                                 </span><br><span class="line"> <span class="string">conv2d_26</span> <span class="string">(Conv2D)</span>          <span class="string">(None,</span> <span class="number">3</span><span class="string">,</span> <span class="number">3</span><span class="string">,</span> <span class="number">64</span><span class="string">)</span>          <span class="number">36928</span>     </span><br><span class="line">                                                                 </span><br><span class="line"> <span class="string">flatten_8</span> <span class="string">(Flatten)</span>         <span class="string">(None,</span> <span class="number">576</span><span class="string">)</span>               <span class="number">0</span>         </span><br><span class="line">                                                                 </span><br><span class="line"> <span class="string">dense_16</span> <span class="string">(Dense)</span>            <span class="string">(None,</span> <span class="number">64</span><span class="string">)</span>                <span class="number">36928</span>     </span><br><span class="line">                                                                 </span><br><span class="line"> <span class="string">dropout_1</span> <span class="string">(Dropout)</span>         <span class="string">(None,</span> <span class="number">64</span><span class="string">)</span>                <span class="number">0</span>         </span><br><span class="line">                                                                 </span><br><span class="line"> <span class="string">dense_17</span> <span class="string">(Dense)</span>            <span class="string">(None,</span> <span class="number">10</span><span class="string">)</span>                <span class="number">650</span>       </span><br><span class="line">                                                                 </span><br><span class="line"><span class="string">=================================================================</span></span><br><span class="line"><span class="attr">Total params:</span> <span class="number">93322</span> <span class="string">(364.54</span> <span class="string">KB)</span></span><br><span class="line"><span class="attr">Trainable params:</span> <span class="number">93322</span> <span class="string">(364.54</span> <span class="string">KB)</span></span><br><span class="line"><span class="attr">Non-trainable params:</span> <span class="number">0</span> <span class="string">(0.00</span> <span class="string">Byte)</span></span><br><span class="line"><span class="string">_________________________________________________________________</span></span><br><span class="line"><span class="string">Epoch</span> <span class="number">1</span><span class="string">/50</span></span><br><span class="line"><span class="number">1500</span><span class="string">/1500</span> [<span class="string">==============================</span>] <span class="bullet">-</span> <span class="attr">27s 17ms/step - loss: 0.6404 - accuracy: 0.8281 - val_loss: 0.2523 - val_accuracy:</span> <span class="number">0.9553</span></span><br><span class="line"><span class="string">Epoch</span> <span class="number">2</span><span class="string">/50</span></span><br><span class="line"><span class="number">1500</span><span class="string">/1500</span> [<span class="string">==============================</span>] <span class="bullet">-</span> <span class="attr">27s 18ms/step - loss: 0.3125 - accuracy: 0.9400 - val_loss: 0.2070 - val_accuracy:</span> <span class="number">0.9639</span></span><br><span class="line"><span class="string">Epoch</span> <span class="number">3</span><span class="string">/50</span></span><br><span class="line"><span class="number">1500</span><span class="string">/1500</span> [<span class="string">==============================</span>] <span class="bullet">-</span> <span class="attr">25s 17ms/step - loss: 0.2555 - accuracy: 0.9542 - val_loss: 0.1868 - val_accuracy:</span> <span class="number">0.9704</span></span><br><span class="line"><span class="string">Epoch</span> <span class="number">4</span><span class="string">/50</span></span><br><span class="line"><span class="number">1500</span><span class="string">/1500</span> [<span class="string">==============================</span>] <span class="bullet">-</span> <span class="attr">25s 17ms/step - loss: 0.2249 - accuracy: 0.9608 - val_loss: 0.1783 - val_accuracy:</span> <span class="number">0.9741</span></span><br><span class="line"><span class="string">Epoch</span> <span class="number">5</span><span class="string">/50</span></span><br><span class="line"><span class="number">1500</span><span class="string">/1500</span> [<span class="string">==============================</span>] <span class="bullet">-</span> <span class="attr">28s 18ms/step - loss: 0.2052 - accuracy: 0.9653 - val_loss: 0.1488 - val_accuracy:</span> <span class="number">0.9790</span></span><br><span class="line"><span class="string">Epoch</span> <span class="number">6</span><span class="string">/50</span></span><br><span class="line"><span class="number">1500</span><span class="string">/1500</span> [<span class="string">==============================</span>] <span class="bullet">-</span> <span class="attr">25s 17ms/step - loss: 0.1893 - accuracy: 0.9682 - val_loss: 0.1540 - val_accuracy:</span> <span class="number">0.9767</span></span><br><span class="line"><span class="string">Epoch</span> <span class="number">7</span><span class="string">/50</span></span><br><span class="line"><span class="number">1500</span><span class="string">/1500</span> [<span class="string">==============================</span>] <span class="bullet">-</span> <span class="attr">24s 16ms/step - loss: 0.1827 - accuracy: 0.9693 - val_loss: 0.1343 - val_accuracy:</span> <span class="number">0.9798</span></span><br><span class="line"><span class="string">Epoch</span> <span class="number">8</span><span class="string">/50</span></span><br><span class="line"><span class="number">1500</span><span class="string">/1500</span> [<span class="string">==============================</span>] <span class="bullet">-</span> <span class="attr">25s 17ms/step - loss: 0.1734 - accuracy: 0.9723 - val_loss: 0.1383 - val_accuracy:</span> <span class="number">0.9800</span></span><br><span class="line"><span class="string">Epoch</span> <span class="number">9</span><span class="string">/50</span></span><br><span class="line"><span class="number">1500</span><span class="string">/1500</span> [<span class="string">==============================</span>] <span class="bullet">-</span> <span class="attr">26s 17ms/step - loss: 0.1619 - accuracy: 0.9739 - val_loss: 0.1495 - val_accuracy:</span> <span class="number">0.9762</span></span><br><span class="line"><span class="string">Epoch</span> <span class="number">10</span><span class="string">/50</span></span><br><span class="line"><span class="number">1500</span><span class="string">/1500</span> [<span class="string">==============================</span>] <span class="bullet">-</span> <span class="attr">26s 17ms/step - loss: 0.1643 - accuracy: 0.9737 - val_loss: 0.1367 - val_accuracy:</span> <span class="number">0.9807</span></span><br><span class="line"><span class="attr">313/313 - 1s - loss: 0.0939 - accuracy:</span> <span class="number">0.9909</span> <span class="bullet">-</span> <span class="string">615ms/epoch</span> <span class="bullet">-</span> <span class="string">2ms/step</span></span><br><span class="line"><span class="attr">Test accuracy:</span> <span class="number">0.9908999800682068</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/blog-2222.appspot.com/o/blog%2Fcnn-mnist%2Fmnist-cnn-accuracy-loss.png?alt=media&amp;token=c9100eea-0219-47f5-92cb-cd2020df4a36" alt="mnist-cnn-accuracy-loss"></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/blog/tags/Deep-Learning/" rel="tag"># Deep Learning</a>
+              <a href="/blog/tags/MNIST/" rel="tag"># MNIST</a>
+              <a href="/blog/tags/CNN/" rel="tag"># CNN</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/blog/autokeras-data-folder/" rel="prev" title="【AutoKeras】準備資料集及資料夾結構">
+                  <i class="fa fa-angle-left"></i> 【AutoKeras】準備資料集及資料夾結構
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Stella</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/blog/js/comments.js"></script><script src="/blog/js/utils.js"></script><script src="/blog/js/motion.js"></script><script src="/blog/js/sidebar.js"></script><script src="/blog/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js","integrity":"sha256-stuqcu2FrjYCXDOytWFA5SoUE/r3nkp6gTglzNSlavU="}}</script>
+  <script src="/blog/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"ams","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/blog/js/third-party/math/mathjax.js"></script>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"estellacoding","repo":"blog","client_id":"Ov23liBnWPuObZGktbAv","client_secret":"9ed6e261cd75af620744058daafa56b80a53ffa8","admin_user":"estellacoding","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":null,"labels":"gitalk","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"ceea43617e1eb4e1960d7d74dbecd22a"}</script>
+<script src="/blog/js/third-party/comments/gitalk.js"></script>
+
+</body>
+</html>
