@@ -19,12 +19,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"estellacoding.github.io","root":"/blog/","images":"/blog/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/blog/js/config.js"></script>
 
-    <meta name="description" content="本篇文章介紹卷積神經網路(CNN)，並實作了一個自定義的 CNN 模型來識別 MNIST 手寫數據集。">
+    <meta name="description" content="本篇文章介紹卷積神經網路(CNN)，並實作了一個自定義的 CNN 模型來識別 MNIST 手寫資料集。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="自定義 CNN 架構以識別 MNIST 手寫數據">
+<meta property="og:title" content="自定義 CNN 架構來識別 MNIST 手寫資料集">
 <meta property="og:url" content="https://estellacoding.github.io/blog/cnn-mnist/index.html">
 <meta property="og:site_name" content="StellaCoding">
-<meta property="og:description" content="本篇文章介紹卷積神經網路(CNN)，並實作了一個自定義的 CNN 模型來識別 MNIST 手寫數據集。">
+<meta property="og:description" content="本篇文章介紹卷積神經網路(CNN)，並實作了一個自定義的 CNN 模型來識別 MNIST 手寫資料集。">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://anstekadi.com/FileUploads/ArticleCKEditor/fd18ca12-30ee-4731-a1e6-31c400dd4f11.svg">
 <meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fcnn-mnist%2Fcnn-explainer.png?alt=media&amp;token=5b280d94-9c6d-473d-af7d-d49dcf5d814e">
@@ -43,10 +43,10 @@
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://estellacoding.github.io/blog/cnn-mnist/","path":"cnn-mnist/","title":"自定義 CNN 架構以識別 MNIST 手寫數據"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://estellacoding.github.io/blog/cnn-mnist/","path":"cnn-mnist/","title":"自定義 CNN 架構來識別 MNIST 手寫資料集"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>自定義 CNN 架構以識別 MNIST 手寫數據 | StellaCoding</title>
+<title>自定義 CNN 架構來識別 MNIST 手寫資料集 | StellaCoding</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-EG0CKC3093"></script>
   <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-EG0CKC3093","only_pageview":false,"measure_protocol_api_secret":null}</script>
@@ -122,7 +122,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%80%E9%BA%BC%E6%98%AF-CNN%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">什麼是 CNN？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CNN-%E7%9A%84%E7%B5%90%E6%A7%8B"><span class="nav-number">2.</span> <span class="nav-text">CNN 的結構</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E7%BE%A9-CNN-%E6%9E%B6%E6%A7%8B%E4%BB%A5%E8%AD%98%E5%88%A5-MNIST-%E6%89%8B%E5%AF%AB%E6%95%B8%E6%93%9A"><span class="nav-number">3.</span> <span class="nav-text">自定義 CNN 架構以識別 MNIST 手寫數據</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%80%E9%BA%BC%E6%98%AF-CNN%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">什麼是 CNN？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CNN-%E7%9A%84%E7%B5%90%E6%A7%8B"><span class="nav-number">2.</span> <span class="nav-text">CNN 的結構</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CNN-MNIST"><span class="nav-number">3.</span> <span class="nav-text">CNN - MNIST</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -196,12 +196,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="自定義 CNN 架構以識別 MNIST 手寫數據 | StellaCoding">
+      <meta itemprop="name" content="自定義 CNN 架構來識別 MNIST 手寫資料集 | StellaCoding">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          自定義 CNN 架構以識別 MNIST 手寫數據
+          自定義 CNN 架構來識別 MNIST 手寫資料集
         </h1>
 
         <div class="post-meta-container">
@@ -233,7 +233,7 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><p>本篇文章介紹卷積神經網路(CNN)，並實作了一個自定義的 CNN 模型來識別 MNIST 手寫數據集。</p>
+    <div class="post-body" itemprop="articleBody"><p>本篇文章介紹卷積神經網路(CNN)，並實作了一個自定義的 CNN 模型來識別 MNIST 手寫資料集。</p>
 <span id="more"></span>
 <h1 id="什麼是-CNN？"><a class="header-anchor" href="#什麼是-CNN？"></a>什麼是 CNN？</h1>
 <p>卷積神經網路(Convolutional Neural Network, CNN)是一種源自生物大腦視覺皮層神經元運作原理的神經網路。在處理電腦視覺問題方面，CNN 表現出色，如圖像分類、物體檢測、圖像分割等。除此之外，CNN 也被廣泛應用於文本分類等任務。關於什麼是神經網路，請看 <a href="https://estellacoding.github.io/blog/automl-dl-introduction/#%E4%BB%80%E9%BA%BC%E6%98%AF%E7%A5%9E%E7%B6%93%E7%B6%B2%E8%B7%AF%EF%BC%9F%E5%AE%83%E5%A6%82%E4%BD%95%E5%AD%B8%E7%BF%92%EF%BC%9F">【AutoML】自動化機器學習 - 深度學習介紹 - 什麼是神經網路？它如何學習？</a> 這篇文章。</p>
@@ -285,7 +285,7 @@
 </div>
 <p>關於卷積神經網路視覺化，請看 <a target="_blank" rel="noopener" href="https://poloclub.github.io/cnn-explainer/">CNN Explainer</a>。</p>
 <p>關於卷積神經網路模型運作原理，請看 <a target="_blank" rel="noopener" href="https://sites.google.com/view/zsgititit/home/ji-qi-xue-xi/convolutional-neural-network-juan-ji-shen-jing-wang-lu-suo-xie-weicnn">高中資訊教師黃建庭的教學網站</a>。</p>
-<h1 id="自定義-CNN-架構以識別-MNIST-手寫數據"><a class="header-anchor" href="#自定義-CNN-架構以識別-MNIST-手寫數據"></a>自定義 CNN 架構以識別 MNIST 手寫數據</h1>
+<h1 id="CNN-MNIST"><a class="header-anchor" href="#CNN-MNIST"></a>CNN - MNIST</h1>
 <p>這個 CNN 模型的架構包括:</p>
 <ul>
 <li>三個卷積層(只有前二個後接池化層)用於提取圖像特徵。</li>
