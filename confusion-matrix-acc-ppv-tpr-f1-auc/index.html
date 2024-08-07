@@ -22,13 +22,13 @@
     <meta name="description" content="本文介紹機器學習分類模型中的效能衡量指標，重點講解了混淆矩陣(Confusion Matrix)，及其相關的各種效能衡量指標，在 這篇 文章中提到模型評估時，機器學習中分類模型的效能衡量指標是以預測值和實際值的正確程度來作為評估。常見的分類模型效能衡量指標包括預測準確率(Accuracy)、精確率(Precision)、召回率(Recall)或 F1 Score。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="看了就被混淆的混淆矩陣及相關效能衡量指標">
-<meta property="og:url" content="https://estellacoding.github.io/blog/confusion-matrix-acc-ppv-tpr-f1-score/index.html">
+<meta property="og:url" content="https://estellacoding.github.io/blog/confusion-matrix-acc-ppv-tpr-f1-auc/index.html">
 <meta property="og:site_name" content="StellaCoding">
 <meta property="og:description" content="本文介紹機器學習分類模型中的效能衡量指標，重點講解了混淆矩陣(Confusion Matrix)，及其相關的各種效能衡量指標，在 這篇 文章中提到模型評估時，機器學習中分類模型的效能衡量指標是以預測值和實際值的正確程度來作為評估。常見的分類模型效能衡量指標包括預測準確率(Accuracy)、精確率(Precision)、召回率(Recall)或 F1 Score。">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fconfusion-matrix%2Fconfusion-matrix-formula.png?alt=media&amp;token=d979d102-48d7-48f3-bb32-afee397fc9d0">
 <meta property="article:published_time" content="2024-06-19T03:11:11.000Z">
-<meta property="article:modified_time" content="2024-06-25T03:11:11.000Z">
+<meta property="article:modified_time" content="2024-08-07T03:11:11.000Z">
 <meta property="article:author" content="Stella">
 <meta property="article:tag" content="Machine Learning">
 <meta property="article:tag" content="Classification">
@@ -37,15 +37,16 @@
 <meta property="article:tag" content="Precision">
 <meta property="article:tag" content="Recall">
 <meta property="article:tag" content="F1 Score">
+<meta property="article:tag" content="AUC">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fconfusion-matrix%2Fconfusion-matrix-formula.png?alt=media&amp;token=d979d102-48d7-48f3-bb32-afee397fc9d0">
 
 
-<link rel="canonical" href="https://estellacoding.github.io/blog/confusion-matrix-acc-ppv-tpr-f1-score/">
+<link rel="canonical" href="https://estellacoding.github.io/blog/confusion-matrix-acc-ppv-tpr-f1-auc/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://estellacoding.github.io/blog/confusion-matrix-acc-ppv-tpr-f1-score/","path":"confusion-matrix-acc-ppv-tpr-f1-score/","title":"看了就被混淆的混淆矩陣及相關效能衡量指標"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://estellacoding.github.io/blog/confusion-matrix-acc-ppv-tpr-f1-auc/","path":"confusion-matrix-acc-ppv-tpr-f1-auc/","title":"看了就被混淆的混淆矩陣及相關效能衡量指標"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
 <title>看了就被混淆的混淆矩陣及相關效能衡量指標 | StellaCoding</title>
@@ -124,7 +125,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B7%B7%E6%B7%86%E7%9F%A9%E9%99%A3"><span class="nav-number">1.</span> <span class="nav-text">混淆矩陣</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%BA%96%E7%A2%BA%E7%8E%87"><span class="nav-number">2.</span> <span class="nav-text">準確率</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B2%BE%E7%A2%BA%E7%8E%87"><span class="nav-number">3.</span> <span class="nav-text">精確率</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%AC%E5%9B%9E%E7%8E%87"><span class="nav-number">4.</span> <span class="nav-text">召回率</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#F1-Score"><span class="nav-number">5.</span> <span class="nav-text">F1 Score</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%89%B9%E7%95%B0%E5%BA%A6"><span class="nav-number">6.</span> <span class="nav-text">特異度</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B7%B7%E6%B7%86%E7%9F%A9%E9%99%A3"><span class="nav-number">1.</span> <span class="nav-text">混淆矩陣</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%BA%96%E7%A2%BA%E7%8E%87"><span class="nav-number">2.</span> <span class="nav-text">準確率</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B2%BE%E7%A2%BA%E7%8E%87"><span class="nav-number">3.</span> <span class="nav-text">精確率</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%AC%E5%9B%9E%E7%8E%87"><span class="nav-number">4.</span> <span class="nav-text">召回率</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#F1-Score"><span class="nav-number">5.</span> <span class="nav-text">F1 Score</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%89%B9%E7%95%B0%E5%BA%A6"><span class="nav-number">6.</span> <span class="nav-text">特異度</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#AUC"><span class="nav-number">7.</span> <span class="nav-text">AUC</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -150,7 +151,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/blog/tags/">
-        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-count">39</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -185,7 +186,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://estellacoding.github.io/blog/confusion-matrix-acc-ppv-tpr-f1-score/">
+    <link itemprop="mainEntityOfPage" href="https://estellacoding.github.io/blog/confusion-matrix-acc-ppv-tpr-f1-auc/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
@@ -221,7 +222,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-06-25 11:11:11" itemprop="dateModified" datetime="2024-06-25T11:11:11+08:00">2024-06-25</time>
+      <time title="Modified: 2024-08-07 11:11:11" itemprop="dateModified" datetime="2024-08-07T11:11:11+08:00">2024-08-07</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -367,6 +368,21 @@ $$ \text{Recall} = \frac{tp}{tp + fn} $$</p>
 $$ \text{Specificity} = \frac{tn}{fp + tn} $$</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 計算特異度</span></span><br><span class="line">specificity = tn / (tn + fp)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;Specificity: <span class="subst">&#123;specificity:<span class="number">.2</span>f&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
 <figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">Specificity</span>: <span class="number">0</span>.<span class="number">67</span></span><br></pre></td></tr></table></figure>
+<h1 id="AUC"><a class="header-anchor" href="#AUC"></a>AUC</h1>
+<p>AUC(Area Under Curve) 是指 ROC(Receiver Operator Characteristic Curve) 曲線下的面積。</p>
+<ul>
+<li>ROC 曲線以 False Positive Rate (FPR) 為 X 軸，以 True Positive Rate (TPR) 為 Y 軸。</li>
+<li>AUC 值介於 0 和 1 之間，值越大表示模型的正確率越高。
+<ul>
+<li>AUC = 1，代表分類器非常完美。</li>
+<li>AUC &gt; 0.5，代表分類器分類效果優於隨機猜測，模型有預測價值。</li>
+<li>AUC = 0.5，代表分類器分類效果與隨機猜測相同，模型無預測價值。</li>
+<li>AUC &lt; 0.5，代表分類器分類效果比隨機猜測差。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> roc_curve, auc</span><br><span class="line"><span class="comment"># 計算 AUC</span></span><br><span class="line">fpr, tpr, thresholds = roc_curve(actual, predicted)</span><br><span class="line">roc_auc = auc(fpr, tpr)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&#x27;AUC Score: <span class="subst">&#123;roc_auc:<span class="number">0.2</span>f&#125;</span>&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">AUC</span> Score: <span class="number">0</span>.<span class="number">79</span></span><br></pre></td></tr></table></figure>
     </div>
 
     
@@ -382,6 +398,7 @@ $$ \text{Specificity} = \frac{tn}{fp + tn} $$</p>
               <a href="/blog/tags/Precision/" rel="tag"># Precision</a>
               <a href="/blog/tags/Recall/" rel="tag"># Recall</a>
               <a href="/blog/tags/F1-Score/" rel="tag"># F1 Score</a>
+              <a href="/blog/tags/AUC/" rel="tag"># AUC</a>
           </div>
 
         
@@ -471,7 +488,7 @@ $$ \text{Specificity} = \frac{tn}{fp + tn} $$</p>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
 
-<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"estellacoding","repo":"blog","client_id":"Ov23liBnWPuObZGktbAv","client_secret":"9ed6e261cd75af620744058daafa56b80a53ffa8","admin_user":"estellacoding","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":null,"labels":"gitalk","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"1d19a02c9ad7f8ebbe4a18606e331ad3"}</script>
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"estellacoding","repo":"blog","client_id":"Ov23liBnWPuObZGktbAv","client_secret":"9ed6e261cd75af620744058daafa56b80a53ffa8","admin_user":"estellacoding","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":null,"labels":"gitalk","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"4949255ebaa5fc7e3e0daed7771b1236"}</script>
 <script src="/blog/js/third-party/comments/gitalk.js"></script>
 
 </body>
