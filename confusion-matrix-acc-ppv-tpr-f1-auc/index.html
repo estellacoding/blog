@@ -382,7 +382,7 @@ $$ \text{Specificity} = \frac{tn}{fp + tn} $$</p>
 </li>
 </ul>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> roc_curve, auc</span><br><span class="line"><span class="comment"># 計算 AUC</span></span><br><span class="line">fpr, tpr, thresholds = roc_curve(actual, predicted)</span><br><span class="line">roc_auc = auc(fpr, tpr)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&#x27;AUC Score: <span class="subst">&#123;roc_auc:<span class="number">0.2</span>f&#125;</span>&#x27;</span>)</span><br></pre></td></tr></table></figure>
-<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">AUC</span> Score: <span class="number">0</span>.<span class="number">79</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">AUC</span> Score: <span class="number">0</span>.<span class="number">71</span></span><br></pre></td></tr></table></figure>
     </div>
 
     
