@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="mask-icon" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"estellacoding.github.io","root":"/blog/","images":"/blog/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/blog/js/config.js"></script>
+
+    <meta name="description" content="由於 Oracle Database 23ai 版本新增了向量資料庫和向量搜尋的功能，當然就要來用看看！但在申請 Oracle Cloud 免費版時，我遇到了信用卡驗證的問題(反覆試信用卡是有跳出被刷了10幾次R)。 為了能夠體驗 Oracle Database 23ai Free 版本，我選擇在本地環境中安裝 Oracle VM VirtualBox。本文將一步一步帶著你在 Windows 系統">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Win 安裝 Oracle VM VirtualBox + Database 23ai">
+<meta property="og:url" content="https://estellacoding.github.io/blog/oracle-vm-db23ai-win/index.html">
+<meta property="og:site_name" content="StellaCoding">
+<meta property="og:description" content="由於 Oracle Database 23ai 版本新增了向量資料庫和向量搜尋的功能，當然就要來用看看！但在申請 Oracle Cloud 免費版時，我遇到了信用卡驗證的問題(反覆試信用卡是有跳出被刷了10幾次R)。 為了能夠體驗 Oracle Database 23ai Free 版本，我選擇在本地環境中安裝 Oracle VM VirtualBox。本文將一步一步帶著你在 Windows 系統">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Foracle-vm-db23ai-win%2Foracle-vm-db23ai-win-1.png?alt=media&amp;token=f536a339-4a0f-4027-975e-ba5e0231e5c1">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Foracle-vm-db23ai-win%2Foracle-vm-db23ai-win-2.png?alt=media&amp;token=90577653-8196-4ad9-907c-96b2ea4c8173">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Foracle-vm-db23ai-win%2Foracle-vm-db23ai-win-3.png?alt=media&amp;token=df81b364-a589-4b55-823d-6bb3b0c1d3d8">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Foracle-vm-db23ai-win%2Foracle-vm-db23ai-win-4.png?alt=media&amp;token=00bee316-cbf0-43e4-afc8-d545cd3ef3a4">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Foracle-vm-db23ai-win%2Foracle-vm-db23ai-win-5.png?alt=media&amp;token=eb059060-4fb1-41f4-bec2-70e0585af5fe">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Foracle-vm-db23ai-win%2Foracle-vm-db23ai-win-6.png?alt=media&amp;token=56283f6b-1700-49a3-89ce-81b0c7db9b76">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Foracle-vm-db23ai-win%2Foracle-vm-db23ai-win-7.png?alt=media&amp;token=b6651d1b-6095-483c-bcd6-b68a40c23d92">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Foracle-vm-db23ai-win%2Foracle-vm-db23ai-win-8.png?alt=media&amp;token=7c99773e-cbbe-46a2-b14d-3f92e9d3e53a">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Foracle-vm-db23ai-win%2Foracle-vm-db23ai-win-9.png?alt=media&amp;token=3e712ef9-cdf0-4752-8d36-1f78068c9704">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Foracle-vm-db23ai-win%2Foracle-vm-db23ai-win-10.png?alt=media&amp;token=45140d54-9cf2-42e5-947e-7fdc0c57dd93">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Foracle-vm-db23ai-win%2Foracle-vm-db23ai-win-11.png?alt=media&amp;token=b7c4654a-b673-496d-aa8c-4ef14464f582">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Foracle-vm-db23ai-win%2Foracle-vm-db23ai-win-12.png?alt=media&amp;token=a8fbbb39-1fa2-468d-908b-95ed7089a0e7">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Foracle-vm-db23ai-win%2Foracle-vm-db23ai-win-13.png?alt=media&amp;token=f1de98b8-0e2e-4488-9f5a-3128b11f59b1">
+<meta property="article:published_time" content="2024-10-02T03:11:11.000Z">
+<meta property="article:modified_time" content="2024-10-02T03:11:11.000Z">
+<meta property="article:author" content="Stella">
+<meta property="article:tag" content="Oracle">
+<meta property="article:tag" content="Oracle VM">
+<meta property="article:tag" content="Oracle VirtualBox">
+<meta property="article:tag" content="Oracle Database 23ai">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Foracle-vm-db23ai-win%2Foracle-vm-db23ai-win-1.png?alt=media&amp;token=f536a339-4a0f-4027-975e-ba5e0231e5c1">
+
+
+<link rel="canonical" href="https://estellacoding.github.io/blog/oracle-vm-db23ai-win/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://estellacoding.github.io/blog/oracle-vm-db23ai-win/","path":"oracle-vm-db23ai-win/","title":"Win 安裝 Oracle VM VirtualBox + Database 23ai"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Win 安裝 Oracle VM VirtualBox + Database 23ai | StellaCoding</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EG0CKC3093"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-EG0CKC3093","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/blog/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/blog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/blog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">StellaCoding</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">I am at point A.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/blog/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/blog/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/blog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Oracle-VM"><span class="nav-number">1.</span> <span class="nav-text">Oracle VM</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D-Oracle-VM"><span class="nav-number">1.1.</span> <span class="nav-text">安裝 Oracle VM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8B%E8%BC%89-ova-%E6%AA%94%E6%A1%88"><span class="nav-number">1.2.</span> <span class="nav-text">下載 ova 檔案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E8%99%9B%E6%93%AC%E6%A9%9F"><span class="nav-number">1.3.</span> <span class="nav-text">建立虛擬機</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%96%8B%E5%95%9F%E8%99%9B%E6%93%AC%E6%A9%9F"><span class="nav-number">1.4.</span> <span class="nav-text">開啟虛擬機</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E4%BD%9C%E6%A5%AD%E7%B3%BB%E7%B5%B1"><span class="nav-number">2.</span> <span class="nav-text">查看作業系統</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%80%A3%E6%8E%A5%E8%B3%87%E6%96%99%E5%BA%AB"><span class="nav-number">3.</span> <span class="nav-text">連接資料庫</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E8%A1%A8%E6%A0%BC"><span class="nav-number">3.1.</span> <span class="nav-text">查看表格</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E8%B3%87%E6%96%99%E5%BA%AB%E5%90%8D%E7%A8%B1"><span class="nav-number">3.2.</span> <span class="nav-text">查看資料庫名稱</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D-Python"><span class="nav-number">4.</span> <span class="nav-text">安裝 Python</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E6%B1%BA%E9%80%A3%E7%B7%9A%E5%95%8F%E9%A1%8C"><span class="nav-number">4.1.</span> <span class="nav-text">解決連線問題</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#oracle-linux-ol8"><span class="nav-number">4.1.1.</span> <span class="nav-text">oracle-linux-ol8</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%84%B2%E5%AD%98%E9%80%80%E5%87%BA"><span class="nav-number">4.1.2.</span> <span class="nav-text">儲存退出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#uek-ol8-repo"><span class="nav-number">4.1.3.</span> <span class="nav-text">uek-ol8.repo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9B%B4%E6%96%B0%E5%BF%AB%E5%8F%96"><span class="nav-number">4.1.4.</span> <span class="nav-text">更新快取</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D-Python-3-12"><span class="nav-number">4.2.</span> <span class="nav-text">安裝 Python 3.12</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D-VS-Code"><span class="nav-number">5.</span> <span class="nav-text">安裝 VS Code</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B8%BD%E7%B5%90"><span class="nav-number">6.</span> <span class="nav-text">總結</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Stella"
+      src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+  <p class="site-author-name" itemprop="name">Stella</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/blog/archives/">
+          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/blog/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/blog/tags/">
+        <span class="site-state-item-count">49</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/estellacoding" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;estellacoding" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.instagram.com/stellacoding/" title="Instagram → https:&#x2F;&#x2F;www.instagram.com&#x2F;stellacoding&#x2F;" rel="noopener me" target="_blank"><i class="fab fa-instagram fa-fw"></i>Instagram</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://estellacoding.github.io/blog/oracle-vm-db23ai-win/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+      <meta itemprop="name" content="Stella">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StellaCoding">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Win 安裝 Oracle VM VirtualBox + Database 23ai | StellaCoding">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Win 安裝 Oracle VM VirtualBox + Database 23ai
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2024-10-02 11:11:11" itemprop="dateCreated datePublished" datetime="2024-10-02T11:11:11+08:00">2024-10-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/Oracle/" itemprop="url" rel="index"><span itemprop="name">Oracle</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>由於 Oracle Database 23ai 版本新增了向量資料庫和向量搜尋的功能，當然就要來用看看！但在申請 Oracle Cloud 免費版時，我遇到了信用卡驗證的問題(反覆試信用卡是有跳出被刷了10幾次R)。</p>
+<p>為了能夠體驗 Oracle Database 23ai Free 版本，我選擇在本地環境中安裝 Oracle VM VirtualBox。本文將一步一步帶著你在 Windows 系統上成功設置 Oracle VM VirtualBox 和 Oracle Database 23ai，同時安裝 Python 和 VS Code，打造一個適合碼農開發的環境。(花了我2天QQ)</p>
+<span id="more"></span>
+<h1 id="Oracle-VM"><a class="header-anchor" href="#Oracle-VM"></a>Oracle VM</h1>
+<p>Oracle VM VirtualBox 是一個跨平台的虛擬機器軟體，可以在一台主機上運行多個操作系統。</p>
+<p>此台虛擬機器包含:</p>
+<ul>
+<li>Oracle Linux 8.8</li>
+<li>Oracle Database 23ai Free</li>
+<li>Oracle REST Data Services 24.2.3</li>
+<li>Oracle SQLcl 24.2.0</li>
+<li>Oracle APEX 24.1</li>
+</ul>
+<p>安裝硬體要求:</p>
+<ul>
+<li>At least 4GB RAM</li>
+<li>At least 20GB of free space</li>
+</ul>
+<h2 id="安裝-Oracle-VM"><a class="header-anchor" href="#安裝-Oracle-VM"></a>安裝 Oracle VM</h2>
+<p>下載並安裝 <a target="_blank" rel="noopener" href="https://www.oracle.com/virtualization/technologies/vm/downloads/virtualbox-downloads.html">Oracle VM VirtualBox Base Packages - 7.0.20 - Windows Installer</a>。</p>
+<h2 id="下載-ova-檔案"><a class="header-anchor" href="#下載-ova-檔案"></a>下載 ova 檔案</h2>
+<p>下載 ova 檔案 <a target="_blank" rel="noopener" href="https://www.oracle.com/ca-en/database/free/get-started/#quick-start">Oracle_Database_23ai_Free_Developer.ova</a>。這個檔案是一個虛擬機映像檔，包含已經配置好的環境。</p>
+<h2 id="建立虛擬機"><a class="header-anchor" href="#建立虛擬機"></a>建立虛擬機</h2>
+<p>開啟 Oracle VM VirtualBox，點擊左側功能列中的「Tools」，點擊「Import」。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Foracle-vm-db23ai-win%2Foracle-vm-db23ai-win-1.png?alt=media&amp;token=f536a339-4a0f-4027-975e-ba5e0231e5c1" alt="oracle-vm-db23ai-win-1"></p>
+<p>選擇剛才下載的 Oracle_Database_23ai_Free_Developer.ova，並開始匯入。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Foracle-vm-db23ai-win%2Foracle-vm-db23ai-win-2.png?alt=media&amp;token=90577653-8196-4ad9-907c-96b2ea4c8173" alt="oracle-vm-db23ai-win-2"></p>
+<p>保持預設的設定內容即可。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Foracle-vm-db23ai-win%2Foracle-vm-db23ai-win-3.png?alt=media&amp;token=df81b364-a589-4b55-823d-6bb3b0c1d3d8" alt="oracle-vm-db23ai-win-3"></p>
+<p>匯入過程約需 5 分鐘。當虛擬機顯示在左側列表時，就可以啟動它了。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Foracle-vm-db23ai-win%2Foracle-vm-db23ai-win-4.png?alt=media&amp;token=00bee316-cbf0-43e4-afc8-d545cd3ef3a4" alt="oracle-vm-db23ai-win-4"></p>
+<h2 id="開啟虛擬機"><a class="header-anchor" href="#開啟虛擬機"></a>開啟虛擬機</h2>
+<p>點擊該虛擬機，點擊「Start」，大約需要 2 分鐘啟動。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Foracle-vm-db23ai-win%2Foracle-vm-db23ai-win-5.png?alt=media&amp;token=eb059060-4fb1-41f4-bec2-70e0585af5fe" alt="oracle-vm-db23ai-win-5"></p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Foracle-vm-db23ai-win%2Foracle-vm-db23ai-win-6.png?alt=media&amp;token=56283f6b-1700-49a3-89ce-81b0c7db9b76" alt="oracle-vm-db23ai-win-6"></p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Foracle-vm-db23ai-win%2Foracle-vm-db23ai-win-7.png?alt=media&amp;token=b6651d1b-6095-483c-bcd6-b68a40c23d92" alt="oracle-vm-db23ai-win-7"></p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Foracle-vm-db23ai-win%2Foracle-vm-db23ai-win-8.png?alt=media&amp;token=7c99773e-cbbe-46a2-b14d-3f92e9d3e53a" alt="oracle-vm-db23ai-win-8"></p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Foracle-vm-db23ai-win%2Foracle-vm-db23ai-win-9.png?alt=media&amp;token=3e712ef9-cdf0-4752-8d36-1f78068c9704" alt="oracle-vm-db23ai-win-9"></p>
+<h1 id="查看作業系統"><a class="header-anchor" href="#查看作業系統"></a>查看作業系統</h1>
+<p>當虛擬機啟動後，可以通過以下命令檢查作業系統版本。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[oracle@localhost ~]$ <span class="built_in">cat</span> /etc/os-release</span><br></pre></td></tr></table></figure>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">NAME</span>=<span class="string">&quot;Oracle Linux Server&quot;</span></span><br><span class="line"><span class="attr">VERSION</span>=<span class="string">&quot;8.10&quot;</span></span><br><span class="line"><span class="attr">ID</span>=<span class="string">&quot;ol&quot;</span></span><br><span class="line"><span class="attr">ID_LIKE</span>=<span class="string">&quot;fedora&quot;</span></span><br><span class="line"><span class="attr">VARIANT</span>=<span class="string">&quot;Server&quot;</span></span><br><span class="line"><span class="attr">VARIANT_ID</span>=<span class="string">&quot;server&quot;</span></span><br><span class="line"><span class="attr">VERSION_ID</span>=<span class="string">&quot;8.10&quot;</span></span><br><span class="line"><span class="attr">PLATFORM_ID</span>=<span class="string">&quot;platform:el8&quot;</span></span><br><span class="line"><span class="attr">PRETTY_NAME</span>=<span class="string">&quot;Oracle Linux Server 8.10&quot;</span></span><br><span class="line"><span class="attr">ANSI_COLOR</span>=<span class="string">&quot;0;31&quot;</span></span><br><span class="line"><span class="attr">CPE_NAME</span>=<span class="string">&quot;cpe:/o:oracle:linux:8:10:server&quot;</span></span><br><span class="line"><span class="attr">HOME_URL</span>=<span class="string">&quot;https://linux.oracle.com/&quot;</span></span><br><span class="line"><span class="attr">BUG_REPORT_URL</span>=<span class="string">&quot;https://github.com/oracle/oracle-linux&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">ORACLE_BUGZILLA_PRODUCT</span>=<span class="string">&quot;Oracle Linux 8&quot;</span></span><br><span class="line"><span class="attr">ORACLE_BUGZILLA_PRODUCT_VERSION</span>=<span class="number">8.10</span></span><br><span class="line"><span class="attr">ORACLE_SUPPORT_PRODUCT</span>=<span class="string">&quot;Oracle Linux&quot;</span></span><br><span class="line"><span class="attr">ORACLE_SUPPORT_PRODUCT_VERSION</span>=<span class="number">8.10</span></span><br></pre></td></tr></table></figure>
+<h1 id="連接資料庫"><a class="header-anchor" href="#連接資料庫"></a>連接資料庫</h1>
+<p>進入 SQL Developer Web (<a target="_blank" rel="noopener" href="http://localhost:8080/ords/sql-developer">http://localhost:8080/ords/sql-developer</a>)。</p>
+<p>使用以下帳號和密碼登錄：</p>
+<ul>
+<li>帳號: HR</li>
+<li>密碼: oracle</li>
+</ul>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Foracle-vm-db23ai-win%2Foracle-vm-db23ai-win-10.png?alt=media&amp;token=45140d54-9cf2-42e5-947e-7fdc0c57dd93" alt="oracle-vm-db23ai-win-10"></p>
+<h2 id="查看表格"><a class="header-anchor" href="#查看表格"></a>查看表格</h2>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Foracle-vm-db23ai-win%2Foracle-vm-db23ai-win-11.png?alt=media&amp;token=b7c4654a-b673-496d-aa8c-4ef14464f582" alt="oracle-vm-db23ai-win-11"></p>
+<h2 id="查看資料庫名稱"><a class="header-anchor" href="#查看資料庫名稱"></a>查看資料庫名稱</h2>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> sys_context(<span class="string">&#x27;USERENV&#x27;</span>, <span class="string">&#x27;CON_NAME&#x27;</span>) <span class="keyword">FROM</span> dual;</span><br></pre></td></tr></table></figure>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Foracle-vm-db23ai-win%2Foracle-vm-db23ai-win-12.png?alt=media&amp;token=a8fbbb39-1fa2-468d-908b-95ed7089a0e7" alt="oracle-vm-db23ai-win-12"></p>
+<h1 id="安裝-Python"><a class="header-anchor" href="#安裝-Python"></a>安裝 Python</h1>
+<p>系統預裝了 Python 3.6.8，使用以下命令查看版本。</p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[oracle<span class="variable">@localhost</span> ~]<span class="variable">$ </span>python3 -V</span><br><span class="line">Python <span class="number">3.6</span>.<span class="number">8</span></span><br></pre></td></tr></table></figure>
+<h2 id="解決連線問題"><a class="header-anchor" href="#解決連線問題"></a>解決連線問題</h2>
+<p>我在安裝新版本 Python 時，遇到了連線 Timeout 問題。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[oracle@localhost ~]$ <span class="built_in">sudo</span> dnf install python3.12</span><br><span class="line">[<span class="built_in">sudo</span>] password <span class="keyword">for</span> oracle: </span><br><span class="line">Oracle Linux 8 BaseOS Latest (x86_64)                                                                                               0.0  B/s |   0  B     08:00    </span><br><span class="line">Errors during downloading metadata <span class="keyword">for</span> repository <span class="string">&#x27;ol8_baseos_latest&#x27;</span>:</span><br><span class="line">  - Curl error (28): Timeout was reached <span class="keyword">for</span> https://yum-us-phoenix-1.oracle.com/repo/OracleLinux/OL8/baseos/latest/x86_64/repodata/repomd.xml [Connection timed out after 120033 milliseconds]</span><br><span class="line">  - Curl error (28): Timeout was reached <span class="keyword">for</span> https://yum-us-phoenix-1.oracle.com/repo/OracleLinux/OL8/baseos/latest/x86_64/repodata/repomd.xml [Connection timed out after 120000 milliseconds]</span><br><span class="line">  - Curl error (28): Timeout was reached <span class="keyword">for</span> https://yum-us-phoenix-1.oracle.com/repo/OracleLinux/OL8/baseos/latest/x86_64/repodata/repomd.xml [Connection timed out after 120035 milliseconds]</span><br><span class="line">Error: Failed to download metadata <span class="keyword">for</span> repo <span class="string">&#x27;ol8_baseos_latest&#x27;</span>: Cannot download repomd.xml: Cannot download repodata/repomd.xml: All mirrors were tried</span><br></pre></td></tr></table></figure>
+<p><mark>需要修改 Oracle Linux 8 的 yum repository 配置文件</mark>，以便能從正確的來源下載和安裝軟體更新。</p>
+<h3 id="oracle-linux-ol8"><a class="header-anchor" href="#oracle-linux-ol8"></a>oracle-linux-ol8</h3>
+<p>備份系統中原本的軟體配置文件。將 /etc/yum.repos.d/oracle-linux-ol8.repo 文件複製為 oracle-linux-ol8.repo.bak，這樣如果後續操作出現問題，可以使用備份文件恢復。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 備份系統中原本的軟體配置文件</span></span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">cp</span> /etc/yum.repos.d/oracle-linux-ol8.repo /etc/yum.repos.d/oracle-linux-ol8.repo.bak</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 編輯配置文件</span></span><br><span class="line"><span class="built_in">sudo</span> nano /etc/yum.repos.d/oracle-linux-ol8.repo</span><br></pre></td></tr></table></figure>
+<p>找到所有<code>baseurl</code>開頭是<code>yumxxxxx.com</code>改成<code>yum.oracle.com</code>。應該是有18個吧，請小心用上下鍵移動，先刪除再用右鍵貼上(<s>考驗工程師眼力及耐心時間到了)</s>。</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 將yumxxx.com改成yum.oracle.com</span></span><br><span class="line">baseurl=https:<span class="regexp">//yum</span>-us-phoenix-<span class="number">1</span>.oracle.com<span class="regexp">/repo/</span>OracleLinux<span class="regexp">/OL8/</span>baseos<span class="regexp">/latest/</span><span class="variable">$basearch</span>/</span><br><span class="line"></span><br><span class="line">baseurl=https:<span class="regexp">//yum</span>.oracle.com<span class="regexp">/repo/</span>OracleLinux<span class="regexp">/OL8/</span>baseos<span class="regexp">/latest/</span><span class="variable">$basearch</span>/</span><br></pre></td></tr></table></figure>
+<h3 id="儲存退出"><a class="header-anchor" href="#儲存退出"></a>儲存退出</h3>
+<p>在 Nano 中用以下指令儲存並退出。</p>
+<ul>
+<li>按 <code>Ctrl + O</code> 儲存檔案。</li>
+<li>按 <code>Enter</code> 確認檔案名稱。</li>
+<li>按 <code>Ctrl + X</code> 退出編輯器。</li>
+</ul>
+<h3 id="uek-ol8-repo"><a class="header-anchor" href="#uek-ol8-repo"></a>uek-ol8.repo</h3>
+<p>找到所有<code>baseurl</code>開頭是<code>yumxxxxx.com</code>改成<code>yum.oracle.com</code>。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">cp</span> /etc/yum.repos.d/uek-ol8.repo /etc/yum.repos.d/uek-ol8.repo.bak</span><br><span class="line"><span class="built_in">sudo</span> nano /etc/yum.repos.d/uek-ol8.repo</span><br></pre></td></tr></table></figure>
+<h3 id="更新快取"><a class="header-anchor" href="#更新快取"></a>更新快取</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 清除快取</span></span><br><span class="line">[oracle@localhost ~]$ <span class="built_in">sudo</span> dnf clean all</span><br><span class="line"><span class="comment"># 更新快取</span></span><br><span class="line"><span class="built_in">sudo</span> dnf makecache</span><br></pre></td></tr></table></figure>
+<figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[oracle@localhost ~]$ sudo dnf clean all</span><br><span class="line">24 files removed</span><br><span class="line"></span><br><span class="line">[oracle@localhost ~]$ sudo dnf makecache</span><br><span class="line">Oracle Linux<span class="number"> 8 </span>BaseOS Latest (x86_64)                                                                                                    <span class="number"> 11 </span>MB/s | <span class="number"> 81 </span>MB     00:07    </span><br><span class="line">Oracle Linux<span class="number"> 8 </span>Application Stream (x86_64)                                                                                               9.9 MB/s | <span class="number"> 63 </span>MB     00:06    </span><br><span class="line">Latest Unbreakable Enterprise Kernel Release<span class="number"> 7 </span>for Oracle Linux<span class="number"> 8 </span>(x86_64)                                                               9.0 MB/s | <span class="number"> 43 </span>MB     00:04    </span><br><span class="line">Last metadata expiration check: 0:00:10 ago on Wed<span class="number"> 02 </span>Oct<span class="number"> 2024 </span>09:00:55 AM UTC.</span><br><span class="line">Metadata cache created.</span><br></pre></td></tr></table></figure>
+<h2 id="安裝-Python-3-12"><a class="header-anchor" href="#安裝-Python-3-12"></a>安裝 Python 3.12</h2>
+<p>連線問題解決後就可以安裝各種軟體啦!</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">sudo</span> dnf install python3.<span class="number">12</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight subunit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">[oracle@localhost ~]$ sudo dnf install python3.12</span><br><span class="line">Last metadata expiration check: 0:01:06 ago on Wed 02 Oct 2024 09:00:55 AM UTC.</span><br><span class="line">Dependencies resolved.</span><br><span class="line">=========================================================================================================================================================================</span><br><span class="line"> Package                                        Architecture                     Version                                   Repository                               Size</span><br><span class="line">=========================================================================================================================================================================</span><br><span class="line">Installing:</span><br><span class="line"> python3.12                                     x86_64                           3.12.5<span class="string">-2</span>.el8_10                           ol8_appstream                            29 k</span><br><span class="line">Installing dependencies:</span><br><span class="line"> mpdecimal                                      x86_64                           2.5.1<span class="string">-3</span>.el8                               ol8_appstream                            93 k</span><br><span class="line"> python3.12-libs                                x86_64                           3.12.5<span class="string">-2</span>.el8_10                           ol8_appstream                            10 M</span><br><span class="line"> python3.12-pip-wheel                           noarch                           23.2.1<span class="string">-4</span>.el8                              ol8_appstream                           1.5 M</span><br><span class="line"></span><br><span class="line">Transaction Summary</span><br><span class="line">=========================================================================================================================================================================</span><br><span class="line">Install  4 Packages</span><br><span class="line"></span><br><span class="line">Total download size: 12 M</span><br><span class="line">Installed size: 44 M</span><br><span class="line">Is this ok [y/N]: y</span><br><span class="line">Downloading Packages:</span><br><span class="line">(1/4): python3.12<span class="string">-3</span>.12.5<span class="string">-2</span>.el8_10.x86_64.rpm                                                                                             126 kB/s |  29 kB     00:00    </span><br><span class="line">(2/4): mpdecimal<span class="string">-2</span>.5.1<span class="string">-3</span>.el8.x86_64.rpm                                                                                                  347 kB/s |  93 kB     00:00    </span><br><span class="line">(3/4): python3.12-libs<span class="string">-3</span>.12.5<span class="string">-2</span>.el8_10.x86_64.rpm                                                                                        7.2 MB/s |  10 MB     00:01    </span><br><span class="line">(4/4): python3.12-pip-wheel<span class="string">-23</span>.2.1<span class="string">-4</span>.el8.noarch.rpm                                                                                      313 kB/s | 1.5 MB     00:04    </span><br><span class="line">-------------------------------------------------------------------------------------------------------------------------------------------------------------------------</span><br><span class="line">Total                                                                                                                                    2.3 MB/s |  12 MB     00:05     </span><br><span class="line">Running transaction check</span><br><span class="line">Transaction check succeeded.</span><br><span class="line">Running transaction test</span><br><span class="line">Transaction test succeeded.</span><br><span class="line">Running transaction</span><br><span class="line">  Preparing        :                                                                                                                                                 1/1 </span><br><span class="line">  Installing       : python3.12-pip-wheel<span class="string">-23</span>.2.1<span class="string">-4</span>.el8.noarch                                                                                                        1/4 </span><br><span class="line">  Installing       : mpdecimal<span class="string">-2</span>.5.1<span class="string">-3</span>.el8.x86_64                                                                                                                    2/4 </span><br><span class="line">  Installing       : python3.12<span class="string">-3</span>.12.5<span class="string">-2</span>.el8_10.x86_64                                                                                                               3/4 </span><br><span class="line">  Running scriptlet: python3.12<span class="string">-3</span>.12.5<span class="string">-2</span>.el8_10.x86_64                                                                                                               3/4 </span><br><span class="line">  Installing       : python3.12-libs<span class="string">-3</span>.12.5<span class="string">-2</span>.el8_10.x86_64                                                                                                          4/4 </span><br><span class="line">  Running scriptlet: python3.12-libs<span class="string">-3</span>.12.5<span class="string">-2</span>.el8_10.x86_64                                                                                                          4/4 </span><br><span class="line">  Verifying        : mpdecimal<span class="string">-2</span>.5.1<span class="string">-3</span>.el8.x86_64                                                                                                                    1/4 </span><br><span class="line">  Verifying        : python3.12<span class="string">-3</span>.12.5<span class="string">-2</span>.el8_10.x86_64                                                                                                               2/4 </span><br><span class="line">  Verifying        : python3.12-libs<span class="string">-3</span>.12.5<span class="string">-2</span>.el8_10.x86_64                                                                                                          3/4 </span><br><span class="line">  Verifying        : python3.12-pip-wheel<span class="string">-23</span>.2.1<span class="string">-4</span>.el8.noarch                                                                                                        4/4 </span><br><span class="line"></span><br><span class="line">Installed:</span><br><span class="line">  mpdecimal<span class="string">-2</span>.5.1<span class="string">-3</span>.el8.x86_64       python3.12<span class="string">-3</span>.12.5<span class="string">-2</span>.el8_10.x86_64       python3.12-libs<span class="string">-3</span>.12.5<span class="string">-2</span>.el8_10.x86_64       python3.12-pip-wheel<span class="string">-23</span>.2.1<span class="string">-4</span>.el8.noarch      </span><br><span class="line"></span><br><span class="line">Complete!</span><br></pre></td></tr></table></figure>
+<p>將系統默認的 Python 3.6 版本改成 3.12。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> alternatives --<span class="built_in">set</span> python3 /usr/bin/python3.12</span><br></pre></td></tr></table></figure>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[oracle<span class="variable">@localhost</span> ~]<span class="variable">$ </span>sudo alternatives --set python3 /usr/bin/python3.<span class="number">12</span></span><br><span class="line">[oracle<span class="variable">@localhost</span> ~]<span class="variable">$ </span>python3 -V</span><br><span class="line">Python <span class="number">3.12</span>.<span class="number">5</span></span><br></pre></td></tr></table></figure>
+<h1 id="安裝-VS-Code"><a class="header-anchor" href="#安裝-VS-Code"></a>安裝 VS Code</h1>
+<p>從 Visual Studio Code 官方網站下載並安裝最新的 RPM 安裝包。</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">sudo</span> dnf install -y https://packages.microsoft.com/yumrepos/vscode/Packages/c/code-<span class="number">1</span>.<span class="number">93</span>.<span class="number">1</span>-<span class="number">1726079369</span>.el8.x86_64.rpm</span><br></pre></td></tr></table></figure>
+<figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">[oracle@localhost ~]$ sudo dnf install -y https://packages.microsoft.com/yumrepos/vscode/Packages/c/code-1.93.1-1726079369.el8.x86_64.rpm</span><br><span class="line">Last metadata expiration check: 0:09:07 ago on Wed 02 Oct 2024 09:00:55 AM UTC.</span><br><span class="line">code-1.93.1-1726079369.el8.x86_64.rpm                                                                                                    9.8 MB/s | 137 MB     00:14    </span><br><span class="line">Dependencies resolved.</span><br><span class="line">=========================================================================================================================================================================</span><br><span class="line"> Package                          Architecture                       Version                                              Repository                                Size</span><br><span class="line">=========================================================================================================================================================================</span><br><span class="line">Installing:</span><br><span class="line"> code                             x86_64                             1.93.1-1726079369.el8                                @commandline                             137 M</span><br><span class="line"></span><br><span class="line">Transaction Summary</span><br><span class="line">=========================================================================================================================================================================</span><br><span class="line">Install  1 Package</span><br><span class="line"></span><br><span class="line">Total size: 137 M</span><br><span class="line">Installed size: 385 M</span><br><span class="line">Downloading Packages:</span><br><span class="line">Running transaction<span class="built_in"> check</span></span><br><span class="line"><span class="built_in"></span>Transaction<span class="built_in"> check </span>succeeded.</span><br><span class="line">Running transaction test</span><br><span class="line">Transaction test succeeded.</span><br><span class="line">Running transaction</span><br><span class="line">  Preparing       <span class="keyword"> :</span>                                                                                                                                                 1/1 </span><br><span class="line">  Installing      <span class="keyword"> :</span> code-1.93.1-1726079369.el8.x86_64                                                                                                               1/1 </span><br><span class="line">  Running scriptlet: code-1.93.1-1726079369.el8.x86_64                                                                                                               1/1 </span><br><span class="line">  Verifying       <span class="keyword"> :</span> code-1.93.1-1726079369.el8.x86_64                                                                                                               1/1 </span><br><span class="line"></span><br><span class="line">Installed:</span><br><span class="line">  code-1.93.1-1726079369.el8.x86_64                                                                                                                                      </span><br><span class="line"></span><br><span class="line">Complete!</span><br></pre></td></tr></table></figure>
+<p>安裝完成後，啟動 VS Code。</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">code</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Foracle-vm-db23ai-win%2Foracle-vm-db23ai-win-13.png?alt=media&amp;token=f1de98b8-0e2e-4488-9f5a-3128b11f59b1" alt="oracle-vm-db23ai-win-13"></p>
+<h1 id="總結"><a class="header-anchor" href="#總結"></a>總結</h1>
+<p>有 Oracle Database 23ai Free 的開發環境就弄好囉! 在這篇文章中，我們介紹了如何在 Windows 系統上安裝 Oracle VM VirtualBox，並匯入已配置好環境的 OVA 檔案。此外，我們還在虛擬機器中確認了資料庫連線，解決了網路連接問題，並成功安裝了 Python 3.12 和 Visual Studio Code，完成了開發環境的前置作業。</p>
+<p>下一篇文章中，我將參照 Oracle LiveLabs 這篇 <a target="_blank" rel="noopener" href="https://apexapps.oracle.com/pls/apex/f?p=133:180:108165763619849::::wid:3927">AI Vector Search - 7 Easy Steps to Building a RAG Application using LangChain</a> 使用 Oracle 向量資料庫開發一個簡易 RAG(檢索增強生成)應用。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/blog/tags/Oracle/" rel="tag"># Oracle</a>
+              <a href="/blog/tags/Oracle-VM/" rel="tag"># Oracle VM</a>
+              <a href="/blog/tags/Oracle-VirtualBox/" rel="tag"># Oracle VirtualBox</a>
+              <a href="/blog/tags/Oracle-Database-23ai/" rel="tag"># Oracle Database 23ai</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/blog/oracle-apex-ai-development-project-management/" rel="prev" title="在 Oracle APEX 中使用 AI 輔助開發的專案管理應用">
+                  <i class="fa fa-angle-left"></i> 在 Oracle APEX 中使用 AI 輔助開發的專案管理應用
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Stella</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/blog/js/comments.js"></script><script src="/blog/js/utils.js"></script><script src="/blog/js/motion.js"></script><script src="/blog/js/sidebar.js"></script><script src="/blog/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js","integrity":"sha256-stuqcu2FrjYCXDOytWFA5SoUE/r3nkp6gTglzNSlavU="}}</script>
+  <script src="/blog/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"ams","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/blog/js/third-party/math/mathjax.js"></script>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"estellacoding","repo":"blog","client_id":"Ov23liBnWPuObZGktbAv","client_secret":"9ed6e261cd75af620744058daafa56b80a53ffa8","admin_user":"estellacoding","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":null,"labels":"gitalk","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"9535504f54490c4fd2528ec21c157b57"}</script>
+<script src="/blog/js/third-party/comments/gitalk.js"></script>
+
+</body>
+</html>
