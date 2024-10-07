@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="mask-icon" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"estellacoding.github.io","root":"/blog/","images":"/blog/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/blog/js/config.js"></script>
+
+    <meta name="description" content="上一篇我們完成 Oracle Database 23ai Free 的開發環境，如果還沒設定好的話，請看 Win 安裝 Oracle VM VirtualBox + Database 23ai。 本篇會先帶大家了解向量搜尋基本概念後，再分享如何使用 Oracle 資料庫和 LangChain 建立一個 RAG 應用，是參照 Oracle LiveLabs 這篇 AI Vector Search -">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 Oracle 向量資料庫和 LangChain 開發 RAG 應用">
+<meta property="og:url" content="https://estellacoding.github.io/blog/oracle-vector-search-langchain-rag/index.html">
+<meta property="og:site_name" content="StellaCoding">
+<meta property="og:description" content="上一篇我們完成 Oracle Database 23ai Free 的開發環境，如果還沒設定好的話，請看 Win 安裝 Oracle VM VirtualBox + Database 23ai。 本篇會先帶大家了解向量搜尋基本概念後，再分享如何使用 Oracle 資料庫和 LangChain 建立一個 RAG 應用，是參照 Oracle LiveLabs 這篇 AI Vector Search -">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Foracle-vector-search-langchain-rag%2Fvectors-banana-apple-cat.png?alt=media&amp;token=645fe100-851b-4a84-8eac-56e2e23c8f6c">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Foracle-vector-search-langchain-rag%2FIris-Dataset-3D-PCA-Representation.png?alt=media&amp;token=5b52eee3-0abd-41ea-9fcc-061d36b30f1b">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Foracle-vector-search-langchain-rag%2FDB-Engines-Ranking-Vector%20DBMS.png?alt=media&amp;token=13838f0c-d05e-4b6b-ab7c-764820ec76d0">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Foracle-vector-search-langchain-rag%2Fwhat-is-rag-from-oracle.png?alt=media&amp;token=0abdd1b7-2ad4-41f8-a6c3-b515fefd5db0">
+<meta property="article:published_time" content="2024-10-07T03:11:11.000Z">
+<meta property="article:modified_time" content="2024-10-07T03:11:11.000Z">
+<meta property="article:author" content="Stella">
+<meta property="article:tag" content="Oracle">
+<meta property="article:tag" content="Oracle Database 23ai">
+<meta property="article:tag" content="Vector Database">
+<meta property="article:tag" content="Vector Search">
+<meta property="article:tag" content="LangChain">
+<meta property="article:tag" content="RAG">
+<meta property="article:tag" content="Vector">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Foracle-vector-search-langchain-rag%2Fvectors-banana-apple-cat.png?alt=media&amp;token=645fe100-851b-4a84-8eac-56e2e23c8f6c">
+
+
+<link rel="canonical" href="https://estellacoding.github.io/blog/oracle-vector-search-langchain-rag/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://estellacoding.github.io/blog/oracle-vector-search-langchain-rag/","path":"oracle-vector-search-langchain-rag/","title":"使用 Oracle 向量資料庫和 LangChain 開發 RAG 應用"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>使用 Oracle 向量資料庫和 LangChain 開發 RAG 應用 | StellaCoding</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EG0CKC3093"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-EG0CKC3093","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/blog/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/blog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/blog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">StellaCoding</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">I am at point A.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/blog/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/blog/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/blog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%80%E9%BA%BC%E6%98%AF%E5%90%91%E9%87%8F"><span class="nav-number">1.</span> <span class="nav-text">什麼是向量</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%80%E9%BA%BC%E6%98%AF%E5%90%91%E9%87%8F%E6%90%9C%E5%B0%8B"><span class="nav-number">2.</span> <span class="nav-text">什麼是向量搜尋</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B3%87%E6%96%99%E8%BD%89%E5%90%91%E9%87%8F"><span class="nav-number">2.1.</span> <span class="nav-text">資料轉向量</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%87%E6%9C%AC"><span class="nav-number">2.1.1.</span> <span class="nav-text">文本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%96%E5%83%8F"><span class="nav-number">2.1.2.</span> <span class="nav-text">圖像</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A8%88%E7%AE%97%E5%90%91%E9%87%8F%E8%B7%9D%E9%9B%A2"><span class="nav-number">2.2.</span> <span class="nav-text">計算向量距離</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%A7%E7%A9%8D"><span class="nav-number">2.2.1.</span> <span class="nav-text">內積</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%90%E6%B0%8F%E8%B7%9D%E9%9B%A2"><span class="nav-number">2.2.2.</span> <span class="nav-text">歐氏距離</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A4%98%E5%BC%A6%E7%9B%B8%E4%BC%BC%E5%BA%A6"><span class="nav-number">2.2.3.</span> <span class="nav-text">餘弦相似度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9B%BC%E5%93%88%E9%A0%93%E8%B7%9D%E9%9B%A2"><span class="nav-number">2.2.4.</span> <span class="nav-text">曼哈頓距離</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%90%91%E9%87%8F%E8%B3%87%E6%96%99%E5%BA%AB%E6%8E%92%E5%90%8D"><span class="nav-number">3.</span> <span class="nav-text">向量資料庫排名</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%80%E9%BA%BC%E6%98%AF-RAG"><span class="nav-number">4.</span> <span class="nav-text">什麼是 RAG</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AF%A6%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="nav-number">5.</span> <span class="nav-text">實作流程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%8C%E6%95%B4%E7%A8%8B%E5%BC%8F%E7%A2%BC"><span class="nav-number">6.</span> <span class="nav-text">完整程式碼</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B8%BD%E7%B5%90"><span class="nav-number">7.</span> <span class="nav-text">總結</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Stella"
+      src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+  <p class="site-author-name" itemprop="name">Stella</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/blog/archives/">
+          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/blog/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/blog/tags/">
+        <span class="site-state-item-count">54</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/estellacoding" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;estellacoding" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.instagram.com/stellacoding/" title="Instagram → https:&#x2F;&#x2F;www.instagram.com&#x2F;stellacoding&#x2F;" rel="noopener me" target="_blank"><i class="fab fa-instagram fa-fw"></i>Instagram</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://estellacoding.github.io/blog/oracle-vector-search-langchain-rag/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+      <meta itemprop="name" content="Stella">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StellaCoding">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="使用 Oracle 向量資料庫和 LangChain 開發 RAG 應用 | StellaCoding">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用 Oracle 向量資料庫和 LangChain 開發 RAG 應用
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2024-10-07 11:11:11" itemprop="dateCreated datePublished" datetime="2024-10-07T11:11:11+08:00">2024-10-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/Oracle/" itemprop="url" rel="index"><span itemprop="name">Oracle</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>上一篇我們完成 Oracle Database 23ai Free 的開發環境，如果還沒設定好的話，請看 <a href="https://estellacoding.github.io/blog/oracle-vm-db23ai-win/">Win 安裝 Oracle VM VirtualBox + Database 23ai</a>。</p>
+<p>本篇會先帶大家了解向量搜尋基本概念後，再分享如何使用 Oracle 資料庫和 LangChain 建立一個 RAG 應用，是參照 Oracle LiveLabs 這篇 <a target="_blank" rel="noopener" href="https://apexapps.oracle.com/pls/apex/f?p=133:180:108165763619849::::wid:3927">AI Vector Search - 7 Easy Steps to Building a RAG Application using LangChain</a> 的教學來實現「使用 Oracle 向量資料庫的 RAG 應用」。</p>
+<span id="more"></span>
+<h1 id="什麼是向量"><a class="header-anchor" href="#什麼是向量"></a>什麼是向量</h1>
+<p>向量(Vector)在數學和物理學中通常表示為一個有序的數值集合，能夠同時描述大小和方向。當我們將資料表示為向量時，每個向量都對應於高維空間中的一個點。</p>
+<p>透過向量之間的距離，我們可以發現不同資料點之間的相似性或關聯性。舉個例子，如果我們將「蘋果」、「香蕉」和「貓」這些詞語嵌入到一個高維空間中，我們可能會發現「蘋果」和「香蕉」的向量會靠近，因為它們都是水果，有著相似的語義特徵，而「貓」則屬於完全不同的類別。</p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Foracle-vector-search-langchain-rag%2Fvectors-banana-apple-cat.png?alt=media&amp;token=645fe100-851b-4a84-8eac-56e2e23c8f6c" alt="vectors-banana-apple-cat"></p>
+<div style="margin-top: -15px; font-size: 14px; color: #555; text-align: center; font-style: normal; font-family: 'Arial', sans-serif;">
+    (資料來源: <a target="_blank" rel="noopener" href="https://weaviate.io/blog/distance-metrics-in-vector-search" style="color: #555; text-decoration: none;">Distance Metrics in Vector Search)
+    </a>
+</div>
+<p><mark>在資料科學中，向量通常是用來表示一個樣本的多個特徵的組合</mark>。</p>
+<p>比如，以鳶尾花資料集為例子:</p>
+<ul>
+<li>有 3 種種類</li>
+<li>每種類有 50 個樣本，總共 150 個樣本</li>
+<li>每個樣本有 4 個特徵
+<ul>
+<li>花萼長度(sepal length), 花萼寬度(sepal width), 花瓣長度(petal length), 花瓣寬度(petal width)</li>
+<li>每個樣本的特徵可以表示為一個 4 維向量，例如：$\vec{v} = [\text{sepal_length}, \text{sepal_width}, \text{petal_length}, \text{petal_width}] = [5.1, 3.5, 1.4, 0.2]$</li>
+<li>每個樣本對應到特徵空間中的一個點，這個點的位置由這 4 個特徵值決定。</li>
+</ul>
+</li>
+<li>因此，整個資料集的形狀是 (150, 4)，這表示有 150 個樣本，每個樣本包含 4 個特徵。<mark>在特徵空間中，這 150 個樣本就對應到 150 個不同的點，每個點的位置由該樣本的 4 個特徵值決定</mark>。</li>
+</ul>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Foracle-vector-search-langchain-rag%2FIris-Dataset-3D-PCA-Representation.png?alt=media&amp;token=5b52eee3-0abd-41ea-9fcc-061d36b30f1b" alt="Iris-Dataset-3D-PCA-Representation"></p>
+<div class="note info"><p>向量(Vector)是一個數值集合，用來描述資料點的大小和方向。在資料科學中，我們可以用向量來表示樣本的多個特徵，透過計算向量之間的距離來評估它們的相似性。</p>
+</div>
+<h1 id="什麼是向量搜尋"><a class="header-anchor" href="#什麼是向量搜尋"></a>什麼是向量搜尋</h1>
+<p>向量搜尋(Vector Search)是一種利用向量來進行相似度檢索的技術。</p>
+<ul>
+<li>向量搜索是達成<strong>語意(Semantic)搜尋</strong>的關鍵技術。</li>
+<li>通常用於文本、圖像、音訊、影片等非結構性資料。</li>
+<li>核心概念是將資料轉換為多維空間中的向量，然後比較向量的距離來評估向量相似度。</li>
+</ul>
+<h2 id="資料轉向量"><a class="header-anchor" href="#資料轉向量"></a>資料轉向量</h2>
+<p><u><strong>資料轉換為向量的過程稱為「特徵向量化」（Embedding）</strong></u>，而不同的資料類型（如文本、圖像、音訊、影片等）需要不同的技術來實現這個轉換。</p>
+<h3 id="文本"><a class="header-anchor" href="#文本"></a>文本</h3>
+<p>MiniLM-L6-v2 多語言模型</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sentence_transformers <span class="keyword">import</span> SentenceTransformer</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 MiniLM-L6-v2 多語言模型</span></span><br><span class="line">model = SentenceTransformer(<span class="string">&#x27;paraphrase-multilingual-MiniLM-L12-v2&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 輸入文本</span></span><br><span class="line">texts = [</span><br><span class="line">    <span class="string">&quot;請到Github追蹤我&quot;</span>, </span><br><span class="line">    <span class="string">&quot;我的文章產出更快😎&quot;</span></span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成向量</span></span><br><span class="line">embeddings = model.encode(texts)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 輸出向量形狀</span></span><br><span class="line"><span class="comment"># (2, 384)表示有2個文本，每個文本的向量是384維</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;向量形狀: <span class="subst">&#123;embeddings.shape&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 顯示每個文本的向量</span></span><br><span class="line"><span class="keyword">for</span> i, text <span class="keyword">in</span> <span class="built_in">enumerate</span>(texts):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;文本: <span class="subst">&#123;text&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;向量: <span class="subst">&#123;embeddings[i][:<span class="number">3</span>]&#125;</span> ... <span class="subst">&#123;embeddings[i][-<span class="number">3</span>:]&#125;</span>\n&quot;</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">向量形狀: (<span class="number">2</span>, <span class="number">384</span>)</span><br><span class="line">文本: 請到Github追蹤我</span><br><span class="line">向量: [-<span class="number">0.21761326</span> -<span class="number">0.22119161</span>  <span class="number">0.12100245</span>] ... [-<span class="number">0.02576047</span> -<span class="number">0.1395366</span>  -<span class="number">0.22299667</span>]</span><br><span class="line"></span><br><span class="line">文本: 我的文章產出更快😎</span><br><span class="line">向量: [ <span class="number">0.0126495</span>  -<span class="number">0.17077899</span> -<span class="number">0.15991284</span>] ... [ <span class="number">0.03999303</span>  <span class="number">0.06574974</span> -<span class="number">0.02783584</span>]</span><br></pre></td></tr></table></figure>
+<p>MiniLM-L6-v2 英文模型</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sentence_transformers <span class="keyword">import</span> SentenceTransformer</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 MiniLM-L6-v2 英文模型</span></span><br><span class="line">model = SentenceTransformer(<span class="string">&#x27;all-MiniLM-L6-v2&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 輸入文本</span></span><br><span class="line">texts = [</span><br><span class="line">    <span class="string">&quot;Follow me on GitHub!&quot;</span>, </span><br><span class="line">    <span class="string">&quot;My content is coming out faster😎&quot;</span></span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成向量</span></span><br><span class="line">embeddings = model.encode(texts)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 輸出向量形狀</span></span><br><span class="line"><span class="comment"># (2, 384)表示有2個文本，每個文本的向量是384維</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;向量形狀: <span class="subst">&#123;embeddings.shape&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 顯示每個文本的向量</span></span><br><span class="line"><span class="keyword">for</span> i, text <span class="keyword">in</span> <span class="built_in">enumerate</span>(texts):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;文本: <span class="subst">&#123;text&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;向量: <span class="subst">&#123;embeddings[i][:<span class="number">3</span>]&#125;</span> ... <span class="subst">&#123;embeddings[i][-<span class="number">3</span>:]&#125;</span>\n&quot;</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">向量形狀: (<span class="number">2</span>, <span class="number">384</span>)</span><br><span class="line">文本: Follow me on GitHub!</span><br><span class="line">向量: [-<span class="number">0.04050694</span> -<span class="number">0.08719105</span> -<span class="number">0.03941791</span>] ... [-<span class="number">0.06001</span>     <span class="number">0.01527704</span> -<span class="number">0.01108771</span>]</span><br><span class="line"></span><br><span class="line">文本: My content is coming out faster😎</span><br><span class="line">向量: [ <span class="number">0.0213392</span>  -<span class="number">0.064215</span>    <span class="number">0.04405481</span>] ... [-<span class="number">0.00864242</span> -<span class="number">0.00494845</span> -<span class="number">0.06258776</span>]</span><br></pre></td></tr></table></figure>
+<h3 id="圖像"><a class="header-anchor" href="#圖像"></a>圖像</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 函式庫</span></span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torchvision.transforms <span class="keyword">as</span> transforms</span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> io <span class="keyword">import</span> BytesIO</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 ResNet50 模型</span></span><br><span class="line">model = torch.hub.load(<span class="string">&#x27;pytorch/vision:v0.10.0&#x27;</span>, <span class="string">&#x27;resnet50&#x27;</span>, pretrained=<span class="literal">True</span>)</span><br><span class="line">model = torch.nn.Sequential(*(<span class="built_in">list</span>(model.children())[:-<span class="number">1</span>]))  <span class="comment"># 移除最後的全連接層</span></span><br><span class="line">model.<span class="built_in">eval</span>()  <span class="comment"># 設定模型為評估模式</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果 GPU 可用，將模型移至 GPU</span></span><br><span class="line">device = torch.device(<span class="string">&quot;cuda&quot;</span> <span class="keyword">if</span> torch.cuda.is_available() <span class="keyword">else</span> <span class="string">&quot;cpu&quot;</span>)</span><br><span class="line">model.to(device)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 圖像轉換(用於將圖像預處理成模型的輸入格式)</span></span><br><span class="line">transform = transforms.Compose([</span><br><span class="line">    transforms.Resize(<span class="number">256</span>),  <span class="comment"># 將圖像大小調整為256x256</span></span><br><span class="line">    transforms.CenterCrop(<span class="number">224</span>),  <span class="comment"># 將圖像裁剪為224x224的中心區域</span></span><br><span class="line">    transforms.ToTensor(),  <span class="comment"># 將圖像轉換為張量</span></span><br><span class="line">    transforms.Normalize(mean=[<span class="number">0.485</span>, <span class="number">0.456</span>, <span class="number">0.406</span>], std=[<span class="number">0.229</span>, <span class="number">0.224</span>, <span class="number">0.225</span>]),  <span class="comment"># 標準的ImageNet正規化</span></span><br><span class="line">])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 向量函數(用於生成圖像向量)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">embed</span>(<span class="params">image</span>):</span><br><span class="line">    image = transform(image).unsqueeze(<span class="number">0</span>)  <span class="comment"># 增加一個批次維度</span></span><br><span class="line">    image = image.to(device)  <span class="comment"># 將圖像移到正確的設備上（CPU或GPU）</span></span><br><span class="line">    <span class="keyword">with</span> torch.no_grad():  <span class="comment"># 停用梯度計算，避免記憶體消耗</span></span><br><span class="line">        output = model(image).squeeze()  <span class="comment"># 去除不必要的維度</span></span><br><span class="line">    <span class="keyword">return</span> output.cpu().numpy()  <span class="comment"># 將結果移回 CPU 並轉換為 NumPy 陣列</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用Kaggle提供的自然圖像進行測試</span></span><br><span class="line">url = <span class="string">&quot;https://storage.googleapis.com/kagglesdsdata/datasets/42780/75676/natural_images/airplane/airplane_0000.jpg?X-Goog-Algorithm=GOOG4-RSA-SHA256&amp;X-Goog-Credential=gcp-kaggle-com%40kaggle-161607.iam.gserviceaccount.com%2F20241006%2Fauto%2Fstorage%2Fgoog4_request&amp;X-Goog-Date=20241006T073449Z&amp;X-Goog-Expires=259200&amp;X-Goog-SignedHeaders=host&amp;X-Goog-Signature=4ebaca968963cb88271c1f13f037654c8f7318b590e079a1f0ecaf60c710297fb1bc18dc3a6ae00fbdfcaf00ff10f5e7d358d5be21c572bb6f5eabe8aa64f62b11f6b4d7e360037f56c3cfb270e478d299b1cf875e794360d7a2041bb982f693d8a799c6a687efc16dc9b78e5f826ace5e5e5498fca8edc6644306b94546bea7140f59c839bd6e27833b82e9ffea3448e0ed98e14a6e78762c5eaee7fc51e9076f78e0976e029590b23e22051ae8ac4ff211a3f4644e1c47092a2fc5bdeb1d27230bf27b9f83e244b72dc95d0d1b40aa88012f6c37f68d2b8c96e916c0e35355ed9352650664faa08ff4996ead8faf9d3a634781f2783ec3b472f37222089fd3&quot;</span></span><br><span class="line">response = requests.get(url)</span><br><span class="line">img = Image.<span class="built_in">open</span>(BytesIO(response.content))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 為圖片生成向量</span></span><br><span class="line">embedding = embed(img)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;向量形狀:&quot;</span>, embedding.shape)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;向量:&quot;</span>, embedding)</span><br></pre></td></tr></table></figure>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">向量形狀: (<span class="number">2048</span>,)</span><br><span class="line">向量: [<span class="number">0.2375403</span>  <span class="number">0.46847472</span> <span class="number">0.49034768</span> ... <span class="number">0.20775649</span> <span class="number">0.33074814</span> <span class="number">0.27442572</span>]</span><br></pre></td></tr></table></figure>
+<h2 id="計算向量距離"><a class="header-anchor" href="#計算向量距離"></a>計算向量距離</h2>
+<p>向量搜尋的關鍵是如何衡量兩個向量之間的相似度。</p>
+<p>以下是常見的幾種相似度度量方法:</p>
+<h3 id="內積"><a class="header-anchor" href="#內積"></a>內積</h3>
+<p>內積(Dot Product)衡量兩個向量之間的點積。<br>
+$$A \cdot B = \sum_{i=1}^{n} A_i B_i$$</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">import</span> numpy as np</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定義兩個向量</span></span><br><span class="line"><span class="attribute">A</span> = np.array([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>])</span><br><span class="line"><span class="attribute">B</span> = np.array([<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 計算內積</span></span><br><span class="line"><span class="attribute">dot_product</span> = np.dot(A, B)</span><br><span class="line"><span class="attribute">print</span>(f<span class="string">&quot;內積: &#123;dot_product&#125;&quot;</span>) # 內積: <span class="number">32</span></span><br></pre></td></tr></table></figure>
+<h3 id="歐氏距離"><a class="header-anchor" href="#歐氏距離"></a>歐氏距離</h3>
+<p>歐氏距離(Euclidean Distance)衡量兩個向量之間的直線距離。<br>
+$$d(x, y) = \sqrt{\sum_{i=1}^{n} (x_i - y_i)^2}$$</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">import</span> numpy as np</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定義兩個向量</span></span><br><span class="line"><span class="attribute">x</span> = np.array([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>])</span><br><span class="line"><span class="attribute">y</span> = np.array([<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 計算歐氏距離</span></span><br><span class="line"><span class="attribute">euclidean_distance</span> = np.linalg.norm(x - y)</span><br><span class="line"><span class="attribute">print</span>(f<span class="string">&quot;歐氏距離: &#123;euclidean_distance&#125;&quot;</span>) # 歐氏距離: <span class="number">5</span>.<span class="number">196152422706632</span></span><br></pre></td></tr></table></figure>
+<h3 id="餘弦相似度"><a class="header-anchor" href="#餘弦相似度"></a>餘弦相似度</h3>
+<p>餘弦相似度(Cosine Similarity)衡量兩個向量之間的夾角餘弦值，而不考慮向量的大小。<br>
+$$\text{Cosine Similarity}(a, b) = \frac{\vec{a} \cdot \vec{b}}{||\vec{a}|| \cdot ||\vec{b}||}$$</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">import</span> numpy as np</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定義兩個向量</span></span><br><span class="line"><span class="attribute">a</span> = np.array([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>])</span><br><span class="line"><span class="attribute">b</span> = np.array([<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 計算餘弦相似度</span></span><br><span class="line"><span class="attribute">cosine_similarity</span> = np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b))</span><br><span class="line"><span class="attribute">print</span>(f<span class="string">&quot;餘弦相似度: &#123;cosine_similarity&#125;&quot;</span>) # 餘弦相似度: <span class="number">0</span>.<span class="number">9746318461970762</span></span><br></pre></td></tr></table></figure>
+<h3 id="曼哈頓距離"><a class="header-anchor" href="#曼哈頓距離"></a>曼哈頓距離</h3>
+<p>曼哈頓距離(Manhattan Distance)衡量兩個向量在每個維度上的絕對差值之和。<br>
+$$d(x, y) = \sum_{i=1}^{n} |x_i - y_i|$$</p>
+<figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import numpy as <span class="built_in">np</span></span><br><span class="line"></span><br><span class="line"># 定義兩個向量</span><br><span class="line">x = <span class="built_in">np</span>.<span class="built_in">array</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>])</span><br><span class="line">y = <span class="built_in">np</span>.<span class="built_in">array</span>([<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>])</span><br><span class="line"></span><br><span class="line"># 計算曼哈頓距離</span><br><span class="line">manhattan_distance = <span class="built_in">np</span>.<span class="built_in">sum</span>(<span class="built_in">np</span>.<span class="built_in">abs</span>(x - y))</span><br><span class="line"><span class="built_in">print</span>(f<span class="string">&quot;曼哈頓距離: &#123;manhattan_distance&#125;&quot;</span>) # 曼哈頓距離: <span class="number">9</span></span><br></pre></td></tr></table></figure>
+<h1 id="向量資料庫排名"><a class="header-anchor" href="#向量資料庫排名"></a>向量資料庫排名</h1>
+<p>是不是會好奇那目前向量資料庫排名呢?可以參考以下的向量資料庫排名，DB-Engines Ranking 是根據資料庫管理系統的受歡迎程度對向量資料庫進行排名，排名每個月更新一次。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Foracle-vector-search-langchain-rag%2FDB-Engines-Ranking-Vector%20DBMS.png?alt=media&amp;token=13838f0c-d05e-4b6b-ab7c-764820ec76d0" alt="DB-Engines-Ranking-Vector DBMS"></p>
+<div style="margin-top: -15px; font-size: 14px; color: #555; text-align: center; font-style: normal; font-family: 'Arial', sans-serif;">
+    (資料來源: <a target="_blank" rel="noopener" href="https://db-engines.com/en/ranking/vector+dbms" style="color: #555; text-decoration: none;">DB-Engines Ranking of Vector DBMS)
+    </a>
+</div>
+<h1 id="什麼是-RAG"><a class="header-anchor" href="#什麼是-RAG"></a>什麼是 RAG</h1>
+<p>RAG(Retrieval-Augmented Generation)是一種結合語言模型和向量資料庫的應用。利用「語言模型的生成能力」和「向量資料庫的檢索能力」來提高生成回應的準確性和相關性。</p>
+<p>RAG 的主要原理是：當使用者提出問題時，系統首先從向量資料庫中檢索出與問題相關的資料片段，然後基於這些檢索結果，語言模型再進行答案生成。</p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Foracle-vector-search-langchain-rag%2Fwhat-is-rag-from-oracle.png?alt=media&amp;token=0abdd1b7-2ad4-41f8-a6c3-b515fefd5db0" alt="what-is-rag-from-oracle"></p>
+<h1 id="實作流程"><a class="header-anchor" href="#實作流程"></a>實作流程</h1>
+<p>這次專案是實作「使用 Oracle 向量資料庫的 RAG 應用」，主要會處理一份 PDF 文件，提取文本、向量化後，再存入 Oracle 資料庫中，讓使用者能夠用問答方式查詢 PDF 的資訊。PDF 文件是使用 202402_2330_AI1_20241003_160741.pdf，這是台積電的 2024 Q2 財報，你可以使用其他文件，或是也可以用這份文件來測試 RAG 的功能。</p>
+<p>主要功能:</p>
+<ul>
+<li>PDF 處理：將 PDF 文件轉換為文本區塊。</li>
+<li>向量化：使用 HuggingFace 的嵌入模型將文本轉換為向量。</li>
+<li>整合 Oracle 資料庫：將向量化的文檔存入並從 Oracle 資料庫向量檢索。</li>
+<li>問答功能：根據文檔內容及 gpt-4 生成用戶查詢的答案。</li>
+</ul>
+<h1 id="完整程式碼"><a class="header-anchor" href="#完整程式碼"></a>完整程式碼</h1>
+<iframe src="https://nbviewer.jupyter.org/github/estellacoding/oracle-vector-search-langchain-rag/blob/main/oracle-vector-search-langchain-rag.ipynb" width="100%" height="400px"></iframe>
+<div style="margin-top: -15px; font-size: 14px; color: #555; text-align: center; font-style: normal; font-family: 'Arial', sans-serif;">
+    (<a target="_blank" rel="noopener" href="https://github.com/estellacoding/oracle-vector-search-langchain-rag/blob/main/oracle-vector-search-langchain-rag.ipynb" style="color: #555; text-decoration: none;">到 Github 查看完整程式碼</a>)
+</div>
+<h1 id="總結"><a class="header-anchor" href="#總結"></a>總結</h1>
+<p>在資料科學中，向量通常是用來表示樣本的多個特徵的組合。利用這些向量，我們能更有效地處理非結構化數據，如文本、圖像和音訊等，並且進一步進行語意分析、相似度檢索、建模與預測等。</p>
+<p>實作介紹如何使用 Oracle 向量資料庫結合 LangChain 構建 RAG 應用，打造出語意搜尋問答機器人。這種 RAG 技術能夠結合「生成」與「檢索」，顯著提高生成回應的準確性，從而應用在文件分類、搜尋最相近內容、智能客服、知識庫管理和企業資訊查詢等場景。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/blog/tags/Oracle/" rel="tag"># Oracle</a>
+              <a href="/blog/tags/Oracle-Database-23ai/" rel="tag"># Oracle Database 23ai</a>
+              <a href="/blog/tags/Vector-Database/" rel="tag"># Vector Database</a>
+              <a href="/blog/tags/Vector-Search/" rel="tag"># Vector Search</a>
+              <a href="/blog/tags/LangChain/" rel="tag"># LangChain</a>
+              <a href="/blog/tags/RAG/" rel="tag"># RAG</a>
+              <a href="/blog/tags/Vector/" rel="tag"># Vector</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/blog/oracle-vm-db23ai-win/" rel="prev" title="Win 安裝 Oracle VM VirtualBox + Database 23ai">
+                  <i class="fa fa-angle-left"></i> Win 安裝 Oracle VM VirtualBox + Database 23ai
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Stella</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/blog/js/comments.js"></script><script src="/blog/js/utils.js"></script><script src="/blog/js/motion.js"></script><script src="/blog/js/sidebar.js"></script><script src="/blog/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js","integrity":"sha256-stuqcu2FrjYCXDOytWFA5SoUE/r3nkp6gTglzNSlavU="}}</script>
+  <script src="/blog/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"ams","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/blog/js/third-party/math/mathjax.js"></script>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"estellacoding","repo":"blog","client_id":"Ov23liBnWPuObZGktbAv","client_secret":"9ed6e261cd75af620744058daafa56b80a53ffa8","admin_user":"estellacoding","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":null,"labels":"gitalk","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"be47f7d66e0aa2dabf8f9d128892423e"}</script>
+<script src="/blog/js/third-party/comments/gitalk.js"></script>
+
+</body>
+</html>
