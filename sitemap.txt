@@ -1,3 +1,4 @@
+https://estellacoding.github.io/blog/oracle-table-schema-json-comparison/
 https://estellacoding.github.io/blog/oracle-vector-search-langchain-rag/
 https://estellacoding.github.io/blog/oracle-vm-db23ai-win/
 https://estellacoding.github.io/blog/oracle-apex-ai-development-project-management/
@@ -79,6 +80,8 @@ https://estellacoding.github.io/blog/tags/Vector-Search/
 https://estellacoding.github.io/blog/tags/LangChain/
 https://estellacoding.github.io/blog/tags/RAG/
 https://estellacoding.github.io/blog/tags/Vector/
+https://estellacoding.github.io/blog/tags/EAV/
+https://estellacoding.github.io/blog/tags/JSON/
 https://estellacoding.github.io/blog/categories/AutoML/
 https://estellacoding.github.io/blog/categories/Hexo/
 https://estellacoding.github.io/blog/categories/Machine-Learning/

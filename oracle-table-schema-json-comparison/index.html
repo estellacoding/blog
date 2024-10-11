@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="mask-icon" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"estellacoding.github.io","root":"/blog/","images":"/blog/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/blog/js/config.js"></script>
+
+    <meta name="description" content="Oracle Database 23ai 支援 JSON，這讓我們可以同時使用 SQL 和 JSON 來操作同一資料。本篇文章將針對三種不同的資料庫結構進行實際測試，來比較單一表格、EAV 模型和 JSON 欄位的查詢效能。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="實測單一表格、EAV 模型與 JSON 欄位的查詢效能">
+<meta property="og:url" content="https://estellacoding.github.io/blog/oracle-table-schema-json-comparison/index.html">
+<meta property="og:site_name" content="Stella Coding">
+<meta property="og:description" content="Oracle Database 23ai 支援 JSON，這讓我們可以同時使用 SQL 和 JSON 來操作同一資料。本篇文章將針對三種不同的資料庫結構進行實際測試，來比較單一表格、EAV 模型和 JSON 欄位的查詢效能。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-10-11T03:11:11.000Z">
+<meta property="article:modified_time" content="2024-10-11T03:11:11.000Z">
+<meta property="article:author" content="Stella">
+<meta property="article:tag" content="Oracle">
+<meta property="article:tag" content="Oracle Database 23ai">
+<meta property="article:tag" content="EAV">
+<meta property="article:tag" content="JSON">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://estellacoding.github.io/blog/oracle-table-schema-json-comparison/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://estellacoding.github.io/blog/oracle-table-schema-json-comparison/","path":"oracle-table-schema-json-comparison/","title":"實測單一表格、EAV 模型與 JSON 欄位的查詢效能"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>實測單一表格、EAV 模型與 JSON 欄位的查詢效能 | Stella Coding</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EG0CKC3093"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-EG0CKC3093","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/blog/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/blog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/blog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Stella Coding</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">I am at point A.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/blog/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/blog/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/blog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%96%AE%E4%B8%80%E8%A1%A8%E6%A0%BC"><span class="nav-number">1.</span> <span class="nav-text">單一表格</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Create"><span class="nav-number">1.1.</span> <span class="nav-text">Create</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Insert"><span class="nav-number">1.2.</span> <span class="nav-text">Insert</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Query"><span class="nav-number">1.3.</span> <span class="nav-text">Query</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#EAV-%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.</span> <span class="nav-text">EAV 模型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Create-v2"><span class="nav-number">2.1.</span> <span class="nav-text">Create</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Insert-v2"><span class="nav-number">2.2.</span> <span class="nav-text">Insert</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Query-v2"><span class="nav-number">2.3.</span> <span class="nav-text">Query</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JSON-%E6%AC%84%E4%BD%8D"><span class="nav-number">3.</span> <span class="nav-text">JSON 欄位</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Create-v3"><span class="nav-number">3.1.</span> <span class="nav-text">Create</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Insert-v3"><span class="nav-number">3.2.</span> <span class="nav-text">Insert</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Query-v3"><span class="nav-number">3.3.</span> <span class="nav-text">Query</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%AF%94%E8%BC%83%E6%9F%A5%E8%A9%A2%E6%95%88%E8%83%BD"><span class="nav-number">4.</span> <span class="nav-text">比較查詢效能</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%8C%E6%95%B4%E7%A8%8B%E5%BC%8F%E7%A2%BC"><span class="nav-number">5.</span> <span class="nav-text">完整程式碼</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">6.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Stella"
+      src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+  <p class="site-author-name" itemprop="name">Stella</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/blog/archives/">
+          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/blog/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/blog/tags/">
+        <span class="site-state-item-count">56</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/estellacoding" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;estellacoding" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.instagram.com/stellacoding/" title="Instagram → https:&#x2F;&#x2F;www.instagram.com&#x2F;stellacoding&#x2F;" rel="noopener me" target="_blank"><i class="fab fa-instagram fa-fw"></i>Instagram</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://estellacoding.github.io/blog/oracle-table-schema-json-comparison/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+      <meta itemprop="name" content="Stella">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Stella Coding">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="實測單一表格、EAV 模型與 JSON 欄位的查詢效能 | Stella Coding">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          實測單一表格、EAV 模型與 JSON 欄位的查詢效能
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2024-10-11 11:11:11" itemprop="dateCreated datePublished" datetime="2024-10-11T11:11:11+08:00">2024-10-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/Oracle/" itemprop="url" rel="index"><span itemprop="name">Oracle</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>Oracle Database 23ai 支援 JSON，這讓我們可以同時使用 SQL 和 JSON 來操作同一資料。本篇文章將針對三種不同的資料庫結構進行實際測試，來比較單一表格、EAV 模型和 JSON 欄位的查詢效能。</p>
+<span id="more"></span>
+<p>針對以下三種不同的資料庫結構進行實際測試:</p>
+<ul>
+<li>單一表格。</li>
+<li>EAV 模型。</li>
+<li>JSON 欄位。</li>
+</ul>
+<h1 id="單一表格"><a class="header-anchor" href="#單一表格"></a>單一表格</h1>
+<p>將資料放在一張固定結構的表格。</p>
+<h2 id="Create"><a class="header-anchor" href="#Create"></a>Create</h2>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 創建1table表結構</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> products_1table (</span><br><span class="line">  product_id NUMBER GENERATED <span class="keyword">BY</span> <span class="keyword">DEFAULT</span> <span class="keyword">AS</span> <span class="keyword">IDENTITY</span> <span class="keyword">PRIMARY</span> KEY,</span><br><span class="line">  product_name VARCHAR2(<span class="number">255</span>),</span><br><span class="line">  category VARCHAR2(<span class="number">50</span>),  <span class="comment">-- 如電器或衣服</span></span><br><span class="line">  price NUMBER(<span class="number">10</span>, <span class="number">2</span>),</span><br><span class="line">  description VARCHAR2(<span class="number">1000</span>),</span><br><span class="line">  brand VARCHAR2(<span class="number">255</span>),     <span class="comment">-- 針對電器產品</span></span><br><span class="line">  warranty VARCHAR2(<span class="number">50</span>),   <span class="comment">-- 針對電器產品</span></span><br><span class="line">  color VARCHAR2(<span class="number">50</span>),      <span class="comment">-- 針對衣服產品</span></span><br><span class="line">  product_size VARCHAR2(<span class="number">10</span>) <span class="comment">-- 針對衣服產品</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<h2 id="Insert"><a class="header-anchor" href="#Insert"></a>Insert</h2>
+<p>隨機插入 10,000 筆資料到 <code>products_1table</code> 表中。透過循環 <code>FOR i IN 1..10000 LOOP</code>，根據條件動態生成資料並插入表格，使用條件語句來根據產品類型(電器或衣服)分配不同的屬性值。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 1table</span></span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line">  <span class="keyword">FOR</span> i <span class="keyword">IN</span> <span class="number">1.</span><span class="number">.10000</span> LOOP</span><br><span class="line">    <span class="keyword">INSERT</span> <span class="keyword">INTO</span> products_1table (product_name, category, price, description, brand, warranty, color, product_size)</span><br><span class="line">    <span class="keyword">VALUES</span> (</span><br><span class="line">      <span class="string">&#x27;Product &#x27;</span> <span class="operator">||</span> i,</span><br><span class="line">      <span class="keyword">CASE</span></span><br><span class="line">        <span class="keyword">WHEN</span> <span class="built_in">MOD</span>(i, <span class="number">2</span>) <span class="operator">=</span> <span class="number">0</span> <span class="keyword">THEN</span> <span class="string">&#x27;Electronics&#x27;</span></span><br><span class="line">        <span class="keyword">ELSE</span> <span class="string">&#x27;Apparel&#x27;</span></span><br><span class="line">      <span class="keyword">END</span>,</span><br><span class="line">      ROUND(DBMS_RANDOM.VALUE(<span class="number">100</span>, <span class="number">1000</span>), <span class="number">2</span>),</span><br><span class="line">      <span class="string">&#x27;Description of product &#x27;</span> <span class="operator">||</span> i,</span><br><span class="line">      <span class="keyword">CASE</span></span><br><span class="line">        <span class="keyword">WHEN</span> <span class="built_in">MOD</span>(i, <span class="number">2</span>) <span class="operator">=</span> <span class="number">0</span> <span class="keyword">THEN</span> <span class="string">&#x27;Brand&#x27;</span> <span class="operator">||</span> i</span><br><span class="line">        <span class="keyword">ELSE</span> <span class="keyword">NULL</span></span><br><span class="line">      <span class="keyword">END</span>,</span><br><span class="line">      <span class="keyword">CASE</span></span><br><span class="line">        <span class="keyword">WHEN</span> <span class="built_in">MOD</span>(i, <span class="number">2</span>) <span class="operator">=</span> <span class="number">0</span> <span class="keyword">THEN</span> <span class="string">&#x27;1 year&#x27;</span></span><br><span class="line">        <span class="keyword">ELSE</span> <span class="keyword">NULL</span></span><br><span class="line">      <span class="keyword">END</span>,</span><br><span class="line">      <span class="keyword">CASE</span></span><br><span class="line">        <span class="keyword">WHEN</span> <span class="built_in">MOD</span>(i, <span class="number">2</span>) <span class="operator">=</span> <span class="number">1</span> <span class="keyword">THEN</span> <span class="string">&#x27;Red&#x27;</span></span><br><span class="line">        <span class="keyword">ELSE</span> <span class="keyword">NULL</span></span><br><span class="line">      <span class="keyword">END</span>,</span><br><span class="line">      <span class="keyword">CASE</span></span><br><span class="line">        <span class="keyword">WHEN</span> <span class="built_in">MOD</span>(i, <span class="number">2</span>) <span class="operator">=</span> <span class="number">1</span> <span class="keyword">THEN</span> <span class="string">&#x27;L&#x27;</span></span><br><span class="line">        <span class="keyword">ELSE</span> <span class="keyword">NULL</span></span><br><span class="line">      <span class="keyword">END</span></span><br><span class="line">    );</span><br><span class="line">  <span class="keyword">END</span> LOOP;</span><br><span class="line">  <span class="keyword">COMMIT</span>;</span><br><span class="line"><span class="keyword">END</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="Query"><a class="header-anchor" href="#Query"></a>Query</h2>
+<p>在完成插入 10,000 筆資料到 <code>products_1table</code> 表後，我們來計算總筆數確認是否正確。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 查詢表中的所有資料</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> products_1table;</span><br><span class="line"><span class="comment">-- 計算資料筆數，確認插入是否達到 10,000 筆</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="keyword">FROM</span> products_1table;</span><br></pre></td></tr></table></figure>
+<p>我<strong>只想顯示查詢的執行時間</strong>，不需要顯示具體的查詢結果，這是避免大量資料在查詢時輸出到畫面上，也同時提高效能測試的準確性。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SET</span> TIMING <span class="keyword">ON</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">DECLARE</span></span><br><span class="line">  v_dummy VARCHAR2(<span class="number">100</span>); <span class="comment">-- 假變數</span></span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line">  <span class="keyword">FOR</span> rec <span class="keyword">IN</span> (</span><br><span class="line">  <span class="keyword">SELECT</span> product_name, brand, warranty, color, product_size <span class="keyword">FROM</span> products_1table</span><br><span class="line">  )</span><br><span class="line">  LOOP</span><br><span class="line">    v_dummy :<span class="operator">=</span> rec.product_name;  <span class="comment">-- 只是為了取結果而不顯示出來</span></span><br><span class="line">  <span class="keyword">END</span> LOOP;</span><br><span class="line"><span class="keyword">END</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SET</span> TIMING OFF;</span><br></pre></td></tr></table></figure>
+<h1 id="EAV-模型"><a class="header-anchor" href="#EAV-模型"></a>EAV 模型</h1>
+<p>EAV 模型(Entity-Attribute-Value)是一種靈活的資料庫設計模式，允許我們為不同類型的實體動態添加屬性，而無需修改現有的資料表結構。這種模式特別適用於處理具有大量可變屬性的資料。</p>
+<ol>
+<li>Entity(實體): 實體是我們要描述的具體對象或物件。
+<ul>
+<li>在產品資料庫中，<code>電器</code>和<code>衣服</code>都可以是產品的實體。</li>
+<li>而每個實體通常有一個唯一ID。</li>
+</ul>
+</li>
+<li>Attribute(屬性): 屬性用來描述實體的特徵、參數或性質。
+<ul>
+<li>如電器有<code>品牌</code>和<code>保固期</code>的屬性。</li>
+<li>如衣服有<code>顏色</code>和<code>尺寸</code>的屬性。</li>
+<li>屬性可以根據需要動態添加，無需修改資料表結構。</li>
+</ul>
+</li>
+<li>Value(屬性值): 屬性值是每個屬性的具體資料或內容。
+<ul>
+<li>如電器的品牌屬性值是<code>Sony</code>，保固期屬性值是<code>2 years</code>。</li>
+<li>如衣服的顏色屬性值是<code>Red</code>、尺寸屬性值是<code>M</code>。</li>
+</ul>
+</li>
+</ol>
+<h2 id="Create-v2"><a class="header-anchor" href="#Create-v2"></a>Create</h2>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 創建 EAV 模式表結構</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> products_eav (</span><br><span class="line">  product_id NUMBER GENERATED <span class="keyword">BY</span> <span class="keyword">DEFAULT</span> <span class="keyword">AS</span> <span class="keyword">IDENTITY</span> <span class="keyword">PRIMARY</span> KEY,</span><br><span class="line">  product_name VARCHAR2(<span class="number">255</span>),</span><br><span class="line">  category VARCHAR2(<span class="number">50</span>),  <span class="comment">-- 如電器或衣服</span></span><br><span class="line">  price NUMBER(<span class="number">10</span>, <span class="number">2</span>),</span><br><span class="line">  description VARCHAR2(<span class="number">1000</span>)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> product_attributes (</span><br><span class="line">  attribute_id NUMBER GENERATED <span class="keyword">BY</span> <span class="keyword">DEFAULT</span> <span class="keyword">AS</span> <span class="keyword">IDENTITY</span> <span class="keyword">PRIMARY</span> KEY,</span><br><span class="line">  product_id NUMBER,</span><br><span class="line">  attribute_name VARCHAR2(<span class="number">255</span>),  <span class="comment">-- 屬性名稱，如品牌、保固期、顏色、尺寸</span></span><br><span class="line">  attribute_value VARCHAR2(<span class="number">255</span>), <span class="comment">-- 屬性值，如 Sony、2年、紅色、L</span></span><br><span class="line">  <span class="keyword">FOREIGN</span> KEY (product_id) <span class="keyword">REFERENCES</span> products_eav(product_id)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<h2 id="Insert-v2"><a class="header-anchor" href="#Insert-v2"></a>Insert</h2>
+<p>隨機插入 10,000 筆資料到 <code>products_eav</code> 表中。透過循環 <code>FOR i IN 1..10000 LOOP</code>，根據條件動態生成資料並插入表格，並根據產品類型在屬性表 <code>product_attributes</code> 中插入不同的屬性值。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DECLARE</span></span><br><span class="line">  product_id NUMBER;</span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line">  <span class="keyword">FOR</span> i <span class="keyword">IN</span> <span class="number">1.</span><span class="number">.10000</span> LOOP</span><br><span class="line">    <span class="keyword">INSERT</span> <span class="keyword">INTO</span> products_eav (product_name, category, price, description)</span><br><span class="line">    <span class="keyword">VALUES</span> (</span><br><span class="line">      <span class="string">&#x27;Product &#x27;</span> <span class="operator">||</span> i,</span><br><span class="line">      <span class="keyword">CASE</span></span><br><span class="line">        <span class="keyword">WHEN</span> <span class="built_in">MOD</span>(i, <span class="number">2</span>) <span class="operator">=</span> <span class="number">0</span> <span class="keyword">THEN</span> <span class="string">&#x27;Electronics&#x27;</span></span><br><span class="line">        <span class="keyword">ELSE</span> <span class="string">&#x27;Apparel&#x27;</span></span><br><span class="line">      <span class="keyword">END</span>,</span><br><span class="line">      ROUND(DBMS_RANDOM.VALUE(<span class="number">100</span>, <span class="number">1000</span>), <span class="number">2</span>),  <span class="comment">-- 隨機生成價格</span></span><br><span class="line">      <span class="string">&#x27;Description of product &#x27;</span> <span class="operator">||</span> i</span><br><span class="line">    )</span><br><span class="line">    RETURNING product_id <span class="keyword">INTO</span> product_id;</span><br><span class="line"></span><br><span class="line">    <span class="comment">-- 根據類別插入不同的屬性</span></span><br><span class="line">    IF <span class="built_in">MOD</span>(i, <span class="number">2</span>) <span class="operator">=</span> <span class="number">0</span> <span class="keyword">THEN</span>  <span class="comment">-- Electronics 類別的產品插入 brand 和 warranty</span></span><br><span class="line">      <span class="keyword">INSERT</span> <span class="keyword">INTO</span> product_attributes (product_id, attribute_name, attribute_value)</span><br><span class="line">      <span class="keyword">VALUES</span> (product_id, <span class="string">&#x27;brand&#x27;</span>, <span class="string">&#x27;Brand&#x27;</span> <span class="operator">||</span> i);</span><br><span class="line">      <span class="keyword">INSERT</span> <span class="keyword">INTO</span> product_attributes (product_id, attribute_name, attribute_value)</span><br><span class="line">      <span class="keyword">VALUES</span> (product_id, <span class="string">&#x27;warranty&#x27;</span>, <span class="string">&#x27;1 year&#x27;</span>);</span><br><span class="line">    <span class="keyword">ELSE</span>  <span class="comment">-- Apparel 類別的產品插入 color 和 product_size</span></span><br><span class="line">      <span class="keyword">INSERT</span> <span class="keyword">INTO</span> product_attributes (product_id, attribute_name, attribute_value)</span><br><span class="line">      <span class="keyword">VALUES</span> (product_id, <span class="string">&#x27;color&#x27;</span>, <span class="keyword">CASE</span> <span class="keyword">WHEN</span> <span class="built_in">MOD</span>(i, <span class="number">3</span>) <span class="operator">=</span> <span class="number">0</span> <span class="keyword">THEN</span> <span class="string">&#x27;Red&#x27;</span> <span class="keyword">ELSE</span> <span class="string">&#x27;Blue&#x27;</span> <span class="keyword">END</span>);</span><br><span class="line">      <span class="keyword">INSERT</span> <span class="keyword">INTO</span> product_attributes (product_id, attribute_name, attribute_value)</span><br><span class="line">      <span class="keyword">VALUES</span> (product_id, <span class="string">&#x27;product_size&#x27;</span>, <span class="keyword">CASE</span> <span class="keyword">WHEN</span> <span class="built_in">MOD</span>(i, <span class="number">2</span>) <span class="operator">=</span> <span class="number">0</span> <span class="keyword">THEN</span> <span class="string">&#x27;M&#x27;</span> <span class="keyword">ELSE</span> <span class="string">&#x27;L&#x27;</span> <span class="keyword">END</span>);</span><br><span class="line">    <span class="keyword">END</span> IF;</span><br><span class="line">  <span class="keyword">END</span> LOOP;</span><br><span class="line">  <span class="keyword">COMMIT</span>;</span><br><span class="line"><span class="keyword">END</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="Query-v2"><a class="header-anchor" href="#Query-v2"></a>Query</h2>
+<p>在完成插入 10,000 筆資料到 <code>products_eav</code> 表後，我們來計算總筆數確認是否正確。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 查詢表中的所有資料</span></span><br><span class="line"><span class="keyword">SELECT</span> p.product_name, a1.attribute_value <span class="keyword">AS</span> brand, a2.attribute_value <span class="keyword">AS</span> warranty, a3.attribute_value <span class="keyword">AS</span> color, a4.attribute_value <span class="keyword">AS</span> product_size</span><br><span class="line"><span class="keyword">FROM</span> products_eav p</span><br><span class="line"><span class="keyword">LEFT</span> <span class="keyword">JOIN</span> product_attributes a1 <span class="keyword">ON</span> p.product_id <span class="operator">=</span> a1.product_id <span class="keyword">AND</span> a1.attribute_name <span class="operator">=</span> <span class="string">&#x27;brand&#x27;</span></span><br><span class="line"><span class="keyword">LEFT</span> <span class="keyword">JOIN</span> product_attributes a2 <span class="keyword">ON</span> p.product_id <span class="operator">=</span> a2.product_id <span class="keyword">AND</span> a2.attribute_name <span class="operator">=</span> <span class="string">&#x27;warranty&#x27;</span></span><br><span class="line"><span class="keyword">LEFT</span> <span class="keyword">JOIN</span> product_attributes a3 <span class="keyword">ON</span> p.product_id <span class="operator">=</span> a3.product_id <span class="keyword">AND</span> a3.attribute_name <span class="operator">=</span> <span class="string">&#x27;color&#x27;</span></span><br><span class="line"><span class="keyword">LEFT</span> <span class="keyword">JOIN</span> product_attributes a4 <span class="keyword">ON</span> p.product_id <span class="operator">=</span> a4.product_id <span class="keyword">AND</span> a4.attribute_name <span class="operator">=</span> <span class="string">&#x27;product_size&#x27;</span></span><br><span class="line"><span class="comment">-- 計算資料筆數，確認插入是否達到 10,000 筆</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>)</span><br><span class="line"><span class="keyword">FROM</span> products_eav p</span><br><span class="line"><span class="keyword">LEFT</span> <span class="keyword">JOIN</span> product_attributes a1 <span class="keyword">ON</span> p.product_id <span class="operator">=</span> a1.product_id <span class="keyword">AND</span> a1.attribute_name <span class="operator">=</span> <span class="string">&#x27;brand&#x27;</span></span><br><span class="line"><span class="keyword">LEFT</span> <span class="keyword">JOIN</span> product_attributes a2 <span class="keyword">ON</span> p.product_id <span class="operator">=</span> a2.product_id <span class="keyword">AND</span> a2.attribute_name <span class="operator">=</span> <span class="string">&#x27;warranty&#x27;</span></span><br><span class="line"><span class="keyword">LEFT</span> <span class="keyword">JOIN</span> product_attributes a3 <span class="keyword">ON</span> p.product_id <span class="operator">=</span> a3.product_id <span class="keyword">AND</span> a3.attribute_name <span class="operator">=</span> <span class="string">&#x27;color&#x27;</span></span><br><span class="line"><span class="keyword">LEFT</span> <span class="keyword">JOIN</span> product_attributes a4 <span class="keyword">ON</span> p.product_id <span class="operator">=</span> a4.product_id <span class="keyword">AND</span> a4.attribute_name <span class="operator">=</span> <span class="string">&#x27;product_size&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>只顯示查詢的執行時間，不顯示具體的查詢結果。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SET</span> TIMING <span class="keyword">ON</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">DECLARE</span></span><br><span class="line">  v_dummy VARCHAR2(<span class="number">100</span>); <span class="comment">-- 假變數</span></span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line">  <span class="keyword">FOR</span> rec <span class="keyword">IN</span> (</span><br><span class="line">  <span class="keyword">SELECT</span> p.product_name, a1.attribute_value <span class="keyword">AS</span> brand, a2.attribute_value <span class="keyword">AS</span> warranty, a3.attribute_value <span class="keyword">AS</span> color, a4.attribute_value <span class="keyword">AS</span> product_size</span><br><span class="line">  <span class="keyword">FROM</span> products_eav p</span><br><span class="line">  <span class="keyword">LEFT</span> <span class="keyword">JOIN</span> product_attributes a1 <span class="keyword">ON</span> p.product_id <span class="operator">=</span> a1.product_id <span class="keyword">AND</span> a1.attribute_name <span class="operator">=</span> <span class="string">&#x27;brand&#x27;</span></span><br><span class="line">  <span class="keyword">LEFT</span> <span class="keyword">JOIN</span> product_attributes a2 <span class="keyword">ON</span> p.product_id <span class="operator">=</span> a2.product_id <span class="keyword">AND</span> a2.attribute_name <span class="operator">=</span> <span class="string">&#x27;warranty&#x27;</span></span><br><span class="line">  <span class="keyword">LEFT</span> <span class="keyword">JOIN</span> product_attributes a3 <span class="keyword">ON</span> p.product_id <span class="operator">=</span> a3.product_id <span class="keyword">AND</span> a3.attribute_name <span class="operator">=</span> <span class="string">&#x27;color&#x27;</span></span><br><span class="line">  <span class="keyword">LEFT</span> <span class="keyword">JOIN</span> product_attributes a4 <span class="keyword">ON</span> p.product_id <span class="operator">=</span> a4.product_id <span class="keyword">AND</span> a4.attribute_name <span class="operator">=</span> <span class="string">&#x27;product_size&#x27;</span></span><br><span class="line">  )</span><br><span class="line">  LOOP</span><br><span class="line">    v_dummy :<span class="operator">=</span> rec.product_name;  <span class="comment">-- 只是為了取結果而不顯示出來</span></span><br><span class="line">  <span class="keyword">END</span> LOOP;</span><br><span class="line"><span class="keyword">END</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SET</span> TIMING OFF;</span><br></pre></td></tr></table></figure>
+<h1 id="JSON-欄位"><a class="header-anchor" href="#JSON-欄位"></a>JSON 欄位</h1>
+<p>將資料以 JSON 格式存放在欄位。</p>
+<h2 id="Create-v3"><a class="header-anchor" href="#Create-v3"></a>Create</h2>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 創建 JSON 集合表</span></span><br><span class="line"><span class="keyword">CREATE</span> JSON COLLECTION <span class="keyword">TABLE</span> products_json;</span><br></pre></td></tr></table></figure>
+<h2 id="Insert-v3"><a class="header-anchor" href="#Insert-v3"></a>Insert</h2>
+<p>隨機插入 10,000 筆資料到 <code>products_json</code> 表中。透過循環 <code>FOR i IN 1..10000 LOOP</code>，根據條件動態生成資料並插入表格，並將以 JSON 文件的形式儲存。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- json</span></span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line">  <span class="keyword">FOR</span> i <span class="keyword">IN</span> <span class="number">1.</span><span class="number">.10000</span> LOOP</span><br><span class="line">    <span class="keyword">DECLARE</span></span><br><span class="line">      json_data <span class="type">CLOB</span>;</span><br><span class="line">    <span class="keyword">BEGIN</span></span><br><span class="line">      json_data :<span class="operator">=</span></span><br><span class="line">        <span class="string">&#x27;&#123;&quot;_id&quot;: &#x27;</span> <span class="operator">||</span> i <span class="operator">||</span> <span class="string">&#x27;, &quot;product_name&quot;: &quot;Product &#x27;</span> <span class="operator">||</span> i <span class="operator">||</span> <span class="string">&#x27;&quot;, &quot;category&quot;: &quot;&#x27;</span> <span class="operator">||</span></span><br><span class="line">        <span class="keyword">CASE</span></span><br><span class="line">          <span class="keyword">WHEN</span> <span class="built_in">MOD</span>(i, <span class="number">2</span>) <span class="operator">=</span> <span class="number">0</span> <span class="keyword">THEN</span> <span class="string">&#x27;Electronics&#x27;</span></span><br><span class="line">          <span class="keyword">ELSE</span> <span class="string">&#x27;Apparel&#x27;</span></span><br><span class="line">        <span class="keyword">END</span> <span class="operator">||</span> <span class="string">&#x27;&quot;, &quot;price&quot;: &#x27;</span> <span class="operator">||</span> ROUND(DBMS_RANDOM.VALUE(<span class="number">100</span>, <span class="number">1000</span>), <span class="number">2</span>) <span class="operator">||</span> <span class="string">&#x27;,</span></span><br><span class="line"><span class="string">        &quot;description&quot;: &quot;Description of product &#x27;</span> <span class="operator">||</span> i <span class="operator">||</span> <span class="string">&#x27;&quot;,</span></span><br><span class="line"><span class="string">        &quot;attributes&quot;: &#x27;</span> <span class="operator">||</span></span><br><span class="line">        <span class="keyword">CASE</span></span><br><span class="line">          <span class="keyword">WHEN</span> <span class="built_in">MOD</span>(i, <span class="number">2</span>) <span class="operator">=</span> <span class="number">0</span> <span class="keyword">THEN</span> <span class="string">&#x27;&#123;&quot;brand&quot;: &quot;Brand&#x27;</span> <span class="operator">||</span> i <span class="operator">||</span> <span class="string">&#x27;&quot;, &quot;warranty&quot;: &quot;1 year&quot;&#125;&#x27;</span></span><br><span class="line">          <span class="keyword">ELSE</span> <span class="string">&#x27;&#123;&quot;color&quot;: &quot;Red&quot;, &quot;product_size&quot;: &quot;L&quot;&#125;&#x27;</span></span><br><span class="line">        <span class="keyword">END</span> <span class="operator">||</span> <span class="string">&#x27;&#125;&#x27;</span>;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">INSERT</span> <span class="keyword">INTO</span> products_json (DATA) <span class="keyword">VALUES</span> (json_data);</span><br><span class="line">    <span class="keyword">END</span>;</span><br><span class="line">  <span class="keyword">END</span> LOOP;</span><br><span class="line">  <span class="keyword">COMMIT</span>;</span><br><span class="line"><span class="keyword">END</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="Query-v3"><a class="header-anchor" href="#Query-v3"></a>Query</h2>
+<p>在完成插入 10,000 筆資料到 <code>products_json</code> 表後，我們來計算總筆數確認是否正確。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 查詢表中的所有資料</span></span><br><span class="line"><span class="keyword">SELECT</span> DATA <span class="keyword">FROM</span> products_json;</span><br><span class="line"><span class="comment">-- 計算資料筆數，確認插入是否達到 10,000 筆</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="built_in">COUNT</span>(DATA)<span class="keyword">FROM</span> products_json</span><br></pre></td></tr></table></figure>
+<p>只顯示查詢的執行時間，不顯示具體的查詢結果。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SET</span> TIMING <span class="keyword">ON</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">DECLARE</span></span><br><span class="line">  v_dummy VARCHAR2(<span class="number">100</span>); <span class="comment">-- 假變數</span></span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line">  <span class="keyword">FOR</span> rec <span class="keyword">IN</span> (<span class="keyword">SELECT</span></span><br><span class="line">                <span class="built_in">JSON_VALUE</span>(DATA, <span class="string">&#x27;$.product_name&#x27;</span>) <span class="keyword">AS</span> product_name,</span><br><span class="line">                <span class="built_in">JSON_VALUE</span>(DATA, <span class="string">&#x27;$.attributes.brand&#x27;</span>) <span class="keyword">AS</span> brand,</span><br><span class="line">                <span class="built_in">JSON_VALUE</span>(DATA, <span class="string">&#x27;$.attributes.warranty&#x27;</span>) <span class="keyword">AS</span> warranty,</span><br><span class="line">                <span class="built_in">JSON_VALUE</span>(DATA, <span class="string">&#x27;$.attributes.color&#x27;</span>) <span class="keyword">AS</span> color,</span><br><span class="line">                <span class="built_in">JSON_VALUE</span>(DATA, <span class="string">&#x27;$.attributes.product_size&#x27;</span>) <span class="keyword">AS</span> product_size</span><br><span class="line">              <span class="keyword">FROM</span> products_json)</span><br><span class="line">  LOOP</span><br><span class="line">    v_dummy :<span class="operator">=</span> rec.product_name;  <span class="comment">-- 只是為了取結果而不顯示出來</span></span><br><span class="line">  <span class="keyword">END</span> LOOP;</span><br><span class="line"><span class="keyword">END</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SET</span> TIMING OFF;</span><br></pre></td></tr></table></figure>
+<h1 id="比較查詢效能"><a class="header-anchor" href="#比較查詢效能"></a>比較查詢效能</h1>
+<p>實測一下單一表格、EAV 模型與 JSON 欄位這三種資料庫結構的查詢效能吧!</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">測試類型</th>
+<th style="text-align:center">單一表格</th>
+<th style="text-align:center">EAV 模型</th>
+<th style="text-align:center">JSON 欄位</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">平均查詢時間(秒)</td>
+<td style="text-align:center">0.0155</td>
+<td style="text-align:center">0.0284</td>
+<td style="text-align:center">0.0595</td>
+</tr>
+<tr>
+<td style="text-align:center">結構靈活度</td>
+<td style="text-align:center">低<br><font size="1">任何屬性變更都需修改資料表結構</font></td>
+<td style="text-align:center">高<br><font size="1">允許動態新增屬性而無需改變表結構</font></td>
+<td style="text-align:center">高<br><font size="1">允許完全動態且不固定的結構</font></td>
+</tr>
+</tbody>
+</table>
+<p>查詢效能比較結果:</p>
+<ul>
+<li>單一表格: 0.0155秒<br>
+單一表格的查詢速度最快，這是預期中的結果。由於這種表格結構是固定的，所有欄位都直接儲存在同一表內，查詢相對簡單且不需要 JOIN 操作，因此效率最高。</li>
+<li>EAV 模型: 0.0284秒<br>
+EAV 模型的性能次之，主要原因在於資料分散儲存和多表聯結。
+<ul>
+<li>資料分散: 產品的屬性被存放在不同表中，增加了管理和查詢的複雜度。</li>
+<li>多表 JOIN: 需要多次關聯 JOIN 來組合完整的產品資訊，這會顯著增加查詢時間。</li>
+<li>不過，EAV 模型提供高度靈活性，允許動態添加屬性，適合具有可變結構的數據。</li>
+</ul>
+</li>
+<li>JSON 欄位: 0.0595秒<br>
+JSON 欄位的查詢時間較長，可能是因為 JSON 查詢需要對每筆資料進行解析。使用 JSON 儲存資料在結構靈活性上有較大優勢，特別適合於資料屬性變動較大的情境。</li>
+</ul>
+<h1 id="完整程式碼"><a class="header-anchor" href="#完整程式碼"></a>完整程式碼</h1>
+<p>為了測試這三種不同的資料庫結構，我使用 Python 編寫一個腳本用來執行查詢效能測試。</p>
+<p>需要事先安裝 Oracle 的資料庫程式，並且設定連接資訊，如資料庫的伺服器地址、使用者名稱與密碼等。腳本會自動執行 100 次查詢，並將每次的執行時間記錄下來，最後計算出平均查詢時間，最後也會將結果輸出至 CSV 檔案。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> oracledb</span><br><span class="line"><span class="keyword">from</span> dotenv <span class="keyword">import</span> load_dotenv</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加載環境變量</span></span><br><span class="line">load_dotenv()</span><br><span class="line">username = os.getenv(<span class="string">&quot;username&quot;</span>)</span><br><span class="line">password = os.getenv(<span class="string">&quot;password&quot;</span>)</span><br><span class="line">dsn = os.getenv(<span class="string">&quot;dsn&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 連接到 Oracle 資料庫</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    connection = oracledb.connect(user=username, password=password, dsn=dsn)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;資料庫連接成功！&quot;</span>)</span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;資料庫連接失敗！&quot;</span>, e)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查詢語句</span></span><br><span class="line">query_1table = <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">SELECT product_name, brand, warranty, color, product_size</span></span><br><span class="line"><span class="string">FROM products_1table</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">query_eav = <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">SELECT p.product_name, a1.attribute_value AS brand, a2.attribute_value AS warranty,</span></span><br><span class="line"><span class="string">       a3.attribute_value AS color, a4.attribute_value AS product_size</span></span><br><span class="line"><span class="string">FROM products_eav p</span></span><br><span class="line"><span class="string">LEFT JOIN product_attributes a1 ON p.product_id = a1.product_id AND a1.attribute_name = &#x27;brand&#x27;</span></span><br><span class="line"><span class="string">LEFT JOIN product_attributes a2 ON p.product_id = a2.product_id AND a2.attribute_name = &#x27;warranty&#x27;</span></span><br><span class="line"><span class="string">LEFT JOIN product_attributes a3 ON p.product_id = a3.product_id AND a3.attribute_name = &#x27;color&#x27;</span></span><br><span class="line"><span class="string">LEFT JOIN product_attributes a4 ON p.product_id = a4.product_id AND a4.attribute_name = &#x27;product_size&#x27;</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">query_json = <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">SELECT</span></span><br><span class="line"><span class="string">  JSON_VALUE(DATA, &#x27;$.product_name&#x27;) AS product_name,</span></span><br><span class="line"><span class="string">  JSON_VALUE(DATA, &#x27;$.attributes.brand&#x27;) AS brand,</span></span><br><span class="line"><span class="string">  JSON_VALUE(DATA, &#x27;$.attributes.warranty&#x27;) AS warranty,</span></span><br><span class="line"><span class="string">  JSON_VALUE(DATA, &#x27;$.attributes.color&#x27;) AS color,</span></span><br><span class="line"><span class="string">  JSON_VALUE(DATA, &#x27;$.attributes.product_size&#x27;) AS product_size</span></span><br><span class="line"><span class="string">FROM products_json</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 儲存結果的 DataFrame</span></span><br><span class="line">results_df = pd.DataFrame(columns=[<span class="string">&quot;1table&quot;</span>, <span class="string">&quot;EAV&quot;</span>, <span class="string">&quot;JSON&quot;</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 測試 100 次查詢</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">100</span>):</span><br><span class="line">    <span class="keyword">with</span> connection.cursor() <span class="keyword">as</span> cursor:</span><br><span class="line">        <span class="comment"># 執行 1table 查詢</span></span><br><span class="line">        start_time = time.time()</span><br><span class="line">        cursor.execute(query_1table)</span><br><span class="line">        cursor.fetchall()</span><br><span class="line">        execution_time_1table = time.time() - start_time</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 執行 EAV 查詢</span></span><br><span class="line">        start_time = time.time()</span><br><span class="line">        cursor.execute(query_eav)</span><br><span class="line">        cursor.fetchall()</span><br><span class="line">        execution_time_eav = time.time() - start_time</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 執行 JSON 查詢</span></span><br><span class="line">        start_time = time.time()</span><br><span class="line">        cursor.execute(query_json)</span><br><span class="line">        cursor.fetchall()</span><br><span class="line">        execution_time_json = time.time() - start_time</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 將執行時間加入 DataFrame</span></span><br><span class="line">        results_df.loc[i] = [execution_time_1table, execution_time_eav, execution_time_json]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 計算每個結構的查詢平均值</span></span><br><span class="line">avg_1table_time = results_df[<span class="string">&quot;1table&quot;</span>].mean()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&#x27;1table: <span class="subst">&#123;avg_1table_time:<span class="number">.4</span>f&#125;</span> 秒&#x27;</span>)</span><br><span class="line">avg_eav_time = results_df[<span class="string">&quot;EAV&quot;</span>].mean()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&#x27;eav: <span class="subst">&#123;avg_eav_time:<span class="number">.4</span>f&#125;</span> 秒&#x27;</span>)</span><br><span class="line">avg_json_time = results_df[<span class="string">&quot;JSON&quot;</span>].mean()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&#x27;json: <span class="subst">&#123;avg_json_time:<span class="number">.4</span>f&#125;</span> 秒&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加平均值到 DataFrame</span></span><br><span class="line">results_df.loc[<span class="built_in">len</span>(results_df)] = [avg_1table_time, avg_eav_time, avg_json_time]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 將結果保存為 CSV</span></span><br><span class="line">results_df.to_csv(<span class="string">&quot;query-performance-results.csv&quot;</span>, index=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 關閉連接</span></span><br><span class="line">connection.close()</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;查詢測試完成，結果已保存至 &#x27;query-performance-results.csv&#x27;&quot;</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">資料庫連接成功！</span><br><span class="line">1table: <span class="number">0.0155</span> 秒</span><br><span class="line">eav: <span class="number">0.0284</span> 秒</span><br><span class="line">json: <span class="number">0.0595</span> 秒</span><br><span class="line">查詢測試完成，結果已保存至 <span class="string">&#x27;query-performance-results.csv&#x27;</span></span><br></pre></td></tr></table></figure>
+<h1 id="參考資料"><a class="header-anchor" href="#參考資料"></a>參考資料</h1>
+<p><a target="_blank" rel="noopener" href="https://devs.tw/post/2#">彈性資料庫架構：存 JSON format 與 EAV model 的優劣比較</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/blog/tags/Oracle/" rel="tag"># Oracle</a>
+              <a href="/blog/tags/Oracle-Database-23ai/" rel="tag"># Oracle Database 23ai</a>
+              <a href="/blog/tags/EAV/" rel="tag"># EAV</a>
+              <a href="/blog/tags/JSON/" rel="tag"># JSON</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/blog/oracle-vector-search-langchain-rag/" rel="prev" title="使用 Oracle 向量資料庫和 LangChain 開發 RAG 應用">
+                  <i class="fa fa-angle-left"></i> 使用 Oracle 向量資料庫和 LangChain 開發 RAG 應用
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Stella</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/blog/js/comments.js"></script><script src="/blog/js/utils.js"></script><script src="/blog/js/motion.js"></script><script src="/blog/js/sidebar.js"></script><script src="/blog/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js","integrity":"sha256-stuqcu2FrjYCXDOytWFA5SoUE/r3nkp6gTglzNSlavU="}}</script>
+  <script src="/blog/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"ams","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/blog/js/third-party/math/mathjax.js"></script>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"estellacoding","repo":"blog","client_id":"Ov23liBnWPuObZGktbAv","client_secret":"9ed6e261cd75af620744058daafa56b80a53ffa8","admin_user":"estellacoding","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":null,"labels":"gitalk","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"723ccc152e57bbc3ee658484b8defefd"}</script>
+<script src="/blog/js/third-party/comments/gitalk.js"></script>
+
+</body>
+</html>
