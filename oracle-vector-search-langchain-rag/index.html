@@ -319,12 +319,12 @@ $$d(x, y) = \sum_{i=1}^{n} |x_i - y_i|$$</p>
     </a>
 </div>
 <h1 id="什麼是-RAG"><a class="header-anchor" href="#什麼是-RAG"></a>什麼是 RAG</h1>
-<p>RAG(Retrieval-Augmented Generation, 檢索增強生成)，是一種結合語言模型和向量資料庫的應用。利用「語言模型的生成能力」和「向量資料庫的檢索能力」來提高生成回應的準確性和相關性。</p>
+<p>RAG(Retrieval-Augmented Generation, 檢索增強生成)，是一種結合語言模型和向量資料庫的應用。利用「語言模型的生成能力」和「向量資料庫的檢索能力」來提高生成回應的相關性和準確性。</p>
 <p>RAG 的主要原理是：當使用者提出問題時，系統首先從向量資料庫中檢索出與問題相關的資料，然後基於這些檢索結果，語言模型再進行答案生成。</p>
 <p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Foracle-vector-search-langchain-rag%2Fwhat-is-rag-from-oracle.png?alt=media&amp;token=0abdd1b7-2ad4-41f8-a6c3-b515fefd5db0" alt="what-is-rag-from-oracle"></p>
 <div class="note info"><p>RAG 是結合「語言模型」和「向量資料庫」，使用者用自然語言進行互動問答，結果會比僅依靠「語言模型」更精準且能即時更新資料，簡單來說，RAG 就像是一個特定領域的 AI 專家。</p>
 </div>
-<p>關於 RAG 更多說明，這篇文章寫得非常好，可以參考 <a target="_blank" rel="noopener" href="https://www.cio.com.tw/rag-solution-planning-and-implementation/">RAG 解決方案規劃與實作</a></p>
+<p>如果想更了解 RAG，這篇文章寫得非常好，可以參考 <a target="_blank" rel="noopener" href="https://www.cio.com.tw/rag-solution-planning-and-implementation/">RAG 解決方案規劃與實作</a>。</p>
 <h1 id="實作流程"><a class="header-anchor" href="#實作流程"></a>實作流程</h1>
 <p>這次專案是實作「使用 Oracle 向量資料庫的 RAG 應用」，主要會處理一份 PDF 文件，提取文本、向量化後，再存入 Oracle 資料庫中，讓使用者能夠用問答方式查詢 PDF 的資訊。PDF 文件是使用 202402_2330_AI1_20241003_160741.pdf，這是台積電的 2024 Q2 財報，你可以使用其他文件，或是也可以用這份文件來測試 RAG 的功能。</p>
 <p>主要功能:</p>
