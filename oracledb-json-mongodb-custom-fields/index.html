@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="mask-icon" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"estellacoding.github.io","root":"/blog/","images":"/blog/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/blog/js/config.js"></script>
+
+    <meta name="description" content="上一篇我們提到了 Oracle Database 23ai 對 JSON 的支援，並針對三種資料庫結構進行了效能測試，請看 實測單一表格、EAV 模型與 JSON 欄位的查詢效能。 但我就有進一步的問題是: 那那…Oracle DB 的 JSON 支援與 MongoDB 有什麼不同？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Oracle DB JSON 與 MongoDB 的差異">
+<meta property="og:url" content="https://estellacoding.github.io/blog/oracledb-json-mongodb-custom-fields/index.html">
+<meta property="og:site_name" content="Stella Coding">
+<meta property="og:description" content="上一篇我們提到了 Oracle Database 23ai 對 JSON 的支援，並針對三種資料庫結構進行了效能測試，請看 實測單一表格、EAV 模型與 JSON 欄位的查詢效能。 但我就有進一步的問題是: 那那…Oracle DB 的 JSON 支援與 MongoDB 有什麼不同？">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Foracledb-json-mongodb-custom-fields%2Foracle-json-databse-mongodb-performance.png?alt=media&amp;token=ce3d5f1c-6f6d-4b3a-9395-5c9123ef4ac4">
+<meta property="article:published_time" content="2024-10-16T03:11:11.000Z">
+<meta property="article:modified_time" content="2024-10-16T03:11:11.000Z">
+<meta property="article:author" content="Stella">
+<meta property="article:tag" content="Oracle">
+<meta property="article:tag" content="Oracle Database 23ai">
+<meta property="article:tag" content="JSON">
+<meta property="article:tag" content="MongoDB">
+<meta property="article:tag" content="NoSQL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Foracledb-json-mongodb-custom-fields%2Foracle-json-databse-mongodb-performance.png?alt=media&amp;token=ce3d5f1c-6f6d-4b3a-9395-5c9123ef4ac4">
+
+
+<link rel="canonical" href="https://estellacoding.github.io/blog/oracledb-json-mongodb-custom-fields/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://estellacoding.github.io/blog/oracledb-json-mongodb-custom-fields/","path":"oracledb-json-mongodb-custom-fields/","title":"Oracle DB JSON 與 MongoDB 的差異"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Oracle DB JSON 與 MongoDB 的差異 | Stella Coding</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EG0CKC3093"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-EG0CKC3093","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/blog/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/blog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/blog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Stella Coding</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">I am at point A.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/blog/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/blog/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/blog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%A9%E8%80%85%E6%9C%AC%E8%B3%AA%E4%B8%8D%E5%90%8C"><span class="nav-number">1.</span> <span class="nav-text">兩者本質不同</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Create"><span class="nav-number">2.</span> <span class="nav-text">Create</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Oracle-JSON"><span class="nav-number">2.1.</span> <span class="nav-text">Oracle JSON</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MongoDB"><span class="nav-number">2.2.</span> <span class="nav-text">MongoDB</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Insert"><span class="nav-number">3.</span> <span class="nav-text">Insert</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Oracle-JSON-v2"><span class="nav-number">3.1.</span> <span class="nav-text">Oracle JSON</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%92%E5%85%A5%E4%B8%80%E7%AD%86%E8%B3%87%E6%96%99"><span class="nav-number">3.1.1.</span> <span class="nav-text">插入一筆資料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9A%A8%E6%A9%9F%E6%8F%92%E5%85%A5%E5%A4%9A%E7%AD%86"><span class="nav-number">3.1.2.</span> <span class="nav-text">隨機插入多筆</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MongoDB-v2"><span class="nav-number">3.2.</span> <span class="nav-text">MongoDB</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%92%E5%85%A5%E4%B8%80%E7%AD%86%E8%B3%87%E6%96%99-v2"><span class="nav-number">3.2.1.</span> <span class="nav-text">插入一筆資料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9A%A8%E6%A9%9F%E6%8F%92%E5%85%A5%E5%A4%9A%E7%AD%86-v2"><span class="nav-number">3.2.2.</span> <span class="nav-text">隨機插入多筆</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Read"><span class="nav-number">4.</span> <span class="nav-text">Read</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Oracle-JSON-v3"><span class="nav-number">4.1.</span> <span class="nav-text">Oracle JSON</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MongoDB-v3"><span class="nav-number">4.2.</span> <span class="nav-text">MongoDB</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Update"><span class="nav-number">5.</span> <span class="nav-text">Update</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Oracle-JSON-v4"><span class="nav-number">5.1.</span> <span class="nav-text">Oracle JSON</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MongoDB-v4"><span class="nav-number">5.2.</span> <span class="nav-text">MongoDB</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Delete"><span class="nav-number">6.</span> <span class="nav-text">Delete</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Oracle-JSON-v5"><span class="nav-number">6.1.</span> <span class="nav-text">Oracle JSON</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%AA%E9%99%A4%E7%89%B9%E5%AE%9A%E6%AC%84%E4%BD%8D"><span class="nav-number">6.1.1.</span> <span class="nav-text">刪除特定欄位</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%AA%E9%99%A4%E6%95%B4%E7%AD%86%E8%B3%87%E6%96%99"><span class="nav-number">6.1.2.</span> <span class="nav-text">刪除整筆資料</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MongoDB-v5"><span class="nav-number">6.2.</span> <span class="nav-text">MongoDB</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%AA%E9%99%A4%E7%89%B9%E5%AE%9A%E6%AC%84%E4%BD%8D-v2"><span class="nav-number">6.2.1.</span> <span class="nav-text">刪除特定欄位</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%AA%E9%99%A4%E6%95%B4%E7%AD%86%E8%B3%87%E6%96%99-v2"><span class="nav-number">6.2.2.</span> <span class="nav-text">刪除整筆資料</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%A9%E8%80%85%E6%95%88%E8%83%BD%E6%AF%94%E8%BC%83"><span class="nav-number">7.</span> <span class="nav-text">兩者效能比較</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B8%BD%E7%B5%90"><span class="nav-number">8.</span> <span class="nav-text">總結</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Stella"
+      src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+  <p class="site-author-name" itemprop="name">Stella</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/blog/archives/">
+          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/blog/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/blog/tags/">
+        <span class="site-state-item-count">58</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/estellacoding" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;estellacoding" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.instagram.com/stellacoding/" title="Instagram → https:&#x2F;&#x2F;www.instagram.com&#x2F;stellacoding&#x2F;" rel="noopener me" target="_blank"><i class="fab fa-instagram fa-fw"></i>Instagram</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://estellacoding.github.io/blog/oracledb-json-mongodb-custom-fields/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+      <meta itemprop="name" content="Stella">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Stella Coding">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Oracle DB JSON 與 MongoDB 的差異 | Stella Coding">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Oracle DB JSON 與 MongoDB 的差異
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2024-10-16 11:11:11" itemprop="dateCreated datePublished" datetime="2024-10-16T11:11:11+08:00">2024-10-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/Oracle/" itemprop="url" rel="index"><span itemprop="name">Oracle</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>上一篇我們提到了 Oracle Database 23ai 對 JSON 的支援，並針對三種資料庫結構進行了效能測試，請看 <a href="https://estellacoding.github.io/blog/oracle-table-schema-json-comparison">實測單一表格、EAV 模型與 JSON 欄位的查詢效能</a>。</p>
+<p>但我就有進一步的問題是: 那那…Oracle DB 的 JSON 支援與 MongoDB 有什麼不同？</p>
+<span id="more"></span>
+<h1 id="兩者本質不同"><a class="header-anchor" href="#兩者本質不同"></a>兩者本質不同</h1>
+<p>Oracle DB JSON vs. MongoDB 兩者來自不同的資料庫設計理念。</p>
+<ul>
+<li>OracleDB 是關聯式資料庫，主要是<strong>關聯式表格(table)來儲存結構化資料</strong>。隨著版本更新，OracleDB 增加了對 JSON 的支援，使其能夠更好地處理半結構化或動態資料，這使得 Oracle 具備了部分 NoSQL 的功能。</li>
+<li>MongoDB 是 NoSQL 資料庫，主要是<strong>文件模型(Document)儲存，使用 BSON(Binary JSON) 格式來儲存非結構化資料</strong>，以 JSON 和 Key-Value 的設計結構，易於擴展並處理複雜結構。</li>
+</ul>
+<p>以下我們將使用具體的操作範例，比較 OracleDB 和 MongoDB 在 CRUD 操作中的差異。</p>
+<h1 id="Create"><a class="header-anchor" href="#Create"></a>Create</h1>
+<h2 id="Oracle-JSON"><a class="header-anchor" href="#Oracle-JSON"></a>Oracle JSON</h2>
+<p>在 OracleDB，可以創建一個包含 JSON 資料的表格，不需要預先定義欄位結構。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 創建 JSON 集合表</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> products_json (</span><br><span class="line">  data JSON</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<h2 id="MongoDB"><a class="header-anchor" href="#MongoDB"></a>MongoDB</h2>
+<p>MongoDB 是無結構的(Schema-less)，當插入資料時會自動創建集合，因此不需要明確創建集合。</p>
+<figure class="highlight m"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 創建資料庫</span><br><span class="line">use database-<span class="number">1</span></span><br><span class="line">// 創建集合(非必要)</span><br><span class="line">db.createCollection(<span class="string">&quot;products&quot;</span>);</span><br></pre></td></tr></table></figure>
+<h1 id="Insert"><a class="header-anchor" href="#Insert"></a>Insert</h1>
+<p>我們將插入一筆資料和多筆隨機資料作為範例。</p>
+<h2 id="Oracle-JSON-v2"><a class="header-anchor" href="#Oracle-JSON-v2"></a>Oracle JSON</h2>
+<h3 id="插入一筆資料"><a class="header-anchor" href="#插入一筆資料"></a>插入一筆資料</h3>
+<p>資料內容如下:</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;_id&quot;</span><span class="punctuation">:</span> <span class="number">2</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;product_name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Product 2&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;category&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Electronics&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;price&quot;</span><span class="punctuation">:</span> <span class="number">560.52</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;description&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Description of product 2&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;attributes&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;brand&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Brand2&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;warranty&quot;</span><span class="punctuation">:</span> <span class="string">&quot;1 year&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>插入一筆資料:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 插入一筆資料</span></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> products_json (data)</span><br><span class="line"><span class="keyword">VALUES</span> (</span><br><span class="line">  <span class="built_in">JSON_OBJECT</span>(</span><br><span class="line">    <span class="string">&#x27;_id&#x27;</span> <span class="keyword">VALUE</span> <span class="number">2</span>,</span><br><span class="line">    <span class="string">&#x27;product_name&#x27;</span> <span class="keyword">VALUE</span> <span class="string">&#x27;Product 2&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;category&#x27;</span> <span class="keyword">VALUE</span> <span class="string">&#x27;Electronics&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;price&#x27;</span> <span class="keyword">VALUE</span> <span class="number">560.52</span>,</span><br><span class="line">    <span class="string">&#x27;description&#x27;</span> <span class="keyword">VALUE</span> <span class="string">&#x27;Description of product 2&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;attributes&#x27;</span> <span class="keyword">VALUE</span> <span class="built_in">JSON_OBJECT</span>(</span><br><span class="line">      <span class="string">&#x27;brand&#x27;</span> <span class="keyword">VALUE</span> <span class="string">&#x27;Brand2&#x27;</span>,</span><br><span class="line">      <span class="string">&#x27;warranty&#x27;</span> <span class="keyword">VALUE</span> <span class="string">&#x27;1 year&#x27;</span></span><br><span class="line">    )</span><br><span class="line">  )</span><br><span class="line">);</span><br><span class="line"><span class="keyword">COMMIT</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="隨機插入多筆"><a class="header-anchor" href="#隨機插入多筆"></a>隨機插入多筆</h3>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 插入 10,000 筆資料</span></span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line">  <span class="keyword">FOR</span> i <span class="keyword">IN</span> <span class="number">1.</span><span class="number">.10000</span> LOOP</span><br><span class="line">    <span class="keyword">INSERT</span> <span class="keyword">INTO</span> products_json (data)</span><br><span class="line">    <span class="keyword">VALUES</span> (</span><br><span class="line">      <span class="built_in">JSON_OBJECT</span>(</span><br><span class="line">        <span class="string">&#x27;_id&#x27;</span> <span class="keyword">VALUE</span> i,</span><br><span class="line">        <span class="string">&#x27;product_name&#x27;</span> <span class="keyword">VALUE</span> <span class="string">&#x27;Product &#x27;</span> <span class="operator">||</span> i,</span><br><span class="line">        <span class="string">&#x27;category&#x27;</span> <span class="keyword">VALUE</span> <span class="keyword">CASE</span> <span class="keyword">WHEN</span> <span class="built_in">MOD</span>(i, <span class="number">2</span>) <span class="operator">=</span> <span class="number">0</span> <span class="keyword">THEN</span> <span class="string">&#x27;Electronics&#x27;</span> <span class="keyword">ELSE</span> <span class="string">&#x27;Apparel&#x27;</span> <span class="keyword">END</span>,</span><br><span class="line">        <span class="string">&#x27;price&#x27;</span> <span class="keyword">VALUE</span> ROUND(DBMS_RANDOM.VALUE(<span class="number">100</span>, <span class="number">1000</span>), <span class="number">2</span>),</span><br><span class="line">        <span class="string">&#x27;description&#x27;</span> <span class="keyword">VALUE</span> <span class="string">&#x27;Description of product &#x27;</span> <span class="operator">||</span> i,</span><br><span class="line">        <span class="string">&#x27;attributes&#x27;</span> <span class="keyword">VALUE</span> <span class="keyword">CASE</span></span><br><span class="line">          <span class="keyword">WHEN</span> <span class="built_in">MOD</span>(i, <span class="number">2</span>) <span class="operator">=</span> <span class="number">0</span> <span class="keyword">THEN</span> <span class="built_in">JSON_OBJECT</span>(<span class="string">&#x27;brand&#x27;</span> <span class="keyword">VALUE</span> <span class="string">&#x27;Brand&#x27;</span> <span class="operator">||</span> i, <span class="string">&#x27;warranty&#x27;</span> <span class="keyword">VALUE</span> <span class="string">&#x27;1 year&#x27;</span>)</span><br><span class="line">          <span class="keyword">ELSE</span> <span class="built_in">JSON_OBJECT</span>(<span class="string">&#x27;color&#x27;</span> <span class="keyword">VALUE</span> <span class="string">&#x27;Red&#x27;</span>, <span class="string">&#x27;product_size&#x27;</span> <span class="keyword">VALUE</span> <span class="string">&#x27;L&#x27;</span>)</span><br><span class="line">        <span class="keyword">END</span></span><br><span class="line">      )</span><br><span class="line">    );</span><br><span class="line">  <span class="keyword">END</span> LOOP;</span><br><span class="line">  <span class="keyword">COMMIT</span>;</span><br><span class="line"><span class="keyword">END</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 查詢表中的所有資料</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> products_json</span><br><span class="line"><span class="comment">-- 計算總筆數</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="built_in">COUNT</span>(DATA)<span class="keyword">FROM</span> products_json</span><br></pre></td></tr></table></figure>
+<h2 id="MongoDB-v2"><a class="header-anchor" href="#MongoDB-v2"></a>MongoDB</h2>
+<h3 id="插入一筆資料-v2"><a class="header-anchor" href="#插入一筆資料-v2"></a>插入一筆資料</h3>
+<p>資料內容如下:</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;_id&quot;</span><span class="punctuation">:</span> <span class="number">2</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;product_name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Product 2&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;category&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Electronics&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;price&quot;</span><span class="punctuation">:</span> <span class="number">560.52</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;description&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Description of product 2&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;attributes&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;brand&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Brand2&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;warranty&quot;</span><span class="punctuation">:</span> <span class="string">&quot;1 year&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>插入一筆資料:</p>
+<figure class="highlight m"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">// 插入一筆資料</span><br><span class="line">db.products.insertOne(&#123;</span><br><span class="line">  _id: <span class="number">2</span>,</span><br><span class="line">  product_name: <span class="string">&quot;Product 2&quot;</span>,</span><br><span class="line">  category: <span class="string">&quot;Electronics&quot;</span>,</span><br><span class="line">  price: <span class="number">560.52</span>,</span><br><span class="line">  description: <span class="string">&quot;Description of product 2&quot;</span>,</span><br><span class="line">  attributes: &#123;</span><br><span class="line">    brand: <span class="string">&quot;Brand2&quot;</span>,</span><br><span class="line">    warranty: <span class="string">&quot;1 year&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="隨機插入多筆-v2"><a class="header-anchor" href="#隨機插入多筆-v2"></a>隨機插入多筆</h3>
+<figure class="highlight m"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">// 插入 <span class="number">10</span>,<span class="number">000</span> 筆資料</span><br><span class="line">let products <span class="built_in">=</span> [];</span><br><span class="line">for (let i <span class="built_in">=</span> <span class="number">1</span>; i <span class="built_in">&lt;=</span> <span class="number">10000</span>; i++) &#123;</span><br><span class="line">  products.push(&#123;</span><br><span class="line">    _id: i,</span><br><span class="line">    product_name: <span class="string">&quot;Product &quot;</span> + i,</span><br><span class="line">    category: i <span class="comment">% 2 === 0 ? &quot;Electronics&quot; : &quot;Apparel&quot;,</span></span><br><span class="line">    price: Math.round(Math.random() * (<span class="number">1000</span> - <span class="number">100</span>) + <span class="number">100</span>),</span><br><span class="line">    description: <span class="string">&quot;Description of product &quot;</span> + i,</span><br><span class="line">    attributes: i <span class="comment">% 2 === 0</span></span><br><span class="line">      ? &#123; brand: <span class="string">&quot;Brand&quot;</span> + i, warranty: <span class="string">&quot;1 year&quot;</span> &#125;</span><br><span class="line">      : &#123; color: <span class="string">&quot;Red&quot;</span>, product_size: <span class="string">&quot;L&quot;</span> &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line">db.products.insertMany(products);</span><br></pre></td></tr></table></figure>
+<figure class="highlight m"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 查詢所有資料</span><br><span class="line">db.products.find().pretty();</span><br><span class="line">// 計算集合中的總筆數</span><br><span class="line">db.products.countDocuments();</span><br></pre></td></tr></table></figure>
+<h1 id="Read"><a class="header-anchor" href="#Read"></a>Read</h1>
+<h2 id="Oracle-JSON-v3"><a class="header-anchor" href="#Oracle-JSON-v3"></a>Oracle JSON</h2>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 查詢價格大於500且屬於Electronics類別的商品</span></span><br><span class="line"><span class="keyword">SELECT</span> data</span><br><span class="line"><span class="keyword">FROM</span> products_json</span><br><span class="line"><span class="keyword">WHERE</span> </span><br><span class="line">  <span class="built_in">JSON_VALUE</span>(data, <span class="string">&#x27;$.price&#x27;</span> RETURNING NUMBER) <span class="operator">&gt;</span> <span class="number">500</span></span><br><span class="line">  <span class="keyword">AND</span> <span class="built_in">JSON_VALUE</span>(data, <span class="string">&#x27;$.category&#x27;</span>) <span class="operator">=</span> <span class="string">&#x27;Electronics&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="MongoDB-v3"><a class="header-anchor" href="#MongoDB-v3"></a>MongoDB</h2>
+<figure class="highlight m"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 查詢價格大於<span class="number">500</span>且屬於Electronics類別的商品</span><br><span class="line">db.products.find(&#123; price: &#123; $gt: <span class="number">500</span> &#125;, category: <span class="string">&quot;Electronics&quot;</span> &#125;);</span><br></pre></td></tr></table></figure>
+<h1 id="Update"><a class="header-anchor" href="#Update"></a>Update</h1>
+<p>將 <code>_id = 2</code> 的商品價格從 <code>560.52</code> 更新為 <code>999</code>。<br>
+同時，如果商品 <code>attributes</code> 沒有 <code>color</code>，則加上 <code>&quot;color&quot;: &quot;Red&quot;</code>。</p>
+<p>原始資料內容如下:</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;_id&quot;</span><span class="punctuation">:</span> <span class="number">2</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;product_name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Product 2&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;category&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Electronics&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;price&quot;</span><span class="punctuation">:</span> <span class="number">560.52</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;description&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Description of product 2&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;attributes&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;brand&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Brand2&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;warranty&quot;</span><span class="punctuation">:</span> <span class="string">&quot;1 year&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<h2 id="Oracle-JSON-v4"><a class="header-anchor" href="#Oracle-JSON-v4"></a>Oracle JSON</h2>
+<p>使用 <code>JSON_TRANSFORM</code> 函數更新 JSON 資料。</p>
+<ul>
+<li>欄位已存在: <code>SET</code> 原欄位會被新值覆蓋。
+<ul>
+<li>ex: <code>SET $.price</code> 將會更新為 <code>&quot;price&quot;: 999</code>。</li>
+</ul>
+</li>
+<li>欄位不存在: <code>INSERT</code> 會將新欄位及其值加入 JSON。
+<ul>
+<li>ex: 若 JSON 中沒有 <code>&quot;color&quot;</code>，則會新增<code>&quot;color&quot;: &quot;Red&quot;</code>。</li>
+<li><code>ERROR ON EXISTING</code> 確保已存在欄位不會被覆蓋。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> products_json</span><br><span class="line"><span class="keyword">SET</span> data <span class="operator">=</span> JSON_TRANSFORM(</span><br><span class="line">  data,</span><br><span class="line">  <span class="keyword">SET</span> <span class="string">&#x27;$.price&#x27;</span> <span class="operator">=</span> <span class="number">999</span>,</span><br><span class="line">  <span class="keyword">INSERT</span> <span class="string">&#x27;$.attributes.color&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;Red&#x27;</span> ERROR <span class="keyword">ON</span> EXISTING</span><br><span class="line">)</span><br><span class="line"><span class="keyword">WHERE</span> <span class="built_in">JSON_VALUE</span>(data, <span class="string">&#x27;$._id&#x27;</span>) <span class="operator">=</span> <span class="number">2</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 查詢表中id為2的資料</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> products_json</span><br><span class="line"><span class="keyword">WHERE</span> <span class="built_in">JSON_VALUE</span>(data, <span class="string">&#x27;$._id&#x27;</span>) <span class="operator">=</span> <span class="number">2</span></span><br></pre></td></tr></table></figure>
+<h2 id="MongoDB-v4"><a class="header-anchor" href="#MongoDB-v4"></a>MongoDB</h2>
+<p>使用 <code>$set</code> 來更新特定欄位。若欄位不存在 MongoDB 會自動加上該欄位及欄位值。</p>
+<figure class="highlight m"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">db.products.updateOne(</span><br><span class="line">  &#123; _id: <span class="number">2</span> &#125;,</span><br><span class="line">  &#123; $set: &#123; price: <span class="number">999</span>, <span class="string">&quot;attributes.color&quot;</span>: <span class="string">&quot;Red&quot;</span> &#125; &#125;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<figure class="highlight m"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 查詢id為<span class="number">2</span>的資料</span><br><span class="line">db.products.find(&#123; _id: <span class="number">2</span> &#125;);</span><br></pre></td></tr></table></figure>
+<h1 id="Delete"><a class="header-anchor" href="#Delete"></a>Delete</h1>
+<h2 id="Oracle-JSON-v5"><a class="header-anchor" href="#Oracle-JSON-v5"></a>Oracle JSON</h2>
+<h3 id="刪除特定欄位"><a class="header-anchor" href="#刪除特定欄位"></a>刪除特定欄位</h3>
+<p>使用 <code>JSON_TRANSFORM</code> 刪除 <code>_id = 2</code> 的商品資料中的 <code>attributes.color</code> 欄位。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> products_json</span><br><span class="line"><span class="keyword">SET</span> data <span class="operator">=</span> JSON_TRANSFORM(data, REMOVE <span class="string">&#x27;$.attributes.color&#x27;</span>)</span><br><span class="line"><span class="keyword">WHERE</span> <span class="built_in">JSON_VALUE</span>(data, <span class="string">&#x27;$._id&#x27;</span>) <span class="operator">=</span> <span class="number">2</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="刪除整筆資料"><a class="header-anchor" href="#刪除整筆資料"></a>刪除整筆資料</h3>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DELETE</span> <span class="keyword">FROM</span> products_json</span><br><span class="line"><span class="keyword">WHERE</span> <span class="built_in">JSON_VALUE</span>(data, <span class="string">&#x27;$._id&#x27;</span>) <span class="operator">=</span> <span class="number">2</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="MongoDB-v5"><a class="header-anchor" href="#MongoDB-v5"></a>MongoDB</h2>
+<h3 id="刪除特定欄位-v2"><a class="header-anchor" href="#刪除特定欄位-v2"></a>刪除特定欄位</h3>
+<p>使用 <code>$unset</code> 刪除 <code>_id = 2</code> 的商品資料中的 <code>attributes.color</code> 欄位。</p>
+<figure class="highlight m"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">db.products.updateOne(</span><br><span class="line">  &#123; _id: <span class="number">2</span> &#125;,</span><br><span class="line">  &#123; $unset: &#123; <span class="string">&quot;attributes.color&quot;</span>: <span class="string">&quot;&quot;</span> &#125; &#125;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<h3 id="刪除整筆資料-v2"><a class="header-anchor" href="#刪除整筆資料-v2"></a>刪除整筆資料</h3>
+<figure class="highlight m"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.products.deleteOne(&#123; _id: <span class="number">2</span> &#125;);</span><br></pre></td></tr></table></figure>
+<h1 id="兩者效能比較"><a class="header-anchor" href="#兩者效能比較"></a>兩者效能比較</h1>
+<p>下圖是 OracleDB JSON 和 MongoDB 在不同讀寫比例，以及不同數據規模下的效能比較。使用 YCSB(Yahoo! Cloud Serving Benchmark) 進行測試不同資料庫在不同讀寫比例，以及不同數據規模下，每秒的操作數量(Operations per Second)。</p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Foracledb-json-mongodb-custom-fields%2Foracle-json-databse-mongodb-performance.png?alt=media&amp;token=ce3d5f1c-6f6d-4b3a-9395-5c9123ef4ac4" alt="oracle-json-databse-mongodb-performance"></p>
+<div style="margin-top: -15px; font-size: 14px; color: #555; text-align: center; font-style: normal; font-family: 'Arial', sans-serif;">
+    (資料來源: <a target="_blank" rel="noopener" href="https://www.oracle.com/cn/a/ocom/docs/oracle-json-database-zhs.pdf" style="color: #555; text-decoration: none;">Oracle JSON 数据库介绍 by Xu Guang)
+    </a>
+</div>
+<p>我們可以發現:</p>
+<ul>
+<li>OracleDB 在面對 400 萬筆文檔時，隨著讀取操作比例增加，OracleDB 的性能顯著提升，操作數量每秒從約 30,000 提升至 80,000 次。而同時 MongoDB 則從每秒 10,000 次提升至 30,000 次。</li>
+<li>OracleDB 在面對 8100 萬筆文檔時，操作次數依然保持增長，隨著讀取操作比例增加，操作數量每秒從約 28,000 提升至 58,000 次。而同時 MongoDB 則從每秒 12,000 次提升至 22,000 次。</li>
+<li>在高比例讀取的場景下，OracleDB 的查詢速度更快，這是由於 OracleDB 在處理結構化數據和索引方面的優勢，使其能高效處理大規模讀取操作。</li>
+</ul>
+<h1 id="總結"><a class="header-anchor" href="#總結"></a>總結</h1>
+<p>我參加了 2024 MongoDB.local Taipei，聽到 91APP 的首席架構師 Andrew Wu 有說到他們選擇用 MongoDB 的來實現客戶想要自訂欄位的需求，才進一步讓我想要深入了解兩者的差別(<s>很多觀念值得研究但記憶體跑不動了XD</s>)。從技術層面來看，使用 OracleDB 的 JSON 功能可以實現類似 MongoDB 的自訂欄位效果，JSON 資料在 OracleDB 中以動態結構儲存，因此可以根據需要隨時新增不同的欄位。</p>
+<p>但當同一 JSON 包含不同類型產品的資料，如電器或衣服，每個產品類型可能對應到不同的屬性，在這種情況下，可能會有一些需要思考的面向。</p>
+<ol>
+<li>無法預測的資料結構
+<ul>
+<li>因為 JSON 支援不固定欄位，每筆資料的欄位結構可能不同，需要更仔細管理與追蹤欄位。</li>
+</ul>
+</li>
+<li>增加查詢的複雜性
+<ul>
+<li>需精確指定 JSON 中的欄位路徑 <code>$.attributes.color</code>。</li>
+<li>需檢查欄位是否存在: 因為即使資料庫不會報錯，但可能導致結果不準確。</li>
+<li>如果欄位結構不統一，可能需要額外處理 NULL 欄位或缺失欄位。</li>
+</ul>
+</li>
+<li>查詢效能的挑戰
+<ul>
+<li>雖然 JSON 讓資料更彈性，但資料量一大可能出現查得慢、空間浪費等情況。</li>
+</ul>
+</li>
+</ol>
+<p>但總結來看，OracleDB JSON 是一個加分的擴充功能，可以在關聯式資料庫中支持半結構化資料，讓 OracleDB 保持在高度結構化和部分動態資料的混合場景中具備優勢。而 MongoDB 本來就是專門為動態資料設計的 NoSQL 資料庫，特別適合那些需要高靈活性、動態結構和大規模資料處理的應用。MongoDB 和關聯式資料庫各有優勢，應該根據實際場景選擇最適合的資料庫。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/blog/tags/Oracle/" rel="tag"># Oracle</a>
+              <a href="/blog/tags/Oracle-Database-23ai/" rel="tag"># Oracle Database 23ai</a>
+              <a href="/blog/tags/JSON/" rel="tag"># JSON</a>
+              <a href="/blog/tags/MongoDB/" rel="tag"># MongoDB</a>
+              <a href="/blog/tags/NoSQL/" rel="tag"># NoSQL</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/blog/oracle-table-schema-json-comparison/" rel="prev" title="實測單一表格、EAV 模型與 JSON 欄位的查詢效能">
+                  <i class="fa fa-angle-left"></i> 實測單一表格、EAV 模型與 JSON 欄位的查詢效能
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Stella</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/blog/js/comments.js"></script><script src="/blog/js/utils.js"></script><script src="/blog/js/motion.js"></script><script src="/blog/js/sidebar.js"></script><script src="/blog/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js","integrity":"sha256-stuqcu2FrjYCXDOytWFA5SoUE/r3nkp6gTglzNSlavU="}}</script>
+  <script src="/blog/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"ams","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/blog/js/third-party/math/mathjax.js"></script>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"estellacoding","repo":"blog","client_id":"Ov23liBnWPuObZGktbAv","client_secret":"9ed6e261cd75af620744058daafa56b80a53ffa8","admin_user":"estellacoding","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":null,"labels":"gitalk","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"542c21c800e106359a0e6c2385efde63"}</script>
+<script src="/blog/js/third-party/comments/gitalk.js"></script>
+
+</body>
+</html>
