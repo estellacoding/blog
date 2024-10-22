@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="mask-icon" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"estellacoding.github.io","root":"/blog/","images":"/blog/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/blog/js/config.js"></script>
+
+    <meta name="description" content="先前我們使用具體的操作範例比較 Oracle DB JSON 與 MongoDB 的差異，請看 Oracle DB JSON 與 MongoDB 的差異。而這篇要來補充說明，怎麼用 MongoDB Compass 圖形介面操作資料庫。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MongoDB Compass 圖形介面操作資料庫">
+<meta property="og:url" content="https://estellacoding.github.io/blog/mongodb-compass-gui-introduction/index.html">
+<meta property="og:site_name" content="Stella Coding">
+<meta property="og:description" content="先前我們使用具體的操作範例比較 Oracle DB JSON 與 MongoDB 的差異，請看 Oracle DB JSON 與 MongoDB 的差異。而這篇要來補充說明，怎麼用 MongoDB Compass 圖形介面操作資料庫。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmongodb-compass-gui-introduction%2Fmongodb-compass-1.png?alt=media&amp;token=b8fc053e-662f-401f-a906-798bb32a428b">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmongodb-compass-gui-introduction%2Fmongodb-compass-2.png?alt=media&amp;token=45d2ee3d-87f1-4138-bce4-942c8494d6b3">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmongodb-compass-gui-introduction%2Fmongodb-compass-3.png?alt=media&amp;token=56d2fe4f-b57b-4390-977c-acae3510cb46">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmongodb-compass-gui-introduction%2Fmongodb-compass-4.png?alt=media&amp;token=495b3e99-409f-47eb-ad65-195ae6a88a33">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmongodb-compass-gui-introduction%2Fmongodb-compass-5.png?alt=media&amp;token=941ef7cd-78a8-4130-a7e1-09e865a23dbd">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmongodb-compass-gui-introduction%2Fmongodb-compass-7.png?alt=media&amp;token=25529a74-c579-4993-a195-53f78a760e69">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmongodb-compass-gui-introduction%2Fmongodb-compass-6.png?alt=media&amp;token=882f2c5a-325b-4914-8dd6-25bf8cd2c7ba">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmongodb-compass-gui-introduction%2Fmongodb-compass-8.png?alt=media&amp;token=1797685b-6cba-4310-865e-095ed2e2a382">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmongodb-compass-gui-introduction%2Fmongodb-compass-9.png?alt=media&amp;token=1594d458-a883-4323-a254-802334e8891f">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmongodb-compass-gui-introduction%2Fmongodb-compass-10.png?alt=media&amp;token=c24a7808-34a2-4533-aba0-0c250099e9bb">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmongodb-compass-gui-introduction%2Fmongodb-compass-10-1.png?alt=media&amp;token=b2f0d72b-e9d6-43c5-a324-4e715d261848">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmongodb-compass-gui-introduction%2Fmongodb-compass-11-0.png?alt=media&amp;token=176d8d4b-0309-4eb3-bb5f-634676421277">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmongodb-compass-gui-introduction%2Fmongodb-compass-11.png?alt=media&amp;token=7bfdadec-56af-4861-a72a-15fb5cd92e95">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmongodb-compass-gui-introduction%2Fmongodb-compass-12.png?alt=media&amp;token=ce40f84e-9ab3-4561-9bc3-7a5c6a0d2152">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmongodb-compass-gui-introduction%2Fmongodb-compass-13.png?alt=media&amp;token=7457f6b7-3eca-4169-8032-54621a6412d4">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmongodb-compass-gui-introduction%2Fmongodb-compass-16.png?alt=media&amp;token=11830a10-0b3b-4967-a543-d0c5cc24954b">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmongodb-compass-gui-introduction%2Fmongodb-compass-14.png?alt=media&amp;token=3bffa650-3085-4fab-93bc-025f98556144">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmongodb-compass-gui-introduction%2Fmongodb-compass-15.png?alt=media&amp;token=15450947-408a-401c-bd4a-fe6adc9b3d13">
+<meta property="article:published_time" content="2024-10-22T03:11:11.000Z">
+<meta property="article:modified_time" content="2024-10-22T03:11:11.000Z">
+<meta property="article:author" content="Stella">
+<meta property="article:tag" content="MongoDB">
+<meta property="article:tag" content="NoSQL">
+<meta property="article:tag" content="MongoDB Compass">
+<meta property="article:tag" content="GUI">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmongodb-compass-gui-introduction%2Fmongodb-compass-1.png?alt=media&amp;token=b8fc053e-662f-401f-a906-798bb32a428b">
+
+
+<link rel="canonical" href="https://estellacoding.github.io/blog/mongodb-compass-gui-introduction/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://estellacoding.github.io/blog/mongodb-compass-gui-introduction/","path":"mongodb-compass-gui-introduction/","title":"MongoDB Compass 圖形介面操作資料庫"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>MongoDB Compass 圖形介面操作資料庫 | Stella Coding</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EG0CKC3093"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-EG0CKC3093","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/blog/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/blog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/blog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Stella Coding</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">I am at point A.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/blog/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/blog/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/blog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#MongoDB-Compass"><span class="nav-number">1.</span> <span class="nav-text">MongoDB Compass</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%8B%E8%BC%89-Compass"><span class="nav-number">2.</span> <span class="nav-text">下載 Compass</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A8%AD%E5%AE%9A%E8%B3%87%E6%96%99%E5%BA%AB"><span class="nav-number">3.</span> <span class="nav-text">設定資料庫</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A8%BB%E5%86%8A%E5%B8%B3%E8%99%9F"><span class="nav-number">3.1.</span> <span class="nav-text">註冊帳號</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E5%B0%88%E6%A1%88"><span class="nav-number">3.2.</span> <span class="nav-text">建立專案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B3%87%E6%96%99%E7%B5%90%E6%A7%8B"><span class="nav-number">3.2.1.</span> <span class="nav-text">資料結構</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E5%B0%88%E6%A1%88-v2"><span class="nav-number">3.2.2.</span> <span class="nav-text">建立專案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E9%9B%86%E7%BE%A4"><span class="nav-number">3.3.</span> <span class="nav-text">建立集群</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%A3%E6%8E%A5%E8%B3%87%E6%96%99%E5%BA%AB"><span class="nav-number">3.4.</span> <span class="nav-text">連接資料庫</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E8%B3%87%E6%96%99"><span class="nav-number">4.</span> <span class="nav-text">建立資料</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E8%B3%87%E6%96%99%E5%BA%AB"><span class="nav-number">4.1.</span> <span class="nav-text">建立資料庫</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E9%9B%86%E5%90%88"><span class="nav-number">4.2.</span> <span class="nav-text">建立集合</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%B5%E5%BB%BA%E7%B4%A2%E5%BC%95"><span class="nav-number">4.3.</span> <span class="nav-text">創建索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%B7%E8%A1%8C%E6%9F%A5%E8%A9%A2"><span class="nav-number">4.4.</span> <span class="nav-text">執行查詢</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C"><span class="nav-number">4.4.1.</span> <span class="nav-text">命令行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E7%84%B6%E8%AA%9E%E8%A8%80"><span class="nav-number">4.4.2.</span> <span class="nav-text">自然語言</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B8%BD%E7%B5%90"><span class="nav-number">5.</span> <span class="nav-text">總結</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Stella"
+      src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+  <p class="site-author-name" itemprop="name">Stella</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/blog/archives/">
+          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/blog/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/blog/tags/">
+        <span class="site-state-item-count">60</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/estellacoding" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;estellacoding" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.instagram.com/stellacoding/" title="Instagram → https:&#x2F;&#x2F;www.instagram.com&#x2F;stellacoding&#x2F;" rel="noopener me" target="_blank"><i class="fab fa-instagram fa-fw"></i>Instagram</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://estellacoding.github.io/blog/mongodb-compass-gui-introduction/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+      <meta itemprop="name" content="Stella">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Stella Coding">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="MongoDB Compass 圖形介面操作資料庫 | Stella Coding">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MongoDB Compass 圖形介面操作資料庫
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2024-10-22 11:11:11" itemprop="dateCreated datePublished" datetime="2024-10-22T11:11:11+08:00">2024-10-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/MongoDB/" itemprop="url" rel="index"><span itemprop="name">MongoDB</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>先前我們使用具體的操作範例比較 Oracle DB JSON 與 MongoDB 的差異，請看 <a href="https://estellacoding.github.io/blog/oracledb-json-mongodb-custom-fields">Oracle DB JSON 與 MongoDB 的差異</a>。而這篇要來補充說明，怎麼用 MongoDB Compass 圖形介面操作資料庫。</p>
+<span id="more"></span>
+<h1 id="MongoDB-Compass"><a class="header-anchor" href="#MongoDB-Compass"></a>MongoDB Compass</h1>
+<p>MongoDB Compass 是官方提供免費的圖形使用者介面(GUI)工具，用來操作和分析 MongoDB 資料，通過圖形介面執行查詢，並可在 macOS、Windows 和 Linux 操作系統上運行。</p>
+<p>好用功能:</p>
+<ul>
+<li>瀏覽資料: Compass 介面上查看和瀏覽 MongoDB 文件資料，並可同時連接到不同的資料庫。</li>
+<li>命令行介面(CLI): 內建一個 MongoDB Shell，可以直接輸入命令操作資料庫。</li>
+<li>匯入匯出資料: 可將 JSON 或 CSV 檔案中的資料匯入 MongoDB，也可以將資料匯出。</li>
+<li>AI 查詢: 可使用自然語言來簡化資料查詢。</li>
+<li>更多功能: …</li>
+</ul>
+<div class="note default"><p><a target="_blank" rel="noopener" href="https://www.mongodb.com/zh-cn/docs/compass/current/">MongoDB Compass 官方文檔</a></p>
+</div>
+<h1 id="下載-Compass"><a class="header-anchor" href="#下載-Compass"></a>下載 Compass</h1>
+<p><a target="_blank" rel="noopener" href="https://www.mongodb.com/products/tools/compass">下載 MongoDB Compass</a></p>
+<div class="note info"><p>MongoDB Compass 不支援虛擬桌面環境喔。</p>
+</div>
+<h1 id="設定資料庫"><a class="header-anchor" href="#設定資料庫"></a>設定資料庫</h1>
+<h2 id="註冊帳號"><a class="header-anchor" href="#註冊帳號"></a>註冊帳號</h2>
+<p>先去 <a target="_blank" rel="noopener" href="https://www.mongodb.com/products/platform/cloud">註冊 MongoDB Atlas</a> 帳號。</p>
+<h2 id="建立專案"><a class="header-anchor" href="#建立專案"></a>建立專案</h2>
+<h3 id="資料結構"><a class="header-anchor" href="#資料結構"></a>資料結構</h3>
+<p>在建立專案前，我們先了解在 MongoDB 中的資料結構的層級。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Project</span><br><span class="line">  └── Cluster</span><br><span class="line">        └── Database</span><br><span class="line">              └── Collection <span class="selector-attr">[Documents]</span></span><br><span class="line">                    └── Document &#123;name: <span class="string">&#x27;Ned Stark&#x27;</span>, name: <span class="string">&#x27;Robert Baratheon&#x27;</span>, ...&#125;</span><br><span class="line">                          └── Field &#123;name: <span class="string">&#x27;Ned Stark&#x27;</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>個別對應到 RDBMS 中的概念:</p>
+<table>
+<thead>
+<tr>
+<th><strong>MongoDB</strong></th>
+<th><strong>RDBMS</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Project</td>
+<td>專案</td>
+</tr>
+<tr>
+<td>Cluster</td>
+<td>資料庫伺服器</td>
+</tr>
+<tr>
+<td>Database</td>
+<td>資料庫</td>
+</tr>
+<tr>
+<td>Collection</td>
+<td>表 (Table)</td>
+</tr>
+<tr>
+<td>Document</td>
+<td>行 (Row)</td>
+</tr>
+<tr>
+<td>Field</td>
+<td>欄位 (Column)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="建立專案-v2"><a class="header-anchor" href="#建立專案-v2"></a>建立專案</h3>
+<p>註冊完成並 <a target="_blank" rel="noopener" href="https://account.mongodb.com/account/login">登入帳號</a> 後，就可以建立專案。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmongodb-compass-gui-introduction%2Fmongodb-compass-1.png?alt=media&amp;token=b8fc053e-662f-401f-a906-798bb32a428b" alt="mongodb-compass-1"></p>
+<p>為專案命名後，點擊「Next」。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmongodb-compass-gui-introduction%2Fmongodb-compass-2.png?alt=media&amp;token=45d2ee3d-87f1-4138-bce4-942c8494d6b3" alt="mongodb-compass-2"></p>
+<h2 id="建立集群"><a class="header-anchor" href="#建立集群"></a>建立集群</h2>
+<p>接著，我們要建立集群(Cluster)，點擊「Create」。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmongodb-compass-gui-introduction%2Fmongodb-compass-3.png?alt=media&amp;token=56d2fe4f-b57b-4390-977c-acae3510cb46" alt="mongodb-compass-3"></p>
+<p>選擇「M0」免費方案，提供 512 MB 的儲存空間。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmongodb-compass-gui-introduction%2Fmongodb-compass-4.png?alt=media&amp;token=495b3e99-409f-47eb-ad65-195ae6a88a33" alt="mongodb-compass-4"></p>
+<div class="note default"><p><a target="_blank" rel="noopener" href="https://www.mongodb.com/zh-cn/docs/atlas/reference/free-shared-limitations/">Atlas M0 配置限制</a></p>
+</div>
+<ul>
+<li>為集群命名</li>
+<li>勾選「Automate Security setup」自動新增目前的 IP 啟用本地連線。</li>
+<li>勾選「Preload sample dataset」預載 45MB 的範例資料集。</li>
+<li>選擇「Google Cloud」，地區為台灣。</li>
+<li>選項確認沒問題後，就可以點擊「Create Deployment」。</li>
+</ul>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmongodb-compass-gui-introduction%2Fmongodb-compass-5.png?alt=media&amp;token=941ef7cd-78a8-4130-a7e1-09e865a23dbd" alt="mongodb-compass-5"></p>
+<p>點擊「Copy」複製密碼後，才能點擊「Create Database User」。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmongodb-compass-gui-introduction%2Fmongodb-compass-7.png?alt=media&amp;token=25529a74-c579-4993-a195-53f78a760e69" alt="mongodb-compass-7"></p>
+<div class="note info"><p>這是資料庫帳號密碼要記得保存下來。</p>
+</div>
+<p>點擊「Choose a connection method」。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmongodb-compass-gui-introduction%2Fmongodb-compass-6.png?alt=media&amp;token=882f2c5a-325b-4914-8dd6-25bf8cd2c7ba" alt="mongodb-compass-6"></p>
+<p>MongoDB 有提供很多種連線方式，我們這次選擇「Compass」。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmongodb-compass-gui-introduction%2Fmongodb-compass-8.png?alt=media&amp;token=1797685b-6cba-4310-865e-095ed2e2a382" alt="mongodb-compass-8"></p>
+<p>因為我已經先安裝好 MongoDB Compass，所以可直接點擊「I have MongoDB Compass installed」。如果還沒安裝可以點擊「I don't have MongoDB Compass installed」進行安裝。</p>
+<p>複製「連線字串(connection string)」。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmongodb-compass-gui-introduction%2Fmongodb-compass-9.png?alt=media&amp;token=1594d458-a883-4323-a254-802334e8891f" alt="mongodb-compass-9"></p>
+<h2 id="連接資料庫"><a class="header-anchor" href="#連接資料庫"></a>連接資料庫</h2>
+<p>打開 MongoDB Compass，建立新連線，將剛才複製的連線字串貼上。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmongodb-compass-gui-introduction%2Fmongodb-compass-10.png?alt=media&amp;token=c24a7808-34a2-4533-aba0-0c250099e9bb" alt="mongodb-compass-10"></p>
+<p>當出現綠色連線標誌時，表示連線成功！剛才預載的範例資料集位於 sample_mflix。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmongodb-compass-gui-introduction%2Fmongodb-compass-10-1.png?alt=media&amp;token=b2f0d72b-e9d6-43c5-a324-4e715d261848" alt="mongodb-compass-10-1"></p>
+<h1 id="建立資料"><a class="header-anchor" href="#建立資料"></a>建立資料</h1>
+<p>我將以簡單電商網站的資料作為的 MongoDB 資料庫設計範例，包括用戶、商品、訂單等資料結構。</p>
+<h2 id="建立資料庫"><a class="header-anchor" href="#建立資料庫"></a>建立資料庫</h2>
+<p>點擊「cluser-2」後，再點擊「Open MongoDB shell」。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmongodb-compass-gui-introduction%2Fmongodb-compass-11-0.png?alt=media&amp;token=176d8d4b-0309-4eb3-bb5f-634676421277" alt="mongodb-compass-11-0"></p>
+<p>在「Open MongoDB shell」的視窗中，輸入以下指令。</p>
+<figure class="highlight m"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 創建並切換到 ecommerce 資料庫</span><br><span class="line">use ecommerce</span><br></pre></td></tr></table></figure>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmongodb-compass-gui-introduction%2Fmongodb-compass-11.png?alt=media&amp;token=7bfdadec-56af-4861-a72a-15fb5cd92e95" alt="mongodb-compass-11"></p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmongodb-compass-gui-introduction%2Fmongodb-compass-12.png?alt=media&amp;token=ce40f84e-9ab3-4561-9bc3-7a5c6a0d2152" alt="mongodb-compass-12"></p>
+<h2 id="建立集合"><a class="header-anchor" href="#建立集合"></a>建立集合</h2>
+<p>在「Open MongoDB shell」的視窗中，輸入以下指令插入資料。</p>
+<figure class="highlight m"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line">// 創建 users 集合並插入資料</span><br><span class="line">db.createCollection(<span class="string">&#x27;users&#x27;</span>)</span><br><span class="line">db.users.insertOne(&#123;</span><br><span class="line">  <span class="string">&quot;name&quot;</span>: <span class="string">&quot;John Doe&quot;</span>,</span><br><span class="line">  <span class="string">&quot;email&quot;</span>: <span class="string">&quot;john.doe@example.com&quot;</span>,</span><br><span class="line">  <span class="string">&quot;passwordHash&quot;</span>: <span class="string">&quot;hashedpassword&quot;</span>,</span><br><span class="line">  <span class="string">&quot;phone&quot;</span>: <span class="string">&quot;+123456789&quot;</span>,</span><br><span class="line">  <span class="string">&quot;addresses&quot;</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;type&quot;</span>: <span class="string">&quot;home&quot;</span>,</span><br><span class="line">      <span class="string">&quot;street&quot;</span>: <span class="string">&quot;123 Main St&quot;</span>,</span><br><span class="line">      <span class="string">&quot;city&quot;</span>: <span class="string">&quot;New York&quot;</span>,</span><br><span class="line">      <span class="string">&quot;state&quot;</span>: <span class="string">&quot;NY&quot;</span>,</span><br><span class="line">      <span class="string">&quot;zip&quot;</span>: <span class="string">&quot;10001&quot;</span>,</span><br><span class="line">      <span class="string">&quot;country&quot;</span>: <span class="string">&quot;USA&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;type&quot;</span>: <span class="string">&quot;work&quot;</span>,</span><br><span class="line">      <span class="string">&quot;street&quot;</span>: <span class="string">&quot;456 Office St&quot;</span>,</span><br><span class="line">      <span class="string">&quot;city&quot;</span>: <span class="string">&quot;New York&quot;</span>,</span><br><span class="line">      <span class="string">&quot;state&quot;</span>: <span class="string">&quot;NY&quot;</span>,</span><br><span class="line">      <span class="string">&quot;zip&quot;</span>: <span class="string">&quot;10002&quot;</span>,</span><br><span class="line">      <span class="string">&quot;country&quot;</span>: <span class="string">&quot;USA&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  <span class="string">&quot;createdAt&quot;</span>: new Date(<span class="string">&quot;2024-01-01T12:00:00Z&quot;</span>),</span><br><span class="line">  <span class="string">&quot;isAdmin&quot;</span>: <span class="built_in">false</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">// 創建 products 集合並插入資料</span><br><span class="line">db.createCollection(<span class="string">&#x27;products&#x27;</span>)</span><br><span class="line">db.products.insertOne(&#123;</span><br><span class="line">  <span class="string">&quot;name&quot;</span>: <span class="string">&quot;Smartphone X&quot;</span>,</span><br><span class="line">  <span class="string">&quot;description&quot;</span>: <span class="string">&quot;Latest model of the Smartphone X series with 128GB storage.&quot;</span>,</span><br><span class="line">  <span class="string">&quot;category&quot;</span>: <span class="string">&quot;Electronics&quot;</span>,</span><br><span class="line">  <span class="string">&quot;price&quot;</span>: <span class="number">799.99</span>,</span><br><span class="line">  <span class="string">&quot;stock&quot;</span>: <span class="number">50</span>,</span><br><span class="line">  <span class="string">&quot;brand&quot;</span>: <span class="string">&quot;Brand X&quot;</span>,</span><br><span class="line">  <span class="string">&quot;specifications&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;color&quot;</span>: <span class="string">&quot;Black&quot;</span>,</span><br><span class="line">    <span class="string">&quot;weight&quot;</span>: <span class="string">&quot;180g&quot;</span>,</span><br><span class="line">    <span class="string">&quot;batteryLife&quot;</span>: <span class="string">&quot;10h&quot;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">&quot;images&quot;</span>: [</span><br><span class="line">    <span class="string">&quot;https://example.com/images/smartphone-x-front.jpg&quot;</span>,</span><br><span class="line">    <span class="string">&quot;https://example.com/images/smartphone-x-back.jpg&quot;</span></span><br><span class="line">  ],</span><br><span class="line">  <span class="string">&quot;ratings&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;average&quot;</span>: <span class="number">4.5</span>,</span><br><span class="line">    <span class="string">&quot;totalReviews&quot;</span>: <span class="number">150</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">&quot;createdAt&quot;</span>: new Date(<span class="string">&quot;2024-01-05T08:30:00Z&quot;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">// 創建 orders 集合並插入資料</span><br><span class="line">db.createCollection(<span class="string">&#x27;orders&#x27;</span>)</span><br><span class="line">db.orders.insertOne(&#123;</span><br><span class="line">  <span class="string">&quot;userId&quot;</span>: ObjectId(<span class="string">&quot;64a543d293be0307c812b73f&quot;</span>),</span><br><span class="line">  <span class="string">&quot;items&quot;</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;productId&quot;</span>: ObjectId(<span class="string">&quot;64a543d293be0307c812b741&quot;</span>),</span><br><span class="line">      <span class="string">&quot;quantity&quot;</span>: <span class="number">2</span>,</span><br><span class="line">      <span class="string">&quot;price&quot;</span>: <span class="number">799.99</span></span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  <span class="string">&quot;totalAmount&quot;</span>: <span class="number">1599.98</span>,</span><br><span class="line">  <span class="string">&quot;shippingAddress&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;street&quot;</span>: <span class="string">&quot;123 Main St&quot;</span>,</span><br><span class="line">    <span class="string">&quot;city&quot;</span>: <span class="string">&quot;New York&quot;</span>,</span><br><span class="line">    <span class="string">&quot;state&quot;</span>: <span class="string">&quot;NY&quot;</span>,</span><br><span class="line">    <span class="string">&quot;zip&quot;</span>: <span class="string">&quot;10001&quot;</span>,</span><br><span class="line">    <span class="string">&quot;country&quot;</span>: <span class="string">&quot;USA&quot;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">&quot;orderStatus&quot;</span>: <span class="string">&quot;pending&quot;</span>,</span><br><span class="line">  <span class="string">&quot;orderDate&quot;</span>: new Date(<span class="string">&quot;2024-01-10T12:30:00Z&quot;</span>),</span><br><span class="line">  <span class="string">&quot;shippingDate&quot;</span>: new Date(<span class="string">&quot;2024-01-11T12:30:00Z&quot;</span>),</span><br><span class="line">  <span class="string">&quot;deliveryDate&quot;</span>: new Date(<span class="string">&quot;2024-01-15T14:00:00Z&quot;</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="創建索引"><a class="header-anchor" href="#創建索引"></a>創建索引</h2>
+<p>在「Open MongoDB shell」的視窗中，輸入以下指令創建索引。</p>
+<figure class="highlight m"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 為 users 集合的 email 欄位創建唯一索引</span><br><span class="line">db.users.createIndex(&#123; email: <span class="number">1</span> &#125;, &#123; unique: <span class="built_in">true</span> &#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="執行查詢"><a class="header-anchor" href="#執行查詢"></a>執行查詢</h2>
+<h3 id="命令行"><a class="header-anchor" href="#命令行"></a>命令行</h3>
+<p>在「Open MongoDB shell」的視窗中，輸入以下指令查詢資料。</p>
+<figure class="highlight m"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 查找訂單狀態為<span class="string">&quot;pending&quot;</span>的訂單</span><br><span class="line">db.orders.find(&#123; <span class="string">&quot;orderStatus&quot;</span>: <span class="string">&quot;pending&quot;</span> &#125;)</span><br></pre></td></tr></table></figure>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmongodb-compass-gui-introduction%2Fmongodb-compass-13.png?alt=media&amp;token=7457f6b7-3eca-4169-8032-54621a6412d4" alt="mongodb-compass-13"></p>
+<h3 id="自然語言"><a class="header-anchor" href="#自然語言"></a>自然語言</h3>
+<p>MongoDB Compass 支援使用自然語言生成查詢。(<s>有AI還需我嗎XD</s>)<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmongodb-compass-gui-introduction%2Fmongodb-compass-16.png?alt=media&amp;token=11830a10-0b3b-4967-a543-d0c5cc24954b" alt="mongodb-compass-16"></p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmongodb-compass-gui-introduction%2Fmongodb-compass-14.png?alt=media&amp;token=3bffa650-3085-4fab-93bc-025f98556144" alt="mongodb-compass-14"></p>
+<p>例如，輸入「查找訂單狀態為 pending 的訂單」，Compass 會自動生成相應的查詢語法。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fmongodb-compass-gui-introduction%2Fmongodb-compass-15.png?alt=media&amp;token=15450947-408a-401c-bd4a-fe6adc9b3d13" alt="mongodb-compass-15"></p>
+<h1 id="總結"><a class="header-anchor" href="#總結"></a>總結</h1>
+<p>MongoDB Compass 是一個非常好用的圖形化工具，使用上很直覺，再加上有了自然語言生成指令，省去很多人工寫查詢語法的時間，在資料庫管理與操作上更能提高工作效率。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/blog/tags/MongoDB/" rel="tag"># MongoDB</a>
+              <a href="/blog/tags/NoSQL/" rel="tag"># NoSQL</a>
+              <a href="/blog/tags/MongoDB-Compass/" rel="tag"># MongoDB Compass</a>
+              <a href="/blog/tags/GUI/" rel="tag"># GUI</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/blog/oracledb-json-mongodb-custom-fields/" rel="prev" title="Oracle DB JSON 與 MongoDB 的差異">
+                  <i class="fa fa-angle-left"></i> Oracle DB JSON 與 MongoDB 的差異
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Stella</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/blog/js/comments.js"></script><script src="/blog/js/utils.js"></script><script src="/blog/js/motion.js"></script><script src="/blog/js/sidebar.js"></script><script src="/blog/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js","integrity":"sha256-stuqcu2FrjYCXDOytWFA5SoUE/r3nkp6gTglzNSlavU="}}</script>
+  <script src="/blog/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"ams","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/blog/js/third-party/math/mathjax.js"></script>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"estellacoding","repo":"blog","client_id":"Ov23liBnWPuObZGktbAv","client_secret":"9ed6e261cd75af620744058daafa56b80a53ffa8","admin_user":"estellacoding","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":null,"labels":"gitalk","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"1a3d0a2519fc99c74943abd10aad9a2d"}</script>
+<script src="/blog/js/third-party/comments/gitalk.js"></script>
+
+</body>
+</html>

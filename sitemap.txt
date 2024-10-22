@@ -1,3 +1,4 @@
+https://estellacoding.github.io/blog/mongodb-compass-gui-introduction/
 https://estellacoding.github.io/blog/oracledb-json-mongodb-custom-fields/
 https://estellacoding.github.io/blog/oracle-vector-search-langchain-rag/
 https://estellacoding.github.io/blog/oracle-table-schema-json-comparison/
@@ -85,9 +86,12 @@ https://estellacoding.github.io/blog/tags/EAV/
 https://estellacoding.github.io/blog/tags/JSON/
 https://estellacoding.github.io/blog/tags/MongoDB/
 https://estellacoding.github.io/blog/tags/NoSQL/
+https://estellacoding.github.io/blog/tags/MongoDB-Compass/
+https://estellacoding.github.io/blog/tags/GUI/
 https://estellacoding.github.io/blog/categories/AutoML/
 https://estellacoding.github.io/blog/categories/Hexo/
 https://estellacoding.github.io/blog/categories/Machine-Learning/
 https://estellacoding.github.io/blog/categories/Deep-Learning/
 https://estellacoding.github.io/blog/categories/GPU/
 https://estellacoding.github.io/blog/categories/Oracle/
+https://estellacoding.github.io/blog/categories/MongoDB/
