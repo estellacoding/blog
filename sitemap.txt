@@ -1,3 +1,4 @@
+https://estellacoding.github.io/blog/aws-certified-ai-practitioner/
 https://estellacoding.github.io/blog/about/index.html
 https://estellacoding.github.io/blog/how-many-days-left/
 https://estellacoding.github.io/blog/mongodb-compass-gui-introduction/
@@ -90,6 +91,10 @@ https://estellacoding.github.io/blog/tags/NoSQL/
 https://estellacoding.github.io/blog/tags/MongoDB-Compass/
 https://estellacoding.github.io/blog/tags/GUI/
 https://estellacoding.github.io/blog/tags/Life/
+https://estellacoding.github.io/blog/tags/AWS-Certified-AI-Practitioner/
+https://estellacoding.github.io/blog/tags/AWS-Certified-AI/
+https://estellacoding.github.io/blog/tags/AWS/
+https://estellacoding.github.io/blog/tags/Certification/
 https://estellacoding.github.io/blog/categories/AutoML/
 https://estellacoding.github.io/blog/categories/Hexo/
 https://estellacoding.github.io/blog/categories/Machine-Learning/
@@ -98,3 +103,4 @@ https://estellacoding.github.io/blog/categories/GPU/
 https://estellacoding.github.io/blog/categories/Oracle/
 https://estellacoding.github.io/blog/categories/MongoDB/
 https://estellacoding.github.io/blog/categories/Life/
+https://estellacoding.github.io/blog/categories/AWS/
