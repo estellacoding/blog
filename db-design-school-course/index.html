@@ -247,7 +247,7 @@
 </ul>
 <h1 id="案例介紹"><a class="header-anchor" href="#案例介紹"></a>案例介紹</h1>
 <p>以下我將以一個學校選課系統為例，說明資料表從初始需求的資料表到正規化的過程。</p>
-<p>⬇初始需求的資料表⬇</p>
+<p><span style="font-size: 1em; font-weight: bold; color: #000000; background-color: #F8F9FA; padding: 5px 10px; border-radius: 5px;">↓初始需求的資料表↓</span></p>
 <table>
 <thead>
 <tr>
@@ -308,7 +308,7 @@
 <h2 id="第一正規化-1NF"><a class="header-anchor" href="#第一正規化-1NF"></a>第一正規化(1NF)</h2>
 <p>第一正規化(1NF): 每個欄位必須具有原子性，即單一值，不能存放多值或重複資料。</p>
 <p>對於原始資料表中的「課程ID」和「課程名稱」多值情況，我們需要拆分為多行以滿足 1NF。</p>
-<p>⬇更新的資料表⬇</p>
+<p><span style="font-size: 1em; font-weight: bold; color: #000000; background-color: #F8F9FA; padding: 5px 10px; border-radius: 5px;">↓更新的資料表↓</span></p>
 <table>
 <thead>
 <tr>
@@ -383,7 +383,7 @@
 <li>「課程名稱」和「學分」欄位，則與「課程ID」相關。</li>
 <li>我們通過拆分表格，使每個非主鍵欄位只與主鍵完全相關。</li>
 </ul>
-<p>⬇學生表 (Students)⬇</p>
+<p><span style="font-size: 1em; font-weight: bold; color: #000000; background-color: #F8F9FA; padding: 5px 10px; border-radius: 5px;">↓學生表 (Students)↓</span></p>
 <table>
 <thead>
 <tr>
@@ -415,7 +415,7 @@
 </tr>
 </tbody>
 </table>
-<p>⬇課程表 (Courses)⬇</p>
+<p><span style="font-size: 1em; font-weight: bold; color: #000000; background-color: #F8F9FA; padding: 5px 10px; border-radius: 5px;">↓課程表 (Courses)↓</span></p>
 <table>
 <thead>
 <tr>
@@ -447,7 +447,7 @@
 </tr>
 </tbody>
 </table>
-<p>⬇教師表 (Teachers)⬇</p>
+<p><span style="font-size: 1em; font-weight: bold; color: #000000; background-color: #F8F9FA; padding: 5px 10px; border-radius: 5px;">↓教師表 (Teachers)↓</span></p>
 <table>
 <thead>
 <tr>
@@ -473,7 +473,7 @@
 <h2 id="第三正規化-3NF"><a class="header-anchor" href="#第三正規化-3NF"></a>第三正規化(3NF)</h2>
 <p>第三正規化(3NF): 滿足 2NF 下，確保非主鍵欄位不依賴於其他非主鍵欄位。</p>
 <p>若「辦公室」直接依賴於「教師姓名」…</p>
-<p>⬇教師表 (Teachers)⬇</p>
+<p><span style="font-size: 1em; font-weight: bold; color: #000000; background-color: #F8F9FA; padding: 5px 10px; border-radius: 5px;">↓教師表 (Teachers)↓</span></p>
 <table>
 <thead>
 <tr>
@@ -529,7 +529,7 @@
 <li>以<code>教師ID</code>作為主鍵，提供每位教師的唯一識別碼。</li>
 <li>將教師的描述性資訊（如教師姓名和辦公室）儲存在與<code>教師ID</code>相關的記錄中。</li>
 </ul>
-<p>⬇更新的教師表 (Teachers)⬇</p>
+<p><span style="font-size: 1em; font-weight: bold; color: #000000; background-color: #F8F9FA; padding: 5px 10px; border-radius: 5px;">↓更新的教師表 (Teachers)↓</span></p>
 <table>
 <thead>
 <tr>
@@ -587,7 +587,7 @@
 <li>通常可以合併在一個表中。</li>
 <li>若資訊過多，也可以依主鍵拆分不同表格。</li>
 </ul>
-<p>⬇學生表 (Students)⬇</p>
+<p><span style="font-size: 1em; font-weight: bold; color: #000000; background-color: #F8F9FA; padding: 5px 10px; border-radius: 5px;">↓學生表 (Students)↓</span></p>
 <table>
 <thead>
 <tr>
@@ -619,7 +619,7 @@
 </tr>
 </tbody>
 </table>
-<p>⬇學生詳細資訊表 (Student_Details)⬇</p>
+<p><span style="font-size: 1em; font-weight: bold; color: #000000; background-color: #F8F9FA; padding: 5px 10px; border-radius: 5px;">↓學生詳細資訊表 (Student_Details)↓</span></p>
 <table>
 <thead>
 <tr>
@@ -664,7 +664,7 @@
 <li>以「教師」角度: <code>1</code> 個教師會有 <code>多</code> 個課程。</li>
 <li><strong>所以以「教師ID」為外鍵(FK)，以「課程ID」為主鍵(PK)。</strong></li>
 </ul>
-<p>⬇教師表 (Teachers)⬇</p>
+<p><span style="font-size: 1em; font-weight: bold; color: #000000; background-color: #F8F9FA; padding: 5px 10px; border-radius: 5px;">↓教師表 (Teachers)↓</span></p>
 <table>
 <thead>
 <tr>
@@ -691,7 +691,7 @@
 </tr>
 </tbody>
 </table>
-<p>⬇課程表 (Courses)⬇</p>
+<p><span style="font-size: 1em; font-weight: bold; color: #000000; background-color: #F8F9FA; padding: 5px 10px; border-radius: 5px;">↓課程表 (Courses)↓</span></p>
 <table>
 <thead>
 <tr>
@@ -723,7 +723,7 @@
 </tr>
 </tbody>
 </table>
-<p>⬇更新的課程表 (Courses)⬇</p>
+<p><span style="font-size: 1em; font-weight: bold; color: #000000; background-color: #F8F9FA; padding: 5px 10px; border-radius: 5px;">↓更新的課程表 (Courses)↓</span></p>
 <table>
 <thead>
 <tr>
@@ -762,7 +762,7 @@
 </table>
 <h2 id="多對多-M-N"><a class="header-anchor" href="#多對多-M-N"></a>多對多(M:N)</h2>
 <p>使用中間表(關聯表)拆分成兩個一對多的關係，中間表通常包含兩邊的主鍵作為外鍵。</p>
-<p>⬇學生選課表 (Student_Courses)⬇</p>
+<p><span style="font-size: 1em; font-weight: bold; color: #000000; background-color: #F8F9FA; padding: 5px 10px; border-radius: 5px;">↓學生選課表 (Student_Courses)↓</span></p>
 <ul>
 <li>學生與課程之間是多對多關係。</li>
 <li>通過學生選課表 (Student_Courses) 作為中間表，將其轉化為兩個一對多關係。</li>
