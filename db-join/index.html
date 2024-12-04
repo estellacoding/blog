@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="mask-icon" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"estellacoding.github.io","root":"/blog/","images":"/blog/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/blog/js/config.js"></script>
+
+    <meta name="description" content="在 SQL 查詢中，JOIN 是用來合併兩張或多張資料表的語法。本文會以客戶訂單為範例，介紹常見的 4 種 JOIN: INNER JOIN、LEFT JOIN、RIGHT JOIN 和 FULL JOIN，幫助大家理解每種 JOIN 類型的用途。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="搞懂 SQL JOIN 的 4 種基本類型">
+<meta property="og:url" content="https://estellacoding.github.io/blog/db-join/index.html">
+<meta property="og:site_name" content="Stella Coding">
+<meta property="og:description" content="在 SQL 查詢中，JOIN 是用來合併兩張或多張資料表的語法。本文會以客戶訂單為範例，介紹常見的 4 種 JOIN: INNER JOIN、LEFT JOIN、RIGHT JOIN 和 FULL JOIN，幫助大家理解每種 JOIN 類型的用途。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-12-04T03:11:11.000Z">
+<meta property="article:modified_time" content="2024-12-04T03:11:11.000Z">
+<meta property="article:author" content="Stella">
+<meta property="article:tag" content="Database">
+<meta property="article:tag" content="SQL">
+<meta property="article:tag" content="JOIN">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://estellacoding.github.io/blog/db-join/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://estellacoding.github.io/blog/db-join/","path":"db-join/","title":"搞懂 SQL JOIN 的 4 種基本類型"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>搞懂 SQL JOIN 的 4 種基本類型 | Stella Coding</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EG0CKC3093"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-EG0CKC3093","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/blog/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/blog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/blog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Stella Coding</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Hands-on fuels my soul!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/blog/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/blog/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/blog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B8%B8%E8%A6%8B-JOIN-%E9%A1%9E%E5%9E%8B"><span class="nav-number">1.</span> <span class="nav-text">常見 JOIN 類型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AF%84%E4%BE%8B%E8%B3%87%E6%96%99%E8%A1%A8"><span class="nav-number">2.</span> <span class="nav-text">範例資料表</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#INNER-JOIN"><span class="nav-number">3.</span> <span class="nav-text">INNER JOIN</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#LEFT-JOIN"><span class="nav-number">4.</span> <span class="nav-text">LEFT JOIN</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RIGHT-JOIN"><span class="nav-number">5.</span> <span class="nav-text">RIGHT JOIN</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#FULL-JOIN"><span class="nav-number">6.</span> <span class="nav-text">FULL JOIN</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B8%BD%E7%B5%90"><span class="nav-number">7.</span> <span class="nav-text">總結</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Stella"
+      src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+  <p class="site-author-name" itemprop="name">Stella</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/blog/archives/">
+          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/blog/categories/">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/blog/tags/">
+        <span class="site-state-item-count">70</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/estellacoding" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;estellacoding" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.instagram.com/stellacoding/" title="Instagram → https:&#x2F;&#x2F;www.instagram.com&#x2F;stellacoding&#x2F;" rel="noopener me" target="_blank"><i class="fab fa-instagram fa-fw"></i>Instagram</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://estellacoding.github.io/blog/db-join/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+      <meta itemprop="name" content="Stella">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Stella Coding">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="搞懂 SQL JOIN 的 4 種基本類型 | Stella Coding">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          搞懂 SQL JOIN 的 4 種基本類型
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2024-12-04 11:11:11" itemprop="dateCreated datePublished" datetime="2024-12-04T11:11:11+08:00">2024-12-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/Database/" itemprop="url" rel="index"><span itemprop="name">Database</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>在 SQL 查詢中，JOIN 是用來合併兩張或多張資料表的語法。本文會以客戶訂單為範例，介紹常見的 4 種 JOIN: <code>INNER JOIN</code>、<code>LEFT JOIN</code>、<code>RIGHT JOIN</code> 和 <code>FULL JOIN</code>，幫助大家理解每種 JOIN 類型的用途。</p>
+<span id="more"></span>
+<p>在實務中，資料通常分散於多張不同用途的資料表中。例如，<code>customers</code> 儲存客戶資料，而 <code>orders</code> 則記錄訂單資料。當需要單純查詢某一類型資料時，可以直接查詢對應的資料表，例如「某位客戶的手機號碼」。然而，當問題涉及多個資料表的資料時，例如「某位客戶的所有訂單」，就需要使用 JOIN 將多個資料表的資料合併起來，以實現跨表查詢的效果。</p>
+<h1 id="常見-JOIN-類型"><a class="header-anchor" href="#常見-JOIN-類型"></a>常見 JOIN 類型</h1>
+<table>
+<thead>
+<tr>
+<th>類型</th>
+<th>簡寫形式</th>
+<th>完整形式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>INNER JOIN</td>
+<td><code>JOIN</code></td>
+<td><code>INNER JOIN</code></td>
+</tr>
+<tr>
+<td>LEFT JOIN</td>
+<td><code>LEFT JOIN</code></td>
+<td><code>LEFT OUTER JOIN</code></td>
+</tr>
+<tr>
+<td>RIGHT JOIN</td>
+<td><code>RIGHT JOIN</code></td>
+<td><code>RIGHT OUTER JOIN</code></td>
+</tr>
+<tr>
+<td>FULL JOIN</td>
+<td><code>FULL JOIN</code></td>
+<td><code>FULL OUTER JOIN</code></td>
+</tr>
+</tbody>
+</table>
+<h1 id="範例資料表"><a class="header-anchor" href="#範例資料表"></a>範例資料表</h1>
+<p><span style="font-size: 1em; font-weight: bold; color: #000000; background-color: #F8F9FA; padding: 5px 10px; border-radius: 5px;">↓客戶表 (Customers)↓</span></p>
+<table>
+<thead>
+<tr>
+<th>CustomerID</th>
+<th>CustomerName</th>
+<th>ContactNumber</th>
+<th>Email</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Stella</td>
+<td>0981-123-456</td>
+<td><a href="mailto:stelladai1028@gmail.com">stelladai1028@gmail.com</a></td>
+</tr>
+<tr>
+<td>2</td>
+<td>Bob</td>
+<td>0982-789-000</td>
+<td><a href="mailto:bob@gmail.com">bob@gmail.com</a></td>
+</tr>
+<tr>
+<td>3</td>
+<td>Charlie</td>
+<td>0983-666-777</td>
+<td><a href="mailto:charlie@gmail.com">charlie@gmail.com</a></td>
+</tr>
+<tr>
+<td>4</td>
+<td>David</td>
+<td>0984-111-333</td>
+<td><a href="mailto:david@gmail.com">david@gmail.com</a></td>
+</tr>
+<tr>
+<td>5</td>
+<td>Emily</td>
+<td>0985-222-444</td>
+<td><a href="mailto:emily@gmail.com">emily@gmail.com</a></td>
+</tr>
+</tbody>
+</table>
+<p><span style="font-size: 1em; font-weight: bold; color: #000000; background-color: #F8F9FA; padding: 5px 10px; border-radius: 5px;">↓訂單表 (Orders)↓</span></p>
+<table>
+<thead>
+<tr>
+<th>OrderID</th>
+<th>CustomerID</th>
+<th>OrderDate</th>
+<th>Amount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>101</td>
+<td>1</td>
+<td>2023-12-11</td>
+<td>250</td>
+</tr>
+<tr>
+<td>102</td>
+<td>2</td>
+<td>2024-01-22</td>
+<td>300</td>
+</tr>
+<tr>
+<td>103</td>
+<td>3</td>
+<td>2024-02-29</td>
+<td>150</td>
+</tr>
+<tr>
+<td>104</td>
+<td>6</td>
+<td>2024-03-11</td>
+<td>400</td>
+</tr>
+<tr>
+<td>105</td>
+<td>7</td>
+<td>2024-04-22</td>
+<td>100</td>
+</tr>
+</tbody>
+</table>
+<h1 id="INNER-JOIN"><a class="header-anchor" href="#INNER-JOIN"></a>INNER JOIN</h1>
+<p>只選出兩張表中交集的部分。</p>
+<div style="text-align: center;">
+  <svg id="vennDiagram" width="600" height="400" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+    <!-- 定義條紋樣式 -->
+    <defs>
+      <pattern id="stripedPattern" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+        <!-- 淡藍色斜線條紋 -->
+        <line x1="0" y1="0" x2="0" y2="6" stroke="#D4E2F4" stroke-width="2" />
+      </pattern>
+    </defs>
+    <!-- 左邊的圓 -->
+    <circle id="usersCircle" cx="100" cy="100" r="70" fill-opacity="0" stroke="black" stroke-width="1" />
+    <!-- 右邊的圓 -->
+    <circle id="teamsCircle" cx="180" cy="100" r="70" fill-opacity="0" stroke="black" stroke-width="1" />
+    <!-- 中間的交集部分 -->
+    <ellipse id="innerJoin" cx="140" cy="100" rx="30" ry="55" fill="url(#stripedPattern)" />
+    <!-- 提示文字 -->
+    <text id="tooltip" x="150" y="20" font-size="16" text-anchor="middle" fill="black" visibility="hidden"></text>
+    <!-- 標籤 -->
+    <text x="73" y="101" font-size="10" text-anchor="middle">Customers</text>
+    <text x="199" y="101" font-size="10" text-anchor="middle">Orders</text>
+  </svg>
+</div>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> Customers.CustomerID, Customers.CustomerName, Orders.OrderID, Orders.Amount</span><br><span class="line"><span class="keyword">FROM</span> Customers</span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> Orders <span class="keyword">ON</span> Customers.CustomerID = Orders.CustomerID;</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>CustomerID</th>
+<th>CustomerName</th>
+<th>OrderID</th>
+<th>Amount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Stella</td>
+<td>101</td>
+<td>250</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Bob</td>
+<td>102</td>
+<td>300</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Charlie</td>
+<td>103</td>
+<td>150</td>
+</tr>
+</tbody>
+</table>
+<div class="note info"><p>用於兩張表資料重疊的部分。<br>
+例如: 分析哪些客戶下了訂單。</p>
+</div>
+<div class="note success"><p>用線上的 SQL Fiddle 來執行 SQL 指令:<br>
+<a target="_blank" rel="noopener" href="https://sqlfiddle.com/sqlite/online-compiler?id=b420079e-e869-48c1-980c-c958151b3d1d">SQL Fiddle - INNER JOIN</a></p>
+</div>
+<iframe src="https://sqlfiddle.com/sqlite/online-compiler?id=b420079e-e869-48c1-980c-c958151b3d1d" width="100%" height="500" scrolling="no" seamless="seamless"></iframe>
+<h1 id="LEFT-JOIN"><a class="header-anchor" href="#LEFT-JOIN"></a>LEFT JOIN</h1>
+<p>保留左表中的所有資料，即使右表沒有資料的部分，則會填充 <code>NULL</code>。</p>
+<div style="text-align: center;">
+  <svg id="vennDiagram" width="600" height="400" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+    <!-- 左邊的圓 -->
+    <circle id="usersCircle" cx="100" cy="100" r="70" fill="#D4E2F4" fill-opacity="1" stroke="black" stroke-width="1" />
+    <!-- 右邊的圓 -->
+    <circle id="teamsCircle" cx="180" cy="100" r="70" fill-opacity="0" stroke="black" stroke-width="1" />
+    <!-- 提示文字 -->
+    <text id="tooltip" x="150" y="20" font-size="16" text-anchor="middle" fill="black" visibility="hidden"></text>
+    <!-- 標籤 -->
+    <text x="73" y="101" font-size="10" text-anchor="middle">Customers</text>
+    <text x="199" y="101" font-size="10" text-anchor="middle">Orders</text>
+  </svg>
+</div>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> Customers.CustomerID, Customers.CustomerName, Orders.OrderID, Orders.Amount</span><br><span class="line"><span class="keyword">FROM</span> Customers</span><br><span class="line"><span class="keyword">LEFT</span> <span class="keyword">JOIN</span> Orders <span class="keyword">ON</span> Customers.CustomerID = Orders.CustomerID;</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>CustomerID</th>
+<th>CustomerName</th>
+<th>OrderID</th>
+<th>Amount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Stella</td>
+<td>101</td>
+<td>250</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Bob</td>
+<td>102</td>
+<td>300</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Charlie</td>
+<td>103</td>
+<td>150</td>
+</tr>
+<tr>
+<td>4</td>
+<td>David</td>
+<td>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Emily</td>
+<td>NULL</td>
+<td>NULL</td>
+</tr>
+</tbody>
+</table>
+<div class="note info"><p>用於查詢左表中沒有對應的資料。<br>
+例如: 分析哪些客戶沒有下訂單。</p>
+</div>
+<div class="note success"><p>用線上的 SQL Fiddle 來執行 SQL 指令:<br>
+<a target="_blank" rel="noopener" href="https://sqlfiddle.com/sqlite/online-compiler?id=2d062ce6-c3db-4f26-a7f6-8d8af35165a6">SQL Fiddle - LEFT JOIN</a></p>
+</div>
+<iframe src="https://sqlfiddle.com/sqlite/online-compiler?id=2d062ce6-c3db-4f26-a7f6-8d8af35165a6" width="100%" height="500" scrolling="no" seamless="seamless"></iframe>
+<h1 id="RIGHT-JOIN"><a class="header-anchor" href="#RIGHT-JOIN"></a>RIGHT JOIN</h1>
+<p>保留右表中的所有資料，即使左表沒有資料的部分，則會填充 <code>NULL</code>。</p>
+<div style="text-align: center;">
+  <svg id="vennDiagram" width="600" height="400" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+    <!-- 左邊的圓 -->
+    <circle id="usersCircle" cx="100" cy="100" r="70" fill-opacity="0" stroke="black" stroke-width="1" />
+    <!-- 右邊的圓 -->
+    <circle id="teamsCircle" cx="180" cy="100" r="70" fill="#D4E2F4" fill-opacity="1" stroke="black" stroke-width="1" />
+    <!-- 提示文字 -->
+    <text id="tooltip" x="150" y="20" font-size="16" text-anchor="middle" fill="black" visibility="hidden"></text>
+    <!-- 標籤 -->
+    <text x="73" y="101" font-size="10" text-anchor="middle">Customers</text>
+    <text x="177" y="101" font-size="10" text-anchor="middle">Orders</text>
+  </svg>
+</div>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> Customers.CustomerID, Customers.CustomerName, Orders.OrderID, Orders.Amount</span><br><span class="line"><span class="keyword">FROM</span> Customers</span><br><span class="line"><span class="keyword">RIGHT</span> <span class="keyword">JOIN</span> Orders <span class="keyword">ON</span> Customers.CustomerID = Orders.CustomerID;</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>CustomerID</th>
+<th>CustomerName</th>
+<th>OrderID</th>
+<th>Amount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Stella</td>
+<td>101</td>
+<td>250</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Bob</td>
+<td>102</td>
+<td>300</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Charlie</td>
+<td>103</td>
+<td>150</td>
+</tr>
+<tr>
+<td>NULL</td>
+<td>NULL</td>
+<td>104</td>
+<td>400</td>
+</tr>
+<tr>
+<td>NULL</td>
+<td>NULL</td>
+<td>105</td>
+<td>100</td>
+</tr>
+</tbody>
+</table>
+<div class="note info"><p>用於查詢右表中沒有對應的資料。<br>
+例如: 分析哪些訂單沒有對應的客戶。</p>
+</div>
+<div class="note success"><p>用線上的 MySQL Online 來執行 SQL 指令:<br>
+<a target="_blank" rel="noopener" href="https://paiza.io/projects/YaQeeyzMvsMCKa1Qft8nLg">MySQL Online - RIGHT JOIN</a></p>
+</div>
+<iframe src="https://paiza.io/projects/e/YaQeeyzMvsMCKa1Qft8nLg?theme=ambiance" width="100%" height="500" scrolling="no" seamless="seamless"></iframe>
+<h1 id="FULL-JOIN"><a class="header-anchor" href="#FULL-JOIN"></a>FULL JOIN</h1>
+<p>保留兩張表的所有資料，當某張表沒有資料時，則會填充 <code>NULL</code>。</p>
+<div style="text-align: center;">
+  <svg id="vennDiagram" width="600" height="400" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+    <!-- 左邊的圓 -->
+    <circle id="usersCircle" cx="100" cy="100" r="70" fill="#D4E2F4" fill-opacity="1" stroke="black" stroke-width="1" />
+    <!-- 右邊的圓 -->
+    <circle id="teamsCircle" cx="180" cy="100" r="70" fill="#D4E2F4" fill-opacity="1" stroke="black" stroke-width="1" />
+    <!-- 提示文字 -->
+    <text id="tooltip" x="150" y="20" font-size="16" text-anchor="middle" fill="black" visibility="hidden"></text>
+    <!-- 標籤 -->
+    <text x="73" y="101" font-size="10" text-anchor="middle">Customers</text>
+    <text x="177" y="101" font-size="10" text-anchor="middle">Orders</text>
+  </svg>
+</div>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> Customers.CustomerID, Customers.CustomerName, Orders.OrderID, Orders.Amount</span><br><span class="line"><span class="keyword">FROM</span> Customers</span><br><span class="line"><span class="keyword">FULL</span> <span class="keyword">JOIN</span> Orders <span class="keyword">ON</span> Customers.CustomerID = Orders.CustomerID;</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>CustomerID</th>
+<th>CustomerName</th>
+<th>OrderID</th>
+<th>Amount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Stella</td>
+<td>101</td>
+<td>250</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Bob</td>
+<td>102</td>
+<td>300</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Charlie</td>
+<td>103</td>
+<td>150</td>
+</tr>
+<tr>
+<td>4</td>
+<td>David</td>
+<td>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Emily</td>
+<td>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>NULL</td>
+<td>NULL</td>
+<td>104</td>
+<td>400</td>
+</tr>
+<tr>
+<td>NULL</td>
+<td>NULL</td>
+<td>105</td>
+<td>100</td>
+</tr>
+</tbody>
+</table>
+<div class="note info"><p>用於兩張表所有資料的總覽。<br>
+例如: 查看所有客戶和所有訂單的情況。</p>
+</div>
+<p>由於 MySQL 不支援 <code>FULL JOIN</code>，我們可以使用 <code>UNION</code> 的方式來替代 <code>FULL JOIN</code>。<code>FULL JOIN</code> 是合併兩個表，而 <code>UNION</code> 是將兩個查詢結果進行合併，並去掉重複的行，所以我們結合 <code>LEFT JOIN</code> 和 <code>RIGHT JOIN</code> 即可達到相同效果，完整返回兩個表的所有資料，並保留沒有資料的部分。</p>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> Customers.CustomerID, Customers.CustomerName, Orders.OrderID, Orders.Amount</span><br><span class="line"><span class="keyword">FROM</span> Customers</span><br><span class="line"><span class="keyword">LEFT</span> <span class="keyword">JOIN</span> Orders <span class="keyword">ON</span> Customers.CustomerID = Orders.CustomerID</span><br><span class="line"><span class="keyword">UNION</span></span><br><span class="line"><span class="keyword">SELECT</span> Customers.CustomerID, Customers.CustomerName, Orders.OrderID, Orders.Amount</span><br><span class="line"><span class="keyword">FROM</span> Customers</span><br><span class="line"><span class="keyword">RIGHT</span> <span class="keyword">JOIN</span> Orders <span class="keyword">ON</span> Customers.CustomerID = Orders.CustomerID;</span><br></pre></td></tr></table></figure>
+<div class="note success"><p>用線上的 MySQL Online 來執行 SQL 指令:<br>
+<a target="_blank" rel="noopener" href="https://paiza.io/projects/cCW-kLUsiF1QYZHYJtveKA">MySQL Online - FULL JOIN</a></p>
+</div>
+<iframe src="https://paiza.io/projects/e/cCW-kLUsiF1QYZHYJtveKA?theme=ambiance" width="100%" height="500" scrolling="no" seamless="seamless"></iframe>
+<h1 id="總結"><a class="header-anchor" href="#總結"></a>總結</h1>
+<div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">
+  <!-- 第一張圖 -->
+  <div style="text-align: center; width: 45%; margin-bottom: 10px;">
+    <svg id="vennDiagram" width="100%" height="auto" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="stripedPattern" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+          <line x1="0" y1="0" x2="0" y2="6" stroke="#D4E2F4" stroke-width="2" />
+        </pattern>
+      </defs>
+      <circle id="usersCircle" cx="100" cy="100" r="70" fill-opacity="0" stroke="black" stroke-width="1" />
+      <circle id="teamsCircle" cx="180" cy="100" r="70" fill-opacity="0" stroke="black" stroke-width="1" />
+      <ellipse id="innerJoin" cx="140" cy="100" rx="30" ry="55" fill="url(#stripedPattern)" />
+      <text id="tooltip" x="150" y="20" font-size="16" text-anchor="middle" fill="black" visibility="hidden"></text>
+      <text x="73" y="101" font-size="10" text-anchor="middle">Customers</text>
+      <text x="199" y="101" font-size="10" text-anchor="middle">Orders</text>
+    </svg>
+    <p style="margin-top: -50px; font-size: 12px; font-weight: bold; text-align: center;">INNER JOIN</p>
+  </div>
+  <!-- 第二張圖 -->
+  <div style="text-align: center; width: 45%; margin-bottom: 10px;">
+    <svg id="vennDiagram" width="100%" height="auto" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+      <circle id="usersCircle" cx="100" cy="100" r="70" fill="#D4E2F4" fill-opacity="1" stroke="black" stroke-width="1" />
+      <circle id="teamsCircle" cx="180" cy="100" r="70" fill-opacity="0" stroke="black" stroke-width="1" />
+      <text id="tooltip" x="150" y="20" font-size="16" text-anchor="middle" fill="black" visibility="hidden"></text>
+      <text x="73" y="101" font-size="10" text-anchor="middle">Customers</text>
+      <text x="199" y="101" font-size="10" text-anchor="middle">Orders</text>
+    </svg>
+    <p style="margin-top: -50px; font-size: 12px; font-weight: bold; text-align: center;">LEFT JOIN</p>
+  </div>
+  <!-- 第三張圖 -->
+  <div style="text-align: center; width: 45%; margin-bottom: 10px;">
+    <svg id="vennDiagram" width="100%" height="auto" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+      <circle id="usersCircle" cx="100" cy="100" r="70" fill-opacity="0" stroke="black" stroke-width="1" />
+      <circle id="teamsCircle" cx="180" cy="100" r="70" fill="#D4E2F4" fill-opacity="1" stroke="black" stroke-width="1" />
+      <text id="tooltip" x="150" y="20" font-size="16" text-anchor="middle" fill="black" visibility="hidden"></text>
+      <text x="73" y="101" font-size="10" text-anchor="middle">Customers</text>
+      <text x="177" y="101" font-size="10" text-anchor="middle">Orders</text>
+    </svg>
+    <p style="margin-top: -50px; font-size: 12px; font-weight: bold; text-align: center;">RIGHT JOIN</p>
+  </div>
+  <!-- 第四張圖 -->
+  <div style="text-align: center; width: 45%; margin-bottom: 10px;">
+    <svg id="vennDiagram" width="100%" height="auto" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+      <circle id="usersCircle" cx="100" cy="100" r="70" fill="#D4E2F4" fill-opacity="1" stroke="black" stroke-width="1" />
+      <circle id="teamsCircle" cx="180" cy="100" r="70" fill="#D4E2F4" fill-opacity="1" stroke="black" stroke-width="1" />
+      <text id="tooltip" x="150" y="20" font-size="16" text-anchor="middle" fill="black" visibility="hidden"></text>
+      <text x="73" y="101" font-size="10" text-anchor="middle">Customers</text>
+      <text x="177" y="101" font-size="10" text-anchor="middle">Orders</text>
+    </svg>
+    <p style="margin-top: -50px; font-size: 12px; font-weight: bold; text-align: center;">FULL JOIN</p>
+  </div>
+</div>
+</br>
+JOIN 是 SQL 查詢時，用來合併兩張或多張資料表的重要語法。
+<ul>
+<li>INNER JOIN：取交集。</li>
+<li>LEFT JOIN：保留左表。</li>
+<li>RIGHT JOIN：保留右表。</li>
+<li>FULL JOIN：保留兩表。</li>
+</ul>
+<p>希望能幫助大家快速掌握每種 JOIN 類型的用途。Ciao~❤</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/blog/tags/Database/" rel="tag"># Database</a>
+              <a href="/blog/tags/SQL/" rel="tag"># SQL</a>
+              <a href="/blog/tags/JOIN/" rel="tag"># JOIN</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/blog/db-design-school-course/" rel="prev" title="學校選課系統的關聯式資料庫設計">
+                  <i class="fa fa-angle-left"></i> 學校選課系統的關聯式資料庫設計
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Stella</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/blog/js/comments.js"></script><script src="/blog/js/utils.js"></script><script src="/blog/js/motion.js"></script><script src="/blog/js/sidebar.js"></script><script src="/blog/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js","integrity":"sha256-stuqcu2FrjYCXDOytWFA5SoUE/r3nkp6gTglzNSlavU="}}</script>
+  <script src="/blog/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"ams","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/blog/js/third-party/math/mathjax.js"></script>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"estellacoding","repo":"blog","client_id":"Ov23liBnWPuObZGktbAv","client_secret":"9ed6e261cd75af620744058daafa56b80a53ffa8","admin_user":"estellacoding","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":null,"labels":"gitalk","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"392dae485ad3802c23ce45a4c083a451"}</script>
+<script src="/blog/js/third-party/comments/gitalk.js"></script>
+
+</body>
+</html>

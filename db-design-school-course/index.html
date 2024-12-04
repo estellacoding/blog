@@ -28,7 +28,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fdb-design-school-course%2Fdb-design-school-course-uml.png?alt=media&amp;token=826aeb3b-1f48-4951-a156-8b9571663995">
 <meta property="article:published_time" content="2024-12-03T03:11:11.000Z">
-<meta property="article:modified_time" content="2024-12-03T03:11:11.000Z">
+<meta property="article:modified_time" content="2024-12-04T03:11:11.000Z">
 <meta property="article:author" content="Stella">
 <meta property="article:tag" content="Database">
 <meta property="article:tag" content="SQL">
@@ -134,7 +134,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/blog/archives/">
-          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-count">28</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -145,7 +145,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/blog/tags/">
-        <span class="site-state-item-count">68</span>
+        <span class="site-state-item-count">70</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -213,6 +213,13 @@
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-04 11:11:11" itemprop="dateModified" datetime="2024-12-04T11:11:11+08:00">2024-12-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
         <i class="far fa-folder"></i>
       </span>
       <span class="post-meta-item-text">In</span>
@@ -243,7 +250,7 @@
 <ul>
 <li>一對一(1:1): 通常可以合併在一個表中。若資訊過多，也可以依主鍵拆分不同表格。</li>
 <li>一對多(1:N): 在「多」的一方加入外鍵，用「一」的一方為主鍵。</li>
-<li>多對多(M:N): 用中間表(關聯表)拆分成兩個一對多，中間表通常包含兩邊的主鍵作為外鍵。</li>
+<li>多對多(M:N): 使用中間表(關聯表)拆分成兩個一對多的關係，中間表通常包含兩邊的主鍵作為外鍵。</li>
 </ul>
 <h1 id="案例介紹"><a class="header-anchor" href="#案例介紹"></a>案例介紹</h1>
 <p>以下我將以一個學校選課系統為例，說明資料表從初始需求的資料表到正規化的過程。</p>
@@ -664,6 +671,10 @@
 <li>以「教師」角度: <code>1</code> 個教師會有 <code>多</code> 個課程。</li>
 <li><strong>所以以「教師ID」為外鍵(FK)，以「課程ID」為主鍵(PK)。</strong></li>
 </ul>
+<div class="note default"><p>可以這樣記: 能者多勞<br>
+教師會面對多個課程，所以教師是對外的業務窗口。<br>
+所以讓 <code>教師ID</code> 進入到課程表中成為外鍵(FK)。</p>
+</div>
 <p><span style="font-size: 1em; font-weight: bold; color: #000000; background-color: #F8F9FA; padding: 5px 10px; border-radius: 5px;">↓教師表 (Teachers)↓</span></p>
 <table>
 <thead>
@@ -761,7 +772,7 @@
 </tbody>
 </table>
 <h2 id="多對多-M-N"><a class="header-anchor" href="#多對多-M-N"></a>多對多(M:N)</h2>
-<p>用中間表(關聯表)拆分成兩個一對多，中間表通常包含兩邊的主鍵作為外鍵。</p>
+<p>使用中間表(關聯表)拆分成兩個一對多的關係，中間表通常包含兩邊的主鍵作為外鍵。</p>
 <p><span style="font-size: 1em; font-weight: bold; color: #000000; background-color: #F8F9FA; padding: 5px 10px; border-radius: 5px;">↓學生選課表 (Student_Courses)↓</span></p>
 <ul>
 <li>學生與課程之間是多對多關係。</li>
@@ -829,6 +840,9 @@
                 </a>
             </div>
             <div class="post-nav-item">
+                <a href="/blog/db-join/" rel="next" title="搞懂 SQL JOIN 的 4 種基本類型">
+                  搞懂 SQL JOIN 的 4 種基本類型 <i class="fa fa-angle-right"></i>
+                </a>
             </div>
           </div>
     </footer>
