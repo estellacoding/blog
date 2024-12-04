@@ -19,12 +19,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"estellacoding.github.io","root":"/blog/","images":"/blog/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/blog/js/config.js"></script>
 
-    <meta name="description" content="在 SQL 查詢中，JOIN 是用來合併兩張或多張資料表的語法。本文會以客戶訂單為範例，介紹常見的 4 種 JOIN: INNER JOIN、LEFT JOIN、RIGHT JOIN 和 FULL JOIN，幫助大家理解每種 JOIN 類型的用途。">
+    <meta name="description" content="在 SQL 查詢中，JOIN 是用來合併兩張或多張資料表的重要語法。本文會以客戶訂單為範例，介紹常見的 4 種 JOIN: INNER JOIN、LEFT JOIN、RIGHT JOIN 和 FULL JOIN，幫助大家理解每種 JOIN 類型的用途。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="搞懂 SQL JOIN 的 4 種基本類型">
 <meta property="og:url" content="https://estellacoding.github.io/blog/db-join/index.html">
 <meta property="og:site_name" content="Stella Coding">
-<meta property="og:description" content="在 SQL 查詢中，JOIN 是用來合併兩張或多張資料表的語法。本文會以客戶訂單為範例，介紹常見的 4 種 JOIN: INNER JOIN、LEFT JOIN、RIGHT JOIN 和 FULL JOIN，幫助大家理解每種 JOIN 類型的用途。">
+<meta property="og:description" content="在 SQL 查詢中，JOIN 是用來合併兩張或多張資料表的重要語法。本文會以客戶訂單為範例，介紹常見的 4 種 JOIN: INNER JOIN、LEFT JOIN、RIGHT JOIN 和 FULL JOIN，幫助大家理解每種 JOIN 類型的用途。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2024-12-04T03:11:11.000Z">
 <meta property="article:modified_time" content="2024-12-04T03:11:11.000Z">
@@ -229,7 +229,7 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><p>在 SQL 查詢中，JOIN 是用來合併兩張或多張資料表的語法。本文會以客戶訂單為範例，介紹常見的 4 種 JOIN: <code>INNER JOIN</code>、<code>LEFT JOIN</code>、<code>RIGHT JOIN</code> 和 <code>FULL JOIN</code>，幫助大家理解每種 JOIN 類型的用途。</p>
+    <div class="post-body" itemprop="articleBody"><p>在 SQL 查詢中，JOIN 是用來合併兩張或多張資料表的重要語法。本文會以客戶訂單為範例，介紹常見的 4 種 JOIN: <code>INNER JOIN</code>、<code>LEFT JOIN</code>、<code>RIGHT JOIN</code> 和 <code>FULL JOIN</code>，幫助大家理解每種 JOIN 類型的用途。</p>
 <span id="more"></span>
 <p>在實務中，資料通常分散於多張不同用途的資料表中。例如，<code>customers</code> 儲存客戶資料，而 <code>orders</code> 則記錄訂單資料。當需要單純查詢某一類型資料時，可以直接查詢對應的資料表，例如「某位客戶的手機號碼」。然而，當問題涉及多個資料表的資料時，例如「某位客戶的所有訂單」，就需要使用 JOIN 將多個資料表的資料合併起來，以實現跨表查詢的效果。</p>
 <h1 id="常見-JOIN-類型"><a class="header-anchor" href="#常見-JOIN-類型"></a>常見 JOIN 類型</h1>
