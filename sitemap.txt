@@ -1,3 +1,4 @@
+https://estellacoding.github.io/blog/llm-api-openai/
 https://estellacoding.github.io/blog/aws-certified-ai-practitioner/
 https://estellacoding.github.io/blog/db-design-school-course/
 https://estellacoding.github.io/blog/db-join/
@@ -102,6 +103,8 @@ https://estellacoding.github.io/blog/tags/Database/
 https://estellacoding.github.io/blog/tags/SQL/
 https://estellacoding.github.io/blog/tags/AIF-C01/
 https://estellacoding.github.io/blog/tags/JOIN/
+https://estellacoding.github.io/blog/tags/GPT/
+https://estellacoding.github.io/blog/tags/API/
 https://estellacoding.github.io/blog/categories/AutoML/
 https://estellacoding.github.io/blog/categories/Hexo/
 https://estellacoding.github.io/blog/categories/Machine-Learning/
@@ -112,3 +115,5 @@ https://estellacoding.github.io/blog/categories/MongoDB/
 https://estellacoding.github.io/blog/categories/Life/
 https://estellacoding.github.io/blog/categories/AWS/
 https://estellacoding.github.io/blog/categories/Database/
+https://estellacoding.github.io/blog/categories/LLM/
+https://estellacoding.github.io/blog/categories/LLM/OpenAI/

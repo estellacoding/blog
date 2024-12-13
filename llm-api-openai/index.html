@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="mask-icon" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"estellacoding.github.io","root":"/blog/","images":"/blog/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/blog/js/config.js"></script>
+
+    <meta name="description" content="隨著生成式 AI 的快速發展，OpenAI 提供的 API 成為許多開發者進行自然語言處理與生成應用的首選工具(學會串接OpenAI就可以說是AI工程師了XD)。本文將詳細介紹兩種串接 OpenAI API 的方法：使用官方 Python 套件，以及通過 HTTP 請求(利用 requests 套件)來直接發送請求。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【LLM API】實作串接 OpenAI">
+<meta property="og:url" content="https://estellacoding.github.io/blog/llm-api-openai/index.html">
+<meta property="og:site_name" content="Stella Coding">
+<meta property="og:description" content="隨著生成式 AI 的快速發展，OpenAI 提供的 API 成為許多開發者進行自然語言處理與生成應用的首選工具(學會串接OpenAI就可以說是AI工程師了XD)。本文將詳細介紹兩種串接 OpenAI API 的方法：使用官方 Python 套件，以及通過 HTTP 請求(利用 requests 套件)來直接發送請求。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fllm-api-openai%2Fopenai-requests-comparison.png?alt=media&amp;token=a29db0dd-57bb-4228-8110-57eb97569342">
+<meta property="article:published_time" content="2024-12-16T03:11:11.000Z">
+<meta property="article:modified_time" content="2024-12-16T03:11:11.000Z">
+<meta property="article:author" content="Stella">
+<meta property="article:tag" content="LLM">
+<meta property="article:tag" content="OpenAI">
+<meta property="article:tag" content="GPT">
+<meta property="article:tag" content="API">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fllm-api-openai%2Fopenai-requests-comparison.png?alt=media&amp;token=a29db0dd-57bb-4228-8110-57eb97569342">
+
+
+<link rel="canonical" href="https://estellacoding.github.io/blog/llm-api-openai/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://estellacoding.github.io/blog/llm-api-openai/","path":"llm-api-openai/","title":"【LLM API】實作串接 OpenAI"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>【LLM API】實作串接 OpenAI | Stella Coding</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EG0CKC3093"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-EG0CKC3093","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/blog/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/blog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/blog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Stella Coding</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Hands-on fuels my soul!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/blog/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/blog/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/blog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%90%84%E6%A8%A1%E5%9E%8B%E5%83%B9%E6%A0%BC"><span class="nav-number">1.</span> <span class="nav-text">各模型價格</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%94%A8-OpenAI-%E5%A5%97%E4%BB%B6"><span class="nav-number">2.</span> <span class="nav-text">用 OpenAI 套件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%99%BC%E9%80%81-HTTP-%E8%AB%8B%E6%B1%82"><span class="nav-number">3.</span> <span class="nav-text">發送 HTTP 請求</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E9%BA%BC%E6%98%AF-curl"><span class="nav-number">3.1.</span> <span class="nav-text">什麼是 curl?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Python-requests"><span class="nav-number">3.2.</span> <span class="nav-text">Python requests</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%AF%94%E8%BC%83%E5%85%A9%E8%80%85%E5%B7%AE%E7%95%B0"><span class="nav-number">4.</span> <span class="nav-text">比較兩者差異</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Stella"
+      src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+  <p class="site-author-name" itemprop="name">Stella</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/blog/archives/">
+          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/blog/categories/">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/blog/tags/">
+        <span class="site-state-item-count">72</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/estellacoding" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;estellacoding" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.instagram.com/stellacoding/" title="Instagram → https:&#x2F;&#x2F;www.instagram.com&#x2F;stellacoding&#x2F;" rel="noopener me" target="_blank"><i class="fab fa-instagram fa-fw"></i>Instagram</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://estellacoding.github.io/blog/llm-api-openai/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+      <meta itemprop="name" content="Stella">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Stella Coding">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="【LLM API】實作串接 OpenAI | Stella Coding">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【LLM API】實作串接 OpenAI
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2024-12-16 11:11:11" itemprop="dateCreated datePublished" datetime="2024-12-16T11:11:11+08:00">2024-12-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/LLM/" itemprop="url" rel="index"><span itemprop="name">LLM</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/LLM/OpenAI/" itemprop="url" rel="index"><span itemprop="name">OpenAI</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>隨著生成式 AI 的快速發展，OpenAI 提供的 API 成為許多開發者進行自然語言處理與生成應用的首選工具(<s>學會串接OpenAI就可以說是AI工程師了XD</s>)。本文將詳細介紹兩種串接 OpenAI API 的方法：使用官方 Python 套件，以及通過 HTTP 請求(利用 requests 套件)來直接發送請求。</p>
+<span id="more"></span>
+<h1 id="各模型價格"><a class="header-anchor" href="#各模型價格"></a>各模型價格</h1>
+<p>OpenAI 提供多種模型，價格與功能各有不同。模型可以選擇價格較實惠且效能優於 <code>gpt-3.5-turbo</code> 的 <code>gpt-4o mini</code>。不過如果需要更強的理解與推理能力，則可以考慮使用 <code>gpt-4o</code>。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Model</th>
+<th style="text-align:center">1M input <br>tokens</th>
+<th style="text-align:center">1M output <br>tokens</th>
+<th style="text-align:center">Context<br>Window</th>
+<th style="text-align:center">Max output <br>tokens</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">gpt-4o</td>
+<td style="text-align:center">$2.50</td>
+<td style="text-align:center">$10.00</td>
+<td style="text-align:center">128K</td>
+<td style="text-align:center">16,384</td>
+</tr>
+<tr>
+<td style="text-align:center">gpt-4o-mini</td>
+<td style="text-align:center">$0.150</td>
+<td style="text-align:center">$0.600</td>
+<td style="text-align:center">128K</td>
+<td style="text-align:center">16,384</td>
+</tr>
+<tr>
+<td style="text-align:center">o1-preview</td>
+<td style="text-align:center">$15.00</td>
+<td style="text-align:center">$60.00</td>
+<td style="text-align:center">128K</td>
+<td style="text-align:center">32,768</td>
+</tr>
+<tr>
+<td style="text-align:center">o1-mini</td>
+<td style="text-align:center">$3.00</td>
+<td style="text-align:center">$12.00</td>
+<td style="text-align:center">128K</td>
+<td style="text-align:center">65,536</td>
+</tr>
+</tbody>
+</table>
+<div style="margin-top: -15px; font-size: 14px; color: #555; text-align: center; font-style: normal; font-family: 'Arial', sans-serif;">
+(資料來源: 
+<a target="_blank" rel="noopener" href="https://openai.com/api/pricing/" style="color: #555; text-decoration: none;">
+OpenAI API Pricing)
+</a>
+</div>
+<h1 id="用-OpenAI-套件"><a class="header-anchor" href="#用-OpenAI-套件"></a>用 OpenAI 套件</h1>
+<p>OpenAI 提供了官方的 Python 及 JavaScript 套件，我們會使用 Python 套件來實作串接。</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip <span class="keyword">install</span> openai</span><br></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> openai import OpenAI</span><br><span class="line"></span><br><span class="line">openai_api_key = <span class="string">&quot;&lt;your-openai-api-key&gt;&quot;</span></span><br><span class="line"><span class="built_in"></span></span><br><span class="line"><span class="built_in">client </span>= OpenAI(<span class="attribute">api_key</span>=openai_api_key)</span><br><span class="line"></span><br><span class="line">completion = client.chat.completions.create(</span><br><span class="line">    <span class="attribute">model</span>=<span class="string">&quot;gpt-4o-mini&quot;</span>,</span><br><span class="line">    messages=[</span><br><span class="line">        &#123;<span class="string">&quot;role&quot;</span>: <span class="string">&quot;system&quot;</span>, <span class="string">&quot;content&quot;</span>: <span class="string">&quot;You are a helpful assistant.&quot;</span>&#125;,</span><br><span class="line">        &#123;<span class="string">&quot;role&quot;</span>: <span class="string">&quot;user&quot;</span>,<span class="string">&quot;content&quot;</span>: <span class="string">&quot;講笑話&quot;</span>&#125;</span><br><span class="line">    ]</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(completion.choices[0].message.content)</span><br></pre></td></tr></table></figure>
+<div style="margin-top: -15px; font-size: 14px; color: #555; text-align: center; font-style: normal; font-family: 'Arial', sans-serif;">
+(資料來源: 
+<a target="_blank" rel="noopener" href="https://platform.openai.com/docs/quickstart" style="color: #555; text-decoration: none;">
+OpenAI API Developer quickstart)
+</a>
+</div>
+<h1 id="發送-HTTP-請求"><a class="header-anchor" href="#發送-HTTP-請求"></a>發送 HTTP 請求</h1>
+<p>也可以直接利用 requests 發送 HTTP 請求。</p>
+<h2 id="什麼是-curl"><a class="header-anchor" href="#什麼是-curl"></a>什麼是 curl?</h2>
+<p>cURL(client URL) 是一個好用的命令列工具，用於透過 URL 與伺服器進行資料傳輸，可以利用 cURL 發送請求到伺服器並接收回應，支援多達 25 種以上的協定(如 HTTP/HTTPS、FTP/FTPS 等），廣泛應用於測試和調試 API(Application Programming Interface)。</p>
+<ul>
+<li>URL: 就是 API 的目標網址。</li>
+<li>H 表示 Headers: 定義 HTTP 請求的表頭。
+<ul>
+<li>Content-Type：指定資料的格式，通常為 application/json。</li>
+<li>Authorization：用於身份驗證，例如傳遞 API 金鑰（Token）。</li>
+</ul>
+</li>
+<li>d 表示 Data: 指定請求的資料內容，通常為 JSON 格式，如 <code>&#123;&quot;key&quot;: &quot;value&quot;&#125;</code>。</li>
+</ul>
+<figure class="highlight scilab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">curl <span class="string">&quot;https://api.openai.com/v1/chat/completions&quot;</span> \</span><br><span class="line">    -H <span class="string">&quot;Content-Type: application/json&quot;</span> \</span><br><span class="line">    -H <span class="string">&quot;Authorization: Bearer $OPENAI_API_KEY&quot;</span> \</span><br><span class="line">    -d <span class="string">&#x27;&#123;</span></span><br><span class="line"><span class="string">        &quot;</span>model<span class="string">&quot;: &quot;</span>gpt<span class="number">-4</span>o-mini<span class="string">&quot;,</span></span><br><span class="line"><span class="string">        &quot;</span>messages<span class="string">&quot;: [</span></span><br><span class="line"><span class="string">            &#123;</span></span><br><span class="line"><span class="string">                &quot;</span>role<span class="string">&quot;: &quot;</span><span class="built_in">system</span><span class="string">&quot;,</span></span><br><span class="line"><span class="string">                &quot;</span>content<span class="string">&quot;: &quot;</span>You are a helpful assistant.<span class="string">&quot;</span></span><br><span class="line"><span class="string">            &#125;,</span></span><br><span class="line"><span class="string">            &#123;</span></span><br><span class="line"><span class="string">                &quot;</span>role<span class="string">&quot;: &quot;</span>user<span class="string">&quot;,</span></span><br><span class="line"><span class="string">                &quot;</span>content<span class="string">&quot;: &quot;</span>Write a haiku that explains the concept of recursion.<span class="string">&quot;</span></span><br><span class="line"><span class="string">            &#125;</span></span><br><span class="line"><span class="string">        ]</span></span><br><span class="line"><span class="string">    &#125;&#x27;</span></span><br></pre></td></tr></table></figure>
+<div style="margin-top: -15px; font-size: 14px; color: #555; text-align: center; font-style: normal; font-family: 'Arial', sans-serif;">
+(資料來源: 
+<a target="_blank" rel="noopener" href="https://platform.openai.com/docs/quickstart" style="color: #555; text-decoration: none;">
+OpenAI API Developer quickstart)
+</a>
+</div>
+<h2 id="Python-requests"><a class="header-anchor" href="#Python-requests"></a>Python requests</h2>
+<p>我們可以透過 Python 的 requests 套件來發送 HTTP 請求，並實現 cURL 的功能。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">功能</th>
+<th style="text-align:center">cURL</th>
+<th style="text-align:center">requests</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">發送請求</td>
+<td style="text-align:center"><code>curl &lt;URL&gt;</code></td>
+<td style="text-align:center"><code>requests.get(&quot;&lt;URL&gt;&quot;)</code><br><code>requests.post(&quot;&lt;URL&gt;&quot;)</code></td>
+</tr>
+<tr>
+<td style="text-align:center">設定表頭</td>
+<td style="text-align:center"><code>-H &quot;key: value&quot;</code></td>
+<td style="text-align:center"><code>headers=&#123;&quot;key&quot;: &quot;value&quot;&#125;</code></td>
+</tr>
+<tr>
+<td style="text-align:center">傳遞資料</td>
+<td style="text-align:center"><code>-d &quot;key=value&quot;</code></td>
+<td style="text-align:center"><code>data=&#123;&quot;key&quot;: &quot;value&quot;&#125;</code></td>
+</tr>
+<tr>
+<td style="text-align:center">處理回應</td>
+<td style="text-align:center">終端機檢視輸出(stdout)</td>
+<td style="text-align:center"><code>response.json()</code></td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip <span class="keyword">install</span> requests</span><br></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">import requests</span><br><span class="line">import json</span><br><span class="line"></span><br><span class="line">openai_api_key = <span class="string">&quot;&lt;your-openai-api-key&gt;&quot;</span></span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&#x27;Content-Type&#x27;</span>: <span class="string">&#x27;application/json&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Authorization&#x27;</span>: f<span class="string">&#x27;Bearer &#123;openai_api_key&#125;&#x27;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">data = &#123;</span><br><span class="line">    <span class="string">&quot;model&quot;</span>: <span class="string">&quot;gpt-4o-mini&quot;</span>,</span><br><span class="line">    <span class="string">&quot;messages&quot;</span>: [</span><br><span class="line">        &#123;<span class="string">&quot;role&quot;</span>: <span class="string">&quot;system&quot;</span>, <span class="string">&quot;content&quot;</span>: <span class="string">&quot;You are a helpful assistant.&quot;</span>&#125;,</span><br><span class="line">        &#123;<span class="string">&quot;role&quot;</span>: <span class="string">&quot;user&quot;</span>, <span class="string">&quot;content&quot;</span>: <span class="string">&quot;Write a haiku that explains the concept of recursion.&quot;</span>&#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">url = <span class="string">&#x27;https://api.openai.com/v1/chat/completions&#x27;</span></span><br><span class="line">response = requests.post(url, <span class="attribute">headers</span>=headers, <span class="attribute">data</span>=json.dumps(data))</span><br><span class="line">result = response.json()</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(result[<span class="string">&#x27;choices&#x27;</span>][0][<span class="string">&#x27;message&#x27;</span>][<span class="string">&#x27;content&#x27;</span>])</span><br></pre></td></tr></table></figure>
+<h1 id="比較兩者差異"><a class="header-anchor" href="#比較兩者差異"></a>比較兩者差異</h1>
+<p>HTTP 請求:</p>
+<ul>
+<li>優點:
+<ul>
+<li>開發者可完全掌控請求流程與錯誤處理。</li>
+<li>適用於非 Python，可用自己熟悉的程式語言。</li>
+<li>不依賴官方套件版本，直接基於 API 文件開發。</li>
+</ul>
+</li>
+<li>缺點:
+<ul>
+<li>需要開發者熟悉 API 文件與 HTTP 請求的結構。</li>
+<li>無法使用官方套件內建的功能(如重試機制或錯誤處理)。</li>
+<li>需自行設計重試機制或錯誤處理相應邏輯。</li>
+<li>當官方 API 更新(如端點或參數調整)時，需要更新程式碼。</li>
+</ul>
+</li>
+</ul>
+<p>使用官方套件:</p>
+<ul>
+<li>優點:
+<ul>
+<li>官方套件簡化 API 調用，只需熟悉 API 文件即可。</li>
+<li>提供如自動重試、錯誤處理等內建功能。</li>
+<li>通常有完善的文檔與社群支持，可快速解決問題。</li>
+<li>會隨 API 更新進行同步調整，減少不兼容風險。</li>
+</ul>
+</li>
+<li>缺點:
+<ul>
+<li>套件更新需等待官方釋出</li>
+<li>當有大版本更新時，可能需要調整現有程式碼。</li>
+<li>僅支持官方提供的程式語言(如 Python、JavaScript)。</li>
+<li>除 API 本身外，需熟悉套件的使用方法與特定的語法。</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fllm-api-openai%2Fopenai-requests-comparison.png?alt=media&amp;token=a29db0dd-57bb-4228-8110-57eb97569342" alt="openai-requests-comparison"></p>
+<iframe src="https://nbviewer.org/github/estellacoding/llm-api-openai/blob/main/llm-api-openai.ipynb" width="100%" height="600"></iframe>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/blog/tags/LLM/" rel="tag"># LLM</a>
+              <a href="/blog/tags/OpenAI/" rel="tag"># OpenAI</a>
+              <a href="/blog/tags/GPT/" rel="tag"># GPT</a>
+              <a href="/blog/tags/API/" rel="tag"># API</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/blog/db-join/" rel="prev" title="搞懂 SQL JOIN 的 4 種基本類型">
+                  <i class="fa fa-angle-left"></i> 搞懂 SQL JOIN 的 4 種基本類型
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Stella</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/blog/js/comments.js"></script><script src="/blog/js/utils.js"></script><script src="/blog/js/motion.js"></script><script src="/blog/js/sidebar.js"></script><script src="/blog/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js","integrity":"sha256-stuqcu2FrjYCXDOytWFA5SoUE/r3nkp6gTglzNSlavU="}}</script>
+  <script src="/blog/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"ams","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/blog/js/third-party/math/mathjax.js"></script>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"estellacoding","repo":"blog","client_id":"Ov23liBnWPuObZGktbAv","client_secret":"9ed6e261cd75af620744058daafa56b80a53ffa8","admin_user":"estellacoding","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":null,"labels":"gitalk","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"0c7c9e85ad973042671587fb7b1a9a8a"}</script>
+<script src="/blog/js/third-party/comments/gitalk.js"></script>
+
+</body>
+</html>
