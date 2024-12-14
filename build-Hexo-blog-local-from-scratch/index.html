@@ -315,7 +315,7 @@
 </ul>
 <figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">sudo</span> chown -R <span class="number">501</span>:<span class="number">20</span> <span class="string">&quot;/Users/daistella/.npm&quot;</span></span><br></pre></td></tr></table></figure>
 <p>先強制刪除當前的 node_modules 目錄，以確保沒有殘留的舊文件或損壞的套件，然後強制重新安裝所有 package.json 檔案中的所列套件。</p>
-<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm -rf node_modules <span class="meta">&amp;&amp; npm install --force</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm <span class="punctuation">-</span>rf node_modules <span class="meta">&amp;&amp; npm install --force</span></span><br></pre></td></tr></table></figure>
 <p>出現 <code>Hexo is running at http://localhost:4000/blog</code> 表示成功。</p>
 <img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-1%2Fhexo-local-activate-1.png?alt=media&token=41e3418a-97cb-4c5a-b1c3-aae3f6fbd4d6" class="[class names]" title="[80%] [80%] &quot;title text&quot; &quot;alt text&quot;">
 <p>點擊該連結 <a target="_blank" rel="noopener" href="http://localhost:4000/blog">http://localhost:4000/blog</a> 即可連至本地端 Hexo 部落格。</p>

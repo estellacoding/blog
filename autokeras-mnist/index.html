@@ -41,9 +41,9 @@
 <meta property="article:modified_time" content="2024-07-11T03:11:11.000Z">
 <meta property="article:author" content="Stella">
 <meta property="article:tag" content="AutoML">
+<meta property="article:tag" content="AutoKeras">
 <meta property="article:tag" content="Machine Learning">
 <meta property="article:tag" content="Deep Learning">
-<meta property="article:tag" content="AutoKeras">
 <meta property="article:tag" content="MNIST">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2FautoKeras-hello-mnist%2F1-autokeras-gpu-pycharm.png?alt=media&amp;token=46c3c0f3-611f-456b-861f-77c0839b1eef">
@@ -386,7 +386,7 @@
 </ul>
 <h2 id="測試集評估模型效能"><a class="header-anchor" href="#測試集評估模型效能"></a>測試集評估模型效能</h2>
 <h3 id="計算預測準確率"><a class="header-anchor" href="#計算預測準確率"></a>計算預測準確率</h3>
-<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># 比較測試集的預測分類和實際分類，並傳回預測準確率</span></span><br><span class="line">clf.evaluate(x_test, y_test)</span><br></pre></td></tr></table></figure>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># 比較測試集的預測分類和實際分類，並傳回預測準確率</span></span><br><span class="line">clf.evaluate<span class="punctuation">(</span>x_test<span class="punctuation">,</span> y_test<span class="punctuation">)</span></span><br></pre></td></tr></table></figure>
 <figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">313</span>/<span class="number">313</span> ━━━━━━━━━━━━━━━━━━━━ <span class="number">6</span>s <span class="number">18</span>ms/step - accuracy: <span class="number">0</span>.<span class="number">9880</span> - loss: <span class="number">0</span>.<span class="number">0413</span><span class="meta"></span></span><br><span class="line"><span class="meta">[0.03329211473464966, 0.9894999861717224]</span></span><br></pre></td></tr></table></figure>
 <p><code>evaluate()</code> 傳回兩個數值:</p>
 <ul>
@@ -395,7 +395,7 @@
 </ul>
 <p>我們可以發現<strong>模型對測試集的預測準確率為 98.94%，與訓練集的準確率 98.91% 很接近</strong>，這表示模型沒有發生過擬合(overfitting)問題。</p>
 <h3 id="對圖像做出預測"><a class="header-anchor" href="#對圖像做出預測"></a>對圖像做出預測</h3>
-<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># 產生 x_test[1234]的預測標籤</span></span><br><span class="line">predicted = clf.predict(x_test[np.<span class="keyword">new</span><span class="type">axis</span>, <span class="number">1234</span>])</span><br><span class="line"><span class="meta"># 畫出 x_test[1234]圖像</span></span><br><span class="line">plt.imshow(x_test[<span class="number">1234</span>], cmap=<span class="string">&#x27;gray&#x27;</span>)</span><br><span class="line"><span class="meta"># 在標題顯示預測標籤</span></span><br><span class="line">plt.title(f<span class="string">&#x27;Test sample predicted as: &#123;predicted[0]&#125;&#x27;</span>)</span><br><span class="line"></span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 產生 x_test[1234]的預測標籤</span></span><br><span class="line">predicted = clf.predict(x_test[np.newaxis, 1234])</span><br><span class="line"><span class="comment"># 畫出 x_test[1234]圖像</span></span><br><span class="line">plt.imshow(x_test[1234], <span class="attribute">cmap</span>=<span class="string">&#x27;gray&#x27;</span>)</span><br><span class="line"><span class="comment"># 在標題顯示預測標籤</span></span><br><span class="line">plt.title(f<span class="string">&#x27;Test sample predicted as: &#123;predicted[0]&#125;&#x27;</span>)</span><br><span class="line"></span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
 <p>預測結果與真實的標籤值是相符的，代表我們的分類器對這張圖像判斷出了正確結果。<br>
 <img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2FautoKeras-hello-mnist%2F7-mnist-classification-image-predicted.png?alt=media&amp;token=567c0452-b8e6-4f1a-bba9-1a6e869868f9" alt="7-mnist-classification-image-predicted"></p>
 <h2 id="模型視覺化"><a class="header-anchor" href="#模型視覺化"></a>模型視覺化</h2>
@@ -460,9 +460,9 @@
     <footer class="post-footer">
           <div class="post-tags">
               <a href="/blog/tags/AutoML/" rel="tag"># AutoML</a>
+              <a href="/blog/tags/AutoKeras/" rel="tag"># AutoKeras</a>
               <a href="/blog/tags/Machine-Learning/" rel="tag"># Machine Learning</a>
               <a href="/blog/tags/Deep-Learning/" rel="tag"># Deep Learning</a>
-              <a href="/blog/tags/AutoKeras/" rel="tag"># AutoKeras</a>
               <a href="/blog/tags/MNIST/" rel="tag"># MNIST</a>
           </div>
 

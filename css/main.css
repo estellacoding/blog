@@ -1329,7 +1329,7 @@ pre code {
     vertical-align: middle;
   }
   .links-of-author a::before {
-    background: #b5ff70;
+    background: #ff7f42;
     display: inline-block;
     margin-right: 3px;
     transform: translateY(-2px);
@@ -2822,4 +2822,11 @@ header.header {
   background-color: #eef7fa;
   border-left: 4px solid #428bca;
   color: #428bca;
+}
+/* 調整標題與內文間距 */
+.post-header {
+  margin-bottom: 29px !important;
+}
+.post-body {
+  margin-top: 15px !important;
 }

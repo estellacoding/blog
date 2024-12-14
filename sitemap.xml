@@ -137,7 +137,7 @@
   </url>
   
   <url>
-    <loc>https://estellacoding.github.io/blog/what-is-tensor/</loc>
+    <loc>https://estellacoding.github.io/blog/autokeras-data-folder/</loc>
     
     <lastmod>2024-07-17</lastmod>
     
@@ -146,7 +146,7 @@
   </url>
   
   <url>
-    <loc>https://estellacoding.github.io/blog/autokeras-data-folder/</loc>
+    <loc>https://estellacoding.github.io/blog/what-is-tensor/</loc>
     
     <lastmod>2024-07-17</lastmod>
     
@@ -324,6 +324,13 @@
   </url>
   
   <url>
+    <loc>https://estellacoding.github.io/blog/tags/AutoKeras/</loc>
+    <lastmod>2024-12-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://estellacoding.github.io/blog/tags/Machine-Learning/</loc>
     <lastmod>2024-12-14</lastmod>
     <changefreq>weekly</changefreq>
@@ -338,14 +345,49 @@
   </url>
   
   <url>
-    <loc>https://estellacoding.github.io/blog/tags/AutoKeras/</loc>
+    <loc>https://estellacoding.github.io/blog/tags/MNIST/</loc>
     <lastmod>2024-12-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://estellacoding.github.io/blog/tags/MNIST/</loc>
+    <loc>https://estellacoding.github.io/blog/tags/AWS-Certified-AI-Practitioner/</loc>
+    <lastmod>2024-12-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/AIF-C01/</loc>
+    <lastmod>2024-12-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/AWS-Certified-AI/</loc>
+    <lastmod>2024-12-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/AWS/</loc>
+    <lastmod>2024-12-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/Certification/</loc>
+    <lastmod>2024-12-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/AI-ready/</loc>
     <lastmod>2024-12-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -374,6 +416,13 @@
   
   <url>
     <loc>https://estellacoding.github.io/blog/tags/Theme/</loc>
+    <lastmod>2024-12-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/CNN/</loc>
     <lastmod>2024-12-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -422,7 +471,35 @@
   </url>
   
   <url>
+    <loc>https://estellacoding.github.io/blog/tags/AUC/</loc>
+    <lastmod>2024-12-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://estellacoding.github.io/blog/tags/Markdown/</loc>
+    <lastmod>2024-12-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/Database/</loc>
+    <lastmod>2024-12-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/SQL/</loc>
+    <lastmod>2024-12-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/JOIN/</loc>
     <lastmod>2024-12-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -443,7 +520,49 @@
   </url>
   
   <url>
+    <loc>https://estellacoding.github.io/blog/tags/fsevents/</loc>
+    <lastmod>2024-12-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/Life/</loc>
+    <lastmod>2024-12-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://estellacoding.github.io/blog/tags/Python/</loc>
+    <lastmod>2024-12-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/OpenAI/</loc>
+    <lastmod>2024-12-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/GPT/</loc>
+    <lastmod>2024-12-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/LLM/</loc>
+    <lastmod>2024-12-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/API/</loc>
     <lastmod>2024-12-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -458,6 +577,139 @@
   
   <url>
     <loc>https://estellacoding.github.io/blog/tags/Neural-Networks/</loc>
+    <lastmod>2024-12-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/MongoDB/</loc>
+    <lastmod>2024-12-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/MongoDB-Compass/</loc>
+    <lastmod>2024-12-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/NoSQL/</loc>
+    <lastmod>2024-12-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/GUI/</loc>
+    <lastmod>2024-12-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/Oracle/</loc>
+    <lastmod>2024-12-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/Oracle-APEX/</loc>
+    <lastmod>2024-12-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/LiveLabs/</loc>
+    <lastmod>2024-12-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/AI-Assisted-Development/</loc>
+    <lastmod>2024-12-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/Project-Management/</loc>
+    <lastmod>2024-12-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/Oracle-Database-23ai/</loc>
+    <lastmod>2024-12-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/EAV/</loc>
+    <lastmod>2024-12-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/JSON/</loc>
+    <lastmod>2024-12-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/Vector/</loc>
+    <lastmod>2024-12-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/Vector-Database/</loc>
+    <lastmod>2024-12-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/Vector-Search/</loc>
+    <lastmod>2024-12-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/LangChain/</loc>
+    <lastmod>2024-12-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/RAG/</loc>
+    <lastmod>2024-12-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/Oracle-VM/</loc>
+    <lastmod>2024-12-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/Oracle-VirtualBox/</loc>
     <lastmod>2024-12-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -493,6 +745,13 @@
   
   <url>
     <loc>https://estellacoding.github.io/blog/tags/R2/</loc>
+    <lastmod>2024-12-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/Tensor/</loc>
     <lastmod>2024-12-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -561,318 +820,10 @@
     <priority>0.2</priority>
   </url>
   
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/fsevents/</loc>
-    <lastmod>2024-12-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/Tensor/</loc>
-    <lastmod>2024-12-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/CNN/</loc>
-    <lastmod>2024-12-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/AUC/</loc>
-    <lastmod>2024-12-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/Oracle/</loc>
-    <lastmod>2024-12-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/Oracle-APEX/</loc>
-    <lastmod>2024-12-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/LiveLabs/</loc>
-    <lastmod>2024-12-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/AI-Assisted-Development/</loc>
-    <lastmod>2024-12-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/LLM/</loc>
-    <lastmod>2024-12-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/OpenAI/</loc>
-    <lastmod>2024-12-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/Project-Management/</loc>
-    <lastmod>2024-12-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/Oracle-VM/</loc>
-    <lastmod>2024-12-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/Oracle-VirtualBox/</loc>
-    <lastmod>2024-12-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/Oracle-Database-23ai/</loc>
-    <lastmod>2024-12-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/Vector-Database/</loc>
-    <lastmod>2024-12-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/Vector-Search/</loc>
-    <lastmod>2024-12-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/LangChain/</loc>
-    <lastmod>2024-12-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/RAG/</loc>
-    <lastmod>2024-12-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/Vector/</loc>
-    <lastmod>2024-12-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/EAV/</loc>
-    <lastmod>2024-12-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/JSON/</loc>
-    <lastmod>2024-12-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/MongoDB/</loc>
-    <lastmod>2024-12-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/NoSQL/</loc>
-    <lastmod>2024-12-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/MongoDB-Compass/</loc>
-    <lastmod>2024-12-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/GUI/</loc>
-    <lastmod>2024-12-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/Life/</loc>
-    <lastmod>2024-12-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/AWS-Certified-AI-Practitioner/</loc>
-    <lastmod>2024-12-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/AWS-Certified-AI/</loc>
-    <lastmod>2024-12-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/AWS/</loc>
-    <lastmod>2024-12-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/Certification/</loc>
-    <lastmod>2024-12-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/AI-ready/</loc>
-    <lastmod>2024-12-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/Database/</loc>
-    <lastmod>2024-12-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/SQL/</loc>
-    <lastmod>2024-12-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/AIF-C01/</loc>
-    <lastmod>2024-12-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/JOIN/</loc>
-    <lastmod>2024-12-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/GPT/</loc>
-    <lastmod>2024-12-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/API/</loc>
-    <lastmod>2024-12-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
 
   
   <url>
     <loc>https://estellacoding.github.io/blog/categories/AutoML/</loc>
-    <lastmod>2024-12-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/categories/Hexo/</loc>
-    <lastmod>2024-12-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/categories/Machine-Learning/</loc>
-    <lastmod>2024-12-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/categories/Deep-Learning/</loc>
-    <lastmod>2024-12-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/categories/GPU/</loc>
-    <lastmod>2024-12-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/categories/Oracle/</loc>
-    <lastmod>2024-12-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/categories/MongoDB/</loc>
-    <lastmod>2024-12-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/categories/Life/</loc>
     <lastmod>2024-12-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -886,6 +837,27 @@
   </url>
   
   <url>
+    <loc>https://estellacoding.github.io/blog/categories/Hexo/</loc>
+    <lastmod>2024-12-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/categories/Deep-Learning/</loc>
+    <lastmod>2024-12-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/categories/Machine-Learning/</loc>
+    <lastmod>2024-12-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://estellacoding.github.io/blog/categories/Database/</loc>
     <lastmod>2024-12-14</lastmod>
     <changefreq>weekly</changefreq>
@@ -893,7 +865,35 @@
   </url>
   
   <url>
+    <loc>https://estellacoding.github.io/blog/categories/Life/</loc>
+    <lastmod>2024-12-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://estellacoding.github.io/blog/categories/LLM/</loc>
+    <lastmod>2024-12-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/categories/MongoDB/</loc>
+    <lastmod>2024-12-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/categories/Oracle/</loc>
+    <lastmod>2024-12-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/categories/GPU/</loc>
     <lastmod>2024-12-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
