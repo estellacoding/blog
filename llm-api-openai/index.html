@@ -332,31 +332,31 @@ OpenAI API Developer quickstart)
 <table>
 <thead>
 <tr>
-<th style="text-align:center">功能</th>
-<th style="text-align:center">cURL</th>
-<th style="text-align:center">requests</th>
+<th>功能</th>
+<th>cURL</th>
+<th>requests</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:center">發送請求</td>
-<td style="text-align:center"><code>curl &lt;URL&gt;</code></td>
-<td style="text-align:center"><code>requests.get(&quot;&lt;URL&gt;&quot;)</code><br><code>requests.post(&quot;&lt;URL&gt;&quot;)</code></td>
+<td>發送請求</td>
+<td><code>curl &lt;URL&gt;</code></td>
+<td><code>requests.get(&quot;&lt;URL&gt;&quot;)</code><br><code>requests.post(&quot;&lt;URL&gt;&quot;)</code></td>
 </tr>
 <tr>
-<td style="text-align:center">設定表頭</td>
-<td style="text-align:center"><code>-H &quot;key: value&quot;</code></td>
-<td style="text-align:center"><code>headers=&#123;&quot;key&quot;: &quot;value&quot;&#125;</code></td>
+<td>設定表頭</td>
+<td><code>-H &quot;key: value&quot;</code></td>
+<td><code>headers=&#123;&quot;key&quot;: &quot;value&quot;&#125;</code></td>
 </tr>
 <tr>
-<td style="text-align:center">傳遞資料</td>
-<td style="text-align:center"><code>-d &quot;key=value&quot;</code></td>
-<td style="text-align:center"><code>data=&#123;&quot;key&quot;: &quot;value&quot;&#125;</code></td>
+<td>傳遞資料</td>
+<td><code>-d &quot;key=value&quot;</code></td>
+<td><code>data=&#123;&quot;key&quot;: &quot;value&quot;&#125;</code></td>
 </tr>
 <tr>
-<td style="text-align:center">處理回應</td>
-<td style="text-align:center">終端機檢視輸出(stdout)</td>
-<td style="text-align:center"><code>response.json()</code></td>
+<td>處理回應</td>
+<td>終端機檢視輸出(stdout)</td>
+<td><code>response.json()</code></td>
 </tr>
 </tbody>
 </table>
@@ -374,12 +374,12 @@ OpenAI API Developer quickstart)
 <tbody>
 <tr>
 <td>HTTP 請求</td>
-<td>掌控請求流程與錯誤處理。<br>可用自己熟悉的程式語言。<br>不依賴官方套件版本<br>直接基於 API 文件開發。</td>
-<td>需要熟悉 HTTP 請求結構。<br>無法使用官方套件內建功能。<br>需自行設計相應邏輯。<br>API 更新時需手動調整程式碼。</td>
+<td>掌控請求流程與錯誤處理。<br>可用自己熟悉的程式語言。<br>不依賴官方套件版本。<br>直接基於 API 文件開發。</td>
+<td>需要熟悉 HTTP 請求結構。<br>無法使用官方套件內建功能。<br>需自行設計相應邏輯。<br>API 更新時需調整程式碼。</td>
 </tr>
 <tr>
 <td>使用官方套件</td>
-<td>官方套件簡化 API 調用。<br>提供官方套件內建功能。<br>通常有完善的文檔與社群支持。<br>會隨 API 更新進行同步調整。</td>
+<td>官方套件簡化 API 調用。<br>提供官方套件內建功能。<br>通常有技術文檔與社群支持。<br>會隨 API 更新進行同步調整。</td>
 <td>套件更新需等待官方釋出。<br>大版本更新時需調整程式碼。<br>僅支持官方指定程式語言。<br>需熟悉官方套件使用方法。</td>
 </tr>
 </tbody>
@@ -396,9 +396,9 @@ OpenAI API Developer quickstart)
 <li>缺點:
 <ul>
 <li>需要開發者熟悉 API 文件與 HTTP 請求的結構。</li>
-<li>無法使用官方套件內建的功能(如重試機制或錯誤處理)。</li>
-<li>需自行設計重試機制或錯誤處理相應邏輯。</li>
-<li>當官方 API 更新(如端點或參數調整)時，需要更新程式碼。</li>
+<li>無法使用官方套件內建功能(如重試機制或錯誤處理)。</li>
+<li>需自行設計重試機制或錯誤處理等相應邏輯。</li>
+<li>API 更新(如端點或參數調整)時，需要調整程式碼。</li>
 </ul>
 </li>
 </ul>
@@ -408,16 +408,16 @@ OpenAI API Developer quickstart)
 <ul>
 <li>官方套件簡化 API 調用，只需熟悉 API 文件即可。</li>
 <li>提供如自動重試、錯誤處理等內建功能。</li>
-<li>通常有完善的文檔與社群支持，可快速解決問題。</li>
+<li>通常有技術文檔與社群支持，可加快解決問題。</li>
 <li>會隨 API 更新進行同步調整，減少不兼容風險。</li>
 </ul>
 </li>
 <li>缺點:
 <ul>
 <li>需要等待官方開發團隊釋出套件更新。</li>
-<li>當有大版本更新時，可能需要調整現有程式碼。</li>
-<li>僅支持官方提供的程式語言(如 Python、JavaScript)。</li>
-<li>除 API 本身外，需熟悉套件的使用方法與特定的語法。</li>
+<li>當有大版本更新時，會需要調整現有程式碼。</li>
+<li>僅支持官方提供的程式語言，如 Python、JavaScript。</li>
+<li>需要熟悉官方套件的使用方法與特定語法。</li>
 </ul>
 </li>
 </ul>
