@@ -1,7 +1,7 @@
+https://estellacoding.github.io/blog/db-join/
 https://estellacoding.github.io/blog/llm-api-openai/
 https://estellacoding.github.io/blog/aws-certified-ai-practitioner/
 https://estellacoding.github.io/blog/db-design-school-course/
-https://estellacoding.github.io/blog/db-join/
 https://estellacoding.github.io/blog/about/index.html
 https://estellacoding.github.io/blog/how-many-days-left/
 https://estellacoding.github.io/blog/mongodb-compass-gui-introduction/
