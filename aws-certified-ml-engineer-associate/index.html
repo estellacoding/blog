@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="mask-icon" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"estellacoding.github.io","root":"/blog/","images":"/blog/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/blog/js/config.js"></script>
+
+    <meta name="description" content="一次考上 AWS MLA 證照，本篇記錄下參與 AWS Certified Machine Learning Engineer – Associate 認證考試的過程，並整理相關資源，希望能對想要挑戰這張證照的朋友們有所幫助！">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Pass AWS Certified Machine Learning Engineer – Associate">
+<meta property="og:url" content="https://estellacoding.github.io/blog/aws-certified-ml-engineer-associate/index.html">
+<meta property="og:site_name" content="Stella Coding">
+<meta property="og:description" content="一次考上 AWS MLA 證照，本篇記錄下參與 AWS Certified Machine Learning Engineer – Associate 認證考試的過程，並整理相關資源，希望能對想要挑戰這張證照的朋友們有所幫助！">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-certified-ml-engineer-associate%2Faws-certified-ml-engineer-associate-certification.png?alt=media&amp;token=5100536f-c538-4583-ad7e-70e288168d60">
+<meta property="article:published_time" content="2024-12-27T03:11:11.000Z">
+<meta property="article:modified_time" content="2024-12-27T03:11:11.000Z">
+<meta property="article:author" content="Stella">
+<meta property="article:tag" content="AWS">
+<meta property="article:tag" content="Certification">
+<meta property="article:tag" content="AWS Certified Machine Learning Engineer – Associate">
+<meta property="article:tag" content="MLA-C01">
+<meta property="article:tag" content="AWS Certified ML">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-certified-ml-engineer-associate%2Faws-certified-ml-engineer-associate-certification.png?alt=media&amp;token=5100536f-c538-4583-ad7e-70e288168d60">
+
+
+<link rel="canonical" href="https://estellacoding.github.io/blog/aws-certified-ml-engineer-associate/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://estellacoding.github.io/blog/aws-certified-ml-engineer-associate/","path":"aws-certified-ml-engineer-associate/","title":"Pass AWS Certified Machine Learning Engineer – Associate"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Pass AWS Certified Machine Learning Engineer – Associate | Stella Coding</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EG0CKC3093"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-EG0CKC3093","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/blog/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/blog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/blog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Stella Coding</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Hands-on fuels my soul!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/blog/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/blog/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/blog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%82%BA%E4%BB%80%E9%BA%BC%E6%83%B3%E8%80%83"><span class="nav-number">1.</span> <span class="nav-text">為什麼想考?</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%80%83%E8%A9%A6%E8%B3%87%E8%A8%8A"><span class="nav-number">2.</span> <span class="nav-text">考試資訊</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%80%83%E8%A9%A6%E6%88%90%E7%B8%BE"><span class="nav-number">2.1.</span> <span class="nav-text">考試成績</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%95%8F%E9%A1%8C%E9%A1%9E%E5%9E%8B"><span class="nav-number">2.2.</span> <span class="nav-text">問題類型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%80%83%E8%A9%A6%E7%AF%84%E5%9C%8D"><span class="nav-number">2.3.</span> <span class="nav-text">考試範圍</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%8E%E9%BA%BC%E6%BA%96%E5%82%99%E8%80%83%E8%A9%A6"><span class="nav-number">3.</span> <span class="nav-text">怎麼準備考試?</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#AWS%E5%AE%98%E6%96%B9%E8%AA%B2%E7%A8%8B"><span class="nav-number">3.1.</span> <span class="nav-text">AWS官方課程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%8D%E8%B2%BB%E8%80%83%E8%A9%A6%E9%A1%8C%E5%BA%AB"><span class="nav-number">3.2.</span> <span class="nav-text">免費考試題庫</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B8%BD%E7%B5%90"><span class="nav-number">4.</span> <span class="nav-text">總結</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Stella"
+      src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+  <p class="site-author-name" itemprop="name">Stella</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/blog/archives/">
+          <span class="site-state-item-count">30</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/blog/categories/">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/blog/tags/">
+        <span class="site-state-item-count">75</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/estellacoding" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;estellacoding" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.instagram.com/stellacoding/" title="Instagram → https:&#x2F;&#x2F;www.instagram.com&#x2F;stellacoding&#x2F;" rel="noopener me" target="_blank"><i class="fab fa-instagram fa-fw"></i>Instagram</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://estellacoding.github.io/blog/aws-certified-ml-engineer-associate/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+      <meta itemprop="name" content="Stella">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Stella Coding">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Pass AWS Certified Machine Learning Engineer – Associate | Stella Coding">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Pass AWS Certified Machine Learning Engineer – Associate
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2024-12-27 11:11:11" itemprop="dateCreated datePublished" datetime="2024-12-27T11:11:11+08:00">2024-12-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/AWS/" itemprop="url" rel="index"><span itemprop="name">AWS</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>一次考上 AWS MLA 證照，本篇記錄下參與 AWS Certified Machine Learning Engineer – Associate 認證考試的過程，並整理相關資源，希望能對想要挑戰這張證照的朋友們有所幫助！</p>
+<span id="more"></span>
+<h1 id="為什麼想考"><a class="header-anchor" href="#為什麼想考"></a>為什麼想考?</h1>
+<p>暨 11 月考完 <a href="https://estellacoding.github.io/blog/aws-certified-ai-practitioner/">人生中第一張 AWS 證照 - AWS Certified AI Practitioner</a> 後，又看到有 <a target="_blank" rel="noopener" href="https://pages.awscloud.com/GLOBAL-ln-GC-Traincert-Associate-Certification-Challenge-Registration-2024.html">Get AWS Certified： Associate 挑戰賽</a> 的 50% 折扣優惠，而且還可得到 AWS AI Ready 大禮包 +1。(<s>我想要有2個這個酷東西 - I am AI-ready T-shirt</s>)</p>
+<p>這張證照也會有數位徽章，是透過 Credly 的平台，讓你可直接加入 LinkedIn 的喔!</p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-certified-ml-engineer-associate%2Faws-certified-ml-engineer-associate-certification.png?alt=media&amp;token=5100536f-c538-4583-ad7e-70e288168d60" alt="aws-certified-ml-engineer-associate-certification"></p>
+<h1 id="考試資訊"><a class="header-anchor" href="#考試資訊"></a>考試資訊</h1>
+<ul>
+<li>考試時間: 130 分鐘</li>
+<li>考試形式: 65 個問題</li>
+<li>費用: 150 USD</li>
+<li>測驗選項: Pearson VUE 測驗中心或有監考人員的線上考試</li>
+<li>提供的語言: 英文、日文、韓文和簡體中文</li>
+</ul>
+<p>前往 AWS 官方查看 <a target="_blank" rel="noopener" href="https://aws.amazon.com/tw/certification/certified-machine-learning-engineer-associate/">AWS Certified Machine Learning Engineer – Associate 考試資訊</a>。</p>
+<h2 id="考試成績"><a class="header-anchor" href="#考試成績"></a>考試成績</h2>
+<p>100–1000 分，最低通過分數為 720 分。</p>
+<h2 id="問題類型"><a class="header-anchor" href="#問題類型"></a>問題類型</h2>
+<ul>
+<li>單選題: 1 個正確答案及 3 個錯誤答案。</li>
+<li>多選題: 從 5 個或更多選項中包含 2 個或以上正確答案。需選擇所有正確答案。</li>
+<li>排序題：提供 3–5 個選項，需按照指定任務選擇正確答案並以正確順序排列。</li>
+<li>配對題：提供一組選項與 3–7 個提示，需將選項與提示正確配對。</li>
+<li>案例題：基於單一案例提出 2 個或更多問題。</li>
+</ul>
+<h2 id="考試範圍"><a class="header-anchor" href="#考試範圍"></a>考試範圍</h2>
+<ul>
+<li>ML 資料處理 (28%)</li>
+<li>ML 模型開發 (26%)</li>
+<li>ML 工作流程的部署與配置 (22%)</li>
+<li>ML 的監控、維護與安全性 (24%)</li>
+</ul>
+<p>前往 AWS 官方查看 <a target="_blank" rel="noopener" href="https://d1.awsstatic.com/training-and-certification/docs-machine-learning-engineer-associate/AWS-Certified-Machine-Learning-Engineer-Associate_Exam-Guide.pdf">AWS Certified Machine Learning Engineer – Associate 考試指南</a>。</p>
+<h1 id="怎麼準備考試"><a class="header-anchor" href="#怎麼準備考試"></a>怎麼準備考試?</h1>
+<h2 id="AWS官方課程"><a class="header-anchor" href="#AWS官方課程"></a>AWS官方課程</h2>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://explore.skillbuilder.aws/learn/course/external/view/elearning/21599/exam-prep-standard-course-aws-certified-machine-learning-engineer-associate-mla-c01-simplified-chinese">Exam Prep Standard Course: AWS Certified Machine Learning Engineer - Associate (MLA-C01 - Simplified Chinese)</a></li>
+<li><a target="_blank" rel="noopener" href="https://explore.skillbuilder.aws/learn/course/external/view/elearning/20365/exam-prep-standard-course-aws-certified-machine-learning-engineer-associate-mla-c01-english">Exam Prep Standard Course: AWS Certified Machine Learning Engineer - Associate (MLA-C01 - English)</a></li>
+<li><a target="_blank" rel="noopener" href="https://explore.skillbuilder.aws/learn/public/learning_plan/view/2191/standard-exam-prep-plan-aws-certified-machine-learning-associate-mla-c01">Standard Exam Prep Plan: AWS Certified Machine Learning - Associate (MLA-C01)</a></li>
+</ol>
+<h2 id="免費考試題庫"><a class="header-anchor" href="#免費考試題庫"></a>免費考試題庫</h2>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://explore.skillbuilder.aws/learn/course/external/view/elearning/19691/exam-prep-official-practice-question-set-aws-certified-machine-learning-engineer-associate-mla-c01-simplified-chinese">Exam Prep Official Practice Question Set: AWS Certified Machine Learning Engineer - Associate (MLA-C01 - Simplified Chinese)</a></li>
+<li><a target="_blank" rel="noopener" href="https://explore.skillbuilder.aws/learn/course/external/view/elearning/19688/exam-prep-official-practice-question-set-aws-certified-machine-learning-engineer-associate-mla-c01-english">Exam Prep Official Practice Question Set: AWS Certified Machine Learning Engineer - Associate (MLA-C01 - English)</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.examtopics.com/exams/amazon/aws-certified-machine-learning-engineer-associate-mla-c01/view/1/">非官方85題-ExamTopics</a></li>
+<li><a target="_blank" rel="noopener" href="https://stellacoding.notion.site/AWS-Certified-ML-Associate-zh-CN-1669a83673d6803ab7dcfa83efac561c">我整理的85題-考題和心智圖</a></li>
+</ol>
+<h1 id="總結"><a class="header-anchor" href="#總結"></a>總結</h1>
+<p>這次通過 AWS Certified Machine Learning Engineer – Associate(MLA-C01) 的認證，分數比之前考取的 AWS Certified AI Practitioner(AIF-C01) 還要高，因為兩張證照之間有許多重疊的核心觀念。AI Practitioner 是基礎，專注於人工智慧的基本概念與 AWS 相關服務的入門知識，而 ML Associate 則進一步深入到了機器學習的具體應用，包括數據準備、模型開發、部署與監控。</p>
+<p>我想考試不僅是對技術知識的驗證，更是一種激勵自我延伸學習的方法，希望這篇經驗分享能夠幫助更多想要挑戰 MLA-C01 認證的朋友們，讓我們一起踏上學習與成長的旅途吧！</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/blog/tags/AWS/" rel="tag"># AWS</a>
+              <a href="/blog/tags/Certification/" rel="tag"># Certification</a>
+              <a href="/blog/tags/AWS-Certified-Machine-Learning-Engineer-%E2%80%93-Associate/" rel="tag"># AWS Certified Machine Learning Engineer – Associate</a>
+              <a href="/blog/tags/MLA-C01/" rel="tag"># MLA-C01</a>
+              <a href="/blog/tags/AWS-Certified-ML/" rel="tag"># AWS Certified ML</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/blog/llm-api-openai/" rel="prev" title="【LLM API】實作串接 OpenAI">
+                  <i class="fa fa-angle-left"></i> 【LLM API】實作串接 OpenAI
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Stella</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/blog/js/comments.js"></script><script src="/blog/js/utils.js"></script><script src="/blog/js/motion.js"></script><script src="/blog/js/sidebar.js"></script><script src="/blog/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js","integrity":"sha256-stuqcu2FrjYCXDOytWFA5SoUE/r3nkp6gTglzNSlavU="}}</script>
+  <script src="/blog/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"ams","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/blog/js/third-party/math/mathjax.js"></script>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"estellacoding","repo":"blog","client_id":"Ov23liBnWPuObZGktbAv","client_secret":"9ed6e261cd75af620744058daafa56b80a53ffa8","admin_user":"estellacoding","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":null,"labels":"gitalk","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"32bc94ece4e7195d20bf320627daa33a"}</script>
+<script src="/blog/js/third-party/comments/gitalk.js"></script>
+
+</body>
+</html>
