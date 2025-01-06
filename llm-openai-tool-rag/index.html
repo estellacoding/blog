@@ -287,9 +287,9 @@ flowchart LR
 <p>檢索增強生成(Retrieval-Augmented Generation, RAG)是通過從外部知識庫中檢索相關文件資訊，並將其作為上下文提供給 LLM，從而增強 LLM 生成的準確性及可靠性。</p>
 <p>核心技術:</p>
 <ul>
-<li>Embedding(嵌入): 將文本轉換成向量表示的技術，透過數值化捕捉文本的語義特徵，使語義相似的文本在向量空間中更接近，從而便於進行語義檢索和比較。</li>
-<li>Vector Database(向量資料庫): 專門用於儲存和高效檢索向量資料的資料庫。</li>
-<li>Similarity Search(相似度搜尋): 在向量資料庫中尋找與目標向量最相似向量的演算法。</li>
+<li>嵌入(Embedding): 將文本轉換成向量表示的技術，透過數值化捕捉文本的語義特徵，使語義相似的文本在向量空間中更接近，從而便於進行語義檢索和比較。</li>
+<li>向量資料庫(Vector Database): 專門用於儲存和高效檢索向量資料的資料庫。</li>
+<li>相似度搜尋(Similarity Search): 在向量資料庫中尋找與目標向量最相似向量的演算法。</li>
 </ul>
 <h2 id="RAG-實作"><a class="header-anchor" href="#RAG-實作"></a>RAG 實作</h2>
 <p>以下範例是使用 openai <code>text-embedding-3-small</code> 模型將本文轉換為向量後，利用餘弦相似度計算文本之間的相似性，將相似度最高的文本結合為上下文提供給 LLM，進一步生成針對使用者查詢的回答。</p>
