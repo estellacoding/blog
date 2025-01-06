@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="mask-icon" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"estellacoding.github.io","root":"/blog/","images":"/blog/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/blog/js/config.js"></script>
+
+    <meta name="description" content="大型語言模型(Large Language Models, LLM)作為人工智慧技術的重要突破，正在以前所未有的速度改變著我們與資訊互動的方式，從內容創作、智能客服、撰寫程式碼、科學研究，到創造出逼真的影像等，無不展現其強大碾壓人類的能力(跪🙇🏻‍♀️)。  (資料來源: Studious Panda Scene) 然而，LLM 主要透過大量資料進行訓練，所以當面對新資料及特定領域時，就會受限">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用 Tool 和 RAG 提升 LLM 準確度">
+<meta property="og:url" content="https://estellacoding.github.io/blog/llm-openai-tool-rag/index.html">
+<meta property="og:site_name" content="Stella Coding">
+<meta property="og:description" content="大型語言模型(Large Language Models, LLM)作為人工智慧技術的重要突破，正在以前所未有的速度改變著我們與資訊互動的方式，從內容創作、智能客服、撰寫程式碼、科學研究，到創造出逼真的影像等，無不展現其強大碾壓人類的能力(跪🙇🏻‍♀️)。  (資料來源: Studious Panda Scene) 然而，LLM 主要透過大量資料進行訓練，所以當面對新資料及特定領域時，就會受限">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fllm-openai-tool-rag%2Freading-panda-by-sory.gif?alt=media&token=aff2fa97-ebf1-4373-b3fc-ab8db526c6f3">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fllm-openai-tool-rag%2Fgpt-3-datasets.jpg?alt=media&amp;token=1cacf648-7630-4add-815d-8dd87941b34f">
+<meta property="article:published_time" content="2025-01-06T03:11:11.000Z">
+<meta property="article:modified_time" content="2025-01-06T03:11:11.000Z">
+<meta property="article:author" content="Stella">
+<meta property="article:tag" content="OpenAI">
+<meta property="article:tag" content="LLM">
+<meta property="article:tag" content="RAG">
+<meta property="article:tag" content="Hallucination">
+<meta property="article:tag" content="Tool">
+<meta property="article:tag" content="Embedding">
+<meta property="article:tag" content="Similarity Search">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fllm-openai-tool-rag%2Freading-panda-by-sory.gif?alt=media&token=aff2fa97-ebf1-4373-b3fc-ab8db526c6f3">
+
+
+<link rel="canonical" href="https://estellacoding.github.io/blog/llm-openai-tool-rag/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://estellacoding.github.io/blog/llm-openai-tool-rag/","path":"llm-openai-tool-rag/","title":"用 Tool 和 RAG 提升 LLM 準確度"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>用 Tool 和 RAG 提升 LLM 準確度 | Stella Coding</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EG0CKC3093"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-EG0CKC3093","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/blog/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/blog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/blog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Stella Coding</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Hands-on fuels my soul!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/blog/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/blog/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/blog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#LLM-%E7%9A%84%E6%8C%91%E6%88%B0"><span class="nav-number">1.</span> <span class="nav-text">LLM 的挑戰</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#LLM-%E7%9A%84%E8%A8%AD%E8%A8%88%E6%B5%81%E7%A8%8B"><span class="nav-number">2.</span> <span class="nav-text">LLM 的設計流程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AF%A6%E4%BD%9C-Tool"><span class="nav-number">3.</span> <span class="nav-text">實作 Tool</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E9%BA%BC%E6%98%AF-Tool"><span class="nav-number">3.1.</span> <span class="nav-text">什麼是 Tool?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tool-%E5%AF%A6%E4%BD%9C"><span class="nav-number">3.2.</span> <span class="nav-text">Tool 實作</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AF%A6%E4%BD%9C-RAG"><span class="nav-number">4.</span> <span class="nav-text">實作 RAG</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E9%BA%BC%E6%98%AF-RAG"><span class="nav-number">4.1.</span> <span class="nav-text">什麼是 RAG?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RAG-%E5%AF%A6%E4%BD%9C"><span class="nav-number">4.2.</span> <span class="nav-text">RAG 實作</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B8%BD%E7%B5%90"><span class="nav-number">5.</span> <span class="nav-text">總結</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Stella"
+      src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+  <p class="site-author-name" itemprop="name">Stella</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/blog/archives/">
+          <span class="site-state-item-count">31</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/blog/categories/">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/blog/tags/">
+        <span class="site-state-item-count">79</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/estellacoding" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;estellacoding" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.instagram.com/stellacoding/" title="Instagram → https:&#x2F;&#x2F;www.instagram.com&#x2F;stellacoding&#x2F;" rel="noopener me" target="_blank"><i class="fab fa-instagram fa-fw"></i>Instagram</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://estellacoding.github.io/blog/llm-openai-tool-rag/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+      <meta itemprop="name" content="Stella">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Stella Coding">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="用 Tool 和 RAG 提升 LLM 準確度 | Stella Coding">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          用 Tool 和 RAG 提升 LLM 準確度
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2025-01-06 11:11:11" itemprop="dateCreated datePublished" datetime="2025-01-06T11:11:11+08:00">2025-01-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/LLM/" itemprop="url" rel="index"><span itemprop="name">LLM</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>大型語言模型(Large Language Models, LLM)作為人工智慧技術的重要突破，正在以前所未有的速度改變著我們與資訊互動的方式，從內容創作、智能客服、撰寫程式碼、科學研究，到創造出逼真的影像等，無不展現其強大<s>碾壓人類</s>的能力(跪🙇🏻‍♀️)。</p>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fllm-openai-tool-rag%2Freading-panda-by-sory.gif?alt=media&token=aff2fa97-ebf1-4373-b3fc-ab8db526c6f3" alt="reading-panda-by-sory" width="1080">
+<div style="margin-top: -15px; font-size: 14px; color: #555; text-align: center; font-style: normal; font-family: 'Arial', sans-serif;">(資料來源: <a target="_blank" rel="noopener" href="https://sora.com/g/gen_01jgx8w07xf15ahaxsghef8vgx">Studious Panda Scene)</a></div>
+<p>然而，LLM 主要透過大量資料進行訓練，所以當面對新資料及特定領域時，就會受限於訓練數據，而容易出現所謂的「幻覺現象」(Hallucination)。</p>
+<span id="more"></span>
+<h1 id="LLM-的挑戰"><a class="header-anchor" href="#LLM-的挑戰"></a>LLM 的挑戰</h1>
+<p>大型語言模型主要透過海量的文本資料進行訓練，如根據 GPT-3 的論文資料，<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2005.14165">Language Models are Few-Shot Learners</a> 中訓練資料量為 <u>4990 億(499 billion)tokens</u>，這賦予了它們驚人的語言能力。然而，如同任何新興技術一樣，LLM 也存在著自身的局限性。</p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fllm-openai-tool-rag%2Fgpt-3-datasets.jpg?alt=media&amp;token=1cacf648-7630-4add-815d-8dd87941b34f" alt="gpt-3-datasets"></p>
+<div style="margin-top: -15px; font-size: 14px; color: #555; text-align: center; font-style: normal; font-family: 'Arial', sans-serif;">(資料來源: <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2005.14165">Language Models are Few-Shot Learners)</a></div>
+<ul>
+<li>知識的時效性: 訓練數據通常是過去的資料，這表示 LLM 對於最新的資訊可能一無所知。例如，詢問 LLM 關於今天發生的新聞事件，它應該無法給出正確的答案。</li>
+<li>知識的領域性: 不同的 LLM 可能使用不同的訓練數據，這導致在某些特定領域的知識可能不足。例如，一個主要基於通用網路數據訓練的 LLM，可能在醫學或法律等專業領域上相對薄弱。</li>
+</ul>
+<p>而當 LLM 知識的時效性及領域性受到訓練數據限制時，就容易出現「幻覺現象」(Hallucination)。</p>
+<blockquote>
+<p><strong>幻覺(Hallucination)是指大型語言模型在缺乏足夠的知識或理解的情況下，生成出看似合理，但實際上錯誤、不合邏輯，甚至完全虛構的內容</strong>。</p>
+</blockquote>
+<p>為了解決幻覺現象，我們會使用 Tool 和 RAG 的技術。</p>
+<ul>
+<li>Tool: 讓 LLM 使用外部工具，例如搜尋引擎。</li>
+<li>RAG: 讓 LLM 存取外部知識庫。</li>
+</ul>
+<h1 id="LLM-的設計流程"><a class="header-anchor" href="#LLM-的設計流程"></a>LLM 的設計流程</h1>
+<pre>
+<code class="mermaid">
+
+flowchart LR
+    A[輸入問題] --&gt; B[LLM 學過嗎？]
+    B --&gt;|Yes| C[直接回覆]
+    B --&gt;|No| D[可以查資料嗎？]
+    D --&gt;|No| F[生成幻覺]
+    D --&gt;|Yes| E[資料來源]
+    E --&gt;|網路資料| G[Tool]
+    E --&gt;|內部資料| H[RAG]
+    G --&gt; I[輸出回應]
+    H --&gt; I[輸出回應]
+    C --&gt; I
+</code>
+</pre>
+<h1 id="實作-Tool"><a class="header-anchor" href="#實作-Tool"></a>實作 Tool</h1>
+<h2 id="什麼是-Tool"><a class="header-anchor" href="#什麼是-Tool"></a>什麼是 Tool?</h2>
+<p>Tool 是指賦予 LLM 與外部世界互動的能力。當 LLM 面對不確定問題或需要最新資訊時，可以選擇啟用預先定義好的工具，例如搜尋引擎。而這些工具能協助 LLM 擴展能力邊界，解決其原本無法處理的問題，從而生成更加精準及可靠的回應。</p>
+<h2 id="Tool-實作"><a class="header-anchor" href="#Tool-實作"></a>Tool 實作</h2>
+<p>以下範例是使用 <code>gpt-4o-mini</code> 模型和 Google 搜尋工具，當模型無法直接回答問題時，可以通過 Google 搜尋相關資訊，並將其作為上下文提供給 LLM，進一步生成針對使用者查詢的回答。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> googlesearch</span><br><span class="line"><span class="keyword">from</span> google.colab <span class="keyword">import</span> userdata</span><br><span class="line"><span class="keyword">from</span> openai <span class="keyword">import</span> OpenAI</span><br><span class="line"><span class="keyword">from</span> tabulate <span class="keyword">import</span> tabulate</span><br><span class="line"></span><br><span class="line"><span class="comment"># 取得 OpenAI API 金鑰</span></span><br><span class="line">OPENAI_API_KEY = userdata.get(<span class="string">&#x27;OPENAI_API_KEY&#x27;</span>)</span><br><span class="line"><span class="comment"># 初始化 OpenAI 客戶端</span></span><br><span class="line">client = OpenAI(api_key=OPENAI_API_KEY)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定義查詢問題</span></span><br><span class="line">query = <span class="string">&quot;請問2024年金鐘獎最佳男配角是誰？&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始查詢 GPT</span></span><br><span class="line">completion = client.chat.completions.create(</span><br><span class="line">    model=<span class="string">&quot;gpt-4o-mini&quot;</span>,  <span class="comment"># 使用 gpt-4o-mini</span></span><br><span class="line">    messages=[</span><br><span class="line">        &#123;<span class="string">&quot;role&quot;</span>: <span class="string">&quot;system&quot;</span>, <span class="string">&quot;content&quot;</span>: <span class="string">&quot;當你不確定使用者的問題時，請回答『不知道』。&quot;</span>&#125;,</span><br><span class="line">        &#123;<span class="string">&quot;role&quot;</span>: <span class="string">&quot;user&quot;</span>, <span class="string">&quot;content&quot;</span>: query&#125;</span><br><span class="line">    ]</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">response_content = completion.choices[<span class="number">0</span>].message.content</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;===== 初始回應 =====&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(response_content)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果 GPT 回應「不知道」，則進行 Google 搜尋</span></span><br><span class="line"><span class="keyword">if</span> <span class="string">&quot;不知道&quot;</span> <span class="keyword">in</span> response_content:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;===== 啟動 Google 搜尋 =====&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="comment"># 使用 googlesearch 搜尋</span></span><br><span class="line">        search_results = <span class="built_in">list</span>(googlesearch.search(query, advanced=<span class="literal">True</span>, num_results=<span class="number">5</span>))</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 確認搜尋結果是否非空</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> search_results:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;未找到相關搜尋結果。&quot;</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="comment"># 搜尋結果過濾與結構化</span></span><br><span class="line">            table_data = []</span><br><span class="line">            content = <span class="string">&quot;以下為從搜尋結果中整理的事實：\n&quot;</span></span><br><span class="line">            <span class="keyword">for</span> item <span class="keyword">in</span> search_results:</span><br><span class="line">                table_data.append([item.title, item.description])</span><br><span class="line">                content += <span class="string">f&quot;標題: <span class="subst">&#123;item.title&#125;</span>\n內容: <span class="subst">&#123;item.description&#125;</span>\n\n&quot;</span></span><br><span class="line"></span><br><span class="line">            <span class="comment"># 格式化輸出搜尋結果</span></span><br><span class="line">            <span class="built_in">print</span>(tabulate(table_data, headers=[<span class="string">&quot;標題&quot;</span>, <span class="string">&quot;內容&quot;</span>], tablefmt=<span class="string">&quot;grid&quot;</span>))</span><br><span class="line">            content += <span class="string">&quot;請依照上述事實回答以下問題。\n&quot;</span></span><br><span class="line"></span><br><span class="line">            <span class="comment"># 加上搜尋結果查詢 GPT</span></span><br><span class="line">            follow_up_completion = client.chat.completions.create(</span><br><span class="line">                model=<span class="string">&quot;gpt-4o-mini&quot;</span>,</span><br><span class="line">                messages=[</span><br><span class="line">                    &#123;<span class="string">&quot;role&quot;</span>: <span class="string">&quot;system&quot;</span>, <span class="string">&quot;content&quot;</span>: content&#125;,</span><br><span class="line">                    &#123;<span class="string">&quot;role&quot;</span>: <span class="string">&quot;user&quot;</span>, <span class="string">&quot;content&quot;</span>: query&#125;</span><br><span class="line">                ]</span><br><span class="line">            )</span><br><span class="line"></span><br><span class="line">            follow_up_content = follow_up_completion.choices[<span class="number">0</span>].message.content</span><br><span class="line"></span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;===== 最終回應 =====&quot;</span>)</span><br><span class="line">            <span class="built_in">print</span>(follow_up_content)</span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;搜尋過程中出現錯誤：<span class="subst">&#123;e&#125;</span>&quot;</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;初始回應已解答問題，無需搜尋。&quot;</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">===== 初始回應 =====</span><br><span class="line">不知道。</span><br><span class="line">===== 啟動 Google 搜尋 =====</span><br><span class="line">+----------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span><br><span class="line">| 標題                                                     | 內容                                                                                                                                                                   |</span><br><span class="line">+==========================================================+========================================================================================================================================================================+</span><br><span class="line">| 【<span class="number">2024</span>金鐘獎】金鐘<span class="number">59</span>完整得獎名單                         | Oct <span class="number">20</span>, <span class="number">2024</span> — <span class="number">2024</span>金鐘獎完整得獎名單線上看！金鐘<span class="number">59</span>最大贏家是《八尺門的辯護人》，《有生之年》吳慷仁、楊貴媚則抱回<span class="number">2024</span>金鐘獎最佳男主角、最佳女主角。                    |</span><br><span class="line">+----------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span><br><span class="line">| 【<span class="number">2024</span> 金鐘獎】金鐘<span class="number">59</span> 完整得獎名單！吳慷仁、楊貴媚封視帝 | Oct <span class="number">19</span>, <span class="number">2024</span> — 【<span class="number">2024</span>金鐘獎】第<span class="number">59</span> 屆金鐘獎入圍名單，吳慷仁、柯叔元、傅孟柏、曾敬驊和劉俊謙中生代與新生代演員共同角逐最佳男主角！ <span class="number">2024</span>年第<span class="number">59</span> 屆金鐘獎入圍 ...           |</span><br><span class="line">+----------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span><br><span class="line">| 金鐘獎<span class="number">2024</span>》金鐘<span class="number">59</span>完整得獎名單！吳慷仁、楊貴媚封視帝視后 | Oct <span class="number">20</span>, <span class="number">2024</span> — 鄭元暢以《有生之年》獲得第<span class="number">59</span>屆金鐘獎戲劇節目男配角獎。 (來源：三立電視提供) ... 鐘獎最佳導演。梁修身的作品常關注台灣土地和 ... 搭檔則是首次主持典禮 ... |</span><br><span class="line">+----------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span><br><span class="line">| 【<span class="number">2024</span>金鐘獎】金鐘<span class="number">59</span>完整入圍名單公布！                   | Oct <span class="number">19</span>, <span class="number">2024</span> — <span class="number">2024</span>金鐘獎「戲劇節目男配角獎」入圍名單 ... 李李仁，《華麗計程車行》。 彭千祐，《不良執念清除師》。 楊銘威，《此時此刻》。 鄭元暢（鄭綜騰），《 ...      |</span><br><span class="line">+----------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span><br><span class="line">| 【<span class="number">2024</span>金鐘獎】金鐘<span class="number">59</span>完整得獎名單！《有生之年》成最大贏家 | Oct <span class="number">19</span>, <span class="number">2024</span> — ... 獎項。 男配角獎由《不夠善良的我們》柯震東獲獎、女配角由《愛愛內含光》苗可麗獲獎，這是苗可麗在前一晚節目類金鐘獎奪下綜藝節目主持人獎後，再度 ...     |</span><br><span class="line">+----------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span><br><span class="line">===== 最終回應 =====</span><br><span class="line"><span class="number">2024</span>年金鐘獎最佳男配角是鄭元暢，作品為《有生之年》。</span><br></pre></td></tr></table></figure>
+<h1 id="實作-RAG"><a class="header-anchor" href="#實作-RAG"></a>實作 RAG</h1>
+<h2 id="什麼是-RAG"><a class="header-anchor" href="#什麼是-RAG"></a>什麼是 RAG?</h2>
+<p>檢索增強生成(Retrieval-Augmented Generation, RAG)是通過從外部知識庫中檢索相關文件，並將其作為上下文提供給 LLM，從而增強 LLM 生成的準確性及可靠性。</p>
+<p>核心技術:</p>
+<ul>
+<li>Embedding(嵌入): 將文本轉換成向量表示的技術，透過數值化捕捉文本的語義特徵，使語義相似的文本在向量空間中更接近，從而便於進行語義檢索和比較。</li>
+<li>Vector Database(向量資料庫): 專門用於儲存和高效檢索向量資料的資料庫。</li>
+<li>Similarity Search(相似度搜尋): 在向量資料庫中尋找與目標向量最相似向量的演算法。</li>
+</ul>
+<h2 id="RAG-實作"><a class="header-anchor" href="#RAG-實作"></a>RAG 實作</h2>
+<p>以下範例是使用 openai <code>text-embedding-3-small</code> 模型將本文轉換為向量後，利用餘弦相似度計算文本之間的相似性，將相似度最高的文本結合為上下文提供給 LLM，進一步生成針對使用者查詢的回答。</p>
+<p>關於 OpenAI embeddings 的詳細說明，請看 <a target="_blank" rel="noopener" href="https://platform.openai.com/docs/guides/embeddings/?lang=python">OpenAI Vector embeddings 官方文檔</a>。</p>
+<p>關於 2024年第4季臺灣經濟預測 的更多內容，請看 <a target="_blank" rel="noopener" href="https://www.cier.edu.tw/TMF">2024年第4季臺灣經濟預測</a>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> openai <span class="keyword">import</span> OpenAI</span><br><span class="line"><span class="keyword">from</span> google.colab <span class="keyword">import</span> userdata</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> sklearn.metrics.pairwise <span class="keyword">import</span> cosine_similarity</span><br><span class="line"></span><br><span class="line"><span class="comment"># 取得 OpenAI 金鑰</span></span><br><span class="line">OPENAI_API_KEY = userdata.get(<span class="string">&#x27;OPENAI_API_KEY&#x27;</span>)</span><br><span class="line"><span class="comment"># 初始化 OpenAI</span></span><br><span class="line">client = OpenAI(api_key=OPENAI_API_KEY)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 範例資料庫文本</span></span><br><span class="line">sample_texts = [</span><br><span class="line">    <span class="string">&quot;2024年S&amp;P Global預測全球經濟成長率為2.73%，較7月的2.66%小幅上修。&quot;</span>,</span><br><span class="line">    <span class="string">&quot;2024年臺灣經濟成長率預測為3.96%，較前次7月預測的3.81%上修0.15個百分點。&quot;</span>,</span><br><span class="line">    <span class="string">&quot;臺灣2024年內需貢獻3.07個百分點，民間消費貢獻1.50個百分點，國內投資貢獻0.77個百分點。&quot;</span>,</span><br><span class="line">    <span class="string">&quot;2024年臺灣外貿表現強勁，國外淨需求貢獻0.89個百分點，商品出口年增率約9.24%。&quot;</span>,</span><br><span class="line">    <span class="string">&quot;2024年CPI年增率預估為2.17%，較2023年的2.49%下降0.32個百分點，但仍突破2%。&quot;</span>,</span><br><span class="line">    <span class="string">&quot;2025年臺灣經濟成長率預測為3.03%，低於2024年的3.96%。&quot;</span>,</span><br><span class="line">    <span class="string">&quot;2025年CPI年增率預測為1.96%，可望低於2%。&quot;</span>,</span><br><span class="line">    <span class="string">&quot;美國2024年經濟成長率上修至2.73%，IMF預測值為2.77%。&quot;</span>,</span><br><span class="line">    <span class="string">&quot;中國2024年經濟成長率預測約4.82%至4.87%，低於成長目標值5%。&quot;</span>,</span><br><span class="line">    <span class="string">&quot;歐元區2024年經濟成長率預測為0.70%，德國等大國仍陷衰退。&quot;</span>,</span><br><span class="line">    <span class="string">&quot;AI需求帶動臺灣經濟成長，2024年相關產品出口年增率達9.24%。&quot;</span>,</span><br><span class="line">    <span class="string">&quot;臺灣對中國大陸出口比重由2020年的43.86%下降至2024年的31.22%。&quot;</span>,</span><br><span class="line">    <span class="string">&quot;2024年全球供應鏈壓力指數（GSCPI）多為負值，供應鏈壓力低於正常水準。&quot;</span>,</span><br><span class="line">    <span class="string">&quot;2024年新臺幣兌美元匯率平均價位為31.97元，較2023年的31.16元貶值2.54%。&quot;</span>,</span><br><span class="line">    <span class="string">&quot;2024年臺灣失業率預測為3.38%，較2023年的3.48%改善0.10個百分點。&quot;</span>,</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 將文本轉換為向量嵌入</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_embedding</span>(<span class="params">text, model=<span class="string">&quot;text-embedding-3-small&quot;</span></span>):</span><br><span class="line">    response = client.embeddings.create(model=model, <span class="built_in">input</span>=text.replace(<span class="string">&quot;\n&quot;</span>, <span class="string">&quot; &quot;</span>))</span><br><span class="line">    <span class="keyword">return</span> np.array(response.data[<span class="number">0</span>].embedding)</span><br><span class="line">embeddings = [get_embedding(txt) <span class="keyword">for</span> txt <span class="keyword">in</span> sample_texts]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用者查詢</span></span><br><span class="line">query = <span class="string">&quot;2024年臺灣經濟成長&quot;</span></span><br><span class="line">query_embedding = get_embedding(query)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 計算相似度</span></span><br><span class="line">similarities = cosine_similarity([query_embedding], embeddings).flatten()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&#x27;similarities: <span class="subst">&#123;similarities&#125;</span>&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 找出相似度最高的 top_k 結果</span></span><br><span class="line">top_k = <span class="number">2</span>  <span class="comment"># 定義要返回的文本數量</span></span><br><span class="line">top_k_indices = similarities.argsort()[::-<span class="number">1</span>][:top_k]  <span class="comment"># 對相似度進行排序並取出最大值前2項</span></span><br><span class="line">retrieved_texts = [sample_texts[idx] <span class="keyword">for</span> idx <span class="keyword">in</span> top_k_indices]  <span class="comment"># 根據索引檢索文本</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 顯示檢索結果</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;使用者查詢問題:&quot;</span>, query)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;檢索到最相似的內容:&quot;</span>)</span><br><span class="line"><span class="keyword">for</span> i, text <span class="keyword">in</span> <span class="built_in">enumerate</span>(retrieved_texts, start=<span class="number">1</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;top<span class="subst">&#123;i&#125;</span>：<span class="subst">&#123;text&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 將檢索到的文本合併成上下文</span></span><br><span class="line">context = <span class="string">&quot; &quot;</span>.join(retrieved_texts)</span><br><span class="line"><span class="comment"># 生成使用者查詢的回答</span></span><br><span class="line">response = client.chat.completions.create(</span><br><span class="line">    model=<span class="string">&quot;gpt-4o-mini&quot;</span>,</span><br><span class="line">    messages=[</span><br><span class="line">        &#123;<span class="string">&quot;role&quot;</span>: <span class="string">&quot;system&quot;</span>, <span class="string">&quot;content&quot;</span>: <span class="string">f&quot;根據以下上文 <span class="subst">&#123;context&#125;</span> 回答使用者問題&quot;</span>&#125;,</span><br><span class="line">        &#123;<span class="string">&quot;role&quot;</span>: <span class="string">&quot;user&quot;</span>, <span class="string">&quot;content&quot;</span>: query&#125;</span><br><span class="line">    ]</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 輸出生成的回答</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;gpt生成的回答:&quot;</span>, response.choices[<span class="number">0</span>].message.content)</span><br></pre></td></tr></table></figure>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">similarities: [0.57526107 0.76560787 0.50292886 0.66100412 0.47962661 0.72655769</span></span><br><span class="line"><span class="function"> 0.46492747 0.60784161 0.61911964 0.5094147  0.70446309 0.52263135</span></span><br><span class="line"><span class="function"> 0.32264822 0.38957369 0.64404537]</span></span><br><span class="line"><span class="function">使用者查詢問題: 2024年臺灣經濟成長</span></span><br><span class="line"><span class="function">檢索到最相似的內容:</span></span><br><span class="line"><span class="function"><span class="title">top1</span>：2024年臺灣經濟成長率預測為3.96%，較前次7月預測的3.81%上修0.15個百分點。</span></span><br><span class="line"><span class="function"><span class="title">top2</span>：2025年臺灣經濟成長率預測為3.03%，低於2024年的3.96%。</span></span><br><span class="line"><span class="function"><span class="title">gpt</span>生成的回答: 根據最新的預測，2024年臺灣的經濟成長率預測為3.96%，較之前的預測上修了0.15個百分點。</span></span><br></pre></td></tr></table></figure>
+<h1 id="總結"><a class="header-anchor" href="#總結"></a>總結</h1>
+<p>Tool 和 RAG 技術都提升了 LLM 準確度。Tool 技術賦予 LLM 調用外部工具的能力，就像為 LLM 配備了一名全能助手，幫助 LLM 擴展能力邊界，解決其原本無法處理的問題。我們透過 GPT-4o 模型和 Google 搜尋工具，實作了 Tool 如何幫助 LLM 回答最新消息。而 RAG 技術則是讓 LLM 能夠存取外部知識庫，在生成答案時參考外部知識庫的相關資訊，以提高答案的準確性和可靠性。我們透過 OpenAI Embedding 模型和餘弦相似度，實作了 RAG 如何幫助 LLM 回答特定領域資訊。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/blog/tags/OpenAI/" rel="tag"># OpenAI</a>
+              <a href="/blog/tags/LLM/" rel="tag"># LLM</a>
+              <a href="/blog/tags/RAG/" rel="tag"># RAG</a>
+              <a href="/blog/tags/Hallucination/" rel="tag"># Hallucination</a>
+              <a href="/blog/tags/Tool/" rel="tag"># Tool</a>
+              <a href="/blog/tags/Embedding/" rel="tag"># Embedding</a>
+              <a href="/blog/tags/Similarity-Search/" rel="tag"># Similarity Search</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/blog/aws-certified-ml-engineer-associate/" rel="prev" title="Pass AWS Certified Machine Learning Engineer – Associate">
+                  <i class="fa fa-angle-left"></i> Pass AWS Certified Machine Learning Engineer – Associate
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Stella</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/blog/js/comments.js"></script><script src="/blog/js/utils.js"></script><script src="/blog/js/motion.js"></script><script src="/blog/js/sidebar.js"></script><script src="/blog/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js","integrity":"sha256-stuqcu2FrjYCXDOytWFA5SoUE/r3nkp6gTglzNSlavU="}}</script>
+  <script src="/blog/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"ams","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/blog/js/third-party/math/mathjax.js"></script>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"estellacoding","repo":"blog","client_id":"Ov23liBnWPuObZGktbAv","client_secret":"9ed6e261cd75af620744058daafa56b80a53ffa8","admin_user":"estellacoding","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":null,"labels":"gitalk","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"6cb9d1d92b47aa857a7b598f1d6562dd"}</script>
+<script src="/blog/js/third-party/comments/gitalk.js"></script>
+
+</body>
+</html>

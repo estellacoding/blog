@@ -1,3 +1,4 @@
+https://estellacoding.github.io/blog/llm-openai-tool-rag/
 https://estellacoding.github.io/blog/aws-certified-ml-engineer-associate/
 https://estellacoding.github.io/blog/aws-certified-ai-practitioner/
 https://estellacoding.github.io/blog/db-join/
@@ -109,6 +110,10 @@ https://estellacoding.github.io/blog/tags/Jupyter-Notebook/
 https://estellacoding.github.io/blog/tags/AWS-Certified-Machine-Learning-Engineer-%E2%80%93-Associate/
 https://estellacoding.github.io/blog/tags/MLA-C01/
 https://estellacoding.github.io/blog/tags/AWS-Certified-ML/
+https://estellacoding.github.io/blog/tags/Hallucination/
+https://estellacoding.github.io/blog/tags/Tool/
+https://estellacoding.github.io/blog/tags/Embedding/
+https://estellacoding.github.io/blog/tags/Similarity-Search/
 https://estellacoding.github.io/blog/categories/AutoML/
 https://estellacoding.github.io/blog/categories/AWS/
 https://estellacoding.github.io/blog/categories/Hexo/
