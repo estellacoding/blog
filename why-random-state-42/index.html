@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="mask-icon" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"estellacoding.github.io","root":"/blog/","images":"/blog/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/blog/js/config.js"></script>
+
+    <meta name="description" content="在使用 Scikit-Learn 進行資料切分 train_test_split，或其他需要隨機性的參數時，常常會看到程式碼中出現random_state &#x3D; 42，大家會有疑問為什麼是 42 嗎?">
+<meta property="og:type" content="article">
+<meta property="og:title" content="為什麼是 42?">
+<meta property="og:url" content="https://estellacoding.github.io/blog/why-random-state-42/index.html">
+<meta property="og:site_name" content="Stella Coding">
+<meta property="og:description" content="在使用 Scikit-Learn 進行資料切分 train_test_split，或其他需要隨機性的參數時，常常會看到程式碼中出現random_state &#x3D; 42，大家會有疑問為什麼是 42 嗎?">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fwhy-random-state-42%2Fgoogle-calculator-42.jpg?alt=media&amp;token=8e75fef5-7d67-425a-bae1-7ee8cbcc54eb">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fwhy-random-state-42%2Fsuper-computer-deep-thought.jpg?alt=media&amp;token=c85628c8-6fa6-4f7c-81fc-c578eddb5fd2">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fwhy-random-state-42%2Fhuman-compute-burn-out.jpg?alt=media&amp;token=164600a4-a900-4b39-8166-00ab48b97af6">
+<meta property="article:published_time" content="2025-01-09T03:11:11.000Z">
+<meta property="article:modified_time" content="2025-01-09T03:11:11.000Z">
+<meta property="article:author" content="Stella">
+<meta property="article:tag" content="Scikit-Learn">
+<meta property="article:tag" content="train_test_split">
+<meta property="article:tag" content="random_state">
+<meta property="article:tag" content="42">
+<meta property="article:tag" content="philosophy">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fwhy-random-state-42%2Fgoogle-calculator-42.jpg?alt=media&amp;token=8e75fef5-7d67-425a-bae1-7ee8cbcc54eb">
+
+
+<link rel="canonical" href="https://estellacoding.github.io/blog/why-random-state-42/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://estellacoding.github.io/blog/why-random-state-42/","path":"why-random-state-42/","title":"為什麼是 42?"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>為什麼是 42? | Stella Coding</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EG0CKC3093"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-EG0CKC3093","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/blog/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/blog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/blog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Stella Coding</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Hands-on fuels my soul!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/blog/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/blog/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/blog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#42-%E6%98%AF%E7%B5%82%E6%A5%B5%E7%AD%94%E6%A1%88"><span class="nav-number">1.</span> <span class="nav-text">42 是終極答案</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%85%E4%BA%8B%E8%83%8C%E6%99%AF"><span class="nav-number">2.</span> <span class="nav-text">故事背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%95%8F%E9%A1%8C%E6%AF%94%E7%AD%94%E6%A1%88%E6%9B%B4%E9%87%8D%E8%A6%81"><span class="nav-number">3.</span> <span class="nav-text">問題比答案更重要</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Stella"
+      src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+  <p class="site-author-name" itemprop="name">Stella</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/blog/archives/">
+          <span class="site-state-item-count">33</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/blog/categories/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/blog/tags/">
+        <span class="site-state-item-count">85</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/estellacoding" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;estellacoding" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.instagram.com/stellacoding/" title="Instagram → https:&#x2F;&#x2F;www.instagram.com&#x2F;stellacoding&#x2F;" rel="noopener me" target="_blank"><i class="fab fa-instagram fa-fw"></i>Instagram</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://estellacoding.github.io/blog/why-random-state-42/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+      <meta itemprop="name" content="Stella">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Stella Coding">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="為什麼是 42? | Stella Coding">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          為什麼是 42?
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2025-01-09 11:11:11" itemprop="dateCreated datePublished" datetime="2025-01-09T11:11:11+08:00">2025-01-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/Philosophy/" itemprop="url" rel="index"><span itemprop="name">Philosophy</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>在使用 Scikit-Learn 進行資料切分 <code>train_test_split</code>，或其他需要隨機性的參數時，常常會看到程式碼中出現<code>random_state = 42</code>，大家會有疑問為什麼是 42 嗎?</p>
+<span id="more"></span>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.model_selection import train_test_split</span><br><span class="line"><span class="comment"># 將訓練集拆分為訓練集和測試集</span></span><br><span class="line">X_train, X_test, y_train, y_test = train_test_split(X_train_data, y_train_data, <span class="attribute">test_size</span>=0.3, <span class="attribute">random_state</span>=42)</span><br></pre></td></tr></table></figure>
+<h1 id="42-是終極答案"><a class="header-anchor" href="#42-是終極答案"></a>42 是終極答案</h1>
+<p>在道格拉斯·亞當斯(Douglas Adams)的經典科幻小說《銀河便車指南》(The Hitchhiker<span style="letter-spacing: -0.8em;">’</span>s Guide to the Galaxy)中，42 這個數字被稱為是「生命、宇宙以及一切事物的終極答案」。</p>
+<blockquote>
+<p>42 是生命、宇宙以及一切事物的終極答案<br>
+The Answer to the Ultimate Question of Life, The Universe, and Everything</p>
+</blockquote>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fwhy-random-state-42%2Fgoogle-calculator-42.jpg?alt=media&amp;token=8e75fef5-7d67-425a-bae1-7ee8cbcc54eb" alt="google-calculator-42"></p>
+<h1 id="故事背景"><a class="header-anchor" href="#故事背景"></a>故事背景</h1>
+<p>在故事中，一個具有高度智慧的跨維度生物群體，他們迫切地想要找到一個能夠解釋一切的終極答案，因而創造了一台 <strong>超級電腦「深思」(Deep Thought)</strong> 進行計算。</p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fwhy-random-state-42%2Fsuper-computer-deep-thought.jpg?alt=media&amp;token=c85628c8-6fa6-4f7c-81fc-c578eddb5fd2" alt="super-computer-deep-thought"></p>
+<p>接著，他們提出了那個至關重要的問題:「生命、宇宙以及一切事物的終極答案是什麼？」(What is the Answer to the Ultimate Question of Life, The Universe, and Everything?)</p>
+<p>深思表示自己需要一段極長的時間來進行計算…。這項計算任務被一代又一代地傳遞下去，等待著深思在未來的某天計算出結果，而終於經過了漫長的 <strong>「750萬年」</strong> 後，深思公佈了它的計算答案:「42」!</p>
+<p>所有人都大感困惑，因為「42」對他們而言毫無意義，完全無法解釋「生命、宇宙以及一切事物的終極答案」究竟是什麼，他們花費龐大的資源與時間，卻等到了一個看似無比荒謬的數字。</p>
+<p>深思進一步解釋，它的確全力計算出了「終極答案」，也就是 42。深思被指派的任務，其實只是不斷計算答案，深思指出真正關鍵應該是「究竟要回答的是什麼問題？」。如果沒有明確的終極問題，那麼所謂的終極答案就喪失了意義。</p>
+<blockquote>
+<p>原來所有人都從未定義清楚「究竟想問的問題」是什麼。<br>
+想得到有意義的答案，就必須先找出「真正的終極問題」。</p>
+</blockquote>
+<p>這時，深思提出了一個新的方案，為了找到與答案「42」相對應的終極問題，需要一台比深思更強大、更具複雜性的電腦，而這台電腦，正是地球。地球作為一個有機生命體和複雜的生態系統，被設計成能夠計算出「生命、宇宙以及一切事物的終極問題」，而我們人類就是地球裡的龐大運算單元。</p>
+<h1 id="問題比答案更重要"><a class="header-anchor" href="#問題比答案更重要"></a>問題比答案更重要</h1>
+<blockquote>
+<p>問題比答案更重要</p>
+</blockquote>
+<p>「生命、宇宙以及一切事物的終極答案是 42！」–&gt;沒毛病，但然後呢? 如果我們找到了答案，但卻不知道這個答案是對應哪個問題，那麼這個答案又有什麼意義呢? 我們應該思考是否人類對於尋找終極意義過於執著，也許是如何定義問題、或是尋找的過程本身，比答案更重要。</p>
+<p>如果答案並非重點，那真正的關鍵應該在於我們如何定義問題，以及我們在尋找答案的過程中學到了什麼，讓我們一起繼續用各自的小腦袋運算出「終級問題」吧!</p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fwhy-random-state-42%2Fhuman-compute-burn-out.jpg?alt=media&amp;token=164600a4-a900-4b39-8166-00ab48b97af6" alt="human-compute-burn-out"></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/blog/tags/Scikit-Learn/" rel="tag"># Scikit-Learn</a>
+              <a href="/blog/tags/train-test-split/" rel="tag"># train_test_split</a>
+              <a href="/blog/tags/random-state/" rel="tag"># random_state</a>
+              <a href="/blog/tags/42/" rel="tag"># 42</a>
+              <a href="/blog/tags/philosophy/" rel="tag"># philosophy</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/blog/llm-openai-tool-rag/" rel="prev" title="用 Tool 和 RAG 提升 LLM 準確度">
+                  <i class="fa fa-angle-left"></i> 用 Tool 和 RAG 提升 LLM 準確度
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/blog/two-ai-dialog-game/" rel="next" title="誰會贏? AI 角色對話的攻防策略">
+                  誰會贏? AI 角色對話的攻防策略 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Stella</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/blog/js/comments.js"></script><script src="/blog/js/utils.js"></script><script src="/blog/js/motion.js"></script><script src="/blog/js/sidebar.js"></script><script src="/blog/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js","integrity":"sha256-stuqcu2FrjYCXDOytWFA5SoUE/r3nkp6gTglzNSlavU="}}</script>
+  <script src="/blog/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"ams","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/blog/js/third-party/math/mathjax.js"></script>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"estellacoding","repo":"blog","client_id":"Ov23liBnWPuObZGktbAv","client_secret":"9ed6e261cd75af620744058daafa56b80a53ffa8","admin_user":"estellacoding","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":null,"labels":"gitalk","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"1324d1658753c197ce5c770f42b90aa5"}</script>
+<script src="/blog/js/third-party/comments/gitalk.js"></script>
+
+</body>
+</html>

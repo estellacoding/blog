@@ -1,3 +1,5 @@
+https://estellacoding.github.io/blog/two-ai-dialog-game/
+https://estellacoding.github.io/blog/why-random-state-42/
 https://estellacoding.github.io/blog/cnn-mnist/
 https://estellacoding.github.io/blog/oracle-vector-search-langchain-rag/
 https://estellacoding.github.io/blog/oracledb-json-mongodb-custom-fields/
@@ -114,6 +116,12 @@ https://estellacoding.github.io/blog/tags/Hallucination/
 https://estellacoding.github.io/blog/tags/Tool/
 https://estellacoding.github.io/blog/tags/Embedding/
 https://estellacoding.github.io/blog/tags/Similarity-Search/
+https://estellacoding.github.io/blog/tags/Agents/
+https://estellacoding.github.io/blog/tags/Scikit-Learn/
+https://estellacoding.github.io/blog/tags/train-test-split/
+https://estellacoding.github.io/blog/tags/random-state/
+https://estellacoding.github.io/blog/tags/42/
+https://estellacoding.github.io/blog/tags/philosophy/
 https://estellacoding.github.io/blog/categories/AutoML/
 https://estellacoding.github.io/blog/categories/AWS/
 https://estellacoding.github.io/blog/categories/Hexo/
@@ -126,3 +134,4 @@ https://estellacoding.github.io/blog/categories/MongoDB/
 https://estellacoding.github.io/blog/categories/Oracle/
 https://estellacoding.github.io/blog/categories/GPU/
 https://estellacoding.github.io/blog/categories/LLM/OpenAI/
+https://estellacoding.github.io/blog/categories/Philosophy/
