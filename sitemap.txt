@@ -1,3 +1,4 @@
+https://estellacoding.github.io/blog/ollama-deepseek/
 https://estellacoding.github.io/blog/two-ai-dialog-game/
 https://estellacoding.github.io/blog/why-random-state-42/
 https://estellacoding.github.io/blog/cnn-mnist/
@@ -122,6 +123,9 @@ https://estellacoding.github.io/blog/tags/train-test-split/
 https://estellacoding.github.io/blog/tags/random-state/
 https://estellacoding.github.io/blog/tags/42/
 https://estellacoding.github.io/blog/tags/philosophy/
+https://estellacoding.github.io/blog/tags/Ollama/
+https://estellacoding.github.io/blog/tags/DeepSeek/
+https://estellacoding.github.io/blog/tags/Local-LLM/
 https://estellacoding.github.io/blog/categories/AutoML/
 https://estellacoding.github.io/blog/categories/AWS/
 https://estellacoding.github.io/blog/categories/Hexo/
@@ -135,3 +139,4 @@ https://estellacoding.github.io/blog/categories/Oracle/
 https://estellacoding.github.io/blog/categories/GPU/
 https://estellacoding.github.io/blog/categories/LLM/OpenAI/
 https://estellacoding.github.io/blog/categories/Philosophy/
+https://estellacoding.github.io/blog/categories/Ollama/

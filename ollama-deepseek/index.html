@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="mask-icon" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"estellacoding.github.io","root":"/blog/","images":"/blog/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/blog/js/config.js"></script>
+
+    <meta name="description" content="DeepSeek API 突然不能用了？別擔心！本篇教你如何在本機電腦上，透過 Ollama 輕鬆運行 DeepSeek 模型，讓你免費體驗 DeepSeek LLM 的強大功能！">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DeepSeek API不能用? 試試本地端吧!">
+<meta property="og:url" content="https://estellacoding.github.io/blog/ollama-deepseek/index.html">
+<meta property="og:site_name" content="Stella Coding">
+<meta property="og:description" content="DeepSeek API 突然不能用了？別擔心！本篇教你如何在本機電腦上，透過 Ollama 輕鬆運行 DeepSeek 模型，讓你免費體驗 DeepSeek LLM 的強大功能！">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Follama-deepseek%2Follama-deepseek-r1-latest.jpg?alt=media&amp;token=6b7f94c3-c693-4acd-be40-a5d7b48d9f27">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Follama-deepseek%2Fis-greater-than.jpg?alt=media&amp;token=fa091966-36f4-452a-aebd-44564447cae5">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Follama-deepseek%2Fexecute-ollama-deepseek-r1-python.jpg?alt=media&amp;token=a53116a6-7bf9-403a-883e-4ceff858be2d">
+<meta property="article:published_time" content="2025-02-11T03:11:11.000Z">
+<meta property="article:modified_time" content="2025-02-11T03:11:11.000Z">
+<meta property="article:author" content="Stella">
+<meta property="article:tag" content="Ollama">
+<meta property="article:tag" content="DeepSeek">
+<meta property="article:tag" content="Local LLM">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Follama-deepseek%2Follama-deepseek-r1-latest.jpg?alt=media&amp;token=6b7f94c3-c693-4acd-be40-a5d7b48d9f27">
+
+
+<link rel="canonical" href="https://estellacoding.github.io/blog/ollama-deepseek/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://estellacoding.github.io/blog/ollama-deepseek/","path":"ollama-deepseek/","title":"DeepSeek API不能用? 試試本地端吧!"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>DeepSeek API不能用? 試試本地端吧! | Stella Coding</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EG0CKC3093"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-EG0CKC3093","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/blog/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/blog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/blog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Stella Coding</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Hands-on fuels my soul!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/blog/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/blog/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/blog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%8D%E5%8B%99%E5%99%A8%E7%B7%8A%E5%BC%B5"><span class="nav-number">1.</span> <span class="nav-text">服務器緊張</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%82%BA%E4%BB%80%E9%BA%BC%E9%81%B8%E6%93%87%E6%9C%AC%E5%9C%B0%E7%AB%AF%EF%BC%9F"><span class="nav-number">2.</span> <span class="nav-text">為什麼選擇本地端？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E9%81%8B%E8%A1%8C%E6%A8%A1%E5%9E%8B%E6%95%99%E5%AD%B8"><span class="nav-number">3.</span> <span class="nav-text">本地運行模型教學</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8B%E8%BC%89Ollama"><span class="nav-number">3.1.</span> <span class="nav-text">下載Ollama</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A8%AD%E7%BD%AE%E9%96%8B%E7%99%BC%E7%92%B0%E5%A2%83"><span class="nav-number">3.2.</span> <span class="nav-text">設置開發環境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8B%E8%BC%89%E6%A8%A1%E5%9E%8B"><span class="nav-number">3.3.</span> <span class="nav-text">下載模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D-DeepSeek"><span class="nav-number">3.3.1.</span> <span class="nav-text">安裝 DeepSeek</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E5%9F%B7%E8%A1%8COllama"><span class="nav-number">3.3.2.</span> <span class="nav-text">本地執行Ollama</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%9DOllama%E5%A5%97%E4%BB%B6"><span class="nav-number">3.3.3.</span> <span class="nav-text">安裝Ollama套件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%8C%E6%95%B4%E7%A8%8B%E5%BC%8F%E7%A2%BC"><span class="nav-number">3.4.</span> <span class="nav-text">完整程式碼</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B8%BD%E7%B5%90"><span class="nav-number">4.</span> <span class="nav-text">總結</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Stella"
+      src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+  <p class="site-author-name" itemprop="name">Stella</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/blog/archives/">
+          <span class="site-state-item-count">34</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/blog/categories/">
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/blog/tags/">
+        <span class="site-state-item-count">88</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/estellacoding" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;estellacoding" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.instagram.com/stellacoding/" title="Instagram → https:&#x2F;&#x2F;www.instagram.com&#x2F;stellacoding&#x2F;" rel="noopener me" target="_blank"><i class="fab fa-instagram fa-fw"></i>Instagram</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://estellacoding.github.io/blog/ollama-deepseek/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+      <meta itemprop="name" content="Stella">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Stella Coding">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="DeepSeek API不能用? 試試本地端吧! | Stella Coding">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          DeepSeek API不能用? 試試本地端吧!
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2025-02-11 11:11:11" itemprop="dateCreated datePublished" datetime="2025-02-11T11:11:11+08:00">2025-02-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/Ollama/" itemprop="url" rel="index"><span itemprop="name">Ollama</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>DeepSeek API 突然不能用了？別擔心！本篇教你如何在本機電腦上，透過 Ollama 輕鬆運行 DeepSeek 模型，讓你免費體驗 DeepSeek LLM 的強大功能！</p>
+<span id="more"></span>
+<h1 id="服務器緊張"><a class="header-anchor" href="#服務器緊張"></a>服務器緊張</h1>
+<p>DeepSeek 在 2025/2/6(四) 宣布「服務器緊張」!(<s>為什麼就在我要去申請的時候啊</s>)</p>
+<div class="note info"><p>当前服务器资源紧张，为避免对您造成业务影响，我们已暂停 API 服务充值。存量充值金额可继续调用，敬请谅解！</p>
+</div>
+<p>QQ…但我就是想用 DeepSeek 模型，難道只能等 API 恢復嗎？</p>
+<p>別擔心！本篇即將分享超棒的替代方案: <u><strong>如何在本地端使用 Ollama 運行 DeepSeek 模型</strong></u>！</p>
+<h1 id="為什麼選擇本地端？"><a class="header-anchor" href="#為什麼選擇本地端？"></a>為什麼選擇本地端？</h1>
+<ul>
+<li>資料保護: 所有資料都在本地，不用擔心資料外流。</li>
+<li>免費推論: 可問到飽，不用擔心下個月帳單。</li>
+<li>高度客製化: 如可對本地端的模型進行微調，讓模型符合特定任務和領域需求。</li>
+<li>離線可用: 沒有網路連線的環境下，本地端 LLM 依然可以正常運作。</li>
+</ul>
+<h1 id="本地運行模型教學"><a class="header-anchor" href="#本地運行模型教學"></a>本地運行模型教學</h1>
+<h2 id="下載Ollama"><a class="header-anchor" href="#下載Ollama"></a>下載Ollama</h2>
+<p>前往 <a target="_blank" rel="noopener" href="https://www.ollama.com/download">Ollama 官方下載頁面</a> 下載適用於你作業系統的版本並安裝。</p>
+<h2 id="設置開發環境"><a class="header-anchor" href="#設置開發環境"></a>設置開發環境</h2>
+<p>為了確保開發環境乾淨和避免套件衝突，建議使用 <code>Conda</code> 開立一個新的虛擬環境來安裝相關套件。</p>
+<p>如果你選擇使用 <code>Conda</code>，請打開終端機並輸入以下指令。</p>
+<figure class="highlight mel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">conda create -n ollama-<span class="keyword">env</span> <span class="keyword">python</span>=<span class="number">3.12</span></span><br><span class="line">conda activate ollama-<span class="keyword">env</span></span><br></pre></td></tr></table></figure>
+<h2 id="下載模型"><a class="header-anchor" href="#下載模型"></a>下載模型</h2>
+<p>前往 <a target="_blank" rel="noopener" href="https://www.ollama.com/library">Ollama 模型庫</a> 挑選你需要的模型。</p>
+<p>我們使用 DeepSeek 模型，選擇 deepseek-r1 的 latest 版本作為示範。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Follama-deepseek%2Follama-deepseek-r1-latest.jpg?alt=media&amp;token=6b7f94c3-c693-4acd-be40-a5d7b48d9f27" alt="ollama-deepseek-r1-latest"></p>
+<h3 id="安裝-DeepSeek"><a class="header-anchor" href="#安裝-DeepSeek"></a>安裝 DeepSeek</h3>
+<p>請打開終端機並輸入以下指令。</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ollama <span class="built_in">run</span> deepseek-r1</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Ollama 就會開始自動下載 deepseek-r1 模型，檔案大小是 4.7GB，下載時間約5-10分鐘。</li>
+<li>出現 success，就表示模型下載完成。</li>
+<li>Ollama 會自動啟動 DeepSeek 模型並進入互動模式，可以直接在終端機上對話啦！</li>
+</ul>
+<div class="note info"><p>模型檔案存放位置:<br>
+/Users/daistella/.ollama/models/manifests/registry.ollama.ai/library/deepseek-r1/latest</p>
+</div>
+<h3 id="本地執行Ollama"><a class="header-anchor" href="#本地執行Ollama"></a>本地執行Ollama</h3>
+<p>請打開終端機並輸入以下指令。</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ollama <span class="built_in">run</span> deepseek-r1</span><br></pre></td></tr></table></figure>
+<ul>
+<li>第一次運行指令時，會自動下載模型。</li>
+<li>當模型下載完成後，再次運行相同的指令，即可直接啟動模型並開始對話。</li>
+</ul>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Follama-deepseek%2Fis-greater-than.jpg?alt=media&amp;token=fa091966-36f4-452a-aebd-44564447cae5" alt="is-greater-than"></p>
+<h3 id="安裝Ollama套件"><a class="header-anchor" href="#安裝Ollama套件"></a>安裝Ollama套件</h3>
+<p>若要在 Python 中使用 Ollama 運行的 DeepSeek 模型，可以使用 langchain-ollama 套件。</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip <span class="keyword">install</span> ollama langchain-ollama</span><br></pre></td></tr></table></figure>
+<p>如果有安裝成功，但執行時會出現 <code>ModuleNotFoundError: No module named 'langchain_ollama'</code>。這個問題有可能是因為安裝 langchain-ollama 時使用的 pip 安裝到了其他環境，而不是當前環境。</p>
+<ul>
+<li>有可能你跟我一樣裝到其他路徑。</li>
+</ul>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip show langchain-ollama</span><br><span class="line"># Location: <span class="regexp">/Library/</span>Frameworks<span class="regexp">/Python.framework/</span>Versions<span class="regexp">/3.9/</span>lib<span class="regexp">/python3.9/</span>site-packages</span><br></pre></td></tr></table></figure>
+<ul>
+<li>確保套件安裝在當前環境中。</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">python -m pip install langchain-ollama</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Location: /opt/anaconda3/envs/ollama-env/lib/python3.12/site-packages</span></span><br></pre></td></tr></table></figure>
+<h2 id="完整程式碼"><a class="header-anchor" href="#完整程式碼"></a>完整程式碼</h2>
+<figure class="highlight capnproto"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> langchain_ollama.chat_models <span class="keyword">import</span> ChatOllama</span><br><span class="line"><span class="keyword">from</span> IPython.display <span class="keyword">import</span> Markdown</span><br><span class="line"></span><br><span class="line"><span class="comment"># 建立 DeepSeek 模型的連線</span></span><br><span class="line">llm = ChatOllama(model=<span class="string">&quot;deepseek-r1&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 執行對話</span></span><br><span class="line">response = llm.invoke(<span class="string">&quot;Strawberry這個單字中有幾個r?&quot;</span>)</span><br><span class="line">Markdown(response.content)</span><br></pre></td></tr></table></figure>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Follama-deepseek%2Fexecute-ollama-deepseek-r1-python.jpg?alt=media&amp;token=a53116a6-7bf9-403a-883e-4ceff858be2d" alt="execute-ollama-deepseek-r1-python"></p>
+<h1 id="總結"><a class="header-anchor" href="#總結"></a>總結</h1>
+<p>恭喜你成功解鎖本地 Ollama 運行 DeepSeek 模型的新技能！透過本篇教學，你已經掌握了在本地電腦上輕鬆部署和使用 DeepSeek 強大語言模型的完整步驟。即使 DeepSeek API 服務暫時受限，你也能透過 Ollama，繼續享有 DeepSeek 模型帶來的 AI 體驗囉!</p>
+<p>當然，本地 Ollama 也存在一些需要注意的地方:</p>
+<ul>
+<li>相較於雲端 API，本地部署需要設定上述步驟。</li>
+<li>本地端推論速度取決於你的電腦硬體效能。</li>
+<li>對於較複雜的問題或較長的回應，推論速度可能會比雲端 API 慢一些。</li>
+<li>若本地資源不足，也可以使用雲端平台，如 Colab、AWS Bedrock。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/blog/tags/Ollama/" rel="tag"># Ollama</a>
+              <a href="/blog/tags/DeepSeek/" rel="tag"># DeepSeek</a>
+              <a href="/blog/tags/Local-LLM/" rel="tag"># Local LLM</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/blog/two-ai-dialog-game/" rel="prev" title="誰會贏? AI 角色對話的攻防策略">
+                  <i class="fa fa-angle-left"></i> 誰會贏? AI 角色對話的攻防策略
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Stella</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/blog/js/comments.js"></script><script src="/blog/js/utils.js"></script><script src="/blog/js/motion.js"></script><script src="/blog/js/sidebar.js"></script><script src="/blog/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js","integrity":"sha256-stuqcu2FrjYCXDOytWFA5SoUE/r3nkp6gTglzNSlavU="}}</script>
+  <script src="/blog/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"ams","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/blog/js/third-party/math/mathjax.js"></script>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"estellacoding","repo":"blog","client_id":"Ov23liBnWPuObZGktbAv","client_secret":"9ed6e261cd75af620744058daafa56b80a53ffa8","admin_user":"estellacoding","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":null,"labels":"gitalk","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"aaa76a0e2d1716d532fd01004038491b"}</script>
+<script src="/blog/js/third-party/comments/gitalk.js"></script>
+
+</body>
+</html>
