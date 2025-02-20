@@ -1,3 +1,4 @@
+https://estellacoding.github.io/blog/python-connect-oracle-erp-db/
 https://estellacoding.github.io/blog/ollama-deepseek/
 https://estellacoding.github.io/blog/two-ai-dialog-game/
 https://estellacoding.github.io/blog/why-random-state-42/
@@ -126,6 +127,8 @@ https://estellacoding.github.io/blog/tags/philosophy/
 https://estellacoding.github.io/blog/tags/Ollama/
 https://estellacoding.github.io/blog/tags/DeepSeek/
 https://estellacoding.github.io/blog/tags/Local-LLM/
+https://estellacoding.github.io/blog/tags/ERP/
+https://estellacoding.github.io/blog/tags/PL-SQL/
 https://estellacoding.github.io/blog/categories/AutoML/
 https://estellacoding.github.io/blog/categories/AWS/
 https://estellacoding.github.io/blog/categories/Hexo/

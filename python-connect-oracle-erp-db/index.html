@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="mask-icon" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"estellacoding.github.io","root":"/blog/","images":"/blog/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/blog/js/config.js"></script>
+
+    <meta name="description" content="本教學將帶你一步步使用 Python 連線 Oracle ERP 資料庫，從環境準備到實作完整程式碼，一次到位！連線的程式碼不複雜，但我某一個資料庫卻一直連線失敗，花了一周時間各種排查連線失敗的問題，最後發現問題是 Oracle Instant Client 版本!">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python 連線 Oracle ERP 資料庫教學">
+<meta property="og:url" content="https://estellacoding.github.io/blog/python-connect-oracle-erp-db/index.html">
+<meta property="og:site_name" content="Stella Coding">
+<meta property="og:description" content="本教學將帶你一步步使用 Python 連線 Oracle ERP 資料庫，從環境準備到實作完整程式碼，一次到位！連線的程式碼不複雜，但我某一個資料庫卻一直連線失敗，花了一周時間各種排查連線失敗的問題，最後發現問題是 Oracle Instant Client 版本!">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fpython-connect-oracle-erp-db%2Fplsql-developer-check-sql-version.jpg?alt=media&amp;token=130c867a-4b52-4d54-b8d2-962b2e6e0bf0">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fpython-connect-oracle-erp-db%2Foracle-instant-client-version-11-2.jpg?alt=media&amp;token=782d68f0-5bda-42ef-8dde-c49760375280">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fpython-connect-oracle-erp-db%2Fpython-connect-oracle-erp-db-successful.jpg?alt=media&amp;token=fd5e06a8-a72a-4af5-8eb4-0d385a2d9daf">
+<meta property="article:published_time" content="2025-02-20T03:11:11.000Z">
+<meta property="article:modified_time" content="2025-02-20T03:11:11.000Z">
+<meta property="article:author" content="Stella">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="Oracle">
+<meta property="article:tag" content="ERP">
+<meta property="article:tag" content="PL&#x2F;SQL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fpython-connect-oracle-erp-db%2Fplsql-developer-check-sql-version.jpg?alt=media&amp;token=130c867a-4b52-4d54-b8d2-962b2e6e0bf0">
+
+
+<link rel="canonical" href="https://estellacoding.github.io/blog/python-connect-oracle-erp-db/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://estellacoding.github.io/blog/python-connect-oracle-erp-db/","path":"python-connect-oracle-erp-db/","title":"Python 連線 Oracle ERP 資料庫教學"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Python 連線 Oracle ERP 資料庫教學 | Stella Coding</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EG0CKC3093"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-EG0CKC3093","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/blog/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/blog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/blog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Stella Coding</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Hands-on fuels my soul!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/blog/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/blog/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/blog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%A2%BA%E8%AA%8DOracle%E7%89%88%E6%9C%AC"><span class="nav-number">1.</span> <span class="nav-text">確認Oracle版本</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%8B%E8%BC%89Client"><span class="nav-number">2.</span> <span class="nav-text">下載Client</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D%E5%A5%97%E4%BB%B6"><span class="nav-number">3.</span> <span class="nav-text">安裝套件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A8%AD%E5%AE%9A%E9%80%A3%E7%B7%9A%E5%B8%B3%E5%AF%86"><span class="nav-number">4.</span> <span class="nav-text">設定連線帳密</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%8C%E6%95%B4%E7%A8%8B%E5%BC%8F%E7%A2%BC"><span class="nav-number">5.</span> <span class="nav-text">完整程式碼</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%99%95%E7%90%86%E9%8C%AF%E8%AA%A4%E8%A8%8A%E6%81%AF"><span class="nav-number">6.</span> <span class="nav-text">處理錯誤訊息</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B8%BD%E7%B5%90"><span class="nav-number">7.</span> <span class="nav-text">總結</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Stella"
+      src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+  <p class="site-author-name" itemprop="name">Stella</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/blog/archives/">
+          <span class="site-state-item-count">35</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/blog/categories/">
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/blog/tags/">
+        <span class="site-state-item-count">90</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/estellacoding" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;estellacoding" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.instagram.com/stellacoding/" title="Instagram → https:&#x2F;&#x2F;www.instagram.com&#x2F;stellacoding&#x2F;" rel="noopener me" target="_blank"><i class="fab fa-instagram fa-fw"></i>Instagram</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://estellacoding.github.io/blog/python-connect-oracle-erp-db/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+      <meta itemprop="name" content="Stella">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Stella Coding">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Python 連線 Oracle ERP 資料庫教學 | Stella Coding">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Python 連線 Oracle ERP 資料庫教學
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2025-02-20 11:11:11" itemprop="dateCreated datePublished" datetime="2025-02-20T11:11:11+08:00">2025-02-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/Oracle/" itemprop="url" rel="index"><span itemprop="name">Oracle</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>本教學將帶你一步步使用 Python 連線 Oracle ERP 資料庫，從環境準備到實作完整程式碼，一次到位！連線的程式碼不複雜，但我某一個資料庫卻一直連線失敗，花了一周時間各種排查連線失敗的問題，最後發現問題是 Oracle Instant Client 版本!</p>
+<span id="more"></span>
+<h1 id="確認Oracle版本"><a class="header-anchor" href="#確認Oracle版本"></a>確認Oracle版本</h1>
+<p>可以使用任何 Oracle 連線工具，例如 SQL*Plus、PL/SQL Developer，或是其他資料庫管理工具來查詢目前電腦中 Oracle 資料庫版本的資訊。</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> v$<span class="keyword">version</span>;</span><br></pre></td></tr></table></figure>
+<p>執行後，你會看到類似以下的輸出結果:</p>
+<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">BANNER</span></span><br><span class="line"><span class="section">--------------------------------------------------------------------------</span></span><br><span class="line">Oracle Database 11g EE Extreme Perf Release 11.2.0.4.0 - 64bit Production</span><br><span class="line">PL/SQL Release 11.2.0.4.0 - Production</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>在 BANNER 欄位中，可以看到 Oracle 資料庫的詳細版本資訊，我電腦上的版本是 11.2.0.4.0，所以下一步要下載相對應的 Oracle Instant Client 版本。</p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fpython-connect-oracle-erp-db%2Fplsql-developer-check-sql-version.jpg?alt=media&amp;token=130c867a-4b52-4d54-b8d2-962b2e6e0bf0" alt="plsql-developer-check-sql-version"></p>
+<h1 id="下載Client"><a class="header-anchor" href="#下載Client"></a>下載Client</h1>
+<ol>
+<li>官方下載頁面: <a target="_blank" rel="noopener" href="https://www.oracle.com/database/technologies/instant-client/downloads.html">Oracle Instant Client Downloads</a></li>
+<li>選擇對應作業系統版本(我是 Windows x64): <a target="_blank" rel="noopener" href="https://www.oracle.com/database/technologies/instant-client/winx64-64-downloads.html">Oracle Instant Client Downloads for Microsoft Windows (x64) 64-bit</a></li>
+<li>找到 Version 11.2.0.4.0<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fpython-connect-oracle-erp-db%2Foracle-instant-client-version-11-2.jpg?alt=media&amp;token=782d68f0-5bda-42ef-8dde-c49760375280" alt="oracle-instant-client-version-11-2"></li>
+<li>下載兩個套件
+<ul>
+<li>Instant Client Package - Basic</li>
+<li>Instant Client Package - SQL*Plus</li>
+</ul>
+</li>
+<li>解壓縮資料夾</li>
+<li>將2個資料夾中的所有檔案合併到同一個目錄下 <code>C:\oracle\instantclient_11_2</code></li>
+</ol>
+<p>目錄結構應如下:</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">C:\<span class="keyword">oracle\</span></span><br><span class="line"><span class="keyword"></span>└── <span class="keyword">instantclient_11_2/</span></span><br><span class="line"><span class="keyword"></span>    ├── oci.dll          <span class="comment"># 核心連接庫</span></span><br><span class="line">    ├── sqlplus.exe      <span class="comment"># SQL*Plus 工具</span></span><br><span class="line">    └── ...</span><br></pre></td></tr></table></figure>
+<div class="note info"><p>若資料庫版本為 11.2.0.4.0，Client 版本也使用相同版本。</p>
+</div>
+<h1 id="安裝套件"><a class="header-anchor" href="#安裝套件"></a>安裝套件</h1>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip <span class="keyword">install </span><span class="keyword">oracledb </span>pyyaml sqlalchemy</span><br></pre></td></tr></table></figure>
+<figure class="highlight elm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> oracledb</span><br><span class="line"><span class="keyword">import</span> yaml</span><br><span class="line"><span class="title">from</span> sqlalchemy <span class="keyword">import</span> create_engine</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>套件名稱</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>oracledb</td>
+<td>連線 Oracle 資料庫的核心驅動程式</td>
+</tr>
+<tr>
+<td>pyyaml</td>
+<td>使用 YAML 檔案來儲存資料庫的敏感資訊</td>
+</tr>
+<tr>
+<td>sqlalchemy</td>
+<td>SQL ORM 來建立資料庫連線</td>
+</tr>
+</tbody>
+</table>
+<h1 id="設定連線帳密"><a class="header-anchor" href="#設定連線帳密"></a>設定連線帳密</h1>
+<p>為了安全地管理資料庫連線資訊，我建立了 <code>credentials.yml</code>，將帳號、密碼、主機等敏感資訊儲存在這檔案中，而不是直接寫在 Python 程式碼裡。</p>
+<p>請將 <code>your_db_username</code>, <code>your_db_password</code>, <code>your_db_host</code>, <code>your_db_service_name</code> 替換成你實際的資料庫連線資訊。請務必妥善保管 credentials.yml 檔案，避免洩露敏感資訊。通常會將此檔案加入 <code>.gitignore</code>，防止被提交到版本控制系統。</p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">database:</span></span><br><span class="line"><span class="symbol">  username:</span> <span class="string">&quot;your_db_username&quot;</span>         <span class="meta"># Oracle 資料庫使用者名稱</span></span><br><span class="line"><span class="symbol">  password:</span> <span class="string">&quot;your_db_password&quot;</span>         <span class="meta"># Oracle 資料庫密碼</span></span><br><span class="line"><span class="symbol">  host:</span> <span class="string">&quot;your_db_host&quot;</span>                 <span class="meta"># Oracle 資料庫主機名稱或 IP 位址</span></span><br><span class="line"><span class="symbol">  port:</span> <span class="number">1521</span>                           <span class="meta"># Oracle 資料庫 Port，預設為 1521</span></span><br><span class="line"><span class="symbol">  service_name:</span> <span class="string">&quot;your_db_service_name&quot;</span> <span class="meta"># Oracle 資料庫 Service Name (或 SID)</span></span><br></pre></td></tr></table></figure>
+<h1 id="完整程式碼"><a class="header-anchor" href="#完整程式碼"></a>完整程式碼</h1>
+<p>我們將整合以上步驟，撰寫完整的 Python 程式碼來連線 Oracle ERP 資料庫。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> oracledb</span><br><span class="line"><span class="keyword">import</span> yaml</span><br><span class="line"><span class="keyword">from</span> sqlalchemy <span class="keyword">import</span> create_engine</span><br><span class="line"></span><br><span class="line"><span class="comment"># 讀取YAML檔案</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">load_credentials</span>(<span class="params">file_path=<span class="string">&quot;credentials.yml&quot;</span></span>):</span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(file_path, <span class="string">&quot;r&quot;</span>, encoding=<span class="string">&quot;utf-8&quot;</span>) <span class="keyword">as</span> file:</span><br><span class="line">        <span class="keyword">return</span> yaml.safe_load(file)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始化 Oracle Instant Client</span></span><br><span class="line">oracledb.init_oracle_client(lib_dir=<span class="string">r&quot;C:\oracle\instantclient_11_2&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 載入資料庫憑證</span></span><br><span class="line">credentials = load_credentials()</span><br><span class="line">db = credentials[<span class="string">&quot;database&quot;</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 建立連線字串</span></span><br><span class="line"><span class="comment"># 連線字串格式: oracle+oracledb://&lt;username&gt;:&lt;password&gt;@&lt;host&gt;:&lt;port&gt;/?service_name=&lt;service_name&gt;</span></span><br><span class="line"><span class="comment"># 例如: oracle+oracledb://admin:admin@erpdb.example.com:1521/?service_name=ERPDB</span></span><br><span class="line">db_url = <span class="string">f&quot;oracle+oracledb://<span class="subst">&#123;db[<span class="string">&#x27;username&#x27;</span>]&#125;</span>:<span class="subst">&#123;db[<span class="string">&#x27;password&#x27;</span>]&#125;</span>@<span class="subst">&#123;db[<span class="string">&#x27;host&#x27;</span>]&#125;</span>:<span class="subst">&#123;db[<span class="string">&#x27;port&#x27;</span>]&#125;</span>/?service_name=<span class="subst">&#123;db[<span class="string">&#x27;service_name&#x27;</span>]&#125;</span>&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 嘗試建立連線</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    engine = create_engine(db_url)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;✅ 成功連線至資料庫！&quot;</span>)</span><br><span class="line"><span class="keyword">except</span> oracledb.DatabaseError <span class="keyword">as</span> e:</span><br><span class="line">    error, = e.args</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;❌ 資料庫連線失敗！錯誤碼: <span class="subst">&#123;error.code&#125;</span>, 訊息: <span class="subst">&#123;error.message&#125;</span>&quot;</span>)</span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;❌ 發生未知錯誤: <span class="subst">&#123;e&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>執行 Python 程式碼，如果一切順利，你應該會看到<code>✅ 成功連線至資料庫！</code>的訊息。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fpython-connect-oracle-erp-db%2Fpython-connect-oracle-erp-db-successful.jpg?alt=media&amp;token=fd5e06a8-a72a-4af5-8eb4-0d385a2d9daf" alt="python-connect-oracle-erp-db-successful"></p>
+<h1 id="處理錯誤訊息"><a class="header-anchor" href="#處理錯誤訊息"></a>處理錯誤訊息</h1>
+<table>
+<thead>
+<tr>
+<th>錯誤訊息</th>
+<th>解決方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ORA-12699: Native service internal error occurred.</code></td>
+<td>將 Oracle Instant Client 版本換成 11.2.0.4.0。</td>
+</tr>
+<tr>
+<td><code>ORA-12505: Cannot connect to database. SID ERPDB is not registered with the listener at host...</code></td>
+<td>表示 Listener 上沒有SID 為 ERPDB，改用 <code>service_name=&quot;ERPDB&quot;</code>。</td>
+</tr>
+<tr>
+<td><code>ORA-00911: invalid character</code></td>
+<td>在 Python 執行 SQL 時，不需要結尾帶分號。</td>
+</tr>
+<tr>
+<td><code>DPY-3010: connections to this database server version are not supported by python-oracledb in thin mode</code></td>
+<td>Oracle 版本是 <code>11</code> 或更舊，必須使用 Thick Mode，需要使用 Oracle Instant Client。若是 <code>12</code> 或更新，則可以使用 Thin Mode，就不需要使用 Oracle Instant Client。</td>
+</tr>
+<tr>
+<td><code>UserWarning: pandas only supports SQLAlchemy connectable (engine/connection) or database string URI or sqlite3 DBAPI2 connection. Other DBAPI2 objects are not tested. Please consider using SQLAlchemy.</code></td>
+<td>使用 SQLAlchemy 建立資料庫連線，可也可忽略該警告，大部分情況下功能是正常的。</td>
+</tr>
+</tbody>
+</table>
+<h1 id="總結"><a class="header-anchor" href="#總結"></a>總結</h1>
+<p>恭喜你成功完成使用 Python 連線至 Oracle ERP 資料庫的過程！透過本篇文章的教學，相信你已經掌握了基本的連線方式，並能夠順利存取與操作資料庫中的資料，接下來就可以開始進行更進一步的資料處理與應用。如果在實作過程中遇到任何問題，歡迎隨時留言討論，我會盡力協助你解決問題！</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/blog/tags/Python/" rel="tag"># Python</a>
+              <a href="/blog/tags/Oracle/" rel="tag"># Oracle</a>
+              <a href="/blog/tags/ERP/" rel="tag"># ERP</a>
+              <a href="/blog/tags/PL-SQL/" rel="tag"># PL/SQL</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/blog/ollama-deepseek/" rel="prev" title="DeepSeek API不能用? 試試本地端吧!">
+                  <i class="fa fa-angle-left"></i> DeepSeek API不能用? 試試本地端吧!
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Stella</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/blog/js/comments.js"></script><script src="/blog/js/utils.js"></script><script src="/blog/js/motion.js"></script><script src="/blog/js/sidebar.js"></script><script src="/blog/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js","integrity":"sha256-stuqcu2FrjYCXDOytWFA5SoUE/r3nkp6gTglzNSlavU="}}</script>
+  <script src="/blog/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"ams","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/blog/js/third-party/math/mathjax.js"></script>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"estellacoding","repo":"blog","client_id":"Ov23liBnWPuObZGktbAv","client_secret":"9ed6e261cd75af620744058daafa56b80a53ffa8","admin_user":"estellacoding","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":null,"labels":"gitalk","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"b5157e37dad3d4993229375a13d05b0e"}</script>
+<script src="/blog/js/third-party/comments/gitalk.js"></script>
+
+</body>
+</html>
