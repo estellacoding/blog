@@ -1,3 +1,4 @@
+https://estellacoding.github.io/blog/h2o-automl-likelihood-to-buy-prediction/
 https://estellacoding.github.io/blog/python-connect-oracle-erp-db/
 https://estellacoding.github.io/blog/ollama-deepseek/
 https://estellacoding.github.io/blog/two-ai-dialog-game/
@@ -129,6 +130,8 @@ https://estellacoding.github.io/blog/tags/DeepSeek/
 https://estellacoding.github.io/blog/tags/Local-LLM/
 https://estellacoding.github.io/blog/tags/ERP/
 https://estellacoding.github.io/blog/tags/PL-SQL/
+https://estellacoding.github.io/blog/tags/H2O/
+https://estellacoding.github.io/blog/tags/Prediction/
 https://estellacoding.github.io/blog/categories/AutoML/
 https://estellacoding.github.io/blog/categories/AWS/
 https://estellacoding.github.io/blog/categories/Hexo/

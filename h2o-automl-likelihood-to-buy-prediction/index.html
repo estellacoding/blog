@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="mask-icon" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"estellacoding.github.io","root":"/blog/","images":"/blog/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/blog/js/config.js"></script>
+
+    <meta name="description" content="本篇文章介紹如何利用 H2O AutoML 建立一個「潛在用戶購買可能性」的預測模型，藉由預測結果來制定精準的行銷跟進策略。透過此專案，可以將行銷資源聚焦於高潛力用戶，進而提升整體行銷效益。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用 H2O AutoML 建立購買機率預測模型">
+<meta property="og:url" content="https://estellacoding.github.io/blog/h2o-automl-likelihood-to-buy-prediction/index.html">
+<meta property="og:site_name" content="Stella Coding">
+<meta property="og:description" content="本篇文章介紹如何利用 H2O AutoML 建立一個「潛在用戶購買可能性」的預測模型，藉由預測結果來制定精準的行銷跟進策略。透過此專案，可以將行銷資源聚焦於高潛力用戶，進而提升整體行銷效益。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fh2o-automl-likelihood-to-buy-prediction%2Fh2o-automl-likelihood-to-buy-prediction-confusion-matrix.jpg?alt=media&amp;token=69f72e34-fbaf-4161-ac43-04746517ba7c">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fh2o-automl-likelihood-to-buy-prediction%2Fh2o-automl-likelihood-to-buy-prediction-variable-importance.jpg?alt=media&amp;token=8dd77e75-b704-41ff-8634-e9f4a9eddce0">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fh2o-automl-likelihood-to-buy-prediction%2Fh2o-automl-likelihood-to-buy-prediction-sharp-summary.jpg?alt=media&amp;token=1d8a846c-c630-46b5-b902-66dd2c3d1109">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fh2o-automl-likelihood-to-buy-prediction%2Fh2o-automl-likelihood-to-buy-prediction-pdp-member-rating.jpg?alt=media&amp;token=a4f390dc-4a4d-4641-b70e-a0063ea6fc93">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fh2o-automl-likelihood-to-buy-prediction%2Fh2o-automl-likelihood-to-buy-prediction-pdp-country-code.jpg?alt=media&amp;token=15118916-0c69-4d52-b3aa-b0a9ce4ef436">
+<meta property="article:published_time" content="2025-02-25T03:11:11.000Z">
+<meta property="article:modified_time" content="2025-02-25T03:11:11.000Z">
+<meta property="article:author" content="Stella">
+<meta property="article:tag" content="AutoML">
+<meta property="article:tag" content="Machine Learning">
+<meta property="article:tag" content="H2O">
+<meta property="article:tag" content="Prediction">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fh2o-automl-likelihood-to-buy-prediction%2Fh2o-automl-likelihood-to-buy-prediction-confusion-matrix.jpg?alt=media&amp;token=69f72e34-fbaf-4161-ac43-04746517ba7c">
+
+
+<link rel="canonical" href="https://estellacoding.github.io/blog/h2o-automl-likelihood-to-buy-prediction/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://estellacoding.github.io/blog/h2o-automl-likelihood-to-buy-prediction/","path":"h2o-automl-likelihood-to-buy-prediction/","title":"用 H2O AutoML 建立購買機率預測模型"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>用 H2O AutoML 建立購買機率預測模型 | Stella Coding</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EG0CKC3093"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-EG0CKC3093","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/blog/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/blog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/blog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Stella Coding</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Hands-on fuels my soul!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/blog/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/blog/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/blog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BC%89%E5%85%A5%E5%87%BD%E5%BC%8F%E5%BA%AB"><span class="nav-number">1.</span> <span class="nav-text">載入函式庫</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%BA%96%E5%82%99%E8%B3%87%E6%96%99%E5%BA%AB"><span class="nav-number">2.</span> <span class="nav-text">準備資料庫</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%80%A3%E7%B7%9A%E8%B3%87%E6%96%99%E5%BA%AB"><span class="nav-number">3.</span> <span class="nav-text">連線資料庫</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%B3%87%E6%96%99%E5%89%8D%E8%99%95%E7%90%86"><span class="nav-number">4.</span> <span class="nav-text">資料前處理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%AA%E9%99%A4%E6%AC%84%E4%BD%8D"><span class="nav-number">4.1.</span> <span class="nav-text">刪除欄位</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B0%E5%A2%9E%E6%AC%84%E4%BD%8D"><span class="nav-number">4.2.</span> <span class="nav-text">新增欄位</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E8%A8%93%E7%B7%B4"><span class="nav-number">5.</span> <span class="nav-text">模型訓練</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B3%87%E6%96%99%E8%BD%89%E6%8F%9B"><span class="nav-number">5.1.</span> <span class="nav-text">資料轉換</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E6%A8%A1%E5%9E%8B"><span class="nav-number">5.2.</span> <span class="nav-text">建立模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%84%B2%E5%AD%98%E6%A8%A1%E5%9E%8B"><span class="nav-number">5.3.</span> <span class="nav-text">儲存模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E8%B3%87%E8%A8%8A"><span class="nav-number">5.4.</span> <span class="nav-text">模型資訊</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%B7%E6%B7%86%E7%9F%A9%E9%99%A3"><span class="nav-number">5.4.1.</span> <span class="nav-text">混淆矩陣</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%B9%E5%BE%B5%E9%87%8D%E8%A6%81%E6%80%A7"><span class="nav-number">5.4.2.</span> <span class="nav-text">特徵重要性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SHAP-Summary"><span class="nav-number">5.4.3.</span> <span class="nav-text">SHAP Summary</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%83%A8%E5%88%86%E4%BE%9D%E8%B3%B4%E5%9C%96-PDP"><span class="nav-number">5.4.4.</span> <span class="nav-text">部分依賴圖(PDP)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A0%90%E6%B8%AC%E7%B5%90%E6%9E%9C"><span class="nav-number">6.</span> <span class="nav-text">預測結果</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A1%8C%E9%8A%B7%E8%B7%9F%E9%80%B2%E7%AD%96%E7%95%A5"><span class="nav-number">7.</span> <span class="nav-text">行銷跟進策略</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B8%BD%E7%B5%90"><span class="nav-number">8.</span> <span class="nav-text">總結</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Stella"
+      src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+  <p class="site-author-name" itemprop="name">Stella</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/blog/archives/">
+          <span class="site-state-item-count">36</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/blog/categories/">
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/blog/tags/">
+        <span class="site-state-item-count">92</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/estellacoding" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;estellacoding" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.instagram.com/stellacoding/" title="Instagram → https:&#x2F;&#x2F;www.instagram.com&#x2F;stellacoding&#x2F;" rel="noopener me" target="_blank"><i class="fab fa-instagram fa-fw"></i>Instagram</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://estellacoding.github.io/blog/h2o-automl-likelihood-to-buy-prediction/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+      <meta itemprop="name" content="Stella">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Stella Coding">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="用 H2O AutoML 建立購買機率預測模型 | Stella Coding">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          用 H2O AutoML 建立購買機率預測模型
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2025-02-25 11:11:11" itemprop="dateCreated datePublished" datetime="2025-02-25T11:11:11+08:00">2025-02-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/AutoML/" itemprop="url" rel="index"><span itemprop="name">AutoML</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>本篇文章介紹如何利用 H2O AutoML 建立一個「潛在用戶購買可能性」的預測模型，藉由預測結果來制定精準的行銷跟進策略。透過此專案，可以將行銷資源聚焦於高潛力用戶，進而提升整體行銷效益。</p>
+<span id="more"></span>
+<h1 id="載入函式庫"><a class="header-anchor" href="#載入函式庫"></a>載入函式庫</h1>
+<p>安裝套件，並載入函式庫。</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip <span class="keyword">install</span> pandas sqlalchemy h2o numpy</span><br></pre></td></tr></table></figure>
+<figure class="highlight elm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> sqlalchemy <span class="keyword">as</span> sql</span><br><span class="line"><span class="keyword">import</span> h2o</span><br><span class="line"><span class="title">from</span> h2o.automl <span class="keyword">import</span> H2OAutoML</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br></pre></td></tr></table></figure>
+<h1 id="準備資料庫"><a class="header-anchor" href="#準備資料庫"></a>準備資料庫</h1>
+<p>將 CSV 檔案中的潛在用戶與交易記錄資料存入 SQLite 資料庫。</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 讀取CSV檔</span></span><br><span class="line">leads_df = pd.read_csv(<span class="string">&#x27;/content/drive/MyDrive/ML/database/leads.csv&#x27;</span>)</span><br><span class="line">transactions_df = pd.read_csv(<span class="string">&#x27;/content/drive/MyDrive/ML/database/transactions.csv&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 建立SQLite資料庫(若資料庫不存在，會自動建立)</span></span><br><span class="line">sql_engine = sql.create_engine(<span class="string">&#x27;sqlite:////content/drive/MyDrive/ML/database/leads_transactions.db&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 將資料儲存到資料庫中，建立名為leads和transactions的資料表</span></span><br><span class="line">leads_df.to_sql(<span class="string">&#x27;leads&#x27;</span>, <span class="attribute">con</span>=sql_engine, <span class="attribute">index</span>=<span class="literal">False</span>, <span class="attribute">if_exists</span>=<span class="string">&#x27;replace&#x27;</span>)</span><br><span class="line">transactions_df.to_sql(<span class="string">&#x27;transactions&#x27;</span>, <span class="attribute">con</span>=sql_engine, <span class="attribute">index</span>=<span class="literal">False</span>, <span class="attribute">if_exists</span>=<span class="string">&#x27;replace&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看資料庫內的資料表是否已建立</span></span><br><span class="line">metadata = sql.MetaData()</span><br><span class="line">metadata.reflect(<span class="attribute">bind</span>=sql_engine)</span><br><span class="line"><span class="built_in">print</span>(list(metadata.tables.keys()))</span><br></pre></td></tr></table></figure>
+<h1 id="連線資料庫"><a class="header-anchor" href="#連線資料庫"></a>連線資料庫</h1>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">sql_engine</span> = sql.create_engine(<span class="string">&#x27;sqlite:////content/drive/MyDrive/ML/database/leads_transactions.db&#x27;</span>)</span><br><span class="line"><span class="attr">conn</span> = sql_engine.connect()</span><br></pre></td></tr></table></figure>
+<h1 id="資料前處理"><a class="header-anchor" href="#資料前處理"></a>資料前處理</h1>
+<h2 id="刪除欄位"><a class="header-anchor" href="#刪除欄位"></a>刪除欄位</h2>
+<p>刪除不需要欄位。</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">df</span> = leads_df.drop(columns=[<span class="string">&#x27;mailchimp_id&#x27;</span>, <span class="string">&#x27;made_purchase&#x27;</span>, <span class="string">&#x27;user_full_name&#x27;</span>])</span><br></pre></td></tr></table></figure>
+<h2 id="新增欄位"><a class="header-anchor" href="#新增欄位"></a>新增欄位</h2>
+<p>新增預測目標欄位。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">target_emails = transactions_df<span class="selector-attr">[<span class="string">&#x27;user_email&#x27;</span>]</span><span class="selector-class">.unique</span>()</span><br><span class="line">df<span class="selector-attr">[<span class="string">&#x27;purchased&#x27;</span>]</span> = df<span class="selector-attr">[<span class="string">&#x27;user_email&#x27;</span>]</span><span class="selector-class">.isin</span>(target_emails)<span class="selector-class">.astype</span>(int)</span><br></pre></td></tr></table></figure>
+<h1 id="模型訓練"><a class="header-anchor" href="#模型訓練"></a>模型訓練</h1>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">h2o.<span class="keyword">init</span>() <span class="meta"># 啟動H2O環境</span></span><br></pre></td></tr></table></figure>
+<h2 id="資料轉換"><a class="header-anchor" href="#資料轉換"></a>資料轉換</h2>
+<p>將資料轉為H2O格式。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hf = h2o<span class="selector-class">.H2OFrame</span>(df)</span><br><span class="line">hf<span class="selector-attr">[<span class="string">&#x27;purchased&#x27;</span>]</span> = hf<span class="selector-attr">[<span class="string">&#x27;purchased&#x27;</span>]</span><span class="selector-class">.asfactor</span>()</span><br></pre></td></tr></table></figure>
+<p>設定特徵及目標。</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">predictors</span> = [<span class="string">&#x27;member_rating&#x27;</span>, <span class="string">&#x27;optin_time&#x27;</span>, <span class="string">&#x27;country_code&#x27;</span>, <span class="string">&#x27;optin_days&#x27;</span>, <span class="string">&#x27;email_provider&#x27;</span>]</span><br><span class="line"><span class="attr">target</span> = <span class="string">&quot;purchased&quot;</span></span><br></pre></td></tr></table></figure>
+<h2 id="建立模型"><a class="header-anchor" href="#建立模型"></a>建立模型</h2>
+<p>設定訓練模型上限 20 個，並限定訓練時間 10 分鐘:</p>
+<ul>
+<li><code>max_models=20</code>: 訓練模型數量最多為20個。</li>
+<li><code>max_runtime_secs=600</code>: 設定訓練10分鐘。</li>
+</ul>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">automl = H2OAutoML(<span class="attribute">max_models</span>=20, <span class="attribute">seed</span>=1, <span class="attribute">max_runtime_secs</span>=600)</span><br><span class="line">automl.train(<span class="attribute">x</span>=predictors, <span class="attribute">y</span>=target, <span class="attribute">training_frame</span>=hf)</span><br></pre></td></tr></table></figure>
+<p>查看模型訓練結果。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">lb = automl<span class="selector-class">.leaderboard</span></span><br><span class="line"><span class="function"><span class="title">print</span><span class="params">(lb)</span></span></span><br></pre></td></tr></table></figure>
+<p>在本次 AutoML 訓練中，最佳模型為 <code>XGBoost_1_AutoML_1_20250224_55852</code>。<br>
+其主要評估指標如下:</p>
+<table>
+<thead>
+<tr>
+<th>model_id</th>
+<th>auc</th>
+<th>logloss</th>
+<th>aucpr</th>
+<th>mean_per_class_error</th>
+<th>rmse</th>
+<th>mse</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>XGBoost_1_AutoML_1_20250224_55852</td>
+<td>0.769309</td>
+<td>0.168819</td>
+<td>0.203925</td>
+<td>0.360477</td>
+<td>0.20612</td>
+<td>0.0424854</td>
+</tr>
+</tbody>
+</table>
+<h2 id="儲存模型"><a class="header-anchor" href="#儲存模型"></a>儲存模型</h2>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">h2o.save_model(automl.leader, <span class="attribute">path</span>=<span class="string">&quot;/content/drive/MyDrive/ML/model&quot;</span>, <span class="attribute">filename</span>=<span class="string">&#x27;best_model_h2o&#x27;</span>, <span class="attribute">force</span>=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="模型資訊"><a class="header-anchor" href="#模型資訊"></a>模型資訊</h2>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">best_model_h2o = h2o<span class="selector-class">.load_model</span>(<span class="string">&quot;/content/drive/MyDrive/ML/model/best_model_h2o&quot;</span>)</span><br><span class="line">best_model_h2o<span class="selector-class">.explain</span>(hf)</span><br></pre></td></tr></table></figure>
+<h3 id="混淆矩陣"><a class="header-anchor" href="#混淆矩陣"></a>混淆矩陣</h3>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fh2o-automl-likelihood-to-buy-prediction%2Fh2o-automl-likelihood-to-buy-prediction-confusion-matrix.jpg?alt=media&amp;token=69f72e34-fbaf-4161-ac43-04746517ba7c" alt="h2o-automl-likelihood-to-buy-prediction-pdp-confusion-matrix"></p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">Confusion</span> Matrix (Act/Pred) for max f1 @ threshold = <span class="number">0</span>.<span class="number">15629950745238197</span></span><br><span class="line">         <span class="attribute">0</span>        <span class="number">1</span>       Error      Rate</span><br><span class="line"><span class="attribute">0</span>    <span class="number">18084</span>.<span class="number">0</span>   <span class="number">873</span>.<span class="number">0</span>     <span class="number">0</span>.<span class="number">0461</span>   (<span class="number">873</span>.<span class="number">0</span>/<span class="number">18957</span>.<span class="number">0</span>)</span><br><span class="line"><span class="attribute">1</span>      <span class="number">587</span>.<span class="number">0</span>   <span class="number">375</span>.<span class="number">0</span>     <span class="number">0</span>.<span class="number">6102</span>   (<span class="number">587</span>.<span class="number">0</span>/<span class="number">962</span>.<span class="number">0</span>)</span><br><span class="line"><span class="attribute">Total</span> <span class="number">18671</span>.<span class="number">0</span> <span class="number">1248</span>.<span class="number">0</span>     <span class="number">0</span>.<span class="number">0733</span>   (<span class="number">1460</span>.<span class="number">0</span>/<span class="number">19919</span>.<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>實際/預測</th>
+<th>預測=0</th>
+<th>預測=1</th>
+<th>錯誤率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>實際=0</td>
+<td>18084</td>
+<td>873</td>
+<td>0.0461</td>
+</tr>
+<tr>
+<td>實際=1</td>
+<td>587</td>
+<td>375</td>
+<td>0.6102</td>
+</tr>
+<tr>
+<td>總計</td>
+<td>18671</td>
+<td>1248</td>
+<td>0.0733</td>
+</tr>
+</tbody>
+</table>
+<p>混淆矩陣展示模型在二元分類問題上的性能指標上的預測與實際之間的對比。</p>
+<ul>
+<li><code>0</code>表示不會購買、<code>1</code>表示會購買。</li>
+<li>總預測為<code>0</code>: 18671</li>
+<li>總預測為<code>1</code>: 1248</li>
+<li>總錯誤數: 1460，總錯誤率約 7.33%，即總體準確率約 92.67%。</li>
+</ul>
+<p>進一步分析錯誤率:</p>
+<ul>
+<li>假陽性(False Positive, FP)
+<ul>
+<li>預測為<code>1</code>，實際為<code>0</code>，總數為<code>873</code>。</li>
+<li>模型預測「會購買」，但實際上該用戶「沒有購買」。</li>
+<li>–&gt;我們投入的行銷成本就白白浪費。</li>
+</ul>
+</li>
+<li>假陰性(False Negative, FN)
+<ul>
+<li>預測為<code>0</code>，實際為<code>1</code>，總數為<code>587</code>。</li>
+<li>模型預測「不會購買」，但實際上該用戶「有購買」。</li>
+<li>–&gt;我們漏判了一群可能帶來營收的用戶。</li>
+</ul>
+</li>
+</ul>
+<p>再進一步計算核心指標:<br>
+$$ \text{精確率} = \frac{TP}{TP + FP} = 375 / (375+873) = 0.30 $$<br>
+$$ \text{召回率} = \frac{TP}{TP + FN} = 375 / (375+587) = 0.39 $$</p>
+<p>針對不同業務目標採取不同的閾值調整方式:</p>
+<table>
+<thead>
+<tr>
+<th>業務目標</th>
+<th>閾值調整</th>
+<th>FN</th>
+<th>FP</th>
+<th>精確率變化</th>
+<th>召回率變化</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>最大化營收<br>減少漏掉會購買的用戶(FN↓)</td>
+<td>降低閾值</td>
+<td>FN↓</td>
+<td>FP↑</td>
+<td>精確率↓</td>
+<td>召回率↑</td>
+</tr>
+<tr>
+<td>最小化成本<br>減少無效行銷成本(FP↓)</td>
+<td>提高閾值</td>
+<td>FN↑</td>
+<td>FP↓</td>
+<td>精確率↑</td>
+<td>召回率↓</td>
+</tr>
+</tbody>
+</table>
+<h3 id="特徵重要性"><a class="header-anchor" href="#特徵重要性"></a>特徵重要性</h3>
+<p>特徵重要性表示在目前這個最佳模型中，各個特徵對預測結果(購買機率)的影響程度。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fh2o-automl-likelihood-to-buy-prediction%2Fh2o-automl-likelihood-to-buy-prediction-variable-importance.jpg?alt=media&amp;token=8dd77e75-b704-41ff-8634-e9f4a9eddce0" alt="h2o-automl-likelihood-to-buy-prediction-variable-importance"></p>
+<ul>
+<li><code>optin_time</code> 重要度最高，代表該用戶的「用戶註冊或訂閱時間」對預測是否購買影響最大。</li>
+<li><code>member_rating</code> 第二，表示用戶活躍度或訂閱分數越高，越可能影響最終是否購買。</li>
+</ul>
+<h3 id="SHAP-Summary"><a class="header-anchor" href="#SHAP-Summary"></a>SHAP Summary</h3>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fh2o-automl-likelihood-to-buy-prediction%2Fh2o-automl-likelihood-to-buy-prediction-sharp-summary.jpg?alt=media&amp;token=1d8a846c-c630-46b5-b902-66dd2c3d1109" alt="h2o-automl-likelihood-to-buy-prediction-sharp-summary"></p>
+<p>SHAP Summary 顯示每個特徵對預測的貢獻，每一筆資料都會對應到一個 SHAP 值。</p>
+<ul>
+<li>X 軸: SHAP 值。
+<ul>
+<li>正值表示讓預測值往「購買」方向提升。</li>
+<li>負值表示讓預測值往「不購買」方向降低。</li>
+</ul>
+</li>
+<li>Y 軸: 排列出最重要到相對次要的特徵。</li>
+<li>顏色: 特徵值的大小，越接近紅色代表值越高，越接近藍色代表值越低。</li>
+</ul>
+<p>透過 SHAP Summary，我們可以觀察到:</p>
+<ul>
+<li><code>member_rating</code> 在最上方，表示該特徵在此模型中的整體影響力較大。
+<ul>
+<li>若紅色點(高評分)集中在右側(正值區)，表示「高評分會員」更可能被預測為購買。</li>
+<li>若藍色點(低評分)集中在左側(負值區)，表示「低評分會員」更可能被預測為不購買。</li>
+</ul>
+</li>
+<li><code>email_provider</code> 在最下方，表示該特徵在此模型中的整體影響力相對較小。</li>
+</ul>
+<h3 id="部分依賴圖-PDP"><a class="header-anchor" href="#部分依賴圖-PDP"></a>部分依賴圖(PDP)</h3>
+<p>部分依賴圖顯示「在固定其他特徵不變」的情況下，單一特徵與預測結果(購買機率)之間的關係。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fh2o-automl-likelihood-to-buy-prediction%2Fh2o-automl-likelihood-to-buy-prediction-pdp-member-rating.jpg?alt=media&amp;token=a4f390dc-4a4d-4641-b70e-a0063ea6fc93" alt="h2o-automl-likelihood-to-buy-prediction-pdp-member-rating"><br>
+從上圖可以看到，<code>member_rating</code> 越高，模型預測的購買機率也越高，顯示該特徵對「會購買」具有正向影響。換句話說，在其他特徵固定的情況下，會員評等從 1 提升到 5，對應的平均購買機率呈現明顯上升趨勢，代表 <code>member_rating</code> 是個正向特徵。</p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fh2o-automl-likelihood-to-buy-prediction%2Fh2o-automl-likelihood-to-buy-prediction-pdp-country-code.jpg?alt=media&amp;token=15118916-0c69-4d52-b3aa-b0a9ce4ef436" alt="h2o-automl-likelihood-to-buy-prediction-pdp-country-code"><br>
+從上圖可以看到，類別型特徵 <code>country_code</code>，在不變動其他特徵下，圖中每個類別的綠點，表示模型預測的平均購買機率(Mean Response)。綠點較高，表示該國家傾向更高的購買機率。</p>
+<h1 id="預測結果"><a class="header-anchor" href="#預測結果"></a>預測結果</h1>
+<p>利用最佳模型對所有潛在用戶進行預測，並將預測結果<code>predictions_df</code>存回原資料庫<code>leads_df</code>中。</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">predictions_df</span> = best_model_h2o.predict(hf).as_data_frame()</span><br></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 建立資料庫連線</span></span><br><span class="line">sql_engine = sql.create_engine(<span class="string">&#x27;sqlite:////content/drive/MyDrive/ML/database/leads_transactions.db&#x27;</span>)</span><br><span class="line"><span class="comment"># 將DataFrame存入leads_ltb_h2o的資料表</span></span><br><span class="line">result = pd.concat([leads_df, predictions_df], <span class="attribute">axis</span>=1).to_sql(</span><br><span class="line">    <span class="string">&#x27;leads_ltb_h2o&#x27;</span>,</span><br><span class="line">    <span class="attribute">con</span>=conn, <span class="attribute">if_exists</span>=<span class="string">&#x27;replace&#x27;</span>, <span class="attribute">index</span>=<span class="literal">False</span></span><br><span class="line">)</span><br><span class="line"><span class="built_in">print</span>(f<span class="string">&#x27;成功寫入 &#123;result&#125; 筆資料。&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>讀取預測結果:</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 讀取資料表（例如：leads_ltb_h2o）</span></span><br><span class="line">df = pd.read_sql(<span class="string">&#x27;SELECT * FROM leads_ltb_h2o&#x27;</span>, <span class="attribute">con</span>=sql_engine)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 檢視前幾筆資料</span></span><br><span class="line">df.head()</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>mailchimp_id</th>
+<th>user_full_name</th>
+<th>user_email</th>
+<th>member_rating</th>
+<th>optin_time</th>
+<th>country_code</th>
+<th>made_purchase</th>
+<th>optin_days</th>
+<th>email_provider</th>
+<th>predict</th>
+<th>p0</th>
+<th>p1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3</td>
+<td>Garrick Langworth</td>
+<td><a href="mailto:garrick.langworth@gmail.com">garrick.langworth@gmail.com</a></td>
+<td>2</td>
+<td>2019-05-22 00:00:00.000000</td>
+<td>in</td>
+<td>1</td>
+<td>-589</td>
+<td><a target="_blank" rel="noopener" href="http://gmail.com">gmail.com</a></td>
+<td>0</td>
+<td>0.961327</td>
+<td>0.038673</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Cordell Dickens</td>
+<td><a href="mailto:cordell.dickens@gmail.com">cordell.dickens@gmail.com</a></td>
+<td>4</td>
+<td>2018-11-19 00:00:00.000000</td>
+<td>other</td>
+<td>1</td>
+<td>-773</td>
+<td><a target="_blank" rel="noopener" href="http://gmail.com">gmail.com</a></td>
+<td>0</td>
+<td>0.927102</td>
+<td>0.072898</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><code>predict</code>: 模型預測該潛在用戶是否會購買。
+<ul>
+<li><code>0</code>: 表示預測這個用戶「不會購買」產品。</li>
+<li><code>1</code>: 表示預測這個用戶「會購買」產品。</li>
+</ul>
+</li>
+<li><code>p0</code>: 用戶「不會購買」的機率。</li>
+<li><code>p1</code>: 用戶「會購買」的機率。</li>
+</ul>
+<h1 id="行銷跟進策略"><a class="header-anchor" href="#行銷跟進策略"></a>行銷跟進策略</h1>
+<table>
+<thead>
+<tr>
+<th>評分等級</th>
+<th>p1範圍</th>
+<th>行銷策略方向</th>
+<th>跟進策略方案</th>
+<th>預算分配</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hot🔥</td>
+<td>≥0.8</td>
+<td>立即轉換</td>
+<td>-提供限時獨享優惠或專屬折扣，如專屬優惠VIP折扣碼，限時72小時有效的折扣碼。<br>-提供一對一線上免費諮詢或體驗試用。<br>-個性化電子郵件、LINE推播或專人電話聯繫。</td>
+<td>50%</td>
+</tr>
+<tr>
+<td>Warm🌤</td>
+<td>0.6-0.8</td>
+<td>價值建立</td>
+<td>-提供教育性內容，如使用攻略、成功案例分享影片，來強化產品信任感。<br>-透過輕鬆互動，如抽獎、問答活動，增加參與感及興趣。<br>-寄送產品使用體驗調查或試用小包裝，鼓勵提升興趣。</td>
+<td>30%</td>
+</tr>
+<tr>
+<td>Cold❄️</td>
+<td>0.4-0.6</td>
+<td>興趣喚醒</td>
+<td>-提供基礎知識型內容，如新手教學、產品Q&amp;A等，建立認知。<br>-使用趣味性遊戲或輕量互動式小測驗，增加潛在興趣。<br>-透過再行銷廣告反覆曝光，以加深印象。</td>
+<td>15%</td>
+</tr>
+<tr>
+<td>Non-Target🚫</td>
+<td>&lt;0.4</td>
+<td>低成本跟進</td>
+<td>-減少主動行銷資源，僅以自動化電子報定期聯絡。<br>-提供廣泛且普遍的內容，如部落格文章、常見問題集等，低成本維持品牌接觸點。</td>
+<td>5%</td>
+</tr>
+</tbody>
+</table>
+<h1 id="總結"><a class="header-anchor" href="#總結"></a>總結</h1>
+<p>本專案運用 H2O AutoML 自動化建立預測模型的完整流程，並結合行銷策略分級，根據預測結果提供不同等級用戶的跟進策略，而能專注於高潛力用戶，提升行銷資源的運用效率。</p>
+<p>未來模型還可改進方向:</p>
+<ul>
+<li>類別不平衡處理</li>
+<li>增強特徵工程</li>
+<li>模型訓練的超參數調優</li>
+</ul>
+<p>希望本篇文章對你實作 H2O AutoML 的應用有所幫助！期待在下方留言區看到你的見解與疑問！</p>
+
+<iframe src="https://nbviewer.org/github/estellacoding/likelihood-to-buy-prediction/blob/main/Likelihood_To_Buy_Prediction.ipynb" width="100%" height="600"></iframe>
+
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/blog/tags/AutoML/" rel="tag"># AutoML</a>
+              <a href="/blog/tags/Machine-Learning/" rel="tag"># Machine Learning</a>
+              <a href="/blog/tags/H2O/" rel="tag"># H2O</a>
+              <a href="/blog/tags/Prediction/" rel="tag"># Prediction</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/blog/python-connect-oracle-erp-db/" rel="prev" title="Python 連線 Oracle ERP 資料庫教學">
+                  <i class="fa fa-angle-left"></i> Python 連線 Oracle ERP 資料庫教學
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Stella</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/blog/js/comments.js"></script><script src="/blog/js/utils.js"></script><script src="/blog/js/motion.js"></script><script src="/blog/js/sidebar.js"></script><script src="/blog/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js","integrity":"sha256-stuqcu2FrjYCXDOytWFA5SoUE/r3nkp6gTglzNSlavU="}}</script>
+  <script src="/blog/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"ams","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/blog/js/third-party/math/mathjax.js"></script>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"estellacoding","repo":"blog","client_id":"Ov23liBnWPuObZGktbAv","client_secret":"9ed6e261cd75af620744058daafa56b80a53ffa8","admin_user":"estellacoding","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":null,"labels":"gitalk","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"1db6c1e9b7637bd1327218a6d519a02c"}</script>
+<script src="/blog/js/third-party/comments/gitalk.js"></script>
+
+</body>
+</html>

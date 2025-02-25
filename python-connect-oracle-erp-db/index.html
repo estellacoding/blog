@@ -19,12 +19,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"estellacoding.github.io","root":"/blog/","images":"/blog/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/blog/js/config.js"></script>
 
-    <meta name="description" content="本教學將帶你一步步使用 Python 連線 Oracle ERP 資料庫，從環境準備到實作完整程式碼，一次到位！連線的程式碼不複雜，但我某一個資料庫卻一直連線失敗，花了一周時間各種排查連線失敗的問題，最後發現問題是 Oracle Instant Client 版本!">
+    <meta name="description" content="本教學將帶你一步步使用 Python 連線 Oracle ERP 資料庫，從環境準備到實作完整程式碼，一次到位！連線的程式碼不複雜，但我某一個資料庫卻一直連線失敗，花了一周時間各種排查連線失敗的問題，最後發現問題是在 Oracle Instant Client 版本!">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Python 連線 Oracle ERP 資料庫教學">
 <meta property="og:url" content="https://estellacoding.github.io/blog/python-connect-oracle-erp-db/index.html">
 <meta property="og:site_name" content="Stella Coding">
-<meta property="og:description" content="本教學將帶你一步步使用 Python 連線 Oracle ERP 資料庫，從環境準備到實作完整程式碼，一次到位！連線的程式碼不複雜，但我某一個資料庫卻一直連線失敗，花了一周時間各種排查連線失敗的問題，最後發現問題是 Oracle Instant Client 版本!">
+<meta property="og:description" content="本教學將帶你一步步使用 Python 連線 Oracle ERP 資料庫，從環境準備到實作完整程式碼，一次到位！連線的程式碼不複雜，但我某一個資料庫卻一直連線失敗，花了一周時間各種排查連線失敗的問題，最後發現問題是在 Oracle Instant Client 版本!">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fpython-connect-oracle-erp-db%2Fplsql-developer-check-sql-version.jpg?alt=media&amp;token=130c867a-4b52-4d54-b8d2-962b2e6e0bf0">
 <meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fpython-connect-oracle-erp-db%2Foracle-instant-client-version-11-2.jpg?alt=media&amp;token=782d68f0-5bda-42ef-8dde-c49760375280">
@@ -138,7 +138,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/blog/archives/">
-          <span class="site-state-item-count">35</span>
+          <span class="site-state-item-count">36</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -149,7 +149,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/blog/tags/">
-        <span class="site-state-item-count">90</span>
+        <span class="site-state-item-count">92</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -234,7 +234,7 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><p>本教學將帶你一步步使用 Python 連線 Oracle ERP 資料庫，從環境準備到實作完整程式碼，一次到位！連線的程式碼不複雜，但我某一個資料庫卻一直連線失敗，花了一周時間各種排查連線失敗的問題，最後發現問題是 Oracle Instant Client 版本!</p>
+    <div class="post-body" itemprop="articleBody"><p>本教學將帶你一步步使用 Python 連線 Oracle ERP 資料庫，從環境準備到實作完整程式碼，一次到位！連線的程式碼不複雜，但我某一個資料庫卻一直連線失敗，花了一周時間各種排查連線失敗的問題，最後發現問題是在 Oracle Instant Client 版本!</p>
 <span id="more"></span>
 <h1 id="確認Oracle版本"><a class="header-anchor" href="#確認Oracle版本"></a>確認Oracle版本</h1>
 <p>可以使用任何 Oracle 連線工具，例如 SQL*Plus、PL/SQL Developer，或是其他資料庫管理工具來查詢目前電腦中 Oracle 資料庫版本的資訊。</p>
@@ -259,7 +259,7 @@
 <li>將2個資料夾中的所有檔案合併到同一個目錄下 <code>C:\oracle\instantclient_11_2</code></li>
 </ol>
 <p>目錄結構應如下:</p>
-<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">C:\<span class="keyword">oracle\</span></span><br><span class="line"><span class="keyword"></span>└── <span class="keyword">instantclient_11_2/</span></span><br><span class="line"><span class="keyword"></span>    ├── oci.dll          <span class="comment"># 核心連接庫</span></span><br><span class="line">    ├── sqlplus.exe      <span class="comment"># SQL*Plus 工具</span></span><br><span class="line">    └── ...</span><br></pre></td></tr></table></figure>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">C:\<span class="keyword">oracle\</span></span><br><span class="line"><span class="keyword"></span>└── <span class="keyword">instantclient_11_2/</span></span><br><span class="line"><span class="keyword"></span>    ├── oci.dll      <span class="comment"># 核心連接庫</span></span><br><span class="line">    ├── sqlplus.exe  <span class="comment"># SQL*Plus工具</span></span><br><span class="line">    └── ...</span><br></pre></td></tr></table></figure>
 <div class="note info"><p>若資料庫版本為 11.2.0.4.0，Client 版本也使用相同版本。</p>
 </div>
 <h1 id="安裝套件"><a class="header-anchor" href="#安裝套件"></a>安裝套件</h1>
@@ -353,6 +353,9 @@
                 </a>
             </div>
             <div class="post-nav-item">
+                <a href="/blog/h2o-automl-likelihood-to-buy-prediction/" rel="next" title="用 H2O AutoML 建立購買機率預測模型">
+                  用 H2O AutoML 建立購買機率預測模型 <i class="fa fa-angle-right"></i>
+                </a>
             </div>
           </div>
     </footer>
