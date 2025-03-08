@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="mask-icon" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"estellacoding.github.io","root":"/blog/","images":"/blog/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/blog/js/config.js"></script>
+
+    <meta name="description" content="本篇文章將帶你解鎖 GitHub Copilot 在 VS Code 的各種強大寫扣超功能，從基本程式碼建議，到進階的 Chat 互動、代理指令與語音辨識，並精選常用功能與好用指令，希望能幫助大家提升開發效率🚀！">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【GitHub Copilot】用 VS Code 解鎖 AI 寫扣超能力">
+<meta property="og:url" content="https://estellacoding.github.io/blog/github-copilot-vscode-ai-coding/index.html">
+<meta property="og:site_name" content="Stella Coding">
+<meta property="og:description" content="本篇文章將帶你解鎖 GitHub Copilot 在 VS Code 的各種強大寫扣超功能，從基本程式碼建議，到進階的 Chat 互動、代理指令與語音辨識，並精選常用功能與好用指令，希望能幫助大家提升開發效率🚀！">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-unlock-ai-coding%2F1.code-suggestions.jpg?alt=media&amp;token=41065563-2eff-45fe-8c73-ab40a66405bb">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-unlock-ai-coding%2F2.code-suggestions-open-completions-panel-1.jpg?alt=media&amp;token=3c3f27e7-cd41-4fd0-a529-233997448f08">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-unlock-ai-coding%2F2.code-suggestions-open-completions-panel-2.jpg?alt=media&amp;token=0137df2a-3df4-4fd7-bc34-88b12e63dec1">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-unlock-ai-coding%2F3.ctrl-i-ask-copilot.jpg?alt=media&amp;token=225a0991-beb6-4b1d-bae9-3d10687f0dd0">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-unlock-ai-coding%2F4.ctrl-i-terminal-insert-into-terminal-1.jpg?alt=media&amp;token=e1290732-8be0-4ef2-9b96-873ce51dad08">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-unlock-ai-coding%2F4.ctrl-i-terminal-insert-into-terminal-2.jpg?alt=media&amp;token=2534ca77-1a52-469e-8e6e-8e5af0b219a3">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-unlock-ai-coding%2F5.ctrl-alt-i-chat-view-suggest-code.jpg?alt=media&amp;token=221e5c01-f94f-4b6f-b380-ec75d7598aa0">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-unlock-ai-coding%2F6.ctrl-shift-i-copilot-edits-modify-code.jpg?alt=media&amp;token=396a770f-0636-499e-a998-0bdaee8ea1c9">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-unlock-ai-coding%2Fctrl-shift-alt%2Bl-quick-chat.jpg?alt=media&amp;token=f81087c1-257b-43e5-8699-7999eac0ba37">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-unlock-ai-coding%2F7.workspace-new-create-workspace.jpg?alt=media&amp;token=b4f04c10-4747-4030-9166-020b3dfa8cce">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-unlock-ai-coding%2F8.vscode-search-regular-expression.jpg?alt=media&amp;token=25638871-4f83-4837-92e6-fe92ec89daf5">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-unlock-ai-coding%2F9.codebase.jpg?alt=media&amp;token=69366ab4-4e66-4902-b9a6-8a649128a056">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-unlock-ai-coding%2F11.accessibility-voice-speechLanguage-chinese-traditional-taiwan.jpg?alt=media&amp;token=26ef8a1e-95db-40bd-9536-2ecae33b9b04">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-unlock-ai-coding%2F12.accessibility-voice-keywordActivation-chatInContext.jpg?alt=media&amp;token=df3075f9-d7c8-40d3-8c5b-6d555ad4068f">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-unlock-ai-coding%2Fgithub-copilot-function-keyboard-shortcut.jpg?alt=media&amp;token=07f2829b-b212-420e-ba52-02fa2d067235">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-unlock-ai-coding%2F10.generate-commit-message-with-copilot-1.jpg?alt=media&amp;token=4306160f-22b2-4ab0-8061-aabb41a72796">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-unlock-ai-coding%2F10.generate-commit-message-with-copilot-2.jpg?alt=media&amp;token=f600a55b-1dd8-47df-b930-029b02b56880">
+<meta property="article:published_time" content="2025-03-10T03:11:11.000Z">
+<meta property="article:modified_time" content="2025-03-10T03:11:11.000Z">
+<meta property="article:author" content="Stella">
+<meta property="article:tag" content="GitHub">
+<meta property="article:tag" content="Copilot">
+<meta property="article:tag" content="VS Code">
+<meta property="article:tag" content="GitHub Copilot">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-unlock-ai-coding%2F1.code-suggestions.jpg?alt=media&amp;token=41065563-2eff-45fe-8c73-ab40a66405bb">
+
+
+<link rel="canonical" href="https://estellacoding.github.io/blog/github-copilot-vscode-ai-coding/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://estellacoding.github.io/blog/github-copilot-vscode-ai-coding/","path":"github-copilot-vscode-ai-coding/","title":"【GitHub Copilot】用 VS Code 解鎖 AI 寫扣超能力"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>【GitHub Copilot】用 VS Code 解鎖 AI 寫扣超能力 | Stella Coding</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EG0CKC3093"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-EG0CKC3093","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/blog/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/blog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/blog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Stella Coding</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Hands-on fuels my soul!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/blog/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/blog/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/blog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E7%BD%AE%E4%BD%9C%E6%A5%AD"><span class="nav-number">1.</span> <span class="nav-text">前置作業</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D%E5%A5%97%E4%BB%B6"><span class="nav-number">1.1.</span> <span class="nav-text">安裝套件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E8%A8%AD%E5%AE%9A"><span class="nav-number">1.2.</span> <span class="nav-text">基本設定</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%A8%8B%E5%BC%8F%E7%A2%BC%E8%A3%9C%E5%85%A8"><span class="nav-number">2.</span> <span class="nav-text">程式碼補全</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BB%BA%E8%AD%B0%E5%B7%A5%E5%85%B7%E5%88%97"><span class="nav-number">2.1.</span> <span class="nav-text">建議工具列</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9B%B4%E5%A4%9A%E5%BB%BA%E8%AD%B0"><span class="nav-number">2.2.</span> <span class="nav-text">更多建議</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Inline-Chat"><span class="nav-number">3.</span> <span class="nav-text">Inline Chat</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B7%A8%E8%BC%AF%E5%99%A8"><span class="nav-number">3.1.</span> <span class="nav-text">編輯器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B5%82%E7%AB%AF%E6%A9%9F"><span class="nav-number">3.2.</span> <span class="nav-text">終端機</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Chat-View"><span class="nav-number">4.</span> <span class="nav-text">Chat View</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Copilot-Edits"><span class="nav-number">5.</span> <span class="nav-text">Copilot Edits</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Quick-Chat"><span class="nav-number">6.</span> <span class="nav-text">Quick Chat</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B0%88%E6%A5%AD%E4%BB%A3%E7%90%86"><span class="nav-number">7.</span> <span class="nav-text">專業代理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A8%AD%E5%AE%9A%E4%BB%A3%E7%90%86"><span class="nav-number">7.1.</span> <span class="nav-text">設定代理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#workspace"><span class="nav-number">7.2.</span> <span class="nav-text">@workspace</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vscode"><span class="nav-number">7.3.</span> <span class="nav-text">@vscode</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#terminal"><span class="nav-number">7.4.</span> <span class="nav-text">@terminal</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#github"><span class="nav-number">7.5.</span> <span class="nav-text">@github</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%90%86%E6%8C%87%E4%BB%A4"><span class="nav-number">7.6.</span> <span class="nav-text">代理指令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#explain"><span class="nav-number">7.6.1.</span> <span class="nav-text">&#x2F;explain</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#new"><span class="nav-number">7.6.2.</span> <span class="nav-text">&#x2F;new</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#newNotebook"><span class="nav-number">7.6.3.</span> <span class="nav-text">&#x2F;newNotebook</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#search"><span class="nav-number">7.6.4.</span> <span class="nav-text">&#x2F;search</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%A7%E5%BB%BA%E8%AE%8A%E6%95%B8"><span class="nav-number">8.</span> <span class="nav-text">內建變數</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#changes"><span class="nav-number">8.1.</span> <span class="nav-text">#changes</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#selection"><span class="nav-number">8.2.</span> <span class="nav-text">#selection</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#codebase"><span class="nav-number">8.3.</span> <span class="nav-text">#codebase</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A8%AD%E5%AE%9A"><span class="nav-number">8.3.1.</span> <span class="nav-text">設定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AF%84%E4%BE%8B"><span class="nav-number">8.3.2.</span> <span class="nav-text">範例</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AA%9E%E9%9F%B3%E8%BE%A8%E8%AD%98"><span class="nav-number">9.</span> <span class="nav-text">語音辨識</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AA%9E%E9%9F%B3%E5%8D%B3%E6%99%82%E8%BD%89%E9%8C%84"><span class="nav-number">9.1.</span> <span class="nav-text">語音即時轉錄</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D%E5%A5%97%E4%BB%B6-v2"><span class="nav-number">9.1.1.</span> <span class="nav-text">安裝套件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A8%AD%E5%AE%9A%E8%BD%89%E9%8C%84%E8%AA%9E%E8%A8%80"><span class="nav-number">9.1.2.</span> <span class="nav-text">設定轉錄語言</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hey-Code"><span class="nav-number">9.2.</span> <span class="nav-text">Hey Code</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E9%8D%B5%E8%88%87%E5%8A%9F%E8%83%BD"><span class="nav-number">10.</span> <span class="nav-text">常用鍵與功能</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%8D%B5%E7%9B%A4%E5%BF%AB%E6%8D%B7%E9%8D%B5"><span class="nav-number">10.1.</span> <span class="nav-text">鍵盤快捷鍵</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%9F%E8%83%BD%E5%9C%96%E7%A4%BA"><span class="nav-number">10.2.</span> <span class="nav-text">功能圖示</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E5%A5%BD%E7%94%A8%E5%8A%9F%E8%83%BD"><span class="nav-number">11.</span> <span class="nav-text">其他好用功能</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Code-Review"><span class="nav-number">11.1.</span> <span class="nav-text">Code Review</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%9F%E6%88%90%E6%8F%90%E4%BA%A4%E8%A8%8A%E6%81%AF"><span class="nav-number">11.2.</span> <span class="nav-text">生成提交訊息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Copilot%E7%B6%B2%E9%A0%81%E7%89%88"><span class="nav-number">11.3.</span> <span class="nav-text">Copilot網頁版</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E6%96%87%E4%BB%B6"><span class="nav-number">12.</span> <span class="nav-text">參考文件</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Stella"
+      src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+  <p class="site-author-name" itemprop="name">Stella</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/blog/archives/">
+          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/blog/categories/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/blog/tags/">
+        <span class="site-state-item-count">96</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/estellacoding" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;estellacoding" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.instagram.com/stellacoding/" title="Instagram → https:&#x2F;&#x2F;www.instagram.com&#x2F;stellacoding&#x2F;" rel="noopener me" target="_blank"><i class="fab fa-instagram fa-fw"></i>Instagram</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://estellacoding.github.io/blog/github-copilot-vscode-ai-coding/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+      <meta itemprop="name" content="Stella">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Stella Coding">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="【GitHub Copilot】用 VS Code 解鎖 AI 寫扣超能力 | Stella Coding">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【GitHub Copilot】用 VS Code 解鎖 AI 寫扣超能力
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2025-03-10 11:11:11" itemprop="dateCreated datePublished" datetime="2025-03-10T11:11:11+08:00">2025-03-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/GitHub-Copilot/" itemprop="url" rel="index"><span itemprop="name">GitHub Copilot</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>本篇文章將帶你解鎖 GitHub Copilot 在 VS Code 的各種強大寫扣超功能，從基本程式碼建議，到進階的 Chat 互動、代理指令與語音辨識，並精選常用功能與好用指令，希望能幫助大家提升開發效率🚀！</p>
+<span id="more"></span>
+<h1 id="前置作業"><a class="header-anchor" href="#前置作業"></a>前置作業</h1>
+<h2 id="安裝套件"><a class="header-anchor" href="#安裝套件"></a>安裝套件</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=GitHub.copilot">GitHub Copilot</a></li>
+<li><a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=GitHub.copilot-chat">GitHub Copilot Chat</a></li>
+</ul>
+<h2 id="基本設定"><a class="header-anchor" href="#基本設定"></a>基本設定</h2>
+<table>
+<thead>
+<tr>
+<th>功能項目</th>
+<th>設定內容</th>
+<th>功能描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>github.copilot.enable</td>
+<td>true</td>
+<td>設定在所有檔案啟用 GitHub Copilot 功能。</td>
+</tr>
+<tr>
+<td>github.copilot.editor.enableAutoCompletions</td>
+<td>true</td>
+<td>啟用程式碼自動補全功能。</td>
+</tr>
+</tbody>
+</table>
+<h1 id="程式碼補全"><a class="header-anchor" href="#程式碼補全"></a>程式碼補全</h1>
+<h2 id="建議工具列"><a class="header-anchor" href="#建議工具列"></a>建議工具列</h2>
+<p>根據游標所在的上下文自動生成程式碼建議。例如，當你輸入函式名稱 <code>days_ago</code>，並將游標停留在該名稱上，Copilot 會根據現有內容提供最符合邏輯的建議。因此，<strong>若想要獲得準確程式碼建議，那精確命名變數名稱與函式名稱是非常重要的喔!</strong>。</p>
+<ul>
+<li>點擊 <code>&lt;</code> 及 <code>&gt;</code> 可以選擇想要的程式碼。</li>
+<li>確認接受程式碼建議，只需按下 「Tab」鍵即可套用。(<s>AI時代每個人必學的Tab技😂</s>)</li>
+</ul>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-unlock-ai-coding%2F1.code-suggestions.jpg?alt=media&amp;token=41065563-2eff-45fe-8c73-ab40a66405bb" alt="1.code-suggestions"></p>
+<h2 id="更多建議"><a class="header-anchor" href="#更多建議"></a>更多建議</h2>
+<p>若工具列上的程式碼建議都不想要，還可以工具列上的 <i class="fa fa-ellipsis-h"></i> 或是鍵盤按「Ctrl+Enter」，開啟「Open Completions Panel」，讓 Copilot 提供更多組的程式碼建議。</p>
+<ul>
+<li>選擇想要的程式碼，若是第1組可以，即可點擊「Accept suggestion 1」套用。</li>
+</ul>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-unlock-ai-coding%2F2.code-suggestions-open-completions-panel-1.jpg?alt=media&amp;token=3c3f27e7-cd41-4fd0-a529-233997448f08" alt="2.code-suggestions-open-completions-panel-1"></p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-unlock-ai-coding%2F2.code-suggestions-open-completions-panel-2.jpg?alt=media&amp;token=0137df2a-3df4-4fd7-bc34-88b12e63dec1" alt="2.code-suggestions-open-completions-panel-2"></p>
+<h1 id="Inline-Chat"><a class="header-anchor" href="#Inline-Chat"></a>Inline Chat</h1>
+<h2 id="編輯器"><a class="header-anchor" href="#編輯器"></a>編輯器</h2>
+<p>鍵盤按「Ctrl+I」，開啟「Inline Chat」，可直接從編輯器向 Copilot 詢問問題。</p>
+<ul>
+<li><i class="fa fa-microphone"></i> 可以啟動語音輸入，Copilot會朗讀回應內容。(<s>上班大事把耳機插好😂</s>)</li>
+</ul>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-unlock-ai-coding%2F3.ctrl-i-ask-copilot.jpg?alt=media&amp;token=225a0991-beb6-4b1d-bae9-3d10687f0dd0" alt="3.ctrl-i-ask-copilot"></p>
+<h2 id="終端機"><a class="header-anchor" href="#終端機"></a>終端機</h2>
+<p>鍵盤按「Ctrl+I」，開啟「Inline Chat」，可直接從終端機向 Copilot 詢問問題。</p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-unlock-ai-coding%2F4.ctrl-i-terminal-insert-into-terminal-1.jpg?alt=media&amp;token=e1290732-8be0-4ef2-9b96-873ce51dad08" alt="4.ctrl-i-terminal-insert-into-terminal-1"></p>
+<p>也可以直接將指令自動插入終端機。</p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-unlock-ai-coding%2F4.ctrl-i-terminal-insert-into-terminal-2.jpg?alt=media&amp;token=2534ca77-1a52-469e-8e6e-8e5af0b219a3" alt="4.ctrl-i-terminal-insert-into-terminal-2"></p>
+<h1 id="Chat-View"><a class="header-anchor" href="#Chat-View"></a>Chat View</h1>
+<p>鍵盤按「Ctrl+Alt+I」，開啟「Chat」，使用自然語言詢問問題。</p>
+<ul>
+<li><i class="fa fa-plus"></i> 可以建立一個新的聊天。</li>
+<li><i class="fa fa-history"></i> 可以存取過往的聊天紀錄。</li>
+<li><i class="fa fa-ellipsis-h"></i> 可以看到更多功能。
+<ul>
+<li>在編輯器中開啟Chat。</li>
+<li>在新視窗中開啟Chat。</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-unlock-ai-coding%2F5.ctrl-alt-i-chat-view-suggest-code.jpg?alt=media&amp;token=221e5c01-f94f-4b6f-b380-ec75d7598aa0" alt="5.ctrl-alt-i-chat-view-suggest-code"></p>
+<div style="margin-top: -15px; margin-bottom: 10px; font-size: 14px; color: #555; text-align: center; font-style: normal; font-family: 'Arial', sans-serif;">
+    (資料來源: <a target="_blank" rel="noopener" href="https://github.com/business-science/ai-data-science-team" style="color: #555; text-decoration: none;">AI Data Science Team)
+    </a>
+</div>
+<div class="note info"><p>可將 GitHub Copilot Chat 的回應語言設定為繁體中文:<br>
+<code>github.copilot.chat.localeOverride</code>: <code>zh-TW</code>。</p>
+</div>
+<div class="note info"><p>可至 <a target="_blank" rel="noopener" href="https://github.com/settings/copilot">後台設定</a> 中啟用「Bing 搜尋」功能:<br>
+<code>Copilot can search the web</code>: <code>Enable</code>。</p>
+</div>
+<h1 id="Copilot-Edits"><a class="header-anchor" href="#Copilot-Edits"></a>Copilot Edits</h1>
+<p>鍵盤按「Ctrl+Shift+I」，開啟「Copilot Edits」，會在多個檔案中直接修改程式碼。</p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-unlock-ai-coding%2F6.ctrl-shift-i-copilot-edits-modify-code.jpg?alt=media&amp;token=396a770f-0636-499e-a998-0bdaee8ea1c9" alt="6.ctrl-shift-i-copilot-edits-modify-code"></p>
+<h1 id="Quick-Chat"><a class="header-anchor" href="#Quick-Chat"></a>Quick Chat</h1>
+<p>鍵盤按「Ctrl+Shift+Alt+L」，開啟「Quick Chat」。</p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-unlock-ai-coding%2Fctrl-shift-alt%2Bl-quick-chat.jpg?alt=media&amp;token=f81087c1-257b-43e5-8699-7999eac0ba37" alt="7.ctrl-shift-alt+l-quick-chat"></p>
+<h1 id="專業代理"><a class="header-anchor" href="#專業代理"></a>專業代理</h1>
+<p>在Chat中輸入<code>@</code>，可選擇專業代理(Chat Participants)，每個代理都有特定領域的專業知識。</p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>專家類別</th>
+<th>功能描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>@dbcode</td>
+<td>資料庫專家</td>
+<td>提供查詢語法、索引優化、資料模型設計等建議。</td>
+</tr>
+<tr>
+<td>@workspace</td>
+<td>專案架構專家</td>
+<td>瞭解工作區內所有程式碼，可用來查找類別、函式、檔案，或分析程式碼等建議。</td>
+</tr>
+<tr>
+<td>@vscode</td>
+<td>VS Code 專家</td>
+<td>提供 VS Code 功能、設定與 API 等建議。</td>
+</tr>
+<tr>
+<td>@terminal</td>
+<td>終端機專家</td>
+<td>提供 Shell 命令操作、環境變數設定、腳本執行等建議。</td>
+</tr>
+<tr>
+<td>@github</td>
+<td>GitHub 專家</td>
+<td>查詢 GitHub 倉庫活動，如 PR、Issue、合併記錄等。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="設定代理"><a class="header-anchor" href="#設定代理"></a>設定代理</h2>
+<table>
+<thead>
+<tr>
+<th>功能項目</th>
+<th>設定內容</th>
+<th>功能描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>chat.agent.enabled</td>
+<td>true</td>
+<td>啟用代理模式。</td>
+</tr>
+<tr>
+<td>github.copilot.chat.agent.runTasks</td>
+<td>true</td>
+<td>允許代理執行工作區任務。</td>
+</tr>
+<tr>
+<td>chat.agent.maxRequests</td>
+<td>50</td>
+<td>設定代理最大請求次數。代理自動作業預設只有15次，不過對於比較複雜的工作，會需要你不斷的確認是否繼續，所以建議可以調高。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="workspace"><a class="header-anchor" href="#workspace"></a>@workspace</h2>
+<table>
+<thead>
+<tr>
+<th>需求</th>
+<th>提示詞範例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>建立Dockerfile</td>
+<td>1.@workspace Generate a Dockerfile for this project, ensuring it includes all necessary dependencies and configurations for deployment.<br>2.@workspace Create a Dockerfile to package this project. Use a Python virtual environment and ensure best practices for containerization are followed.</td>
+</tr>
+<tr>
+<td>撰寫<code>README.md</code></td>
+<td>@workspace Write a <code>README.md</code> file that explains how to set up, run, and use this project. Include installation steps, dependencies, and usage examples for developers.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="vscode"><a class="header-anchor" href="#vscode"></a>@vscode</h2>
+<table>
+<thead>
+<tr>
+<th>需求</th>
+<th>提示詞範例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>如何啟用自動換行</td>
+<td>@vscode how to enable word wrapping?</td>
+</tr>
+<tr>
+<td>查找開啟終端機的快捷鍵</td>
+<td>@vscode What is the shortcut for opening the terminal?</td>
+</tr>
+<tr>
+<td>搜尋不包含import的Python檔案</td>
+<td>@vscode /search python files without imports</td>
+</tr>
+</tbody>
+</table>
+<h2 id="terminal"><a class="header-anchor" href="#terminal"></a>@terminal</h2>
+<table>
+<thead>
+<tr>
+<th>需求</th>
+<th>提示詞範例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>列出工作區最大的5個檔案</td>
+<td>@terminal list the 5 largest files in this workspace</td>
+</tr>
+<tr>
+<td>解釋top指令的作用</td>
+<td>@terminal /explain top shell command</td>
+</tr>
+</tbody>
+</table>
+<h2 id="github"><a class="header-anchor" href="#github"></a>@github</h2>
+<table>
+<thead>
+<tr>
+<th>需求</th>
+<th>提示詞範例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>查詢指派給我的公開的PR</td>
+<td>@github What are all of the open PRs assigned to me?</td>
+</tr>
+<tr>
+<td>查詢<code>@dancing-mona</code>最近合併的PR</td>
+<td>@github Show me the recent merged pr’s from @dancing-mona.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="代理指令"><a class="header-anchor" href="#代理指令"></a>代理指令</h2>
+<p>在Chat中輸入<code>/</code>，可選擇代理執行特定任務，如產生測試、解釋程式碼等。</p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>功能描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>/explain</td>
+<td>解釋當前編輯器內的程式碼或終端機內容。</td>
+</tr>
+<tr>
+<td>/new</td>
+<td>在工作區建立新檔案或專案架構。</td>
+</tr>
+<tr>
+<td>/newNotebook</td>
+<td>建立新的Jupyter Notebook。</td>
+</tr>
+<tr>
+<td>/search</td>
+<td>為工作區的搜尋產生適合的查詢參數。</td>
+</tr>
+<tr>
+<td>/fix</td>
+<td>為選取的程式碼提供修復建議。</td>
+</tr>
+<tr>
+<td>/startDebugging</td>
+<td>自動產生除錯配置的json檔，並啟動除錯模式(實驗性功能)。</td>
+</tr>
+<tr>
+<td>/clear</td>
+<td>清除所有對話記錄。</td>
+</tr>
+<tr>
+<td>/docs</td>
+<td>在編輯器中為程式碼產生程式碼說明註解或文件。</td>
+</tr>
+<tr>
+<td>/tests</td>
+<td>為選取的程式碼產生單元測試。</td>
+</tr>
+<tr>
+<td>/setupTests</td>
+<td>推薦適合當前專案的測試框架，並配置測試環境(實驗性功能)。</td>
+</tr>
+<tr>
+<td>/fixTestFailure</td>
+<td>根據測試錯誤訊息，建議修正方案。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="explain"><a class="header-anchor" href="#explain"></a>/explain</h3>
+<table>
+<thead>
+<tr>
+<th>需求</th>
+<th>提示詞範例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>繁體中文解釋程式碼</td>
+<td>/explain in Traditional Chinese.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="new"><a class="header-anchor" href="#new"></a>/new</h3>
+<p>如果我希望創建一個新專案，可使用<code>/new</code> 讓 Copilot 建立整個專案架構的資料夾。</p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-unlock-ai-coding%2F7.workspace-new-create-workspace.jpg?alt=media&amp;token=b4f04c10-4747-4030-9166-020b3dfa8cce" alt="8.workspace-new-create-workspace"></p>
+<table>
+<thead>
+<tr>
+<th>需求</th>
+<th>提示詞範例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>/new</td>
+<td>Express app using typescript and svelte.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="newNotebook"><a class="header-anchor" href="#newNotebook"></a>/newNotebook</h3>
+<table>
+<thead>
+<tr>
+<th>需求</th>
+<th>提示詞範例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>/newNotebook</td>
+<td>get census data and preview key insights with Seaborn.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="search"><a class="header-anchor" href="#search"></a>/search</h3>
+<p>產生正規表示式(regular expression)來搜尋工作區。(<s>regex是人能寫出來的東西嗎😂</s>)</p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-unlock-ai-coding%2F8.vscode-search-regular-expression.jpg?alt=media&amp;token=25638871-4f83-4837-92e6-fe92ec89daf5" alt="9.vscode-search-regular-expression"></p>
+<table>
+<thead>
+<tr>
+<th>需求</th>
+<th>提示詞範例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>找出中文字串</td>
+<td>/search Find all Chinese characters.</td>
+</tr>
+</tbody>
+</table>
+<h1 id="內建變數"><a class="header-anchor" href="#內建變數"></a>內建變數</h1>
+<p>在Chat中輸入<code>#</code>，可選擇變數，如專案所有程式碼、選擇檔案等。</p>
+<table>
+<thead>
+<tr>
+<th>變數名稱</th>
+<th>功能描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>#changes</td>
+<td>版本控制變更的列表。</td>
+</tr>
+<tr>
+<td>#codebase</td>
+<td>工作區中所有程式碼。</td>
+</tr>
+<tr>
+<td>#editor</td>
+<td>當前編輯器中可見的程式碼。</td>
+</tr>
+<tr>
+<td>#file</td>
+<td>從工作區中選擇檔案。</td>
+</tr>
+<tr>
+<td>#folder</td>
+<td>從工作區中選擇資料夾。</td>
+</tr>
+<tr>
+<td>#selection</td>
+<td>當前編輯器中選取的程式碼。</td>
+</tr>
+<tr>
+<td>#sym</td>
+<td>從工作區中選擇符號(symbol)。</td>
+</tr>
+<tr>
+<td>#terminalSelection</td>
+<td>當前終端機中目前選取的內容。</td>
+</tr>
+<tr>
+<td>#terminalLastCommand</td>
+<td>當前終端機的最後執行的指令。</td>
+</tr>
+<tr>
+<td>#VSCodeAPI</td>
+<td>VS Code API 及擴展 API 的官方文件。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="changes"><a class="header-anchor" href="#changes"></a>#changes</h2>
+<table>
+<thead>
+<tr>
+<th>需求</th>
+<th>提示詞範例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>總結工作區的變更內容</td>
+<td>summarize the #changes in my workspace</td>
+</tr>
+</tbody>
+</table>
+<h2 id="selection"><a class="header-anchor" href="#selection"></a>#selection</h2>
+<table>
+<thead>
+<tr>
+<th>需求</th>
+<th>提示詞範例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>選取程式碼改成函式</td>
+<td>Refactor #selection into a well-named, reusable function with clear input and output.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="codebase"><a class="header-anchor" href="#codebase"></a>#codebase</h2>
+<h3 id="設定"><a class="header-anchor" href="#設定"></a>設定</h3>
+<table>
+<thead>
+<tr>
+<th>功能項目</th>
+<th>設定內容</th>
+<th>功能描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>github.copilot.chat.codesearch.enabled</td>
+<td>true</td>
+<td>啟用<code>#codebase</code>原始碼搜尋。</td>
+</tr>
+<tr>
+<td>github.copilot.chat.search.semanticTextResults</td>
+<td>true</td>
+<td>啟用語意搜尋結果(一般搜尋是透過關鍵字比對)。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="範例"><a class="header-anchor" href="#範例"></a>範例</h3>
+<p>將工作區所有程式碼當成提示的上下文。</p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-unlock-ai-coding%2F9.codebase.jpg?alt=media&amp;token=69366ab4-4e66-4902-b9a6-8a649128a056" alt="10.codebase"></p>
+<table>
+<thead>
+<tr>
+<th>需求</th>
+<th>提示詞範例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>找出專案開始執行的位置</td>
+<td>Find out the entry of the #codebase.</td>
+</tr>
+</tbody>
+</table>
+<h1 id="語音辨識"><a class="header-anchor" href="#語音辨識"></a>語音辨識</h1>
+<h2 id="語音即時轉錄"><a class="header-anchor" href="#語音即時轉錄"></a>語音即時轉錄</h2>
+<h3 id="安裝套件-v2"><a class="header-anchor" href="#安裝套件-v2"></a>安裝套件</h3>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=ms-vscode.vscode-speech">VS Code Speech</a></li>
+<li><a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=ms-vscode.vscode-speech-language-pack-zh-tw">Chinese (Traditional, Taiwan) language support for VS Code Speech</a></li>
+</ul>
+<h3 id="設定轉錄語言"><a class="header-anchor" href="#設定轉錄語言"></a>設定轉錄語言</h3>
+<p>進入設定，找到 <code>accessibility.voice.speechLanguage</code>，選擇 <code>Chinese (Traditional, Taiwan)</code>，則語音輸入的語言會設定為繁體中文。</p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-unlock-ai-coding%2F11.accessibility-voice-speechLanguage-chinese-traditional-taiwan.jpg?alt=media&amp;token=26ef8a1e-95db-40bd-9536-2ecae33b9b04" alt="11.accessibility-voice-speechLanguage-chinese-traditional-taiwan"></p>
+<p>設定完成後，<mark>鍵盤按「Ctrl/Opt+Alt+V」即開始語音即時轉錄</mark>，游標位置會有小麥克風圖示。若想要停止語音即時轉錄點擊「Esc」則可離開語音即時轉錄。</p>
+<div class="note info"><p>設定語音輸入後可停頓的時間為 1.2 秒:<br>
+<code>accessibility.voice.speechTimeout</code>: <code>1200</code><br>
+(語音停頓 1.2 秒就送出結果，可以依照自己的需求調整)</p>
+</div>
+<h2 id="Hey-Code"><a class="header-anchor" href="#Hey-Code"></a>Hey Code</h2>
+<p>可以啟用 VS Code 隨時監聽「Hey Code」這個關鍵詞，並立即啟動語音輸入功能。</p>
+<p>進入設定，找到 <code>accessibility.voice.keywordActivation</code>，選擇 <code>chatInContext</code>。</p>
+<ul>
+<li>chatInView: 在 Chat View 開始語音輸入。</li>
+<li>quickChat: 在 Quick Chat 開始語音輸入。</li>
+<li>inlineChat: 在 Inline Chat 開始語音輸入。</li>
+<li>chatInContext: 自動判斷在 Inline Chat 或 Chat View 開始語音輸入。</li>
+</ul>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-unlock-ai-coding%2F12.accessibility-voice-keywordActivation-chatInContext.jpg?alt=media&amp;token=df3075f9-d7c8-40d3-8c5b-6d555ad4068f" alt="12.accessibility-voice-keywordActivation-chatInContext"></p>
+<h1 id="常用鍵與功能"><a class="header-anchor" href="#常用鍵與功能"></a>常用鍵與功能</h1>
+<h2 id="鍵盤快捷鍵"><a class="header-anchor" href="#鍵盤快捷鍵"></a>鍵盤快捷鍵</h2>
+<table>
+<thead>
+<tr>
+<th>快捷鍵</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ctrl+I</td>
+<td>啟動Inline Chat，從編輯器向 Copilot 詢問問題。</td>
+</tr>
+<tr>
+<td>Ctrl+Alt+I</td>
+<td>啟動Chat，使用自然語言詢問問題。</td>
+</tr>
+<tr>
+<td>Ctrl+Shift+I</td>
+<td>啟動Copilot Edits，會在多個檔案中直接修改程式碼。</td>
+</tr>
+<tr>
+<td>Ctrl+Shift+Alt+L</td>
+<td>啟動Quick Chat。</td>
+</tr>
+<tr>
+<td><code>@</code></td>
+<td>在Chat中輸入<code>@</code>，可選擇代理，這些代理是特定領域的專家，如<code>@workspace</code>。</td>
+</tr>
+<tr>
+<td><code>/</code></td>
+<td>在Chat中輸入<code>/</code>，可選擇代理執行特定任務，如產生測試、解釋程式碼等，如<code>/explain</code>。</td>
+</tr>
+<tr>
+<td><code>#</code></td>
+<td>在Chat中輸入<code>#</code>，可選擇變數，如<code>#codebase</code>，將相關的工作區程式碼作為提示的上下文。</td>
+</tr>
+<tr>
+<td>Ctrl+Alt+V</td>
+<td>開始語音辨識，啟動後會在游標所在位置顯示一個小麥克風圖示，並保持啟用狀態，等待語音輸入。<code>Esc</code>則可停止語音辨識。</td>
+</tr>
+</tbody>
+</table>
+<p>在 GitHut Copilot 圖示的下拉式選單中也有提示鍵盤快捷鍵。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-unlock-ai-coding%2Fgithub-copilot-function-keyboard-shortcut.jpg?alt=media&amp;token=07f2829b-b212-420e-ba52-02fa2d067235" alt="13.github-copilot-function-keyboard-shortcut"></p>
+<h2 id="功能圖示"><a class="header-anchor" href="#功能圖示"></a>功能圖示</h2>
+<table>
+<thead>
+<tr>
+<th>圖示</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><i class="fa fa-plus"></i></td>
+<td>在Chat選擇 <i class="fa fa-plus"></i> 可建立一個全新的chat。</td>
+</tr>
+<tr>
+<td><i class="fa fa-history"></i></td>
+<td>在Chat選擇 <i class="fa fa-history"></i> 可存取過往的聊天紀錄。</td>
+</tr>
+<tr>
+<td><i class="fa fa-ellipsis-h"></i></td>
+<td>在Chat選擇 <i class="fa fa-ellipsis-h"></i> 可以看到更多功能，如在編輯器或新視窗中開啟Chat等。</td>
+</tr>
+<tr>
+<td><i class="fa fa-microphone"></i></td>
+<td>語音輸入內容且Copilot會朗讀回應內容。</td>
+</tr>
+</tbody>
+</table>
+<h1 id="其他好用功能"><a class="header-anchor" href="#其他好用功能"></a>其他好用功能</h1>
+<h2 id="Code-Review"><a class="header-anchor" href="#Code-Review"></a>Code Review</h2>
+<p>選取一段程式碼後，右鍵選擇「Review and Comment」，GitHub Copilot 會審查程式碼並提供建議。</p>
+<p><img src="" alt="14.github-copilot-review-comment-1"></p>
+<p><img src="" alt="14.github-copilot-review-comment-2"></p>
+<h2 id="生成提交訊息"><a class="header-anchor" href="#生成提交訊息"></a>生成提交訊息</h2>
+<p>在 VS Code 的 Source Control 面板中，GitHub Copilot 提供自動生成提交訊息的功能，幫助開發者快速撰寫清晰且符合變更內容的提交訊息，大大提升 Git 工作流程的效率。(<s>以後就不會只看到 fix bug 或 update 這種的提交訊息了😂</s>)</p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-unlock-ai-coding%2F10.generate-commit-message-with-copilot-1.jpg?alt=media&amp;token=4306160f-22b2-4ab0-8061-aabb41a72796" alt="15.generate-commit-message-with-copilot-1"></p>
+<div style="margin-top: -15px; margin-bottom: 10px; font-size: 14px; color: #555; text-align: center; font-style: normal; font-family: 'Arial', sans-serif;">
+    (資料來源: <a target="_blank" rel="noopener" href="https://github.com/microsoft/ai-agents-for-beginners" style="color: #555; text-decoration: none;">AI Agents for Beginners)
+    </a>
+</div>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-unlock-ai-coding%2F10.generate-commit-message-with-copilot-2.jpg?alt=media&amp;token=f600a55b-1dd8-47df-b930-029b02b56880" alt="15.generate-commit-message-with-copilot-2"></p>
+<p>關於如何根據慣例式規範自動生成的提交訊息，請看 <a href="https://estellacoding.github.io/blog/github-copilot-vscode-ai-conventional-commit">【GitHub Copilot】自動生成慣例式提交訊息</a>。</p>
+<h2 id="Copilot網頁版"><a class="header-anchor" href="#Copilot網頁版"></a>Copilot網頁版</h2>
+<p>GitHub Copilot Chat 還有提供網頁版。</p>
+<ul>
+<li>可以在 <a target="_blank" rel="noopener" href="https://github.com/copilot">GitHub Copilot Chat</a> 詢問程式碼的相關問題。</li>
+<li>也可在 GitHub 倉庫(repo)內使用「Chat with Copilot」詢問該倉庫的問題。</li>
+</ul>
+<p><img src="" alt="16.gitHub-copilot-chat-web-1"></p>
+<div style="margin-top: -15px; margin-bottom: 10px; font-size: 14px; color: #555; text-align: center; font-style: normal; font-family: 'Arial', sans-serif;">
+    (資料來源: <a target="_blank" rel="noopener" href="https://github.com/microsoft/vscode" style="color: #555; text-decoration: none;">Microsoft Visual Studio Code)
+    </a>
+</div>
+<p><img src="" alt="16.gitHub-copilot-chat-web-icon"></p>
+<h1 id="參考文件"><a class="header-anchor" href="#參考文件"></a>參考文件</h1>
+<p><a target="_blank" rel="noopener" href="https://code.visualstudio.com/docs/copilot/overview">GitHub Copilot in VS Code cheat sheet</a><br>
+<a target="_blank" rel="noopener" href="https://code.visualstudio.com/docs/editor/voice">GitHub Copilot in VS Code Voice Interactions</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/blog/tags/GitHub/" rel="tag"># GitHub</a>
+              <a href="/blog/tags/Copilot/" rel="tag"># Copilot</a>
+              <a href="/blog/tags/VS-Code/" rel="tag"># VS Code</a>
+              <a href="/blog/tags/GitHub-Copilot/" rel="tag"># GitHub Copilot</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/blog/github-copilot-vscode-ai-conventional-commit/" rel="prev" title="【GitHub Copilot】自動生成慣例式提交訊息">
+                  <i class="fa fa-angle-left"></i> 【GitHub Copilot】自動生成慣例式提交訊息
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Stella</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/blog/js/comments.js"></script><script src="/blog/js/utils.js"></script><script src="/blog/js/motion.js"></script><script src="/blog/js/sidebar.js"></script><script src="/blog/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js","integrity":"sha256-stuqcu2FrjYCXDOytWFA5SoUE/r3nkp6gTglzNSlavU="}}</script>
+  <script src="/blog/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"ams","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/blog/js/third-party/math/mathjax.js"></script>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"estellacoding","repo":"blog","client_id":"Ov23liBnWPuObZGktbAv","client_secret":"9ed6e261cd75af620744058daafa56b80a53ffa8","admin_user":"estellacoding","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":null,"labels":"gitalk","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"0eb54c0102c568c66318932ac910c092"}</script>
+<script src="/blog/js/third-party/comments/gitalk.js"></script>
+
+</body>
+</html>

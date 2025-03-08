@@ -122,7 +122,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%85%A3%E4%BE%8B%E5%BC%8F%E6%8F%90%E4%BA%A4"><span class="nav-number">1.</span> <span class="nav-text">慣例式提交</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%87%AA%E5%8B%95%E7%94%9F%E6%88%90"><span class="nav-number">2.</span> <span class="nav-text">自動生成</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A8%AD%E5%AE%9A"><span class="nav-number">2.1.</span> <span class="nav-text">設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8Bmd%E6%AA%94"><span class="nav-number">2.2.</span> <span class="nav-text">建立md檔</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%90%E4%BA%A4%E8%A8%8A%E6%81%AF"><span class="nav-number">2.3.</span> <span class="nav-text">提交訊息</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B5%90%E8%AB%96"><span class="nav-number">3.</span> <span class="nav-text">結論</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E6%96%87%E4%BB%B6"><span class="nav-number">4.</span> <span class="nav-text">參考文件</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%85%A3%E4%BE%8B%E5%BC%8F%E6%8F%90%E4%BA%A4"><span class="nav-number">1.</span> <span class="nav-text">慣例式提交</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%87%AA%E5%8B%95%E7%94%9F%E6%88%90"><span class="nav-number">2.</span> <span class="nav-text">自動生成</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A8%AD%E5%AE%9A"><span class="nav-number">2.1.</span> <span class="nav-text">設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8Bmd%E6%AA%94"><span class="nav-number">2.2.</span> <span class="nav-text">建立md檔</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%90%E4%BA%A4%E8%A8%8A%E6%81%AF"><span class="nav-number">2.3.</span> <span class="nav-text">提交訊息</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8A%A0%E5%85%A5%E5%B7%A5%E4%BD%9C%E5%8D%80"><span class="nav-number">3.</span> <span class="nav-text">加入工作區</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B5%90%E8%AB%96"><span class="nav-number">4.</span> <span class="nav-text">結論</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E6%96%87%E4%BB%B6"><span class="nav-number">5.</span> <span class="nav-text">參考文件</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -137,7 +137,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/blog/archives/">
-          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-count">38</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -250,6 +250,10 @@
 <h2 id="提交訊息"><a class="header-anchor" href="#提交訊息"></a>提交訊息</h2>
 <p>我簡單更改 <code>README.md</code> 的內容後，進入 VS Code 的 Source Control 面板中，讓 GitHub Copilot 根據慣例式提交格式來生成我的提交訊息。</p>
 <p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-vscode-ai-conventional-commit%2Fgithub-copilot-vscode-ai-conventional-commit-auto-generate-message.jpg?alt=media&amp;token=678827ce-86b8-47a7-9816-39673b86aef4" alt="github-copilot-vscode-ai-conventional-commit-auto-generate-message"></p>
+<h1 id="加入工作區"><a class="header-anchor" href="#加入工作區"></a>加入工作區</h1>
+<p>進一步還可以將 VS Code 設定加入工作區，就可以將 VS Code 設定也提交至 GitHub 中，而團隊成員就能一起共用相同設定及 <code>.copilot-commit-message-instructions.md</code> 所使用的提示詞。</p>
+<p>進入設定，點擊「Workspace」標籤，找到 <code>github.copilot.chat.commitMessageGeneration.instructions</code>，點擊「Edit in settings.json」，VS Code 自動產生 <code>.vscode/settings.json</code> 檔案，並新增以下內容。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">&quot;github.copilot.chat.commitMessageGeneration.instructions&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    </span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;file&quot;</span><span class="punctuation">:</span> <span class="string">&quot;.copilot-commit-message-instructions.md&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">]</span></span><br></pre></td></tr></table></figure>
 <h1 id="結論"><a class="header-anchor" href="#結論"></a>結論</h1>
 <p>讓 AI 根據慣例式規範自動生成的提交訊息，會嚴格遵守 <code>&lt;type&gt;[scope]: &lt;description&gt;</code> 結構，統一格式讓團隊成員能快速理解提交內容，也因此能提高整體團隊協作效率喔。</p>
 <h1 id="參考文件"><a class="header-anchor" href="#參考文件"></a>參考文件</h1>
@@ -282,6 +286,9 @@
                 </a>
             </div>
             <div class="post-nav-item">
+                <a href="/blog/github-copilot-vscode-ai-coding/" rel="next" title="【GitHub Copilot】用 VS Code 解鎖 AI 寫扣超能力">
+                  【GitHub Copilot】用 VS Code 解鎖 AI 寫扣超能力 <i class="fa fa-angle-right"></i>
+                </a>
             </div>
           </div>
     </footer>
