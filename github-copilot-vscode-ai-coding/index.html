@@ -26,6 +26,7 @@
 <meta property="og:site_name" content="Stella Coding">
 <meta property="og:description" content="本篇文章將帶你解鎖 GitHub Copilot 在 VS Code 的各種強大寫扣超功能，從基本程式碼建議，到進階的 Chat 互動、代理指令與語音辨識，並精選常用功能與好用指令，希望能幫助大家提升開發效率🚀！">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-vscode-ai-coding%2Fgithub-copilot-nextEditSuggestions-enabled.jpg?alt=media&amp;token=ec4c9c7d-fcce-4ae6-89c6-7cbaafe63367">
 <meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-vscode-ai-coding%2F1.code-suggestions.jpg?alt=media&amp;token=74351a6f-4f67-48ed-a4a3-b049d0db2620">
 <meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-vscode-ai-coding%2F2.code-suggestions-open-completions-panel-1.jpg?alt=media&amp;token=ae5ca84f-1775-499a-9d53-55ab80b9083b">
 <meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-vscode-ai-coding%2F2.code-suggestions-open-completions-panel-2.jpg?alt=media&amp;token=0f5a6765-762f-4a9e-97f3-2403f6861ac1">
@@ -52,14 +53,14 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/microsoft/vscode-mermAId/refs/heads/main/assets/gifs/01.gif">
 <meta property="og:image" content="https://marketplace-screenshots.githubusercontent.com/19169/cd324751-f43d-4bf1-8f64-78b0bc9c6978">
 <meta property="article:published_time" content="2025-03-08T03:11:11.000Z">
-<meta property="article:modified_time" content="2025-03-08T03:11:11.000Z">
+<meta property="article:modified_time" content="2025-03-13T03:11:11.000Z">
 <meta property="article:author" content="Stella">
 <meta property="article:tag" content="GitHub">
 <meta property="article:tag" content="Copilot">
 <meta property="article:tag" content="VS Code">
 <meta property="article:tag" content="GitHub Copilot">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-vscode-ai-coding%2F1.code-suggestions.jpg?alt=media&amp;token=74351a6f-4f67-48ed-a4a3-b049d0db2620">
+<meta name="twitter:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-vscode-ai-coding%2Fgithub-copilot-nextEditSuggestions-enabled.jpg?alt=media&amp;token=ec4c9c7d-fcce-4ae6-89c6-7cbaafe63367">
 
 
 <link rel="canonical" href="https://estellacoding.github.io/blog/github-copilot-vscode-ai-coding/">
@@ -239,6 +240,13 @@
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2025-03-13 11:11:11" itemprop="dateModified" datetime="2025-03-13T11:11:11+08:00">2025-03-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
         <i class="far fa-folder"></i>
       </span>
       <span class="post-meta-item-text">In</span>
@@ -281,11 +289,17 @@
 </tr>
 <tr>
 <td>github.copilot.editor.enableAutoCompletions</td>
-<td>true</td>
+<td>V</td>
 <td>啟用程式碼自動補全功能。</td>
+</tr>
+<tr>
+<td>github.copilot.nextEditSuggestions.enabled</td>
+<td>V</td>
+<td>啟用下一個編輯建議(NES)功能。</td>
 </tr>
 </tbody>
 </table>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-vscode-ai-coding%2Fgithub-copilot-nextEditSuggestions-enabled.jpg?alt=media&amp;token=ec4c9c7d-fcce-4ae6-89c6-7cbaafe63367" alt="github-copilot-nextEditSuggestions-enabled"></p>
 <h1 id="程式碼補全"><a class="header-anchor" href="#程式碼補全"></a>程式碼補全</h1>
 <h2 id="建議工具列"><a class="header-anchor" href="#建議工具列"></a>建議工具列</h2>
 <p>根據游標所在的上下文自動生成程式碼建議。例如，當你輸入函式名稱 <code>days_ago</code>，並將游標停留在該名稱上，Copilot 會根據現有內容提供最符合邏輯的建議。因此，<strong>若想要獲得準確程式碼建議，那精確命名變數名稱與函式名稱是非常重要的喔!</strong>。</p>
@@ -313,6 +327,10 @@
 <p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-vscode-ai-coding%2F4.ctrl-i-terminal-insert-into-terminal-1.jpg?alt=media&amp;token=05680598-f697-4ea4-80a3-01526c90dc94" alt="4.ctrl-i-terminal-insert-into-terminal-1"></p>
 <p>也可以直接將指令自動插入終端機。</p>
 <p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-vscode-ai-coding%2F4.ctrl-i-terminal-insert-into-terminal-2.jpg?alt=media&amp;token=1a44f5c9-3b2c-4973-bf64-91cb8dafb5a9" alt="4.ctrl-i-terminal-insert-into-terminal-2"></p>
+<div class="note info"><p>設定終端機輸出列印行數為 100000。<br>
+<code>terminal.integrated.scrollback</code>: <code>100000</code><br>
+(預設值為1000行，可以調大一點，因為LLM只能讀到有顯示出來內容。)</p>
+</div>
 <h1 id="Chat-View"><a class="header-anchor" href="#Chat-View"></a>Chat View</h1>
 <p>鍵盤按「Ctrl+Alt+I(Cmd+Control+I)」，開啟「Chat」，使用自然語言詢問問題。</p>
 <ul>
@@ -392,12 +410,12 @@
 <tbody>
 <tr>
 <td>chat.agent.enabled</td>
-<td>true</td>
+<td>V</td>
 <td>啟用代理模式。</td>
 </tr>
 <tr>
 <td>github.copilot.chat.agent.runTasks</td>
-<td>true</td>
+<td>V</td>
 <td>允許代理執行工作區任務。</td>
 </tr>
 <tr>
@@ -710,12 +728,12 @@
 <tbody>
 <tr>
 <td>github.copilot.chat.codesearch.enabled</td>
-<td>true</td>
+<td>V</td>
 <td>啟用<code>#codebase</code>原始碼搜尋。</td>
 </tr>
 <tr>
 <td>github.copilot.chat.search.semanticTextResults</td>
-<td>true</td>
+<td>V</td>
 <td>啟用語意搜尋結果(一般搜尋是透過關鍵字比對)。</td>
 </tr>
 </tbody>
