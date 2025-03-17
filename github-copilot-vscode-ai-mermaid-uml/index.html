@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="mask-icon" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"estellacoding.github.io","root":"/blog/","images":"/blog/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/blog/js/config.js"></script>
+
+    <meta name="description" content="本篇文章將完整示範如何透過 GitHub Copilot 自動解析 SQL JOIN 語法，逐步生成專業的 UML 圖表流程。從環境建置到最終視覺化呈現，帶大家再次體驗 AI 輔助開發的高效工作流。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【GitHub Copilot】自動從 SQL 生成 UML">
+<meta property="og:url" content="https://estellacoding.github.io/blog/github-copilot-vscode-ai-mermaid-uml/index.html">
+<meta property="og:site_name" content="Stella Coding">
+<meta property="og:description" content="本篇文章將完整示範如何透過 GitHub Copilot 自動解析 SQL JOIN 語法，逐步生成專業的 UML 圖表流程。從環境建置到最終視覺化呈現，帶大家再次體驗 AI 輔助開發的高效工作流。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-vscode-ai-mermaid-uml%2Fgithub-copilot-mermAId-uml-1.jpg?alt=media&amp;token=50bb427d-749e-4727-9bf7-e04deda7f745">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-vscode-ai-mermaid-uml%2Fgithub-copilot-mermAId-uml-2.jpg?alt=media&amp;token=7e11bf9f-93f8-4431-8571-97c97e3407f0">
+<meta property="article:published_time" content="2025-03-17T03:11:11.000Z">
+<meta property="article:modified_time" content="2025-03-17T03:11:11.000Z">
+<meta property="article:author" content="Stella">
+<meta property="article:tag" content="Markdown">
+<meta property="article:tag" content="GitHub">
+<meta property="article:tag" content="Copilot">
+<meta property="article:tag" content="VS Code">
+<meta property="article:tag" content="GitHub Copilot">
+<meta property="article:tag" content="Mermaid">
+<meta property="article:tag" content="UML">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-vscode-ai-mermaid-uml%2Fgithub-copilot-mermAId-uml-1.jpg?alt=media&amp;token=50bb427d-749e-4727-9bf7-e04deda7f745">
+
+
+<link rel="canonical" href="https://estellacoding.github.io/blog/github-copilot-vscode-ai-mermaid-uml/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://estellacoding.github.io/blog/github-copilot-vscode-ai-mermaid-uml/","path":"github-copilot-vscode-ai-mermaid-uml/","title":"【GitHub Copilot】自動從 SQL 生成 UML"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>【GitHub Copilot】自動從 SQL 生成 UML | Stella Coding</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EG0CKC3093"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-EG0CKC3093","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/blog/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/blog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/blog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Stella Coding</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Hands-on fuels my soul!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/blog/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/blog/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/blog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D%E5%A5%97%E4%BB%B6"><span class="nav-number">1.</span> <span class="nav-text">安裝套件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%BA%96%E5%82%99SQL"><span class="nav-number">2.</span> <span class="nav-text">準備SQL</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Copilot-Edits"><span class="nav-number">3.</span> <span class="nav-text">Copilot Edits</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%94%9F%E6%88%90UML"><span class="nav-number">4.</span> <span class="nav-text">生成UML</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B5%90%E8%AB%96"><span class="nav-number">5.</span> <span class="nav-text">結論</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Stella"
+      src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+  <p class="site-author-name" itemprop="name">Stella</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/blog/archives/">
+          <span class="site-state-item-count">39</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/blog/categories/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/blog/tags/">
+        <span class="site-state-item-count">98</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/estellacoding" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;estellacoding" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.instagram.com/stellacoding/" title="Instagram → https:&#x2F;&#x2F;www.instagram.com&#x2F;stellacoding&#x2F;" rel="noopener me" target="_blank"><i class="fab fa-instagram fa-fw"></i>Instagram</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://estellacoding.github.io/blog/github-copilot-vscode-ai-mermaid-uml/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+      <meta itemprop="name" content="Stella">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Stella Coding">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="【GitHub Copilot】自動從 SQL 生成 UML | Stella Coding">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【GitHub Copilot】自動從 SQL 生成 UML
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2025-03-17 11:11:11" itemprop="dateCreated datePublished" datetime="2025-03-17T11:11:11+08:00">2025-03-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/GitHub-Copilot/" itemprop="url" rel="index"><span itemprop="name">GitHub Copilot</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>本篇文章將完整示範如何透過 GitHub Copilot 自動解析 SQL JOIN 語法，逐步生成專業的 UML 圖表流程。從環境建置到最終視覺化呈現，帶大家再次體驗 AI 輔助開發的高效工作流。</p>
+<span id="more"></span>
+<h1 id="安裝套件"><a class="header-anchor" href="#安裝套件"></a>安裝套件</h1>
+<p>關於如何安裝套件的方式，請看 <a href="https://estellacoding.github.io/blog/github-copilot-vscode-ai-coding/#Mermaid">【GitHub Copilot】用 VS Code 解鎖 AI 寫扣超能力 - Mermaid</a>。</p>
+<h1 id="準備SQL"><a class="header-anchor" href="#準備SQL"></a>準備SQL</h1>
+<p>以製造業 ERP 系統的 Shop Floor Management 模組為例，設計一個多表連接查詢。(<s>專治表格設計架構都不清楚就要上場寫SQL的小苦手</s>)</p>
+<p>這張報表需求是要查詢 WIP 工單進度、成本核算，以及生產交易記錄。</p>
+<ul>
+<li>WIP 工單追蹤報表 – 顯示工單進度、物料流動情況。</li>
+<li>WIP 成本核算報表 – 彙總工單對應的會計科目。</li>
+<li>生產交易記錄報表 – 查詢所有 WIP 交易記錄。</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">  we.WIP_ENTITY_ID,</span><br><span class="line">  we.WIP_ENTITY_NAME,</span><br><span class="line">  wd.JOB_TYPE,</span><br><span class="line">  wd.COMPLETION_SUBINVENTORY,</span><br><span class="line">  wm.TRANSACTION_DATE,</span><br><span class="line">  wm.TRANSACTION_ID,</span><br><span class="line">  mm.INVENTORY_ITEM_ID,</span><br><span class="line">  ms.DESCRIPTION <span class="keyword">AS</span> ITEM_DESCRIPTION,</span><br><span class="line">  wm.TRANSACTION_QUANTITY,</span><br><span class="line">  wta.REFERENCE_ACCOUNT <span class="keyword">AS</span> ACCOUNT_ID,</span><br><span class="line">  wor.RESOURCE_SEQ_NUM <span class="keyword">AS</span> RESOURCE_SEQ</span><br><span class="line"><span class="keyword">FROM</span> WIP_ENTITIES we</span><br><span class="line"><span class="keyword">JOIN</span> WIP_DISCRETE_JOBS wd <span class="keyword">ON</span> we.WIP_ENTITY_ID <span class="operator">=</span> wd.WIP_ENTITY_ID</span><br><span class="line"><span class="keyword">JOIN</span> WIP_MOVE_TRANSACTIONS wm <span class="keyword">ON</span> we.WIP_ENTITY_ID <span class="operator">=</span> wm.WIP_ENTITY_ID</span><br><span class="line"><span class="keyword">JOIN</span> MTL_MATERIAL_TRANSACTIONS mm <span class="keyword">ON</span> wm.TRANSACTION_ID <span class="operator">=</span> mm.TRANSACTION_ID</span><br><span class="line"><span class="keyword">JOIN</span> MTL_SYSTEM_ITEMS_B ms <span class="keyword">ON</span> mm.INVENTORY_ITEM_ID <span class="operator">=</span> ms.INVENTORY_ITEM_ID</span><br><span class="line"><span class="keyword">JOIN</span> WSM_SPLIT_MERGE_TRANSACTIONS wsm <span class="keyword">ON</span> mm.TRANSACTION_ID <span class="operator">=</span> wsm.TRANSACTION_ID</span><br><span class="line"><span class="keyword">JOIN</span> WIP_TRANSACTION_ACCOUNTS wta <span class="keyword">ON</span> we.WIP_ENTITY_ID <span class="operator">=</span> wta.WIP_ENTITY_ID</span><br><span class="line"><span class="keyword">JOIN</span> WIP_OPERATION_RESOURCES wor <span class="keyword">ON</span> we.WIP_ENTITY_ID <span class="operator">=</span> wor.WIP_ENTITY_ID</span><br></pre></td></tr></table></figure>
+<div style="margin-top: -15px; margin-bottom: 10px; font-size: 14px; color: #555; text-align: center; font-style: normal; font-family: 'Arial', sans-serif;">
+    (資料來源: <a target="_blank" rel="noopener" href="https://www.triniti.com/shop-floor-management-er-diagram" style="color: #555; text-decoration: none;">Shop Floor Management ER Diagram)
+    </a>
+</div>
+<h1 id="Copilot-Edits"><a class="header-anchor" href="#Copilot-Edits"></a>Copilot Edits</h1>
+<p>使用套件 vscode-mermAId 來自動生成 UML，記得要將sql檔案加入提示詞中。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@mermAId</span> <span class="operator">/</span>uml 請根據所有的<span class="keyword">JOIN</span>仔細畫出每個表的關聯的UML圖</span><br></pre></td></tr></table></figure>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-vscode-ai-mermaid-uml%2Fgithub-copilot-mermAId-uml-1.jpg?alt=media&amp;token=50bb427d-749e-4727-9bf7-e04deda7f745" alt="github-copilot-mermAId-uml-1"></p>
+<p>點擊View Markdown Source，可以看到 Copilot 幫我們生成的 Markdown 語法囉。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-vscode-ai-mermaid-uml%2Fgithub-copilot-mermAId-uml-2.jpg?alt=media&amp;token=7e11bf9f-93f8-4431-8571-97c97e3407f0" alt="github-copilot-mermAId-uml-2"></p>
+<h1 id="生成UML"><a class="header-anchor" href="#生成UML"></a>生成UML</h1>
+<p>生成的 Markdown 語法的 UML 後，即可在支援 Markdown 的平台上呈現。</p>
+<p>(<s>每次看還是會想wow一下XD</s>)</p>
+<pre class="mermaid">classDiagram
+    class WIP_ENTITIES {
+        WIP_ENTITY_ID
+        WIP_ENTITY_NAME
+    }
+    class WIP_DISCRETE_JOBS {
+        WIP_ENTITY_ID
+        JOB_TYPE
+        COMPLETION_SUBINVENTORY
+    }
+    class WIP_MOVE_TRANSACTIONS {
+        WIP_ENTITY_ID
+        TRANSACTION_DATE
+        TRANSACTION_ID
+        TRANSACTION_QUANTITY
+    }
+    class MTL_MATERIAL_TRANSACTIONS {
+        TRANSACTION_ID
+        INVENTORY_ITEM_ID
+    }
+    class MTL_SYSTEM_ITEMS_B {
+        INVENTORY_ITEM_ID
+        DESCRIPTION
+    }
+    class WSM_SPLIT_MERGE_TRANSACTIONS {
+        TRANSACTION_ID
+    }
+    class WIP_TRANSACTION_ACCOUNTS {
+        WIP_ENTITY_ID
+        REFERENCE_ACCOUNT
+    }
+    class WIP_OPERATION_RESOURCES {
+        WIP_ENTITY_ID
+        RESOURCE_SEQ_NUM
+    }
+
+    WIP_ENTITIES --> WIP_DISCRETE_JOBS : WIP_ENTITY_ID
+    WIP_ENTITIES --> WIP_MOVE_TRANSACTIONS : WIP_ENTITY_ID
+    WIP_MOVE_TRANSACTIONS --> MTL_MATERIAL_TRANSACTIONS : TRANSACTION_ID
+    MTL_MATERIAL_TRANSACTIONS --> MTL_SYSTEM_ITEMS_B : INVENTORY_ITEM_ID
+    MTL_MATERIAL_TRANSACTIONS --> WSM_SPLIT_MERGE_TRANSACTIONS : TRANSACTION_ID
+    WIP_ENTITIES --> WIP_TRANSACTION_ACCOUNTS : WIP_ENTITY_ID
+    WIP_ENTITIES --> WIP_OPERATION_RESOURCES : WIP_ENTITY_ID</pre>
+<h1 id="結論"><a class="header-anchor" href="#結論"></a>結論</h1>
+<p>透過 GitHub Copilot 自動化解析與 vscode-mermAId 插件，讓我們能將複雜的 SQL JOIN 關係快速轉換為視覺化 UML 圖表，特別適合在以下情境:</p>
+<ul>
+<li>幫助成員快速理解系統架構。</li>
+<li>分析資料庫結構變更的潛在影響。</li>
+<li>強化技術文件的視覺化表達。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/blog/tags/Markdown/" rel="tag"># Markdown</a>
+              <a href="/blog/tags/GitHub/" rel="tag"># GitHub</a>
+              <a href="/blog/tags/Copilot/" rel="tag"># Copilot</a>
+              <a href="/blog/tags/VS-Code/" rel="tag"># VS Code</a>
+              <a href="/blog/tags/GitHub-Copilot/" rel="tag"># GitHub Copilot</a>
+              <a href="/blog/tags/Mermaid/" rel="tag"># Mermaid</a>
+              <a href="/blog/tags/UML/" rel="tag"># UML</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/blog/github-copilot-vscode-ai-conventional-commit/" rel="prev" title="【GitHub Copilot】自動生成慣例式提交訊息">
+                  <i class="fa fa-angle-left"></i> 【GitHub Copilot】自動生成慣例式提交訊息
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Stella</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/blog/js/comments.js"></script><script src="/blog/js/utils.js"></script><script src="/blog/js/motion.js"></script><script src="/blog/js/sidebar.js"></script><script src="/blog/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js","integrity":"sha256-stuqcu2FrjYCXDOytWFA5SoUE/r3nkp6gTglzNSlavU="}}</script>
+  <script src="/blog/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"ams","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/blog/js/third-party/math/mathjax.js"></script>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"estellacoding","repo":"blog","client_id":"Ov23liBnWPuObZGktbAv","client_secret":"9ed6e261cd75af620744058daafa56b80a53ffa8","admin_user":"estellacoding","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":null,"labels":"gitalk","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"5ed82c10e58d8ecef9f8adb076eca91e"}</script>
+<script src="/blog/js/third-party/comments/gitalk.js"></script>
+
+</body>
+</html>
