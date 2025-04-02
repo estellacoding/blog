@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="mask-icon" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"estellacoding.github.io","root":"/blog/","images":"/blog/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/blog/js/config.js"></script>
+
+    <meta name="description" content="最近一個 SQL 報表的專案，寫了 439 行 SQL，第一次寫這麼多行的SQL，來分享這次學到的一些知識點。我會用顧客的分類標籤舉例，來說明如何用 Oracle 的 LISTAGG 函數來建立顧客的購買路徑。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【PL&#x2F;SQL】用 LISTAGG 建立顧客標籤及購買路徑">
+<meta property="og:url" content="https://estellacoding.github.io/blog/oracle-plsql-customer-tag-path/index.html">
+<meta property="og:site_name" content="Stella Coding">
+<meta property="og:description" content="最近一個 SQL 報表的專案，寫了 439 行 SQL，第一次寫這麼多行的SQL，來分享這次學到的一些知識點。我會用顧客的分類標籤舉例，來說明如何用 Oracle 的 LISTAGG 函數來建立顧客的購買路徑。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2025-04-02T03:11:11.000Z">
+<meta property="article:modified_time" content="2025-04-02T03:11:11.000Z">
+<meta property="article:author" content="Stella">
+<meta property="article:tag" content="Database">
+<meta property="article:tag" content="Oracle">
+<meta property="article:tag" content="PL&#x2F;SQL">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://estellacoding.github.io/blog/oracle-plsql-customer-tag-path/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://estellacoding.github.io/blog/oracle-plsql-customer-tag-path/","path":"oracle-plsql-customer-tag-path/","title":"【PL/SQL】用 LISTAGG 建立顧客標籤及購買路徑"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>【PL/SQL】用 LISTAGG 建立顧客標籤及購買路徑 | Stella Coding</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EG0CKC3093"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-EG0CKC3093","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/blog/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/blog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/blog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Stella Coding</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Hands-on fuels my soul!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/blog/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/blog/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/blog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9C%80%E6%B1%82%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">需求背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E7%BD%AE%E6%BA%96%E5%82%99"><span class="nav-number">2.</span> <span class="nav-text">前置準備</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#LISTAGG"><span class="nav-number">2.1.</span> <span class="nav-text">LISTAGG</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%81%8B%E7%AE%97%E5%AD%90"><span class="nav-number">2.2.</span> <span class="nav-text">|| 運算子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CTE"><span class="nav-number">2.3.</span> <span class="nav-text">CTE</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B3%87%E6%96%99%E7%B5%90%E6%A7%8B"><span class="nav-number">2.4.</span> <span class="nav-text">資料結構</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ORDERS"><span class="nav-number">2.4.1.</span> <span class="nav-text">ORDERS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ORDER-ITEMS"><span class="nav-number">2.4.2.</span> <span class="nav-text">ORDER_ITEMS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%9C%E8%81%AF%E9%97%9C%E4%BF%82"><span class="nav-number">2.4.3.</span> <span class="nav-text">關聯關係</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AF%A6%E4%BD%9C%E7%AF%84%E4%BE%8B"><span class="nav-number">3.</span> <span class="nav-text">實作範例</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E8%B3%87%E6%96%99%E8%A1%A8"><span class="nav-number">3.1.</span> <span class="nav-text">建立資料表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A1%A7%E5%AE%A2%E6%A8%99%E7%B1%A4"><span class="nav-number">3.2.</span> <span class="nav-text">顧客標籤</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A1%A7%E5%AE%A2%E6%A8%99%E7%B1%A4%E6%95%B8%E9%87%8F"><span class="nav-number">3.3.</span> <span class="nav-text">顧客標籤數量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A1%A7%E5%AE%A2%E6%A8%99%E7%B1%A4%E8%B7%AF%E5%BE%91"><span class="nav-number">3.4.</span> <span class="nav-text">顧客標籤路徑</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B8%BD%E7%B5%90"><span class="nav-number">4.</span> <span class="nav-text">總結</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Stella"
+      src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+  <p class="site-author-name" itemprop="name">Stella</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/blog/archives/">
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/blog/categories/">
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/blog/tags/">
+        <span class="site-state-item-count">106</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/estellacoding" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;estellacoding" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.instagram.com/stellacoding/" title="Instagram → https:&#x2F;&#x2F;www.instagram.com&#x2F;stellacoding&#x2F;" rel="noopener me" target="_blank"><i class="fab fa-instagram fa-fw"></i>Instagram</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://estellacoding.github.io/blog/oracle-plsql-customer-tag-path/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+      <meta itemprop="name" content="Stella">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Stella Coding">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="【PL/SQL】用 LISTAGG 建立顧客標籤及購買路徑 | Stella Coding">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【PL/SQL】用 LISTAGG 建立顧客標籤及購買路徑
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2025-04-02 11:11:11" itemprop="dateCreated datePublished" datetime="2025-04-02T11:11:11+08:00">2025-04-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/Oracle/" itemprop="url" rel="index"><span itemprop="name">Oracle</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>最近一個 SQL 報表的專案，寫了 439 行 SQL，第一次寫這麼多行的SQL，來分享這次學到的一些知識點。我會用顧客的分類標籤舉例，來說明如何用 Oracle 的 LISTAGG 函數來建立顧客的購買路徑。</p>
+<span id="more"></span>
+<h1 id="需求背景"><a class="header-anchor" href="#需求背景"></a>需求背景</h1>
+<p>分析顧客行為時，希望將每位顧客的標籤整合成單一欄位，方便觀察其購買偏好與轉換路徑。</p>
+<p>兩大分析指標:</p>
+<ul>
+<li>購買偏好分析
+<ul>
+<li>根據商品特徵，為顧客產生標籤，如「Photography Lover(攝影愛好者)」。</li>
+<li>統計每個標籤在顧客所有訂單中出現的總次數，用以衡量其偏好強度。</li>
+</ul>
+</li>
+<li>購買行為路徑分析
+<ul>
+<li>根據訂單日期，呈現顧客標籤的購買順序，視覺化顧客興趣的變化軌跡。</li>
+<li>每個節點格式以「標籤名稱（出現次數）」表示。</li>
+</ul>
+</li>
+</ul>
+<p>具體需求彙總如下:</p>
+<ul>
+<li>根據產品名稱，為顧客貼上分類標籤。</li>
+<li>每位顧客可能擁有多個標籤，統計標籤在顧客訂單中出現總次數。</li>
+<li>根據訂單日期，排序標籤的先後順序。</li>
+<li>每個節點格式以「標籤名稱（出現次數）」表示。</li>
+</ul>
+<p>舉例，最終呈現的結果會像這樣:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Photography Lover (<span class="number">1</span>) <span class="comment">--&gt; Tech Enthusiast (1)</span></span><br></pre></td></tr></table></figure>
+<h1 id="前置準備"><a class="header-anchor" href="#前置準備"></a>前置準備</h1>
+<h2 id="LISTAGG"><a class="header-anchor" href="#LISTAGG"></a>LISTAGG</h2>
+<p>這次的關鍵工具是用 <code>LISTAGG</code> 函數來實現這一需求，<code>LISTAGG</code> 函數是 Oracle 的一個聚合函數，能將多筆資料整合為一個字串，並用指定的分隔符號分隔不同資料。</p>
+<p><code>LISTAGG</code> 語法如下:</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LISTAGG (<span class="built_in">column_name</span>, <span class="string">&#x27;separator&#x27;</span>) <span class="keyword">WITHIN</span> <span class="keyword">GROUP</span> (<span class="keyword">ORDER</span> <span class="keyword">BY</span> <span class="built_in">column_name</span>)</span><br></pre></td></tr></table></figure>
+<p>舉例如下:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">  CUSTOMER_ID, </span><br><span class="line">  <span class="built_in">LISTAGG</span>(OI.PRODUCT_NAME, <span class="string">&#x27;, &#x27;</span>) <span class="keyword">WITHIN</span> <span class="keyword">GROUP</span> (<span class="keyword">ORDER</span> <span class="keyword">BY</span> OI.PRODUCT_ID) <span class="keyword">AS</span> PURCHASED_PRODUCTS</span><br><span class="line"><span class="keyword">FROM</span> ORDERS O</span><br><span class="line"><span class="keyword">JOIN</span> ORDER_ITEMS OI <span class="keyword">ON</span> O.ORDER_ID <span class="operator">=</span> OI.ORDER_ID</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> CUSTOMER_ID;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">C001	Camera, Tripod</span><br><span class="line">C002	Laptop, DIY Kit</span><br><span class="line">C003	Camera, Laptop</span><br><span class="line">C004	Coffee</span><br><span class="line">C005	Bicycle</span><br></pre></td></tr></table></figure>
+<div style="margin-top: -15px; font-size: 14px; color: #555; text-align: center; font-style: normal; font-family: 'Arial', sans-serif;">
+    (資料來源: 
+    <a target="_blank" rel="noopener" href="https://sqlfiddle.com/oracle-plsql/online-compiler?id=902cbe6b-c645-43e1-b913-c6e7f7cf5d24" style="color: #555; text-decoration: none;">
+    查看Fiddle執行結果)
+    </a>
+</div>
+<h2 id="運算子"><a class="header-anchor" href="#運算子"></a>|| 運算子</h2>
+<p><code>||</code> 是 Oracle 中「將兩個字串接在一起」的運算子，就像 Python 或 JavaScript 的 <code>+</code> 字串相加。</p>
+<p>舉例如下:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> PRODUCT_NAME <span class="operator">||</span> <span class="string">&#x27; (ID: &#x27;</span> <span class="operator">||</span> PRODUCT_ID <span class="operator">||</span> <span class="string">&#x27;)&#x27;</span> <span class="keyword">AS</span> PRODUCT_INFO</span><br><span class="line"><span class="keyword">FROM</span> ORDER_ITEMS;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Camera (ID: P001)</span><br><span class="line">Tripod (ID: P002)</span><br><span class="line">Laptop (ID: P003)</span><br><span class="line">Camera (ID: P001)</span><br><span class="line">Laptop (ID: P003)</span><br><span class="line">Coffee (ID: P004)</span><br><span class="line">Bicycle (ID: P005)</span><br><span class="line">DIY Kit (ID: P006)</span><br></pre></td></tr></table></figure>
+<div style="margin-top: -15px; font-size: 14px; color: #555; text-align: center; font-style: normal; font-family: 'Arial', sans-serif;">
+    (資料來源: 
+    <a target="_blank" rel="noopener" href="https://sqlfiddle.com/oracle-plsql/online-compiler?id=d08ebb5f-ad7b-4e84-9e62-e534d12865ff" style="color: #555; text-decoration: none;">
+    查看Fiddle執行結果)
+    </a>
+</div>
+<h2 id="CTE"><a class="header-anchor" href="#CTE"></a>CTE</h2>
+<p>為了讓 SQL 語法結構更清晰，我們會使用 CTE(Common Table Expression) 來拆解查詢邏輯。</p>
+<p>使用 CTE 的好處:</p>
+<ul>
+<li>提升可讀性: 每個邏輯階段都可以獨立命名，清楚標示這一段在做什麼</li>
+<li>更好維護與除錯: 未來只需修改其中一段邏輯，不需反覆追查整段查詢邏輯</li>
+<li>方便重複使用: 若同樣邏輯要在多個地方使用，減少重複撰寫子查詢</li>
+</ul>
+<p>如果把所有邏輯都寫在一層層巢狀的子查詢裡，雖然功能上可以達成一樣的效果，但閱讀起來容易混亂，維護上也不直觀，尤其當查詢變得複雜、牽涉多個表格(<s>我也想只用子查詢，但這次JOIN了17個表格，我已暈😵‍💫</s>)時，CTE 的優勢就會更加明顯。</p>
+<p>舉例如下:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">WITH</span> TAG_ITEMS <span class="keyword">AS</span> (</span><br><span class="line">  <span class="keyword">SELECT</span></span><br><span class="line">    O.CUSTOMER_ID,</span><br><span class="line">    O.ORDER_DATE,</span><br><span class="line">    <span class="keyword">CASE</span> </span><br><span class="line">      <span class="keyword">WHEN</span> <span class="built_in">UPPER</span>(OI.PRODUCT_NAME) <span class="keyword">LIKE</span> <span class="string">&#x27;%CAMERA%&#x27;</span> <span class="keyword">THEN</span> <span class="string">&#x27;Photography Lover&#x27;</span></span><br><span class="line">      <span class="keyword">WHEN</span> <span class="built_in">UPPER</span>(OI.PRODUCT_NAME) <span class="keyword">LIKE</span> <span class="string">&#x27;%TRIPOD%&#x27;</span> <span class="keyword">THEN</span> <span class="string">&#x27;Photography Lover&#x27;</span></span><br><span class="line">      <span class="keyword">WHEN</span> <span class="built_in">UPPER</span>(OI.PRODUCT_NAME) <span class="keyword">LIKE</span> <span class="string">&#x27;%LAPTOP%&#x27;</span> <span class="keyword">THEN</span> <span class="string">&#x27;Tech Enthusiast&#x27;</span></span><br><span class="line">      <span class="keyword">WHEN</span> <span class="built_in">UPPER</span>(OI.PRODUCT_NAME) <span class="keyword">LIKE</span> <span class="string">&#x27;%COFFEE%&#x27;</span> <span class="keyword">THEN</span> <span class="string">&#x27;Coffee Enthusiast&#x27;</span></span><br><span class="line">      <span class="keyword">WHEN</span> <span class="built_in">UPPER</span>(OI.PRODUCT_NAME) <span class="keyword">LIKE</span> <span class="string">&#x27;%BICYCLE%&#x27;</span> <span class="keyword">THEN</span> <span class="string">&#x27;Fitness Lifestyle&#x27;</span></span><br><span class="line">      <span class="keyword">WHEN</span> <span class="built_in">UPPER</span>(OI.PRODUCT_NAME) <span class="keyword">LIKE</span> <span class="string">&#x27;%DIY%&#x27;</span> <span class="keyword">THEN</span> <span class="string">&#x27;Craft Enthusiast&#x27;</span></span><br><span class="line">    <span class="keyword">END</span> <span class="keyword">AS</span> TAG</span><br><span class="line">  <span class="keyword">FROM</span> ORDERS O</span><br><span class="line">  <span class="keyword">JOIN</span> ORDER_ITEMS OI <span class="keyword">ON</span> O.ORDER_ID <span class="operator">=</span> OI.ORDER_ID</span><br><span class="line">  <span class="keyword">WHERE</span> OI.PRODUCT_NAME <span class="keyword">IS</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> TAG_ITEMS;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">C001	<span class="number">01</span><span class="operator">-</span>JAN<span class="number">-25</span>	Photography Lover</span><br><span class="line">C001	<span class="number">01</span><span class="operator">-</span>JAN<span class="number">-25</span>	Photography Lover</span><br><span class="line">C002	<span class="number">11</span><span class="operator">-</span>JAN<span class="number">-25</span>	Tech Enthusiast</span><br><span class="line">C003	<span class="number">02</span><span class="operator">-</span>FEB<span class="number">-25</span>	Photography Lover</span><br><span class="line">C003	<span class="number">02</span><span class="operator">-</span>FEB<span class="number">-25</span>	Tech Enthusiast</span><br><span class="line">C004	<span class="number">03</span><span class="operator">-</span>MAR<span class="number">-25</span>	Coffee Enthusiast</span><br><span class="line">C005	<span class="number">23</span><span class="operator">-</span>MAR<span class="number">-25</span>	Fitness Lifestyle</span><br><span class="line">C002	<span class="number">22</span><span class="operator">-</span>FEB<span class="number">-25</span>	Craft Enthusiast</span><br></pre></td></tr></table></figure>
+<div style="margin-top: -15px; font-size: 14px; color: #555; text-align: center; font-style: normal; font-family: 'Arial', sans-serif;">
+    (資料來源: 
+    <a target="_blank" rel="noopener" href="https://sqlfiddle.com/oracle-plsql/online-compiler?id=67ad452a-6f53-4c53-bdce-5aa9813f661d" style="color: #555; text-decoration: none;">
+    查看Fiddle執行結果)
+    </a>
+</div>
+<h2 id="資料結構"><a class="header-anchor" href="#資料結構"></a>資料結構</h2>
+<p>用 UML 圖表說明本次範例的資料庫結構。</p>
+<pre class="mermaid">erDiagram
+    ORDERS {
+        VARCHAR2(10) ORDER_ID PK
+        VARCHAR2(10) CUSTOMER_ID
+        DATE ORDER_DATE
+    }
+    
+    ORDER_ITEMS {
+        VARCHAR2(10) ORDER_ID PK, FK
+        VARCHAR2(10) PRODUCT_ID PK
+        VARCHAR2(100) PRODUCT_NAME
+    }
+    
+    ORDERS ||--o{ ORDER_ITEMS : "has"</pre>
+<h3 id="ORDERS"><a class="header-anchor" href="#ORDERS"></a>ORDERS</h3>
+<ul>
+<li><code>ORDER_ID (VARCHAR2(10))</code> - 主鍵，訂單編號</li>
+<li><code>CUSTOMER_ID (VARCHAR2(10))</code> - 顧客編號</li>
+<li><code>ORDER_DATE (DATE)</code> - 訂單日期</li>
+</ul>
+<h3 id="ORDER-ITEMS"><a class="header-anchor" href="#ORDER-ITEMS"></a>ORDER_ITEMS</h3>
+<ul>
+<li><code>ORDER_ID (VARCHAR2(10))</code> – 主鍵之一，也是外鍵，對應 <code>ORDERS.ORDER_ID</code>。</li>
+<li><code>PRODUCT_ID (VARCHAR2(10))</code> – 主鍵之一，商品編號。</li>
+<li><code>PRODUCT_NAME (VARCHAR2(100))</code> – 商品名稱。</li>
+<li>每筆 <code>ORDER_ITEMS</code> 記錄對應一個商品與其所屬訂單。</li>
+<li>使用複合主鍵 (<code>ORDER_ID</code>, <code>PRODUCT_ID</code>)，確保每張訂單中每個商品的唯一性。</li>
+</ul>
+<h3 id="關聯關係"><a class="header-anchor" href="#關聯關係"></a>關聯關係</h3>
+<ul>
+<li><code>ORDERS</code> 與 <code>ORDER_ITEMS</code> 是一對多關係。</li>
+<li>一個訂單可以包含多個商品項目。</li>
+</ul>
+<h1 id="實作範例"><a class="header-anchor" href="#實作範例"></a>實作範例</h1>
+<h2 id="建立資料表"><a class="header-anchor" href="#建立資料表"></a>建立資料表</h2>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 建立訂單主表</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> ORDERS (</span><br><span class="line">  ORDER_ID     VARCHAR2(<span class="number">10</span>),  <span class="comment">-- 訂單編號</span></span><br><span class="line">  CUSTOMER_ID  VARCHAR2(<span class="number">10</span>),  <span class="comment">-- 顧客編號</span></span><br><span class="line">  ORDER_DATE   <span class="type">DATE</span>           <span class="comment">-- 訂單日期</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 建立訂單明細表</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> ORDER_ITEMS (</span><br><span class="line">  ORDER_ID      VARCHAR2(<span class="number">10</span>),  <span class="comment">-- 對應的訂單編號</span></span><br><span class="line">  PRODUCT_ID    VARCHAR2(<span class="number">10</span>),  <span class="comment">-- 商品ID</span></span><br><span class="line">  PRODUCT_NAME  VARCHAR2(<span class="number">100</span>)  <span class="comment">-- 商品名稱</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 插入訂單資料</span></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> ORDERS <span class="keyword">VALUES</span> (<span class="string">&#x27;1001&#x27;</span>, <span class="string">&#x27;C001&#x27;</span>, TO_DATE(<span class="string">&#x27;2025-01-01&#x27;</span>, <span class="string">&#x27;YYYY-MM-DD&#x27;</span>));</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> ORDERS <span class="keyword">VALUES</span> (<span class="string">&#x27;1002&#x27;</span>, <span class="string">&#x27;C002&#x27;</span>, TO_DATE(<span class="string">&#x27;2025-01-11&#x27;</span>, <span class="string">&#x27;YYYY-MM-DD&#x27;</span>));</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> ORDERS <span class="keyword">VALUES</span> (<span class="string">&#x27;1003&#x27;</span>, <span class="string">&#x27;C003&#x27;</span>, TO_DATE(<span class="string">&#x27;2025-02-02&#x27;</span>, <span class="string">&#x27;YYYY-MM-DD&#x27;</span>));</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> ORDERS <span class="keyword">VALUES</span> (<span class="string">&#x27;1004&#x27;</span>, <span class="string">&#x27;C004&#x27;</span>, TO_DATE(<span class="string">&#x27;2025-03-03&#x27;</span>, <span class="string">&#x27;YYYY-MM-DD&#x27;</span>));</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> ORDERS <span class="keyword">VALUES</span> (<span class="string">&#x27;1005&#x27;</span>, <span class="string">&#x27;C005&#x27;</span>, TO_DATE(<span class="string">&#x27;2025-03-23&#x27;</span>, <span class="string">&#x27;YYYY-MM-DD&#x27;</span>));</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> ORDERS <span class="keyword">VALUES</span> (<span class="string">&#x27;1006&#x27;</span>, <span class="string">&#x27;C002&#x27;</span>, TO_DATE(<span class="string">&#x27;2025-02-22&#x27;</span>, <span class="string">&#x27;YYYY-MM-DD&#x27;</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 插入訂單品項資料</span></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> ORDER_ITEMS <span class="keyword">VALUES</span> (<span class="string">&#x27;1001&#x27;</span>, <span class="string">&#x27;P001&#x27;</span>, <span class="string">&#x27;Camera&#x27;</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> ORDER_ITEMS <span class="keyword">VALUES</span> (<span class="string">&#x27;1001&#x27;</span>, <span class="string">&#x27;P002&#x27;</span>, <span class="string">&#x27;Tripod&#x27;</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> ORDER_ITEMS <span class="keyword">VALUES</span> (<span class="string">&#x27;1002&#x27;</span>, <span class="string">&#x27;P003&#x27;</span>, <span class="string">&#x27;Laptop&#x27;</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> ORDER_ITEMS <span class="keyword">VALUES</span> (<span class="string">&#x27;1003&#x27;</span>, <span class="string">&#x27;P001&#x27;</span>, <span class="string">&#x27;Camera&#x27;</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> ORDER_ITEMS <span class="keyword">VALUES</span> (<span class="string">&#x27;1003&#x27;</span>, <span class="string">&#x27;P003&#x27;</span>, <span class="string">&#x27;Laptop&#x27;</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> ORDER_ITEMS <span class="keyword">VALUES</span> (<span class="string">&#x27;1004&#x27;</span>, <span class="string">&#x27;P004&#x27;</span>, <span class="string">&#x27;Coffee&#x27;</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> ORDER_ITEMS <span class="keyword">VALUES</span> (<span class="string">&#x27;1005&#x27;</span>, <span class="string">&#x27;P005&#x27;</span>, <span class="string">&#x27;Bicycle&#x27;</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> ORDER_ITEMS <span class="keyword">VALUES</span> (<span class="string">&#x27;1006&#x27;</span>, <span class="string">&#x27;P006&#x27;</span>, <span class="string">&#x27;DIY Kit&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 提交資料異動</span></span><br><span class="line"><span class="keyword">COMMIT</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="顧客標籤"><a class="header-anchor" href="#顧客標籤"></a>顧客標籤</h2>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 顧客標籤</span></span><br><span class="line"><span class="keyword">WITH</span> TAG_ITEMS <span class="keyword">AS</span> (</span><br><span class="line">  <span class="keyword">SELECT</span></span><br><span class="line">    O.CUSTOMER_ID,</span><br><span class="line">    O.ORDER_DATE,</span><br><span class="line">    <span class="keyword">CASE</span> </span><br><span class="line">      <span class="keyword">WHEN</span> <span class="built_in">UPPER</span>(OI.PRODUCT_NAME) <span class="keyword">LIKE</span> <span class="string">&#x27;%CAMERA%&#x27;</span> <span class="keyword">THEN</span> <span class="string">&#x27;Photography Lover&#x27;</span></span><br><span class="line">      <span class="keyword">WHEN</span> <span class="built_in">UPPER</span>(OI.PRODUCT_NAME) <span class="keyword">LIKE</span> <span class="string">&#x27;%TRIPOD%&#x27;</span> <span class="keyword">THEN</span> <span class="string">&#x27;Photography Lover&#x27;</span></span><br><span class="line">      <span class="keyword">WHEN</span> <span class="built_in">UPPER</span>(OI.PRODUCT_NAME) <span class="keyword">LIKE</span> <span class="string">&#x27;%LAPTOP%&#x27;</span> <span class="keyword">THEN</span> <span class="string">&#x27;Tech Enthusiast&#x27;</span></span><br><span class="line">      <span class="keyword">WHEN</span> <span class="built_in">UPPER</span>(OI.PRODUCT_NAME) <span class="keyword">LIKE</span> <span class="string">&#x27;%COFFEE%&#x27;</span> <span class="keyword">THEN</span> <span class="string">&#x27;Coffee Enthusiast&#x27;</span></span><br><span class="line">      <span class="keyword">WHEN</span> <span class="built_in">UPPER</span>(OI.PRODUCT_NAME) <span class="keyword">LIKE</span> <span class="string">&#x27;%BICYCLE%&#x27;</span> <span class="keyword">THEN</span> <span class="string">&#x27;Fitness Lifestyle&#x27;</span></span><br><span class="line">      <span class="keyword">WHEN</span> <span class="built_in">UPPER</span>(OI.PRODUCT_NAME) <span class="keyword">LIKE</span> <span class="string">&#x27;%DIY%&#x27;</span> <span class="keyword">THEN</span> <span class="string">&#x27;Craft Enthusiast&#x27;</span></span><br><span class="line">    <span class="keyword">END</span> <span class="keyword">AS</span> TAG</span><br><span class="line">  <span class="keyword">FROM</span> ORDERS O</span><br><span class="line">  <span class="keyword">JOIN</span> ORDER_ITEMS OI <span class="keyword">ON</span> O.ORDER_ID <span class="operator">=</span> OI.ORDER_ID</span><br><span class="line">  <span class="keyword">WHERE</span> OI.PRODUCT_NAME <span class="keyword">IS</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span></span><br><span class="line">),</span><br></pre></td></tr></table></figure>
+<h2 id="顧客標籤數量"><a class="header-anchor" href="#顧客標籤數量"></a>顧客標籤數量</h2>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 顧客標籤數量</span></span><br><span class="line">TAG_COUNT <span class="keyword">AS</span> (</span><br><span class="line">  <span class="keyword">SELECT</span></span><br><span class="line">    CUSTOMER_ID,</span><br><span class="line">    TAG,</span><br><span class="line">    <span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="keyword">AS</span> CNT,</span><br><span class="line">    <span class="built_in">MIN</span>(ORDER_DATE) <span class="keyword">AS</span> FIRST_ORDER_DATE</span><br><span class="line">  <span class="keyword">FROM</span> TAG_ITEMS</span><br><span class="line">  <span class="keyword">WHERE</span> TAG <span class="keyword">IS</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span></span><br><span class="line">  <span class="keyword">GROUP</span> <span class="keyword">BY</span> CUSTOMER_ID, TAG</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h2 id="顧客標籤路徑"><a class="header-anchor" href="#顧客標籤路徑"></a>顧客標籤路徑</h2>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 顧客標籤路徑</span></span><br><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">  CUSTOMER_ID,</span><br><span class="line">  <span class="built_in">LISTAGG</span>(TAG <span class="operator">||</span> <span class="string">&#x27; (&#x27;</span> <span class="operator">||</span> CNT <span class="operator">||</span> <span class="string">&#x27;)&#x27;</span>, <span class="string">&#x27; --&gt; &#x27;</span>) <span class="keyword">WITHIN</span> <span class="keyword">GROUP</span> (<span class="keyword">ORDER</span> <span class="keyword">BY</span> FIRST_ORDER_DATE) <span class="keyword">AS</span> PURCHASE_PATH</span><br><span class="line"><span class="keyword">FROM</span> TAG_COUNT</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> CUSTOMER_ID;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">C001	Photography Lover (<span class="number">2</span>)</span><br><span class="line">C002	Tech Enthusiast (<span class="number">1</span>) <span class="comment">--&gt; Craft Enthusiast (1)</span></span><br><span class="line">C003	Photography Lover (<span class="number">1</span>) <span class="comment">--&gt; Tech Enthusiast (1)</span></span><br><span class="line">C004	Coffee Enthusiast (<span class="number">1</span>)</span><br><span class="line">C005	Fitness Lifestyle (<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<div style="margin-top: -15px; font-size: 14px; color: #555; text-align: center; font-style: normal; font-family: 'Arial', sans-serif;">
+    (資料來源: 
+    <a target="_blank" rel="noopener" href="https://sqlfiddle.com/oracle-plsql/online-compiler?id=b048c21e-a2c7-4f01-9f5f-38fdb42f8e78" style="color: #555; text-decoration: none;">
+    查看Fiddle執行結果)
+    </a>
+</div>
+<h1 id="總結"><a class="header-anchor" href="#總結"></a>總結</h1>
+<p>這次透過 Oracle 的 LISTAGG 函數與 CTE 的語法結構，成功實作「顧客標籤與購買路徑」的需求。</p>
+<p>重點整理如下:</p>
+<ul>
+<li>使用 LISTAGG 函數，將多筆標籤資料依照訂單時間排序後整合成一條購買路徑字串。</li>
+<li>利用 || 運算子，靈活地將標籤與次數格式化為「標籤名稱（出現次數）」的格式。</li>
+<li>搭配 CTE 拆解查詢邏輯，不但提升語法可讀性，也讓後續維護與調整更加輕鬆。</li>
+</ul>
+<p>除了解 SQL 奇技淫巧外，更重要的是在處理需求時的思考方式，當我們接到需求時，不只是寫代碼，而是進一步思考需求背後的思考是什麼？資料背後的行為代表什麼？要用什麼邏輯拆解？又該如何呈現，才能讓結果真正有價值？如何將原始資料轉化為具備洞察力的資訊？</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/blog/tags/Database/" rel="tag"># Database</a>
+              <a href="/blog/tags/Oracle/" rel="tag"># Oracle</a>
+              <a href="/blog/tags/PL-SQL/" rel="tag"># PL/SQL</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/blog/grace-strength-mindset/" rel="prev" title="用 Grace 的優勢思維找到自己的優勢">
+                  <i class="fa fa-angle-left"></i> 用 Grace 的優勢思維找到自己的優勢
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Stella</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/blog/js/comments.js"></script><script src="/blog/js/utils.js"></script><script src="/blog/js/motion.js"></script><script src="/blog/js/sidebar.js"></script><script src="/blog/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js","integrity":"sha256-stuqcu2FrjYCXDOytWFA5SoUE/r3nkp6gTglzNSlavU="}}</script>
+  <script src="/blog/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"ams","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/blog/js/third-party/math/mathjax.js"></script>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"estellacoding","repo":"blog","client_id":"Ov23liBnWPuObZGktbAv","client_secret":"9ed6e261cd75af620744058daafa56b80a53ffa8","admin_user":"estellacoding","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":null,"labels":"gitalk","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"668dfe1020dc5dbe78254c02fd06b90a"}</script>
+<script src="/blog/js/third-party/comments/gitalk.js"></script>
+
+</body>
+</html>
