@@ -1329,7 +1329,7 @@ pre code {
     vertical-align: middle;
   }
   .links-of-author a::before {
-    background: #9a77cc;
+    background: #ffb0d4;
     display: inline-block;
     margin-right: 3px;
     transform: translateY(-2px);
@@ -2833,7 +2833,7 @@ header.header {
 /* 訂閱電子報樣式 */
 .subscribe-box {
   padding: 1px;
-  margin: 1px 1px;
+  margin: 0.1rem 1px 0.1rem 1px;
   text-align: center;
 }
 .subscribe-title {
