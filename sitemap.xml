@@ -155,7 +155,7 @@
   </url>
   
   <url>
-    <loc>https://estellacoding.github.io/blog/oracledb-json-mongodb-custom-fields/</loc>
+    <loc>https://estellacoding.github.io/blog/oracle-vector-search-langchain-rag/</loc>
     
     <lastmod>2025-01-08</lastmod>
     
@@ -164,7 +164,7 @@
   </url>
   
   <url>
-    <loc>https://estellacoding.github.io/blog/oracle-vector-search-langchain-rag/</loc>
+    <loc>https://estellacoding.github.io/blog/oracledb-json-mongodb-custom-fields/</loc>
     
     <lastmod>2025-01-08</lastmod>
     
@@ -496,42 +496,42 @@
   </url>
   
   <url>
-    <loc>https://estellacoding.github.io/blog/tags/Hexo/</loc>
+    <loc>https://estellacoding.github.io/blog/tags/AWS-Certified-AI-Practitioner/</loc>
     <lastmod>2025-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://estellacoding.github.io/blog/tags/Blog/</loc>
+    <loc>https://estellacoding.github.io/blog/tags/AIF-C01/</loc>
     <lastmod>2025-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://estellacoding.github.io/blog/tags/Tutorial/</loc>
+    <loc>https://estellacoding.github.io/blog/tags/AWS-Certified-AI/</loc>
     <lastmod>2025-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://estellacoding.github.io/blog/tags/Theme/</loc>
+    <loc>https://estellacoding.github.io/blog/tags/AWS/</loc>
     <lastmod>2025-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://estellacoding.github.io/blog/tags/CNN/</loc>
+    <loc>https://estellacoding.github.io/blog/tags/Certification/</loc>
     <lastmod>2025-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://estellacoding.github.io/blog/tags/Markdown/</loc>
+    <loc>https://estellacoding.github.io/blog/tags/AI-ready/</loc>
     <lastmod>2025-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -559,14 +559,7 @@
   </url>
   
   <url>
-    <loc>https://estellacoding.github.io/blog/tags/AWS/</loc>
-    <lastmod>2025-04-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/Certification/</loc>
+    <loc>https://estellacoding.github.io/blog/tags/CNN/</loc>
     <lastmod>2025-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -622,28 +615,35 @@
   </url>
   
   <url>
-    <loc>https://estellacoding.github.io/blog/tags/AWS-Certified-AI-Practitioner/</loc>
+    <loc>https://estellacoding.github.io/blog/tags/Hexo/</loc>
     <lastmod>2025-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://estellacoding.github.io/blog/tags/AIF-C01/</loc>
+    <loc>https://estellacoding.github.io/blog/tags/Blog/</loc>
     <lastmod>2025-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://estellacoding.github.io/blog/tags/AWS-Certified-AI/</loc>
+    <loc>https://estellacoding.github.io/blog/tags/Tutorial/</loc>
     <lastmod>2025-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://estellacoding.github.io/blog/tags/AI-ready/</loc>
+    <loc>https://estellacoding.github.io/blog/tags/Markdown/</loc>
+    <lastmod>2025-04-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/Theme/</loc>
     <lastmod>2025-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -664,20 +664,6 @@
   </url>
   
   <url>
-    <loc>https://estellacoding.github.io/blog/tags/GitHub/</loc>
-    <lastmod>2025-04-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/GitHub-Pages/</loc>
-    <lastmod>2025-04-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://estellacoding.github.io/blog/tags/JOIN/</loc>
     <lastmod>2025-04-14</lastmod>
     <changefreq>weekly</changefreq>
@@ -685,7 +671,21 @@
   </url>
   
   <url>
+    <loc>https://estellacoding.github.io/blog/tags/fsevents/</loc>
+    <lastmod>2025-04-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://estellacoding.github.io/blog/tags/GitHub-Copilot/</loc>
+    <lastmod>2025-04-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/GitHub/</loc>
     <lastmod>2025-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -700,6 +700,13 @@
   
   <url>
     <loc>https://estellacoding.github.io/blog/tags/VS-Code/</loc>
+    <lastmod>2025-04-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/GitHub-Pages/</loc>
     <lastmod>2025-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -721,13 +728,6 @@
   
   <url>
     <loc>https://estellacoding.github.io/blog/tags/UML/</loc>
-    <lastmod>2025-04-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/fsevents/</loc>
     <lastmod>2025-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -762,6 +762,13 @@
   </url>
   
   <url>
+    <loc>https://estellacoding.github.io/blog/tags/Life/</loc>
+    <lastmod>2025-04-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://estellacoding.github.io/blog/tags/H2O/</loc>
     <lastmod>2025-04-14</lastmod>
     <changefreq>weekly</changefreq>
@@ -770,13 +777,6 @@
   
   <url>
     <loc>https://estellacoding.github.io/blog/tags/Prediction/</loc>
-    <lastmod>2025-04-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/Life/</loc>
     <lastmod>2025-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -818,76 +818,6 @@
   </url>
   
   <url>
-    <loc>https://estellacoding.github.io/blog/tags/Matplotlib/</loc>
-    <lastmod>2025-04-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/Neural-Networks/</loc>
-    <lastmod>2025-04-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/AI/</loc>
-    <lastmod>2025-04-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/Coding/</loc>
-    <lastmod>2025-04-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/Engineer/</loc>
-    <lastmod>2025-04-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/Creator/</loc>
-    <lastmod>2025-04-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/MongoDB/</loc>
-    <lastmod>2025-04-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/MongoDB-Compass/</loc>
-    <lastmod>2025-04-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/NoSQL/</loc>
-    <lastmod>2025-04-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/GUI/</loc>
-    <lastmod>2025-04-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://estellacoding.github.io/blog/tags/Hallucination/</loc>
     <lastmod>2025-04-14</lastmod>
     <changefreq>weekly</changefreq>
@@ -923,14 +853,42 @@
   </url>
   
   <url>
-    <loc>https://estellacoding.github.io/blog/tags/Oracle/</loc>
+    <loc>https://estellacoding.github.io/blog/tags/Matplotlib/</loc>
     <lastmod>2025-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://estellacoding.github.io/blog/tags/PL-SQL/</loc>
+    <loc>https://estellacoding.github.io/blog/tags/Neural-Networks/</loc>
+    <lastmod>2025-04-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/MongoDB/</loc>
+    <lastmod>2025-04-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/MongoDB-Compass/</loc>
+    <lastmod>2025-04-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/NoSQL/</loc>
+    <lastmod>2025-04-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/GUI/</loc>
     <lastmod>2025-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -952,6 +910,76 @@
   
   <url>
     <loc>https://estellacoding.github.io/blog/tags/Local-LLM/</loc>
+    <lastmod>2025-04-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/Oracle/</loc>
+    <lastmod>2025-04-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/PL-SQL/</loc>
+    <lastmod>2025-04-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/AI/</loc>
+    <lastmod>2025-04-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/Coding/</loc>
+    <lastmod>2025-04-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/Engineer/</loc>
+    <lastmod>2025-04-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/Creator/</loc>
+    <lastmod>2025-04-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/Oracle-APEX/</loc>
+    <lastmod>2025-04-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/LiveLabs/</loc>
+    <lastmod>2025-04-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/AI-Assisted-Development/</loc>
+    <lastmod>2025-04-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/Project-Management/</loc>
     <lastmod>2025-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1007,28 +1035,21 @@
   </url>
   
   <url>
-    <loc>https://estellacoding.github.io/blog/tags/Oracle-APEX/</loc>
+    <loc>https://estellacoding.github.io/blog/tags/Oracle-VM/</loc>
     <lastmod>2025-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://estellacoding.github.io/blog/tags/LiveLabs/</loc>
+    <loc>https://estellacoding.github.io/blog/tags/Oracle-VirtualBox/</loc>
     <lastmod>2025-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://estellacoding.github.io/blog/tags/AI-Assisted-Development/</loc>
-    <lastmod>2025-04-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/Project-Management/</loc>
+    <loc>https://estellacoding.github.io/blog/tags/ERP/</loc>
     <lastmod>2025-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1105,20 +1126,6 @@
   </url>
   
   <url>
-    <loc>https://estellacoding.github.io/blog/tags/Oracle-VM/</loc>
-    <lastmod>2025-04-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/Oracle-VirtualBox/</loc>
-    <lastmod>2025-04-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://estellacoding.github.io/blog/tags/Agents/</loc>
     <lastmod>2025-04-14</lastmod>
     <changefreq>weekly</changefreq>
@@ -1127,6 +1134,41 @@
   
   <url>
     <loc>https://estellacoding.github.io/blog/tags/Tensor/</loc>
+    <lastmod>2025-04-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/Scikit-Learn/</loc>
+    <lastmod>2025-04-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/train-test-split/</loc>
+    <lastmod>2025-04-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/random-state/</loc>
+    <lastmod>2025-04-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/42/</loc>
+    <lastmod>2025-04-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/philosophy/</loc>
     <lastmod>2025-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1195,66 +1237,10 @@
     <priority>0.2</priority>
   </url>
   
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/ERP/</loc>
-    <lastmod>2025-04-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/Scikit-Learn/</loc>
-    <lastmod>2025-04-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/train-test-split/</loc>
-    <lastmod>2025-04-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/random-state/</loc>
-    <lastmod>2025-04-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/42/</loc>
-    <lastmod>2025-04-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/philosophy/</loc>
-    <lastmod>2025-04-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
 
   
   <url>
     <loc>https://estellacoding.github.io/blog/categories/AutoML/</loc>
-    <lastmod>2025-04-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/categories/Hexo/</loc>
-    <lastmod>2025-04-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/categories/Deep-Learning/</loc>
     <lastmod>2025-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1268,7 +1254,21 @@
   </url>
   
   <url>
+    <loc>https://estellacoding.github.io/blog/categories/Deep-Learning/</loc>
+    <lastmod>2025-04-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://estellacoding.github.io/blog/categories/Machine-Learning/</loc>
+    <lastmod>2025-04-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/categories/Hexo/</loc>
     <lastmod>2025-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1317,14 +1317,14 @@
   </url>
   
   <url>
-    <loc>https://estellacoding.github.io/blog/categories/Oracle/</loc>
+    <loc>https://estellacoding.github.io/blog/categories/Ollama/</loc>
     <lastmod>2025-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://estellacoding.github.io/blog/categories/Ollama/</loc>
+    <loc>https://estellacoding.github.io/blog/categories/Oracle/</loc>
     <lastmod>2025-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1338,7 +1338,7 @@
   </url>
   
   <url>
-    <loc>https://estellacoding.github.io/blog/categories/LLM/OpenAI/</loc>
+    <loc>https://estellacoding.github.io/blog/categories/Philosophy/</loc>
     <lastmod>2025-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1352,7 +1352,7 @@
   </url>
   
   <url>
-    <loc>https://estellacoding.github.io/blog/categories/Philosophy/</loc>
+    <loc>https://estellacoding.github.io/blog/categories/LLM/OpenAI/</loc>
     <lastmod>2025-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
