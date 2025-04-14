@@ -685,13 +685,6 @@
   </url>
   
   <url>
-    <loc>https://estellacoding.github.io/blog/tags/fsevents/</loc>
-    <lastmod>2025-04-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://estellacoding.github.io/blog/tags/GitHub-Copilot/</loc>
     <lastmod>2025-04-14</lastmod>
     <changefreq>weekly</changefreq>
@@ -707,6 +700,13 @@
   
   <url>
     <loc>https://estellacoding.github.io/blog/tags/VS-Code/</loc>
+    <lastmod>2025-04-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/fsevents/</loc>
     <lastmod>2025-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -734,20 +734,6 @@
   </url>
   
   <url>
-    <loc>https://estellacoding.github.io/blog/tags/Life/</loc>
-    <lastmod>2025-04-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/Mindset/</loc>
-    <lastmod>2025-04-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://estellacoding.github.io/blog/tags/Book/</loc>
     <lastmod>2025-04-14</lastmod>
     <changefreq>weekly</changefreq>
@@ -769,6 +755,13 @@
   </url>
   
   <url>
+    <loc>https://estellacoding.github.io/blog/tags/Mindset/</loc>
+    <lastmod>2025-04-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://estellacoding.github.io/blog/tags/H2O/</loc>
     <lastmod>2025-04-14</lastmod>
     <changefreq>weekly</changefreq>
@@ -777,6 +770,13 @@
   
   <url>
     <loc>https://estellacoding.github.io/blog/tags/Prediction/</loc>
+    <lastmod>2025-04-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/Life/</loc>
     <lastmod>2025-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -979,6 +979,13 @@
   </url>
   
   <url>
+    <loc>https://estellacoding.github.io/blog/tags/PL-SQL/</loc>
+    <lastmod>2025-04-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://estellacoding.github.io/blog/tags/Oracle-Database-23ai/</loc>
     <lastmod>2025-04-14</lastmod>
     <changefreq>weekly</changefreq>
@@ -994,13 +1001,6 @@
   
   <url>
     <loc>https://estellacoding.github.io/blog/tags/JSON/</loc>
-    <lastmod>2025-04-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://estellacoding.github.io/blog/tags/PL-SQL/</loc>
     <lastmod>2025-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1133,13 +1133,6 @@
   </url>
   
   <url>
-    <loc>https://estellacoding.github.io/blog/tags/Tensor/</loc>
-    <lastmod>2025-04-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://estellacoding.github.io/blog/tags/Scikit-Learn/</loc>
     <lastmod>2025-04-14</lastmod>
     <changefreq>weekly</changefreq>
@@ -1169,6 +1162,13 @@
   
   <url>
     <loc>https://estellacoding.github.io/blog/tags/philosophy/</loc>
+    <lastmod>2025-04-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/Tensor/</loc>
     <lastmod>2025-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1289,14 +1289,14 @@
   </url>
   
   <url>
-    <loc>https://estellacoding.github.io/blog/categories/Life/</loc>
+    <loc>https://estellacoding.github.io/blog/categories/Book/</loc>
     <lastmod>2025-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://estellacoding.github.io/blog/categories/Book/</loc>
+    <loc>https://estellacoding.github.io/blog/categories/Life/</loc>
     <lastmod>2025-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
