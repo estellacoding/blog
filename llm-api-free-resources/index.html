@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="mask-icon" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"estellacoding.github.io","root":"/blog/","images":"/blog/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/blog/js/config.js"></script>
+
+    <meta name="description" content="哇！連 OpenAI、xAI 都有提供免費的 API 使用額度囉！">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【LLM API】申請免費 API 使用額度">
+<meta property="og:url" content="https://estellacoding.github.io/blog/llm-api-free-resources/index.html">
+<meta property="og:site_name" content="史戴拉寫扣">
+<meta property="og:description" content="哇！連 OpenAI、xAI 都有提供免費的 API 使用額度囉！">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fllm-api-free-resources%2Fopenai-limits-usage-tier.jpg?alt=media&amp;token=5ca661cd-8c8c-4b5b-80ca-b4787c31069b">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fllm-api-free-resources%2Fopenai-data-controls-enable-sharing-data-1.jpg?alt=media&amp;token=d76faa9d-7823-41c4-b22c-277bbe23644b">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fllm-api-free-resources%2Fopenai-data-controls-enable-sharing-data-2.jpg?alt=media&amp;token=6ddeb654-7901-4b5d-9731-e20863854822">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fllm-api-free-resources%2Fx-ai-billing-credits-sharing-data-1.jpg?alt=media&amp;token=7f8b237c-26f5-448a-ae1e-371801acd1ac">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fllm-api-free-resources%2Fx-ai-billing-credits-sharing-data-2.jpg?alt=media&amp;token=bcdbb7e0-b0da-4fc3-be53-092800f54709">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fllm-api-free-resources%2Fx-ai-billing-credits-sharing-data-3.jpg?alt=media&amp;token=81acb850-ada5-449f-84bf-6bb0c5252294">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fllm-api-free-resources%2Fopenrouter-privacy-model-training.jpg?alt=media&amp;token=03cdf5ef-1267-4667-9b8b-517a85e63f53">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fllm-api-free-resources%2Fvscode-add-openrouter-model-1.jpg?alt=media&amp;token=0e1e0cdf-47fc-46d3-8bb5-37b4a183522d">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fllm-api-free-resources%2Fvscode-add-openrouter-model-2.jpg?alt=media&amp;token=225a23bc-96fe-40bf-b684-20dd6a7da52d">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fllm-api-free-resources%2Fvscode-add-openrouter-model-3.jpg?alt=media&amp;token=59168848-dfff-4d7e-ad9a-c2ee7ea86b97">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fllm-api-free-resources%2Fopenrouter-privacy-model-training-disable.jpg?alt=media&amp;token=412b0d95-f0a5-487c-b717-e54e80d623cb">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fllm-api-free-resources%2Fopenrouter-grok-model-1.jpg?alt=media&amp;token=91f42cda-8fd1-47bd-91bb-5f92bc3b9c27">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fllm-api-free-resources%2Fopenrouter-grok-model-2.jpg?alt=media&amp;token=0f04c2e2-0b37-4686-96b9-bf1c7374e4b1">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fllm-api-free-resources%2Fopenrouter-activity-check-cost.jpg?alt=media&amp;token=25f6303b-044d-41f0-ae9e-819ac66d4e26">
+<meta property="article:published_time" content="2025-04-15T03:11:11.000Z">
+<meta property="article:modified_time" content="2025-04-15T03:11:11.000Z">
+<meta property="article:author" content="史戴拉">
+<meta property="article:tag" content="LLM">
+<meta property="article:tag" content="API">
+<meta property="article:tag" content="OpenAI">
+<meta property="article:tag" content="xAI">
+<meta property="article:tag" content="OpenRouter">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fllm-api-free-resources%2Fopenai-limits-usage-tier.jpg?alt=media&amp;token=5ca661cd-8c8c-4b5b-80ca-b4787c31069b">
+
+
+<link rel="canonical" href="https://estellacoding.github.io/blog/llm-api-free-resources/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://estellacoding.github.io/blog/llm-api-free-resources/","path":"llm-api-free-resources/","title":"【LLM API】申請免費 API 使用額度"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>【LLM API】申請免費 API 使用額度 | 史戴拉寫扣</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EG0CKC3093"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-EG0CKC3093","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/blog/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/blog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/blog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">史戴拉寫扣</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Hands-on fuels my soul!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/blog/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/blog/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/blog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#OpenAI"><span class="nav-number">1.</span> <span class="nav-text">OpenAI</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Tier"><span class="nav-number">1.1.</span> <span class="nav-text">Tier</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B3%87%E6%96%99%E5%85%B1%E4%BA%AB"><span class="nav-number">1.2.</span> <span class="nav-text">資料共享</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#xAI"><span class="nav-number">2.</span> <span class="nav-text">xAI</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%84%B2%E5%80%BC"><span class="nav-number">2.1.</span> <span class="nav-text">儲值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B3%87%E6%96%99%E5%85%B1%E4%BA%AB-v2"><span class="nav-number">2.2.</span> <span class="nav-text">資料共享</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#OpenRouter"><span class="nav-number">3.</span> <span class="nav-text">OpenRouter</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B3%87%E6%96%99%E5%85%B1%E4%BA%AB-v3"><span class="nav-number">3.1.</span> <span class="nav-text">資料共享</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#VSCode"><span class="nav-number">3.2.</span> <span class="nav-text">VSCode</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#xAI-v2"><span class="nav-number">3.3.</span> <span class="nav-text">xAI</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E8%A9%A2%E7%94%A8%E9%87%8F"><span class="nav-number">3.4.</span> <span class="nav-text">查詢用量</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B8%BD%E7%B5%90"><span class="nav-number">4.</span> <span class="nav-text">總結</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="史戴拉"
+      src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+  <p class="site-author-name" itemprop="name">史戴拉</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/blog/archives/">
+          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/blog/categories/">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/blog/tags/">
+        <span class="site-state-item-count">113</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/estellacoding" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;estellacoding" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.instagram.com/stellacoding/" title="Instagram → https:&#x2F;&#x2F;www.instagram.com&#x2F;stellacoding&#x2F;" rel="noopener me" target="_blank"><i class="fab fa-instagram fa-fw"></i>Instagram</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+    
+    
+      
+      
+    
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://estellacoding.github.io/blog/llm-api-free-resources/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+      <meta itemprop="name" content="史戴拉">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="史戴拉寫扣">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="【LLM API】申請免費 API 使用額度 | 史戴拉寫扣">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【LLM API】申請免費 API 使用額度
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2025-04-15 11:11:11" itemprop="dateCreated datePublished" datetime="2025-04-15T11:11:11+08:00">2025-04-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/LLM/" itemprop="url" rel="index"><span itemprop="name">LLM</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>哇！連 OpenAI、xAI 都有提供免費的 API 使用額度囉！</p>
+<span id="more"></span>
+<h1 id="OpenAI"><a class="header-anchor" href="#OpenAI"></a>OpenAI</h1>
+<h2 id="Tier"><a class="header-anchor" href="#Tier"></a>Tier</h2>
+<p>進入 <a target="_blank" rel="noopener" href="https://platform.openai.com/settings/organization/limits">Rate limits</a> 頁面，查看自己的等級。先確認自己至少符合 Tier 1 的資格條件。</p>
+<table>
+<thead>
+<tr>
+<th>等級</th>
+<th>資格條件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tier 1</td>
+<td>已付款 $5</td>
+</tr>
+<tr>
+<td>Tier 2</td>
+<td>已付款 $50 <br>且距首次成功付款已超過 7 天</td>
+</tr>
+<tr>
+<td>Tier 3</td>
+<td>已付款 $100 <br>且距首次成功付款已超過 7 天</td>
+</tr>
+<tr>
+<td>Tier 4</td>
+<td>已付款 $250 <br>且距首次成功付款已超過 14 天</td>
+</tr>
+<tr>
+<td>Tier 5</td>
+<td>已付款 $1,000 <br>且距首次成功付款已超過 30 天</td>
+</tr>
+</tbody>
+</table>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fllm-api-free-resources%2Fopenai-limits-usage-tier.jpg?alt=media&amp;token=5ca661cd-8c8c-4b5b-80ca-b4787c31069b" alt="openai-limits-usage-tier"></p>
+<h2 id="資料共享"><a class="header-anchor" href="#資料共享"></a>資料共享</h2>
+<p>進入 <a target="_blank" rel="noopener" href="https://platform.openai.com/settings/organization/data-controls/sharing">Data controls</a> 頁面，找到 Enable sharing prompts, completions, and traces with OpenAI，並選擇 Enabled for all projects 打開資料共享。</p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fllm-api-free-resources%2Fopenai-data-controls-enable-sharing-data-1.jpg?alt=media&amp;token=d76faa9d-7823-41c4-b22c-277bbe23644b" alt="openai-data-controls-enable-sharing-data-1"></p>
+<p>設定完成後，系統會自動解鎖 <strong><u>每日 275 萬免費 tokens</u></strong> 的使用額度。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fllm-api-free-resources%2Fopenai-data-controls-enable-sharing-data-2.jpg?alt=media&amp;token=6ddeb654-7901-4b5d-9731-e20863854822" alt="openai-data-controls-enable-sharing-data-2"></p>
+<h1 id="xAI"><a class="header-anchor" href="#xAI"></a>xAI</h1>
+<h2 id="儲值"><a class="header-anchor" href="#儲值"></a>儲值</h2>
+<p>前往 <a target="_blank" rel="noopener" href="https://console.x.ai">xAI API 控制台</a> 的 Billing 的 Credits，先儲值 $5 美金。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fllm-api-free-resources%2Fx-ai-billing-credits-sharing-data-1.jpg?alt=media&amp;token=7f8b237c-26f5-448a-ae1e-371801acd1ac" alt="x-ai-billing-credits-sharing-data-1"></p>
+<h2 id="資料共享-v2"><a class="header-anchor" href="#資料共享-v2"></a>資料共享</h2>
+<p>開啟「Share Data」。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fllm-api-free-resources%2Fx-ai-billing-credits-sharing-data-2.jpg?alt=media&amp;token=bcdbb7e0-b0da-4fc3-be53-092800f54709" alt="x-ai-billing-credits-sharing-data-2"></p>
+<p>設定完成後，系統會自動解鎖 <strong><u>每月 $150 免費 credits</u></strong> 的使用額度。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fllm-api-free-resources%2Fx-ai-billing-credits-sharing-data-3.jpg?alt=media&amp;token=81acb850-ada5-449f-84bf-6bb0c5252294" alt="x-ai-billing-credits-sharing-data-3"></p>
+<h1 id="OpenRouter"><a class="header-anchor" href="#OpenRouter"></a>OpenRouter</h1>
+<p><a target="_blank" rel="noopener" href="https://openrouter.ai/">OpenRouter</a> 是一個統一的 API 服務平台，讓使用者透過單一介面訪問多種 LLM。裡面有提供 <a target="_blank" rel="noopener" href="https://openrouter.ai/models?fmt=table&amp;max_price=0&amp;order=newest">超多種免費的 LLM API</a>，參考 <a target="_blank" rel="noopener" href="https://openrouter.ai/rankings?view=month">LLM Rankings</a> 的排名，我應該會選擇以下的 LLM 來使用。</p>
+<ul>
+<li>Google: Gemini 2.5 Pro Experimental (free)</li>
+<li>DeepSeek: DeepSeek V3 0324 (free)</li>
+<li>DeepSeek: R1 (free)</li>
+</ul>
+<h2 id="資料共享-v3"><a class="header-anchor" href="#資料共享-v3"></a>資料共享</h2>
+<p>進入 <a target="_blank" rel="noopener" href="https://openrouter.ai/settings/privacy">Privacy</a> 頁面，將 Model Training 打開。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fllm-api-free-resources%2Fopenrouter-privacy-model-training.jpg?alt=media&amp;token=03cdf5ef-1267-4667-9b8b-517a85e63f53" alt="openrouter-privacy-model-training"></p>
+<h2 id="VSCode"><a class="header-anchor" href="#VSCode"></a>VSCode</h2>
+<p>如果你有用 Github Copilot 的話，也可以加入 OpenRouter 的 API Key，這樣就可以選擇使用 OpenRouter 所提供的 LLM。</p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fllm-api-free-resources%2Fvscode-add-openrouter-model-1.jpg?alt=media&amp;token=0e1e0cdf-47fc-46d3-8bb5-37b4a183522d" alt="vscode-add-openrouter-model-1"><br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fllm-api-free-resources%2Fvscode-add-openrouter-model-2.jpg?alt=media&amp;token=225a23bc-96fe-40bf-b684-20dd6a7da52d" alt="vscode-add-openrouter-model-2"><br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fllm-api-free-resources%2Fvscode-add-openrouter-model-3.jpg?alt=media&amp;token=59168848-dfff-4d7e-ad9a-c2ee7ea86b97" alt="vscode-add-openrouter-model-3"></p>
+<p>記得要開啟資料共享，不然不給用免費模型！<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fllm-api-free-resources%2Fopenrouter-privacy-model-training-disable.jpg?alt=media&amp;token=412b0d95-f0a5-487c-b717-e54e80d623cb" alt="openrouter-privacy-model-training-disable"></p>
+<h2 id="xAI-v2"><a class="header-anchor" href="#xAI-v2"></a>xAI</h2>
+<p>如果直接用 OpenRouter 的 Grok 是收費的，不過你可以加入 <strong><u>你個人的有開啟資料共享的 xAI API Key</u></strong>，那這樣就也有每月 $150 免費 credits 的使用額度。</p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fllm-api-free-resources%2Fopenrouter-grok-model-1.jpg?alt=media&amp;token=91f42cda-8fd1-47bd-91bb-5f92bc3b9c27" alt="openrouter-grok-model-1"><br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fllm-api-free-resources%2Fopenrouter-grok-model-2.jpg?alt=media&amp;token=0f04c2e2-0b37-4686-96b9-bf1c7374e4b1" alt="openrouter-grok-model-2"></p>
+<h2 id="查詢用量"><a class="header-anchor" href="#查詢用量"></a>查詢用量</h2>
+<p>可以點擊頭像下方的 Activity 看到你目前用的 LLM 的使用量與費用狀況。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fllm-api-free-resources%2Fopenrouter-activity-check-cost.jpg?alt=media&amp;token=25f6303b-044d-41f0-ae9e-819ac66d4e26" alt="openrouter-activity-check-cost"></p>
+<h1 id="總結"><a class="header-anchor" href="#總結"></a>總結</h1>
+<table>
+<thead>
+<tr>
+<th>平台</th>
+<th>免費額度</th>
+<th>開通條件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OpenAI</td>
+<td>每日 275 萬 Tokens</td>
+<td>儲值 $5 + 資料共享</td>
+</tr>
+<tr>
+<td>xAI</td>
+<td>每月 $150 credits</td>
+<td>儲值 $5 + 資料共享</td>
+</tr>
+<tr>
+<td>OpenRouter</td>
+<td>提供免費模型</td>
+<td>資料共享</td>
+</tr>
+</tbody>
+</table>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/blog/tags/LLM/" rel="tag"># LLM</a>
+              <a href="/blog/tags/API/" rel="tag"># API</a>
+              <a href="/blog/tags/OpenAI/" rel="tag"># OpenAI</a>
+              <a href="/blog/tags/xAI/" rel="tag"># xAI</a>
+              <a href="/blog/tags/OpenRouter/" rel="tag"># OpenRouter</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/blog/tarot-card-game/" rel="prev" title="塔羅通關帶我走一次深度的自我探索">
+                  <i class="fa fa-angle-left"></i> 塔羅通關帶我走一次深度的自我探索
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">史戴拉寫扣</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/blog/js/comments.js"></script><script src="/blog/js/utils.js"></script><script src="/blog/js/motion.js"></script><script src="/blog/js/sidebar.js"></script><script src="/blog/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js","integrity":"sha256-stuqcu2FrjYCXDOytWFA5SoUE/r3nkp6gTglzNSlavU="}}</script>
+  <script src="/blog/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"ams","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/blog/js/third-party/math/mathjax.js"></script>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"estellacoding","repo":"blog","client_id":"Ov23liBnWPuObZGktbAv","client_secret":"9ed6e261cd75af620744058daafa56b80a53ffa8","admin_user":"estellacoding","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":null,"labels":"gitalk","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"b1504c9dc0affad8b290213e475eef89"}</script>
+<script src="/blog/js/third-party/comments/gitalk.js"></script>
+
+</body>
+</html>

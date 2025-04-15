@@ -19,16 +19,18 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"estellacoding.github.io","root":"/blog/","images":"/blog/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/blog/js/config.js"></script>
 
-    <meta name="description" content="本教學將介紹如何使用 GitHub Copilot 在 VS Code 中自動產生符合慣例式規範的提交訊息。">
+    <meta name="description" content="本教學將介紹如何使用 GitHub Copilot 在 VS Code 中自動產生符合約定式提交規範的提交訊息。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【GitHub Copilot】自動生成慣例式提交訊息">
+<meta property="og:title" content="【GitHub Copilot】自動生成約定式提交訊息">
 <meta property="og:url" content="https://estellacoding.github.io/blog/github-copilot-vscode-ai-conventional-commit/index.html">
 <meta property="og:site_name" content="史戴拉寫扣">
-<meta property="og:description" content="本教學將介紹如何使用 GitHub Copilot 在 VS Code 中自動產生符合慣例式規範的提交訊息。">
+<meta property="og:description" content="本教學將介紹如何使用 GitHub Copilot 在 VS Code 中自動產生符合約定式提交規範的提交訊息。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-vscode-ai-conventional-commit%2Fgithub-prompts-copilot-commit-message-instructions-md-path.jpg?alt=media&amp;token=1e2ee167-8122-4592-9f2b-4cb49265b005">
 <meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-vscode-ai-conventional-commit%2Fgithub-copilot-vscode-ai-conventional-commit-auto-generate-message.jpg?alt=media&amp;token=678827ce-86b8-47a7-9816-39673b86aef4">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-vscode-ai-conventional-commit%2Fvscode-settings-json-path.jpg?alt=media&amp;token=8a54e021-3933-4843-8b42-6a4afe5b7959">
 <meta property="article:published_time" content="2025-03-08T03:11:11.000Z">
-<meta property="article:modified_time" content="2025-03-18T03:11:11.000Z">
+<meta property="article:modified_time" content="2025-04-15T03:11:11.000Z">
 <meta property="article:author" content="史戴拉">
 <meta property="article:tag" content="GitHub">
 <meta property="article:tag" content="GitHub Copilot">
@@ -36,17 +38,17 @@
 <meta property="article:tag" content="VS Code">
 <meta property="article:tag" content="Commit Message">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-vscode-ai-conventional-commit%2Fgithub-copilot-vscode-ai-conventional-commit-auto-generate-message.jpg?alt=media&amp;token=678827ce-86b8-47a7-9816-39673b86aef4">
+<meta name="twitter:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-vscode-ai-conventional-commit%2Fgithub-prompts-copilot-commit-message-instructions-md-path.jpg?alt=media&amp;token=1e2ee167-8122-4592-9f2b-4cb49265b005">
 
 
 <link rel="canonical" href="https://estellacoding.github.io/blog/github-copilot-vscode-ai-conventional-commit/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://estellacoding.github.io/blog/github-copilot-vscode-ai-conventional-commit/","path":"github-copilot-vscode-ai-conventional-commit/","title":"【GitHub Copilot】自動生成慣例式提交訊息"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://estellacoding.github.io/blog/github-copilot-vscode-ai-conventional-commit/","path":"github-copilot-vscode-ai-conventional-commit/","title":"【GitHub Copilot】自動生成約定式提交訊息"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>【GitHub Copilot】自動生成慣例式提交訊息 | 史戴拉寫扣</title>
+<title>【GitHub Copilot】自動生成約定式提交訊息 | 史戴拉寫扣</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-EG0CKC3093"></script>
   <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-EG0CKC3093","only_pageview":false,"measure_protocol_api_secret":null}</script>
@@ -122,7 +124,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%85%A3%E4%BE%8B%E5%BC%8F%E6%8F%90%E4%BA%A4"><span class="nav-number">1.</span> <span class="nav-text">慣例式提交</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%87%AA%E5%8B%95%E7%94%9F%E6%88%90"><span class="nav-number">2.</span> <span class="nav-text">自動生成</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A8%AD%E5%AE%9A"><span class="nav-number">2.1.</span> <span class="nav-text">設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8Bmd%E6%AA%94"><span class="nav-number">2.2.</span> <span class="nav-text">建立md檔</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%90%E4%BA%A4%E8%A8%8A%E6%81%AF"><span class="nav-number">2.3.</span> <span class="nav-text">提交訊息</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8A%A0%E5%85%A5%E5%B7%A5%E4%BD%9C%E5%8D%80"><span class="nav-number">3.</span> <span class="nav-text">加入工作區</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B5%90%E8%AB%96"><span class="nav-number">4.</span> <span class="nav-text">結論</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E6%96%87%E4%BB%B6"><span class="nav-number">5.</span> <span class="nav-text">參考文件</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B4%84%E5%AE%9A%E5%BC%8F%E6%8F%90%E4%BA%A4"><span class="nav-number">1.</span> <span class="nav-text">約定式提交</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%87%AA%E5%8B%95%E7%94%9F%E6%88%90"><span class="nav-number">2.</span> <span class="nav-text">自動生成</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A8%AD%E5%AE%9A"><span class="nav-number">2.1.</span> <span class="nav-text">設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8Bmd%E6%AA%94"><span class="nav-number">2.2.</span> <span class="nav-text">建立md檔</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%98%E6%96%B9md%E6%AA%94"><span class="nav-number">2.2.1.</span> <span class="nav-text">官方md檔</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%8B%E5%8B%95%E8%A4%87%E8%A3%BD"><span class="nav-number">2.2.2.</span> <span class="nav-text">手動複製</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%90%E4%BA%A4%E8%A8%8A%E6%81%AF"><span class="nav-number">2.3.</span> <span class="nav-text">提交訊息</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8A%A0%E5%85%A5%E5%B7%A5%E4%BD%9C%E5%8D%80"><span class="nav-number">3.</span> <span class="nav-text">加入工作區</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B5%90%E8%AB%96"><span class="nav-number">4.</span> <span class="nav-text">結論</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E6%96%87%E4%BB%B6"><span class="nav-number">5.</span> <span class="nav-text">參考文件</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -137,7 +139,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/blog/archives/">
-          <span class="site-state-item-count">45</span>
+          <span class="site-state-item-count">46</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -148,7 +150,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/blog/tags/">
-        <span class="site-state-item-count">111</span>
+        <span class="site-state-item-count">113</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -201,12 +203,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="【GitHub Copilot】自動生成慣例式提交訊息 | 史戴拉寫扣">
+      <meta itemprop="name" content="【GitHub Copilot】自動生成約定式提交訊息 | 史戴拉寫扣">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          【GitHub Copilot】自動生成慣例式提交訊息
+          【GitHub Copilot】自動生成約定式提交訊息
         </h1>
 
         <div class="post-meta-container">
@@ -224,7 +226,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2025-03-18 11:11:11" itemprop="dateModified" datetime="2025-03-18T11:11:11+08:00">2025-03-18</time>
+      <time title="Modified: 2025-04-15 11:11:11" itemprop="dateModified" datetime="2025-04-15T11:11:11+08:00">2025-04-15</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -245,33 +247,38 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><p>本教學將介紹如何使用 GitHub Copilot 在 VS Code 中自動產生符合慣例式規範的提交訊息。</p>
+    <div class="post-body" itemprop="articleBody"><p>本教學將介紹如何使用 GitHub Copilot 在 VS Code 中自動產生符合約定式提交規範的提交訊息。</p>
 <span id="more"></span>
-<h1 id="慣例式提交"><a class="header-anchor" href="#慣例式提交"></a>慣例式提交</h1>
-<p>常會看到團隊成員的提交訊息，像是 <code>fix bug</code>、<code>update</code>、<code>fix another</code>、<code>oh yeah</code> 等，但這樣的提交訊息對於其他人來說是不容易理解的，因此慣例式提交就是為了解決這個問題而生的。</p>
-<p>慣例式提交是一種對提交說明的規範，提供簡單的條件集合用於建立明確的提交歷史。</p>
+<h1 id="約定式提交"><a class="header-anchor" href="#約定式提交"></a>約定式提交</h1>
+<p>常會看到團隊成員的提交訊息，像是 <code>fix bug</code>、<code>update</code>、<code>fix another</code>、<code>oh yeah</code> 等，但這樣的提交訊息對於其他人來說是不容易理解的，因此約定式提交就是為了解決這個問題而生的。</p>
+<p>約定式提交是一種對提交說明的規範，提供簡單的條件集合用於建立明確的提交歷史。</p>
 <figure class="highlight inform7"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;類型 type&gt;<span class="comment">[可選的作用範圍 scope]</span>: &lt;描述 description&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment">[可選的正文 body]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">[可選的頁腳 footer]</span></span><br></pre></td></tr></table></figure>
 <h1 id="自動生成"><a class="header-anchor" href="#自動生成"></a>自動生成</h1>
-<p>看完慣例式提交官方說明後，還是沒有記下來(<s>我到底看了什麼</s>)，沒關係，讓AI來記就好。</p>
+<p>看完約定式提交官方說明後，還是沒有記下來(<s>我到底看了什麼</s>)，沒關係，讓AI來記就好。</p>
 <h2 id="設定"><a class="header-anchor" href="#設定"></a>設定</h2>
 <p>進入設定，找到 <code>github.copilot.chat.commitMessageGeneration.instructions</code>，點擊「Edit in settings.json」，新增以下內容。</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">&quot;github.copilot.chat.commitMessageGeneration.instructions&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    </span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;file&quot;</span><span class="punctuation">:</span> <span class="string">&quot;.copilot-commit-message-instructions.md&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">]</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">&quot;github.copilot.chat.commitMessageGeneration.instructions&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;file&quot;</span><span class="punctuation">:</span> <span class="string">&quot;.github/prompts/copilot-commit-message-instructions.md&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">]</span><span class="punctuation">,</span></span><br></pre></td></tr></table></figure>
 <h2 id="建立md檔"><a class="header-anchor" href="#建立md檔"></a>建立md檔</h2>
-<p>在專案根目錄建立 <code>.copilot-commit-message-instructions.md</code> 檔案。</p>
-<p>複製慣例式提交說明內容，到 <a target="_blank" rel="noopener" href="https://p2m.gh.miniasp.com/">Paste to Markdown</a> 轉成 Markdown 格式，貼到 <code>.copilot-commit-message-instructions.md</code> 檔案中。</p>
+<p>在專案根目錄建立 <code>.github\prompts\copilot-commit-message-instructions.md</code> 檔案。</p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-vscode-ai-conventional-commit%2Fgithub-prompts-copilot-commit-message-instructions-md-path.jpg?alt=media&amp;token=1e2ee167-8122-4592-9f2b-4cb49265b005" alt="github-prompts-copilot-commit-message-instructions-md-path"></p>
+<h3 id="官方md檔"><a class="header-anchor" href="#官方md檔"></a>官方md檔</h3>
+<p>下載 <a target="_blank" rel="noopener" href="https://github.com/conventional-commits/conventionalcommits.org/blob/master/content/v1.0.0/index.zh-hant.md">約定式提交md檔</a> 後，將內容複製貼到 <code>copilot-commit-message-instructions.md</code> 檔案中。</p>
+<h3 id="手動複製"><a class="header-anchor" href="#手動複製"></a>手動複製</h3>
+<p>複製 <a target="_blank" rel="noopener" href="https://www.conventionalcommits.org/zh-hant/v1.0.0/">約定式提交</a> 說明內容，到 <a target="_blank" rel="noopener" href="https://p2m.gh.miniasp.com/">Paste to Markdown</a> 轉成 Markdown 格式，貼到 <code>copilot-commit-message-instructions.md</code> 檔案中。</p>
 <h2 id="提交訊息"><a class="header-anchor" href="#提交訊息"></a>提交訊息</h2>
-<p>我簡單更改 <code>README.md</code> 的內容後，進入 VS Code 的 Source Control 面板中，讓 GitHub Copilot 根據慣例式提交格式來生成我的提交訊息。</p>
+<p>我簡單更改 <code>README.md</code> 的內容後，進入 VS Code 的 Source Control 面板中，讓 GitHub Copilot 根據約定式提交格式來生成我的提交訊息。</p>
 <p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-vscode-ai-conventional-commit%2Fgithub-copilot-vscode-ai-conventional-commit-auto-generate-message.jpg?alt=media&amp;token=678827ce-86b8-47a7-9816-39673b86aef4" alt="github-copilot-vscode-ai-conventional-commit-auto-generate-message"></p>
 <h1 id="加入工作區"><a class="header-anchor" href="#加入工作區"></a>加入工作區</h1>
-<p>進一步還可以將 VS Code 設定加入工作區，就可以將 VS Code 設定也提交至 GitHub 中，而團隊成員就能一起共用相同設定及 <code>.copilot-commit-message-instructions.md</code> 所使用的提示詞。</p>
+<p>進一步還可以將 VS Code 設定加入工作區，就可以將 VS Code 設定也提交至 GitHub 中，而團隊成員就能一起共用相同設定及 <code>copilot-commit-message-instructions.md</code> 所使用的提示詞。</p>
 <p>進入設定，點擊「Workspace」標籤，找到 <code>github.copilot.chat.commitMessageGeneration.instructions</code>，點擊「Edit in settings.json」，VS Code 自動產生 <code>.vscode/settings.json</code> 檔案，並新增以下內容。</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">&quot;github.copilot.chat.commitMessageGeneration.instructions&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    </span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;file&quot;</span><span class="punctuation">:</span> <span class="string">&quot;.copilot-commit-message-instructions.md&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">]</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;github.copilot.chat.commitMessageGeneration.instructions&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;file&quot;</span><span class="punctuation">:</span> <span class="string">&quot;.github/prompts/copilot-commit-message-instructions.md&quot;</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fgithub-copilot-vscode-ai-conventional-commit%2Fvscode-settings-json-path.jpg?alt=media&amp;token=8a54e021-3933-4843-8b42-6a4afe5b7959" alt="vscode-settings-json-path"></p>
 <h1 id="結論"><a class="header-anchor" href="#結論"></a>結論</h1>
-<p>讓 AI 根據慣例式規範自動生成的提交訊息，會嚴格遵守 <code>&lt;type&gt;[scope]: &lt;description&gt;</code> 結構，統一格式讓團隊成員能快速理解提交內容，也因此能提高整體團隊協作效率喔。</p>
+<p>讓 AI 根據約定式提交規範自動生成的提交訊息，會嚴格遵守 <code>&lt;type&gt;[scope]: &lt;description&gt;</code> 結構，統一格式讓團隊成員能快速理解提交內容，也因此能提高整體團隊協作效率喔。</p>
 <h1 id="參考文件"><a class="header-anchor" href="#參考文件"></a>參考文件</h1>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://www.conventionalcommits.org/zh-hant/v1.0.0/">慣例式提交文檔</a></li>
-<li><a target="_blank" rel="noopener" href="https://stellacoding.notion.site/md-1b09a83673d680719ba8d283ded96fef">慣例式提交md內容</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.conventionalcommits.org/zh-hant/v1.0.0/">約定式提交文檔</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/conventional-commits/conventionalcommits.org/blob/master/content/v1.0.0/index.zh-hant.md">約定式提交md檔</a></li>
 </ul>
 
     </div>
@@ -293,13 +300,13 @@
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/blog/github-copilot-vscode-ai-coding/" rel="prev" title="【GitHub Copilot】用 VS Code 解鎖 AI 寫扣超能力">
-                  <i class="fa fa-angle-left"></i> 【GitHub Copilot】用 VS Code 解鎖 AI 寫扣超能力
+                <a href="/blog/h2o-automl-likelihood-to-buy-prediction/" rel="prev" title="用 H2O AutoML 建立購買機率預測模型">
+                  <i class="fa fa-angle-left"></i> 用 H2O AutoML 建立購買機率預測模型
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/blog/github-copilot-vscode-ai-mermaid-uml/" rel="next" title="【GitHub Copilot】自動從 SQL 生成 UML">
-                  【GitHub Copilot】自動從 SQL 生成 UML <i class="fa fa-angle-right"></i>
+                <a href="/blog/github-copilot-vscode-ai-coding/" rel="next" title="【GitHub Copilot】用 VS Code 解鎖 AI 寫扣超能力">
+                  【GitHub Copilot】用 VS Code 解鎖 AI 寫扣超能力 <i class="fa fa-angle-right"></i>
                 </a>
             </div>
           </div>
