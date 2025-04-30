@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="mask-icon" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"estellacoding.github.io","root":"/blog/","images":"/blog/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/blog/js/config.js"></script>
+
+    <meta name="description" content="通常在開發 LINE Bot 的時候，想要正式上線給使用者使用，因為要保持 Webhook 連線，就必須申請一台雲端主機，但通常都需要支付費用。但我發現其實可以用 Google Apps Script (GAS) 來開發，GAS 支援 HTTPS Webhook、排程觸發器，重點有免費額度，不必額外花錢，也省下了伺服器維護的負擔。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用 Apps Script 建立 LINE Bot 查詢資料小幫手">
+<meta property="og:url" content="https://estellacoding.github.io/blog/apps-script-line-bot-products/index.html">
+<meta property="og:site_name" content="史戴拉寫扣">
+<meta property="og:description" content="通常在開發 LINE Bot 的時候，想要正式上線給使用者使用，因為要保持 Webhook 連線，就必須申請一台雲端主機，但通常都需要支付費用。但我發現其實可以用 Google Apps Script (GAS) 來開發，GAS 支援 HTTPS Webhook、排程觸發器，重點有免費額度，不必額外花錢，也省下了伺服器維護的負擔。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fapps-script-line-bot-products%2FreplyTextMessage.jpg?alt=media&amp;token=edb7ab50-fb3d-4941-8ad9-31b594d5fd66">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fapps-script-line-bot-products%2FreplyFlexMessage.jpg?alt=media&amp;token=d726aa46-a7ad-42ef-8d5c-45b3ad476434">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fapps-script-line-bot-products%2FaddRecord.jpg?alt=media&amp;token=35bf9de3-b8db-49bc-a593-1a910a24468d">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fapps-script-line-bot-products%2Flog.jpg?alt=media&amp;token=0ac60c93-a09e-4368-a2e1-12bef24af55a">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fapps-script-line-bot-products%2Ftriggers-total-runtime.jpg?alt=media&amp;token=536d6319-c86e-416b-af0a-f305236fa1e5">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fapps-script-line-bot-products%2Furl-fetch-calls.jpg?alt=media&amp;token=78b5a0da-26d5-40b0-9f4e-ec7ed130506b">
+<meta property="article:published_time" content="2025-04-30T03:11:11.000Z">
+<meta property="article:modified_time" content="2025-04-30T03:11:11.000Z">
+<meta property="article:author" content="史戴拉">
+<meta property="article:tag" content="Apps Script">
+<meta property="article:tag" content="LINE Bot">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fapps-script-line-bot-products%2FreplyTextMessage.jpg?alt=media&amp;token=edb7ab50-fb3d-4941-8ad9-31b594d5fd66">
+
+
+<link rel="canonical" href="https://estellacoding.github.io/blog/apps-script-line-bot-products/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://estellacoding.github.io/blog/apps-script-line-bot-products/","path":"apps-script-line-bot-products/","title":"用 Apps Script 建立 LINE Bot 查詢資料小幫手"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>用 Apps Script 建立 LINE Bot 查詢資料小幫手 | 史戴拉寫扣</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EG0CKC3093"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-EG0CKC3093","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/blog/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/blog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/blog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">史戴拉寫扣</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Hands-on fuels my soul!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/blog/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/blog/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/blog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#LINE-token"><span class="nav-number">1.</span> <span class="nav-text">LINE token</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A8%AD%E5%AE%9A%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8"><span class="nav-number">2.</span> <span class="nav-text">設定環境變數</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%A3%E5%91%8A%E5%85%A8%E5%9F%9F%E8%AE%8A%E6%95%B8"><span class="nav-number">3.</span> <span class="nav-text">宣告全域變數</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%9E%E8%A6%86LINE%E8%A8%8A%E6%81%AF"><span class="nav-number">4.</span> <span class="nav-text">回覆LINE訊息</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#replyTextMessage"><span class="nav-number">4.1.</span> <span class="nav-text">replyTextMessage</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#replyFlexMessage"><span class="nav-number">4.2.</span> <span class="nav-text">replyFlexMessage</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%95%9F%E7%94%A8%E5%B0%8F%E5%B9%AB%E6%89%8B"><span class="nav-number">5.</span> <span class="nav-text">啟用小幫手</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#addRecord"><span class="nav-number">5.1.</span> <span class="nav-text">addRecord</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#removeRecord"><span class="nav-number">5.2.</span> <span class="nav-text">removeRecord</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%94%A2%E5%93%81%E9%8A%B7%E5%94%AE%E8%B3%87%E6%96%99"><span class="nav-number">6.</span> <span class="nav-text">產品銷售資料</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#getProductData"><span class="nav-number">6.1.</span> <span class="nav-text">getProductData</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#groupAndSortProducts"><span class="nav-number">6.2.</span> <span class="nav-text">groupAndSortProducts</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B3%87%E6%96%99%E6%A0%BC%E5%BC%8F%E8%99%95%E7%90%86"><span class="nav-number">6.3.</span> <span class="nav-text">資料格式處理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#createFlexBubbles"><span class="nav-number">6.4.</span> <span class="nav-text">createFlexBubbles</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E8%A8%98%E9%8C%84"><span class="nav-number">7.</span> <span class="nav-text">操作記錄</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%BB%E7%A8%8B%E5%BC%8F"><span class="nav-number">8.</span> <span class="nav-text">主程式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2"><span class="nav-number">9.</span> <span class="nav-text">部署</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%8D%E8%B2%BB%E9%85%8D%E9%A1%8D%E5%92%8C%E9%99%90%E5%88%B6"><span class="nav-number">10.</span> <span class="nav-text">免費配額和限制</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%85%8D%E9%A1%8D%E4%BC%B0%E7%AE%97%E5%B0%8F%E5%B7%A5%E5%85%B7"><span class="nav-number">11.</span> <span class="nav-text">配額估算小工具</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%B8%E7%99%BC%E6%A2%9D%E4%BB%B6%E7%B8%BD%E5%9F%B7%E8%A1%8C%E9%9A%8E%E6%AE%B5"><span class="nav-number">11.1.</span> <span class="nav-text">觸發條件總執行階段</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%B8%E7%99%BC%E5%99%A8%E6%AF%8F%E6%AC%A1%E5%9F%B7%E8%A1%8C%E6%99%82%E9%96%93"><span class="nav-number">11.1.1.</span> <span class="nav-text">觸發器每次執行時間</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%B8%E7%99%BC%E5%99%A8%E9%96%93%E9%9A%94%E6%99%82%E9%96%93"><span class="nav-number">11.1.2.</span> <span class="nav-text">觸發器間隔時間</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B6%B2%E5%9D%80%E6%93%B7%E5%8F%96%E5%91%BC%E5%8F%AB%E6%AC%A1%E6%95%B8"><span class="nav-number">11.2.</span> <span class="nav-text">網址擷取呼叫次數</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E9%A1%8D%E4%BC%B0%E7%AE%97%E5%B0%8F%E5%B7%A5%E5%85%B7-v2"><span class="nav-number">11.3.</span> <span class="nav-text">配額估算小工具</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="史戴拉"
+      src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+  <p class="site-author-name" itemprop="name">史戴拉</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/blog/archives/">
+          <span class="site-state-item-count">47</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/blog/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/blog/tags/">
+        <span class="site-state-item-count">115</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/estellacoding" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;estellacoding" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://stellacoding.substack.com/notes" title="Substack → https:&#x2F;&#x2F;stellacoding.substack.com&#x2F;notes" rel="noopener me" target="_blank"><i class="fas fa-newspaper fa-fw"></i>Substack</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+    
+    
+      
+      
+    
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://estellacoding.github.io/blog/apps-script-line-bot-products/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+      <meta itemprop="name" content="史戴拉">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="史戴拉寫扣">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="用 Apps Script 建立 LINE Bot 查詢資料小幫手 | 史戴拉寫扣">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          用 Apps Script 建立 LINE Bot 查詢資料小幫手
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2025-04-30 11:11:11" itemprop="dateCreated datePublished" datetime="2025-04-30T11:11:11+08:00">2025-04-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/Apps-Script/" itemprop="url" rel="index"><span itemprop="name">Apps Script</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/Apps-Script/LINE-Bot/" itemprop="url" rel="index"><span itemprop="name">LINE Bot</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>通常在開發 LINE Bot 的時候，想要正式上線給使用者使用，因為要保持 Webhook 連線，就必須申請一台雲端主機，但通常都需要支付費用。但我發現其實可以用 Google Apps Script (GAS) 來開發，GAS 支援 HTTPS Webhook、排程觸發器，重點有免費額度，不必額外花錢，也省下了伺服器維護的負擔。</p>
+<span id="more"></span>
+<p>在這篇文章中，我將分享用 Google Apps Script (GAS) 建立 LINE Bot 查詢資料小幫手，可以協助查詢產品銷售數據，並透過 LINE 訊息自動回覆使用者或群組。</p>
+<ul>
+<li>記錄使用者ID是否啟用小幫手</li>
+<li>記錄群組ID是否啟用小幫手</li>
+<li>取消啟用小幫手及刪除紀錄</li>
+<li>讀取產品銷售資料及排序</li>
+<li>以LINE文字或Flex訊息回覆</li>
+<li>自動記錄錯誤資訊供Debug用</li>
+</ul>
+<style>
+.callout {
+  border: 1px solid #eee;
+  padding: 1em;
+  background: #eef7fa;
+  margin: 1em 0;
+}
+.callout-icon {
+  font-size: 1.2em;
+  margin-right: 8px;
+}
+.callout a {
+  color: #0077cc;
+  text-decoration: none;
+}
+.callout a:hover {
+  text-decoration: underline;
+}
+</style>
+<div class="callout">
+<span class="callout-icon">💡</span>
+歡迎加入我的官方 LINE 帳號 👉 
+<a href="https://lin.ee/VPYVeGH" target="_blank">史戴拉寫扣</a><br>
+點擊圖文選單的「<strong>小幫手</strong>」，然後輸入以下關鍵字即可啟用對應功能:<br>
+- <strong>啟用小幫手</strong>: 啟用小幫手<br>
+- <strong>取消啟用小幫手</strong>: 取消啟用小幫手<br>
+- <strong>統計產品銷售數據</strong>: 查看Flex卡片訊息統計資料
+</div>
+<h1 id="LINE-token"><a class="header-anchor" href="#LINE-token"></a>LINE token</h1>
+<ol>
+<li>建立 <a target="_blank" rel="noopener" href="https://manager.line.biz/">LINE 官方帳號</a></li>
+<li>LINE OA 設定啟用 Messaging API 功能</li>
+<li>前往 <a target="_blank" rel="noopener" href="https://developers.line.biz/console/">LINE Developers</a></li>
+<li>選擇一個 LINE 官方帳號</li>
+<li>進入「Messaging API」設定頁</li>
+<li>取得 <code>Channel access token</code></li>
+</ol>
+<h1 id="設定環境變數"><a class="header-anchor" href="#設定環境變數"></a>設定環境變數</h1>
+<p>新增 Google Sheet，進入 Apps Script 編輯器的設定，在 Script Properties 中新增以下變數。</p>
+<ul>
+<li>LINE_CHANNEL_TOKEN: 你的 LINE Channel access token</li>
+<li>SHEET_ID: 你的 Google Sheet ID</li>
+</ul>
+<h1 id="宣告全域變數"><a class="header-anchor" href="#宣告全域變數"></a>宣告全域變數</h1>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 全域變數區</span></span><br><span class="line"><span class="keyword">const</span> LINE_CHANNEL_TOKEN = PropertiesService.getScriptProperties().getProperty(<span class="string">&#x27;LINE_CHANNEL_TOKEN&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> SHEET_ID = PropertiesService.getScriptProperties().getProperty(<span class="string">&#x27;SHEET_ID&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> ACTIVATE_KEYWORD = <span class="string">&#x27;啟用小幫手&#x27;</span>;</span><br><span class="line"><span class="keyword">const</span> DEACTIVATE_KEYWORD = <span class="string">&#x27;取消啟用小幫手&#x27;</span>;</span><br><span class="line"><span class="keyword">const</span> PRODUCTS_KEYWORD = <span class="string">&#x27;統計產品銷售數據&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<h1 id="回覆LINE訊息"><a class="header-anchor" href="#回覆LINE訊息"></a>回覆LINE訊息</h1>
+<h2 id="replyTextMessage"><a class="header-anchor" href="#replyTextMessage"></a>replyTextMessage</h2>
+<p>傳送一般純文字。</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">// 發送訊息給<span class="type">LINE</span>:文字訊息</span><br><span class="line"><span class="keyword">function</span> replyTextMessage(replyToken, <span class="type">text</span>) &#123;</span><br><span class="line">  const url = <span class="string">&#x27;https://api.line.me/v2/bot/message/reply&#x27;</span>;</span><br><span class="line">  const <span class="keyword">options</span> = &#123;</span><br><span class="line">    <span class="keyword">method</span>: <span class="string">&#x27;post&#x27;</span>,</span><br><span class="line">    headers: &#123;</span><br><span class="line">      <span class="string">&#x27;Content-Type&#x27;</span>: <span class="string">&#x27;application/json&#x27;</span>,</span><br><span class="line">      <span class="keyword">Authorization</span>: <span class="string">&#x27;Bearer &#x27;</span> + LINE_CHANNEL_TOKEN</span><br><span class="line">    &#125;,</span><br><span class="line">    payload: <span class="type">JSON</span>.stringify(&#123;</span><br><span class="line">      replyToken: replyToken,</span><br><span class="line">      messages: [&#123; <span class="keyword">type</span>: <span class="string">&#x27;text&#x27;</span>, <span class="type">text</span>: <span class="type">text</span> &#125;]</span><br><span class="line">    &#125;),</span><br><span class="line">    muteHttpExceptions: <span class="keyword">true</span></span><br><span class="line">  &#125;;</span><br><span class="line">  const response = UrlFetchApp.<span class="keyword">fetch</span>(url, <span class="keyword">options</span>);</span><br><span class="line">  Logger.log(<span class="string">&#x27;回覆訊息的response: &#x27;</span> + response.getContentText());</span><br><span class="line">  logError(<span class="string">&#x27;回覆訊息的response: &#x27;</span> + response.getContentText());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fapps-script-line-bot-products%2FreplyTextMessage.jpg?alt=media&amp;token=edb7ab50-fb3d-4941-8ad9-31b594d5fd66" alt="replyTextMessage"></p>
+<h2 id="replyFlexMessage"><a class="header-anchor" href="#replyFlexMessage"></a>replyFlexMessage</h2>
+<p>傳送 Flex Message 格式的圖文訊息。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 發送訊息給LINE:Flex訊息</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">replyFlexMessage</span>(<span class="params">replyToken, flexContents, altText</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> <span class="variable constant_">url</span> = <span class="string">&#x27;https://api.line.me/v2/bot/message/reply&#x27;</span>;</span><br><span class="line">  <span class="keyword">const</span> <span class="variable constant_">payload</span> = JSON.<span class="title function_ invoke__">stringify</span>(&#123;</span><br><span class="line">    <span class="attr">replyToken</span>: replyToken,</span><br><span class="line">    <span class="attr">messages</span>: [&#123;</span><br><span class="line">      <span class="attr">type</span>: <span class="string">&#x27;flex&#x27;</span>,</span><br><span class="line">      <span class="attr">altText</span>: altText,</span><br><span class="line">      <span class="attr">contents</span>: flexContents</span><br><span class="line">    &#125;]</span><br><span class="line">  &#125;);</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">const</span> <span class="variable constant_">response</span> = UrlFetchApp.<span class="title function_ invoke__">fetch</span>(url, &#123;</span><br><span class="line">    <span class="attr">method</span>: <span class="string">&#x27;post&#x27;</span>,</span><br><span class="line">    <span class="attr">headers</span>: &#123;</span><br><span class="line">      <span class="string">&#x27;Content-Type&#x27;</span>: <span class="string">&#x27;application/json&#x27;</span>,</span><br><span class="line">      <span class="string">&#x27;Authorization&#x27;</span>: <span class="string">&#x27;Bearer &#x27;</span> + LINE_CHANNEL_TOKEN</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">payload</span>: payload,</span><br><span class="line">    <span class="attr">muteHttpExceptions</span>: <span class="literal">true</span></span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  Logger.<span class="title function_ invoke__">log</span>(response.<span class="title function_ invoke__">getContentText</span>());</span><br><span class="line">  <span class="title function_ invoke__">logError</span>(<span class="string">&#x27;回覆Flex訊息的response: &#x27;</span> + response.<span class="title function_ invoke__">getContentText</span>());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fapps-script-line-bot-products%2FreplyFlexMessage.jpg?alt=media&amp;token=d726aa46-a7ad-42ef-8d5c-45b3ad476434" alt="replyFlexMessage"></p>
+<h1 id="啟用小幫手"><a class="header-anchor" href="#啟用小幫手"></a>啟用小幫手</h1>
+<h2 id="addRecord"><a class="header-anchor" href="#addRecord"></a>addRecord</h2>
+<p>當使用者傳來「啟用小幫手」訊息時:</p>
+<ul>
+<li>檢查 line_ids 表中是否已有紀錄</li>
+<li>如果沒有，就新增一筆紀錄（包含時間、來源類型、使用者ID、群組ID、原始訊息）</li>
+</ul>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">// 加入紀錄（私訊或群組）</span><br><span class="line"><span class="keyword">function</span> addRecord(sourceType, groupId, userId, message) &#123;</span><br><span class="line">  const sheet = SpreadsheetApp.openById(SHEET_ID).getSheetByName(<span class="string">&#x27;line_ids&#x27;</span>);</span><br><span class="line">  const <span class="keyword">rows</span> = sheet.getDataRange().getValues();</span><br><span class="line"></span><br><span class="line">  groupId = groupId || <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">  userId = userId || <span class="string">&#x27;&#x27;</span>;</span><br><span class="line"></span><br><span class="line">  // 檢查是否已經存在</span><br><span class="line">  const <span class="keyword">exists</span> = <span class="keyword">rows</span>.<span class="keyword">some</span>(<span class="keyword">row</span> =&gt; &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">row</span>[<span class="number">1</span>] === sourceType &amp;&amp;</span><br><span class="line">           <span class="keyword">row</span>[<span class="number">2</span>] === userId &amp;&amp;</span><br><span class="line">           <span class="keyword">row</span>[<span class="number">3</span>] === groupId;</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">exists</span>) <span class="keyword">return</span> <span class="keyword">false</span>; // 如果存在就不新增</span><br><span class="line"></span><br><span class="line">  // 新增一筆記錄</span><br><span class="line">  const <span class="type">timestamp</span> = <span class="built_in">new</span> <span class="type">Date</span>();</span><br><span class="line">  sheet.appendRow([<span class="type">timestamp</span>, sourceType, userId, groupId, message]);</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fapps-script-line-bot-products%2FaddRecord.jpg?alt=media&amp;token=35bf9de3-b8db-49bc-a593-1a910a24468d" alt="addRecord"></p>
+<h2 id="removeRecord"><a class="header-anchor" href="#removeRecord"></a>removeRecord</h2>
+<p>當使用者傳來「取消啟用小幫手」訊息時:</p>
+<ul>
+<li>在 line_ids 表格中搜尋符合條件的資料列</li>
+<li>若找到，就刪除該列</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 移除紀錄</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">removeRecord</span>(<span class="params">sourceType, groupId, userId</span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> sheet = <span class="title class_">SpreadsheetApp</span>.<span class="title function_">openById</span>(<span class="variable constant_">SHEET_ID</span>).<span class="title function_">getSheetByName</span>(<span class="string">&#x27;line_ids&#x27;</span>);</span><br><span class="line">  <span class="keyword">const</span> rows = sheet.<span class="title function_">getDataRange</span>().<span class="title function_">getValues</span>();</span><br><span class="line"></span><br><span class="line">  groupId = groupId || <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">  userId = userId || <span class="string">&#x27;&#x27;</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; rows.<span class="property">length</span>; i++) &#123;</span><br><span class="line">    <span class="keyword">const</span> row = rows[i];</span><br><span class="line">    <span class="keyword">const</span> match =</span><br><span class="line">      row[<span class="number">1</span>] === sourceType &amp;&amp;</span><br><span class="line">      row[<span class="number">2</span>] === userId &amp;&amp;</span><br><span class="line">      row[<span class="number">3</span>] === groupId;</span><br><span class="line">    <span class="keyword">if</span> (match) &#123;</span><br><span class="line">      sheet.<span class="title function_">deleteRow</span>(i + <span class="number">1</span>); <span class="comment">// Google Sheet從1開始計，所以要+1</span></span><br><span class="line">      <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="產品銷售資料"><a class="header-anchor" href="#產品銷售資料"></a>產品銷售資料</h1>
+<p>當使用者傳來「統計產品銷售數據」訊息時:</p>
+<ul>
+<li>讀取 products 工作表的產品銷售資料</li>
+<li>將產品按照名稱分組，並且每組內依照日期排序</li>
+<li>將資料轉成 Flex Bubble 卡片格式</li>
+</ul>
+<h2 id="getProductData"><a class="header-anchor" href="#getProductData"></a>getProductData</h2>
+<p>從 products 工作表讀取產品銷售資料。</p>
+<p>每筆資料包含:</p>
+<ul>
+<li>銷售日期</li>
+<li>產品名稱</li>
+<li>售價</li>
+<li>銷售數量</li>
+</ul>
+<figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 讀取產品資料</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">getProductData</span>(<span class="params"></span>) &#123;</span><br><span class="line">  const sheet = SpreadsheetApp.openById(SHEET_ID).getSheetByName(<span class="string">&#x27;products&#x27;</span>);</span><br><span class="line">  const rows = sheet.getDataRange().getValues(); <span class="comment">// 讀取全部資料</span></span><br><span class="line"></span><br><span class="line">  const products = rows.<span class="built_in">slice</span>(<span class="number">1</span>).<span class="built_in">map</span>(<span class="function"><span class="params">row</span> =&gt;</span> (&#123;    <span class="comment">// 跳過第一列標題，開始整理資料</span></span><br><span class="line">    <span class="built_in">date</span>: row[<span class="number">0</span>],               <span class="comment">// A欄 = 日期</span></span><br><span class="line">    product_name: row[<span class="number">1</span>],       <span class="comment">// B欄 = 產品名稱</span></span><br><span class="line">    sell_price: row[<span class="number">2</span>],         <span class="comment">// C欄 = 售價</span></span><br><span class="line">    sell_quantity: row[<span class="number">3</span>]       <span class="comment">// D欄 = 銷售數量</span></span><br><span class="line">  &#125;));</span><br><span class="line">  <span class="keyword">return</span> products; <span class="comment">// 回傳整理好的產品資料陣列</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="groupAndSortProducts"><a class="header-anchor" href="#groupAndSortProducts"></a>groupAndSortProducts</h2>
+<p>將產品按照名稱分組，並且每組內依照日期排序。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 將產品分組排序</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">groupAndSortProducts</span>(<span class="params">products</span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> grouped = &#123;&#125;; <span class="comment">// 建立空的分組物件</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// --- 分組 ---</span></span><br><span class="line">  products.<span class="title function_">forEach</span>(<span class="function"><span class="params">p</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (!grouped[p.<span class="property">product_name</span>]) grouped[p.<span class="property">product_name</span>] = [];</span><br><span class="line">    grouped[p.<span class="property">product_name</span>].<span class="title function_">push</span>(p);</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// --- 每組內部排序（依日期從小到大）---</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> name <span class="keyword">in</span> grouped) &#123;</span><br><span class="line">    grouped[name].<span class="title function_">sort</span>(<span class="function">(<span class="params">a, b</span>) =&gt;</span> <span class="keyword">new</span> <span class="title class_">Date</span>(a.<span class="property">date</span>) - <span class="keyword">new</span> <span class="title class_">Date</span>(b.<span class="property">date</span>));</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> grouped; <span class="comment">// 回傳分好組、排序好的資料</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="資料格式處理"><a class="header-anchor" href="#資料格式處理"></a>資料格式處理</h2>
+<figure class="highlight qml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// 數字加上千分位逗號</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">formatNumber</span>(<span class="params">num</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">Number</span>(num).toLocaleString(<span class="string">&#x27;en-US&#x27;</span>, &#123; <span class="attribute">minimumFractionDigits</span>: <span class="number">2</span>, <span class="attribute">maximumFractionDigits</span>: <span class="number">2</span> &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 日期格式</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">formatDateToYMD</span>(<span class="params">dateStr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> <span class="built_in">date</span> = <span class="keyword">new</span> <span class="built_in">Date</span>(dateStr);</span><br><span class="line">  <span class="keyword">if</span> (<span class="built_in">isNaN</span>(<span class="built_in">date</span>.getTime())) <span class="keyword">return</span> <span class="string">&#x27;未知日期&#x27;</span>; <span class="comment">// 日期錯誤時回傳&quot;未知日期&quot;</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> year = <span class="built_in">date</span>.getFullYear();</span><br><span class="line">  <span class="keyword">const</span> month = <span class="built_in">String</span>(<span class="built_in">date</span>.getMonth() + <span class="number">1</span>).padStart(<span class="number">2</span>, <span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">  <span class="keyword">const</span> day = <span class="built_in">String</span>(<span class="built_in">date</span>.getDate()).padStart(<span class="number">2</span>, <span class="string">&#x27;0&#x27;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;year&#125;</span>/<span class="subst">$&#123;month&#125;</span>/<span class="subst">$&#123;day&#125;</span>`</span>; <span class="comment">// 格式化成2025/04/28</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="createFlexBubbles"><a class="header-anchor" href="#createFlexBubbles"></a>createFlexBubbles</h2>
+<p>把整理好的資料轉成一個一個 Flex Bubble 卡片格式。</p>
+<ul>
+<li>資料包含產品名稱、銷售日期、售價(加上千分位)、銷售數量</li>
+<li>不同產品設定不同背景顏色</li>
+<li>將不同卡片再組成一個 Flex Carousel</li>
+</ul>
+<figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 建立Flex訊息內容</span></span><br><span class="line">function <span class="title function_">createFlexBubbles</span>(products) &#123;</span><br><span class="line">  <span class="keyword">const</span> grouped = <span class="title function_">groupAndSortProducts</span>(products); <span class="comment">// 先分組、排序好</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 每個產品群用不同顏色背景</span></span><br><span class="line">  <span class="keyword">const</span> colorMap = &#123;</span><br><span class="line">    <span class="string">&#x27;Trek 820&#x27;</span>: <span class="string">&#x27;#00C853&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Ritchey&#x27;</span>: <span class="string">&#x27;#AA00FF&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Surly&#x27;</span>: <span class="string">&#x27;#2962FF&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Trek Fuel&#x27;</span>: <span class="string">&#x27;#FF6D00&#x27;</span>,</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">const</span> defaultColor = <span class="string">&#x27;#888888&#x27;</span>; <span class="comment">// 預設顏色</span></span><br><span class="line">  <span class="keyword">const</span> bubbles = [];</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (let productName in grouped) &#123;</span><br><span class="line">    <span class="keyword">const</span> productGroup = grouped[productName];</span><br><span class="line">    <span class="keyword">const</span> <span class="type">color</span> = colorMap[productName] || defaultColor;</span><br><span class="line"></span><br><span class="line">    productGroup.<span class="property">forEach</span>(product =&gt; &#123;</span><br><span class="line">      <span class="keyword">const</span> safeProductName = (product.<span class="property">product_name</span> || <span class="string">&#x27;未知產品&#x27;</span>).<span class="property">toString</span>().<span class="property">substring</span>(<span class="number">0</span>, <span class="number">50</span>); </span><br><span class="line">      <span class="keyword">const</span> safeDate = formatDateToYMD(product.<span class="property">date</span>);</span><br><span class="line">      <span class="keyword">const</span> price = <span class="title function_">parseFloat</span>(product.<span class="property">sell_price</span>);</span><br><span class="line">      <span class="keyword">const</span> safePrice = <span class="title function_">isNaN</span>(price) ? <span class="number">0</span> : price;</span><br><span class="line">      <span class="keyword">const</span> safeQuantity = typeof product.<span class="property">sell_quantity</span> === <span class="string">&#x27;number&#x27;</span> ? product.<span class="property">sell_quantity</span> : <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">const</span> bubble = &#123;</span><br><span class="line">        type: <span class="string">&#x27;bubble&#x27;</span>,</span><br><span class="line">        <span class="built_in">size</span>: <span class="string">&#x27;micro&#x27;</span>,</span><br><span class="line">        body: &#123;</span><br><span class="line">          type: <span class="string">&#x27;box&#x27;</span>,</span><br><span class="line">          layout: <span class="string">&#x27;vertical&#x27;</span>,</span><br><span class="line">          spacing: <span class="string">&#x27;sm&#x27;</span>,</span><br><span class="line">          backgroundColor: <span class="type">color</span>,</span><br><span class="line">          paddingAll: <span class="string">&#x27;20px&#x27;</span>,</span><br><span class="line">          contents: [</span><br><span class="line">            &#123;</span><br><span class="line">              type: <span class="string">&#x27;text&#x27;</span>,</span><br><span class="line">              <span class="built_in">text</span>: safeProductName,</span><br><span class="line">              weight: <span class="string">&#x27;bold&#x27;</span>,</span><br><span class="line">              <span class="built_in">size</span>: <span class="string">&#x27;md&#x27;</span>,</span><br><span class="line">              <span class="type">color</span>: <span class="string">&#x27;#ffffff&#x27;</span>,</span><br><span class="line">              wrap: <span class="literal">true</span>,</span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">              type: <span class="string">&#x27;text&#x27;</span>,</span><br><span class="line">              <span class="built_in">text</span>: `📅 $&#123;safeDate&#125;`,</span><br><span class="line">              <span class="built_in">size</span>: <span class="string">&#x27;sm&#x27;</span>,</span><br><span class="line">              <span class="type">color</span>: <span class="string">&#x27;#ffffff&#x27;</span>,</span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">              type: <span class="string">&#x27;text&#x27;</span>,</span><br><span class="line">              <span class="built_in">text</span>: `🏷️ $$&#123;formatNumber(safePrice)&#125;`,</span><br><span class="line">              <span class="built_in">size</span>: <span class="string">&#x27;sm&#x27;</span>,</span><br><span class="line">              <span class="type">color</span>: <span class="string">&#x27;#ffffff&#x27;</span>,</span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">              type: <span class="string">&#x27;text&#x27;</span>,</span><br><span class="line">              <span class="built_in">text</span>: `📦 銷售 $&#123;safeQuantity&#125; 台`,</span><br><span class="line">              <span class="built_in">size</span>: <span class="string">&#x27;sm&#x27;</span>,</span><br><span class="line">              <span class="type">color</span>: <span class="string">&#x27;#ffffff&#x27;</span>,</span><br><span class="line">            &#125;</span><br><span class="line">          ]</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;;</span><br><span class="line">      bubbles.<span class="property">push</span>(bubble); <span class="comment">// 把這個小卡片加入陣列</span></span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> bubbles; <span class="comment">// 回傳全部bubble</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="操作記錄"><a class="header-anchor" href="#操作記錄"></a>操作記錄</h1>
+<p>將操作記錄到 Google Sheet 的 logs 工作表中，幫助追蹤bug。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 操作記錄</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">logError</span>(<span class="params">message</span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> sheet = <span class="title class_">SpreadsheetApp</span>.<span class="title function_">openById</span>(<span class="variable constant_">SHEET_ID</span>).<span class="title function_">getSheetByName</span>(<span class="string">&#x27;logs&#x27;</span>);</span><br><span class="line">  <span class="keyword">const</span> timestamp = <span class="keyword">new</span> <span class="title class_">Date</span>();</span><br><span class="line">  sheet.<span class="title function_">appendRow</span>([timestamp, message]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fapps-script-line-bot-products%2Flog.jpg?alt=media&amp;token=0ac60c93-a09e-4368-a2e1-12bef24af55a" alt="log"></p>
+<h1 id="主程式"><a class="header-anchor" href="#主程式"></a>主程式</h1>
+<p>這是整個應用的主入口。<br>
+當 LINE Webhook 送來訊息時:</p>
+<ul>
+<li>解析訊息內容與來源</li>
+<li>根據文字內容判斷要執行的動作
+<ul>
+<li>啟用小幫手</li>
+<li>取消啟用小幫手</li>
+<li>回傳產品銷售資料</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight mel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 主程式</span></span><br><span class="line">function doPost(e) &#123;</span><br><span class="line">  try &#123;</span><br><span class="line">    const contents = JSON.parse(e.postData.contents);</span><br><span class="line">    logError(<span class="string">&#x27;webhook 收到： &#x27;</span> + JSON.stringify(contents));</span><br><span class="line">    Logger.<span class="keyword">log</span>(<span class="string">&#x27;webhook 收到： &#x27;</span> + JSON.stringify(contents));</span><br><span class="line"></span><br><span class="line">    const events = contents.events;</span><br><span class="line">    <span class="keyword">if</span> (!events || !Array.isArray(events) || events.length === <span class="number">0</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> ContentService.createTextOutput(<span class="string">&#x27;NO EVENTS&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (const <span class="keyword">event</span> of events) &#123;</span><br><span class="line">      const messageText = <span class="keyword">event</span>.message?.<span class="keyword">text</span>?.<span class="keyword">trim</span>();</span><br><span class="line">      const replyToken = <span class="keyword">event</span>.replyToken;</span><br><span class="line">      const <span class="keyword">source</span> = <span class="keyword">event</span>.<span class="keyword">source</span> || &#123;&#125;;</span><br><span class="line">      const sourceType = <span class="keyword">source</span>.type;</span><br><span class="line">      const userId = <span class="keyword">source</span>.userId;</span><br><span class="line">      const groupId = <span class="keyword">source</span>.groupId;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span> (!messageText || !replyToken) <span class="keyword">continue</span>;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span> (messageText === ACTIVATE_KEYWORD) &#123;</span><br><span class="line">        const isNew = addRecord(sourceType, groupId, userId, messageText);</span><br><span class="line">        replyTextMessage(replyToken, isNew ? <span class="string">&quot;✅ 已啟用小幫手&quot;</span> : <span class="string">&#x27;🎉 你已經啟用過囉！&#x27;</span>);</span><br><span class="line"></span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (messageText === DEACTIVATE_KEYWORD) &#123;</span><br><span class="line">        const removed = removeRecord(sourceType, groupId, userId);</span><br><span class="line">        replyTextMessage(replyToken, removed ? <span class="string">&quot;❌ 已取消啟用小幫手&quot;</span> : <span class="string">&#x27;⚠️ 尚未啟用，無需取消。&#x27;</span>);</span><br><span class="line"></span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (messageText === PRODUCTS_KEYWORD) &#123;</span><br><span class="line">        const products = getProductData();</span><br><span class="line">        const bubbles = createFlexBubbles(products.slice(<span class="number">0</span>, <span class="number">12</span>));</span><br><span class="line">        <span class="keyword">if</span> (bubbles.length === <span class="number">0</span>) &#123;</span><br><span class="line">          replyTextMessage(replyToken, <span class="string">&#x27;⚠️ 目前沒有產品銷售數據喔！&#x27;</span>);</span><br><span class="line">          <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        const flexContents = &#123;</span><br><span class="line">          type: <span class="string">&#x27;carousel&#x27;</span>,</span><br><span class="line">          contents: bubbles</span><br><span class="line">        &#125;;</span><br><span class="line">        replyFlexMessage(replyToken, flexContents, <span class="string">&#x27;統計產品銷售數據&#x27;</span>);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ContentService.createTextOutput(<span class="string">&#x27;OK&#x27;</span>);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (<span class="keyword">error</span>) &#123;</span><br><span class="line">    Logger.<span class="keyword">log</span>(<span class="string">&#x27;錯誤訊息: &#x27;</span> + <span class="keyword">error</span>);</span><br><span class="line">    logError(<span class="string">&#x27;錯誤訊息: &#x27;</span> + <span class="keyword">error</span>);</span><br><span class="line">    <span class="keyword">return</span> ContentService.createTextOutput(<span class="string">&#x27;錯誤: &#x27;</span> + <span class="keyword">error</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="部署"><a class="header-anchor" href="#部署"></a>部署</h1>
+<ol>
+<li>點選「Deploy」 &gt; 「New deployment」
+<ul>
+<li>類型: 網路應用程式</li>
+<li>說明: 填寫本次部署的說明</li>
+<li>執行應用程式的身份: 自己</li>
+<li>誰可以存取: 任何人</li>
+</ul>
+</li>
+<li>成功部署後會出現一個網址</li>
+<li>前往 <a target="_blank" rel="noopener" href="https://developers.line.biz/console/">LINE Developers</a></li>
+<li>選擇一個 LINE 官方帳號</li>
+<li>進入「Messaging API」設定頁</li>
+<li>找到「Webhook URL」欄位，貼上部署後<code>https://script.google.com/.../exec</code>網址</li>
+<li>之後有更新，可以點擊「Manage deployments」，新增一個新版本的部署</li>
+</ol>
+<h1 id="免費配額和限制"><a class="header-anchor" href="#免費配額和限制"></a>免費配額和限制</h1>
+<p>雖然 Google Apps Script (GAS) 提供了免費額度，但在開發和部署 LINE Bot 時，還是有一些需要特別注意的配額和使用限制，避免因為超出限制導致服務中斷。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">功能</th>
+<th style="text-align:left">消費者帳戶(<a target="_blank" rel="noopener" href="http://xn--gmail-gv5i.com">如gmail.com</a>)</th>
+<th style="text-align:left">Google Workspace帳戶</th>
+<th style="text-align:left">注意事項</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">⏳ <strong>觸發條件總執行階段</strong><br>(Triggers total runtime)</td>
+<td style="text-align:left">90分鐘/天</td>
+<td style="text-align:left">每天6小時</td>
+<td style="text-align:left">每天執行的總時長上限，超過後當天將無法再觸發腳本</td>
+</tr>
+<tr>
+<td style="text-align:left">📈 <strong>網址擷取呼叫次數</strong><br>(URL Fetch calls)</td>
+<td style="text-align:left">20,000次/天</td>
+<td style="text-align:left">100,000次/天</td>
+<td style="text-align:left">每次使用<code>UrlFetchApp.fetch()</code>呼叫 LINE API 都會消耗，例如發送文字<code>replyTextMessage</code>、發送Flex訊息<code>replyFlexMessage</code>等</td>
+</tr>
+<tr>
+<td style="text-align:left">⏱️ <strong>指令碼執行時間</strong><br>(Script runtime)</td>
+<td style="text-align:left">6分鐘/次</td>
+<td style="text-align:left">6分鐘/次</td>
+<td style="text-align:left">每次腳本執行，不論是來自Webhook或觸發器，都必須在6分鐘內結束，否則會自動中斷</td>
+</tr>
+</tbody>
+</table>
+<p>完整配額和限制表請看 <a target="_blank" rel="noopener" href="https://developers.google.com/apps-script/guides/services/quotas?hl=zh-tw">Apps Script Quotas 官方文件</a>。</p>
+<h1 id="配額估算小工具"><a class="header-anchor" href="#配額估算小工具"></a>配額估算小工具</h1>
+<p>我寫了一個配額估算小工具，可以協助你估算可能會消耗的「觸發條件總執行階段(Triggers total runtime)」和「網址擷取呼叫次數(URL Fetch calls)」使用量。</p>
+<h2 id="觸發條件總執行階段"><a class="header-anchor" href="#觸發條件總執行階段"></a>觸發條件總執行階段</h2>
+<p>估算每天的總執行時間。</p>
+<h3 id="觸發器每次執行時間"><a class="header-anchor" href="#觸發器每次執行時間"></a>觸發器每次執行時間</h3>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fapps-script-line-bot-products%2Ftriggers-total-runtime.jpg?alt=media&amp;token=536d6319-c86e-416b-af0a-f305236fa1e5" alt="triggers-total-runtime"></p>
+<h3 id="觸發器間隔時間"><a class="header-anchor" href="#觸發器間隔時間"></a>觸發器間隔時間</h3>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fapps-script-line-bot-products%2Furl-fetch-calls.jpg?alt=media&amp;token=78b5a0da-26d5-40b0-9f4e-ec7ed130506b" alt="url-fetch-calls"></p>
+<h2 id="網址擷取呼叫次數"><a class="header-anchor" href="#網址擷取呼叫次數"></a>網址擷取呼叫次數</h2>
+<p>估算每天的網址擷取呼叫次數。</p>
+<p>以本篇文章的程式碼為例:</p>
+<ul>
+<li>每次使用者啟用小幫手 → 呼叫 LINE API 1 次</li>
+<li>每次查詢產品銷售資料 → 呼叫 LINE API 1 次</li>
+<li>若每天有 100 位使用者，平均每人互動 2 次</li>
+<li>→ 則每天會消耗 100 × 2 = 200 次呼叫</li>
+</ul>
+<h2 id="配額估算小工具-v2"><a class="header-anchor" href="#配額估算小工具-v2"></a>配額估算小工具</h2>
+
+<!-- 網址擷取呼叫次數 和 觸發條件總執行階段 計算小工具 -->
+<style>
+.tabs-wrapper {
+  margin-top: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background: #f9f9f9;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+.tab-buttons {
+  display: flex;
+  border-bottom: 1px solid #ddd;
+}
+.tab-buttons button {
+  flex: 1;
+  padding: 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 16px;
+  border-bottom: 3px solid transparent;
+}
+.tab-buttons button.active {
+  border-color: #007bff;
+  color: #007bff;
+  background: #ffffff;
+}
+.tab-content {
+  display: none;
+  padding: 20px;
+}
+.tab-content.active {
+  display: block;
+}
+.calc-card label {
+  display: block;
+  margin: 10px 0 6px;
+  font-weight: bold;
+}
+.calc-card input {
+  max-width: 200px;
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+.calc-card button {
+  margin-top: 10px;
+  padding: 8px 16px;
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.calc-card button:hover {
+  background: #0056b3;
+}
+.calc-result {
+  display: none;
+  margin-top: 16px;
+  background: #eef6ff;
+  padding: 14px 18px;
+  border-radius: 8px;
+  font-size: 15px;
+  line-height: 1.8;
+}
+</style>
+
+<div class="tabs-wrapper">
+  <div class="tab-buttons">
+    <button class="active" onclick="switchTab('tab-trigger')">⏳ Triggers total runtime</button>
+    <button onclick="switchTab('tab-fetch')">📈 URL Fetch calls</button>
+  </div>
+
+  <div id="tab-fetch" class="tab-content calc-card">
+    <label for="urlfetch_interactions">每天互動次數：</label>
+    <p>如: 假設每次執行時會呼叫1次LINE API，每天有200個使用者，平均每位互動2次，請輸入200。</p>
+    <input id="urlfetch_interactions" type="number" placeholder="例如 200" value="200">
+    <button onclick="calculateUrlFetch()">計算</button>
+    <div id="urlfetch_result" class="calc-result"></div>
+  </div>
+
+  <div id="tab-trigger" class="tab-content active calc-card">
+    <label for="trigger_duration">每次觸發執行時間（秒）：</label>
+    <p>如: 觸發器每次執行的時間，假設觸發器每次執行需要15.379秒，請輸入15.379。</p>
+    <input id="trigger_duration" type="number" placeholder="例如 15.379" value="15.379">
+
+    <label for="trigger_interval">觸發間隔（分鐘）：</label>
+    <p>如: 觸發器每次執行的間隔時間，假設設定每10分鐘要啟動觸發器，請輸入10。</p>
+    <input id="trigger_interval" type="number" placeholder="例如 10" value="10">
+
+    <button onclick="calculateTrigger()">計算</button>
+    <div id="trigger_result" class="calc-result"></div>
+  </div>
+</div>
+
+<script>
+function switchTab(tabId) {
+  const tabs = document.querySelectorAll('.tab-content');
+  const buttons = document.querySelectorAll('.tab-buttons button');
+
+  tabs.forEach(t => t.classList.remove('active'));
+  buttons.forEach(b => b.classList.remove('active'));
+
+  document.getElementById(tabId).classList.add('active');
+  event.target.classList.add('active');
+}
+
+function calculateUrlFetch() {
+  const value = parseInt(document.getElementById('urlfetch_interactions').value);
+  const result = document.getElementById('urlfetch_result');
+  if (isNaN(value) || value <= 0) {
+    result.innerHTML = '⚠️ 請輸入有效的互動次數！';
+    result.style.display = 'block';
+    return;
+  }
+  const percent = ((value / 20000) * 100).toFixed(2);
+  result.innerHTML = `
+    ✅ 每天預估消耗 <strong>${value}</strong> 次網址擷取呼叫。<br>
+    📊 使用率為 <strong>${percent}%</strong>（以免費帳戶上限計算）。<br><br>
+    🔺 <strong>免費帳戶上限：</strong>20,000 次/天<br>
+    🔺 <strong>Workspace帳戶上限：</strong>100,000 次/天
+  `;
+  result.style.display = 'block';
+}
+
+function calculateTrigger() {
+  const seconds = parseFloat(document.getElementById('trigger_duration').value);
+  const interval = parseFloat(document.getElementById('trigger_interval').value);
+  const result = document.getElementById('trigger_result');
+
+  if (isNaN(seconds) || isNaN(interval) || seconds <= 0 || interval <= 0) {
+    result.innerHTML = '⚠️ 請輸入有效的秒數與間隔！';
+    result.style.display = 'block';
+    return;
+  }
+
+  const perDay = 1440 / interval;
+  const totalSeconds = perDay * seconds;
+  const totalMinutes = (totalSeconds / 60).toFixed(2);
+  const usagePercent = ((totalMinutes / 90) * 100).toFixed(2);  // 90 是免費帳戶上限
+
+  result.innerHTML = `
+    ✅ 每天會觸發 <strong>${perDay.toFixed(0)}</strong> 次。<br>
+    ⏱️ 每天總執行時間為 <strong>${totalMinutes}</strong> 分鐘。<br>
+    📊 使用率為 <strong>${usagePercent}%</strong>（以免費帳戶上限計算）。<br><br>
+    🔺 <strong>免費帳戶上限：</strong>90 分鐘/天<br>
+    🔺 <strong>Workspace帳戶上限：</strong>360 分鐘/天
+  `;
+  result.style.display = 'block';
+}
+</script>
+
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/blog/tags/Apps-Script/" rel="tag"># Apps Script</a>
+              <a href="/blog/tags/LINE-Bot/" rel="tag"># LINE Bot</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/blog/llm-api-free-resources/" rel="prev" title="【LLM API】申請免費 API 使用額度">
+                  <i class="fa fa-angle-left"></i> 【LLM API】申請免費 API 使用額度
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">史戴拉寫扣</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/blog/js/comments.js"></script><script src="/blog/js/utils.js"></script><script src="/blog/js/motion.js"></script><script src="/blog/js/sidebar.js"></script><script src="/blog/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js","integrity":"sha256-stuqcu2FrjYCXDOytWFA5SoUE/r3nkp6gTglzNSlavU="}}</script>
+  <script src="/blog/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"ams","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/blog/js/third-party/math/mathjax.js"></script>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"estellacoding","repo":"blog","client_id":"Ov23liBnWPuObZGktbAv","client_secret":"9ed6e261cd75af620744058daafa56b80a53ffa8","admin_user":"estellacoding","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":null,"labels":"gitalk","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"9bb03e1f492d6b0ea2942d528e67120d"}</script>
+<script src="/blog/js/third-party/comments/gitalk.js"></script>
+
+</body>
+</html>
