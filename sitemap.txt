@@ -1,3 +1,4 @@
+https://estellacoding.github.io/blog/leetcode-sql-197-rising-temperature/
 https://estellacoding.github.io/blog/llm-api-free-resources/
 https://estellacoding.github.io/blog/apps-script-line-bot-products/
 https://estellacoding.github.io/blog/github-copilot-vscode-ai-conventional-commit/
@@ -166,6 +167,7 @@ https://estellacoding.github.io/blog/tags/42/
 https://estellacoding.github.io/blog/tags/philosophy/
 https://estellacoding.github.io/blog/tags/Apps-Script/
 https://estellacoding.github.io/blog/tags/LINE-Bot/
+https://estellacoding.github.io/blog/tags/LeetCode/
 https://estellacoding.github.io/blog/categories/AutoML/
 https://estellacoding.github.io/blog/categories/AWS/
 https://estellacoding.github.io/blog/categories/Hexo/
@@ -185,3 +187,4 @@ https://estellacoding.github.io/blog/categories/Philosophy/
 https://estellacoding.github.io/blog/categories/LLM/OpenAI/
 https://estellacoding.github.io/blog/categories/Apps-Script/
 https://estellacoding.github.io/blog/categories/Apps-Script/LINE-Bot/
+https://estellacoding.github.io/blog/categories/SQL/
