@@ -1,3 +1,4 @@
+https://estellacoding.github.io/blog/growth-mindset-these-year/
 https://estellacoding.github.io/blog/leetcode-sql-197-rising-temperature/
 https://estellacoding.github.io/blog/llm-api-free-resources/
 https://estellacoding.github.io/blog/apps-script-line-bot-products/
@@ -6,7 +7,6 @@ https://estellacoding.github.io/blog/tampermonkey-hide-web-personal-information/
 https://estellacoding.github.io/blog/tarot-card-game/
 https://estellacoding.github.io/blog/github-copilot-vscode-ai-coding/
 https://estellacoding.github.io/blog/about/index.html
-https://estellacoding.github.io/blog/growth-mindset-these-year/
 https://estellacoding.github.io/blog/oracle-plsql-customer-tag-path/
 https://estellacoding.github.io/blog/grace-strength-mindset/
 https://estellacoding.github.io/blog/not-engineer-but-creator/
