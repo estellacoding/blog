@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="mask-icon" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"estellacoding.github.io","root":"/blog/","images":"/blog/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/blog/js/config.js"></script>
+
+    <meta name="description" content="最近在開發 WordPress 外掛時，遇到一個經常重複的流程:  本地開發 → 手動打包 → 上傳到WordPress → 測試 → 修bug → 再打包…  每次修改都要花 3-5 分鐘手動打包、上傳、測試，一天重複 10 次，就是將近 1 小時。不是在寫程式，而只是在搬檔案。這些時間累積起來…是什麼?是再也回不來的青春歲月!(你說這時間拿來盯著bug看體悟無常也不錯)。而這就是為什麼需要 C">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何使用 Local + GitHub + Zeabur 實現 WordPress 外掛的 CI&#x2F;CD 自動部署">
+<meta property="og:url" content="https://estellacoding.github.io/blog/local-github-zeabur-wp-plugin-cicd/index.html">
+<meta property="og:site_name" content="史戴拉寫扣">
+<meta property="og:description" content="最近在開發 WordPress 外掛時，遇到一個經常重複的流程:  本地開發 → 手動打包 → 上傳到WordPress → 測試 → 修bug → 再打包…  每次修改都要花 3-5 分鐘手動打包、上傳、測試，一天重複 10 次，就是將近 1 小時。不是在寫程式，而只是在搬檔案。這些時間累積起來…是什麼?是再也回不來的青春歲月!(你說這時間拿來盯著bug看體悟無常也不錯)。而這就是為什麼需要 C">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Flocal-github-zeabur-wp-plugin-cicd%2Flocal-github-zeabur-wp-plugin-cicd-1.png?alt=media&amp;token=d28e5ee9-ce41-422d-aec7-ce15590f9f11">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Flocal-github-zeabur-wp-plugin-cicd%2Flocal-github-zeabur-wp-plugin-cicd-2.png?alt=media&amp;token=fbd332e9-6a66-4c61-a1a7-8b9242c1def9">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Flocal-github-zeabur-wp-plugin-cicd%2Flocal-github-zeabur-wp-plugin-cicd-3.png?alt=media&amp;token=28dcadcc-6120-4c1f-81a1-6c5b7de2b1d2">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Flocal-github-zeabur-wp-plugin-cicd%2Flocal-github-zeabur-wp-plugin-cicd-4.png?alt=media&amp;token=ef778603-dea5-4359-b851-c4ccfb7e85d2">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Flocal-github-zeabur-wp-plugin-cicd%2Flocal-github-zeabur-wp-plugin-cicd-5.png?alt=media&amp;token=6078458a-37e2-4339-b04e-f608f7a50760">
+<meta property="article:published_time" content="2025-08-07T03:11:11.000Z">
+<meta property="article:modified_time" content="2025-08-07T03:11:11.000Z">
+<meta property="article:author" content="史戴拉">
+<meta property="article:tag" content="GitHub">
+<meta property="article:tag" content="WordPress">
+<meta property="article:tag" content="Zeabur">
+<meta property="article:tag" content="CI&#x2F;CD">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Flocal-github-zeabur-wp-plugin-cicd%2Flocal-github-zeabur-wp-plugin-cicd-1.png?alt=media&amp;token=d28e5ee9-ce41-422d-aec7-ce15590f9f11">
+
+
+<link rel="canonical" href="https://estellacoding.github.io/blog/local-github-zeabur-wp-plugin-cicd/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://estellacoding.github.io/blog/local-github-zeabur-wp-plugin-cicd/","path":"local-github-zeabur-wp-plugin-cicd/","title":"如何使用 Local + GitHub + Zeabur 實現 WordPress 外掛的 CI/CD 自動部署"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>如何使用 Local + GitHub + Zeabur 實現 WordPress 外掛的 CI/CD 自動部署 | 史戴拉寫扣</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EG0CKC3093"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-EG0CKC3093","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/blog/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/blog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/blog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">史戴拉寫扣</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Hands-on fuels my soul!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/blog/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/blog/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/blog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%82%BA%E4%BB%80%E9%BA%BC%E9%9C%80%E8%A6%81CI-CD"><span class="nav-number">1.</span> <span class="nav-text">為什麼需要CI&#x2F;CD?</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E7%9A%84%E5%B7%A5%E5%85%B7"><span class="nav-number">2.</span> <span class="nav-text">使用的工具</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5-%E5%BB%BA%E7%AB%8BRepo"><span class="nav-number">3.</span> <span class="nav-text">第一步: 建立Repo</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5-%E4%BD%BF%E7%94%A8Local"><span class="nav-number">4.</span> <span class="nav-text">第二步: 使用Local</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%9DLocal"><span class="nav-number">4.1.</span> <span class="nav-text">安裝Local</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A8%AD%E5%AE%9AGit%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6"><span class="nav-number">4.2.</span> <span class="nav-text">設定Git版本控制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%B5%E5%BB%BA-gitignore"><span class="nav-number">4.3.</span> <span class="nav-text">創建.gitignore</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%B5%E5%BB%BADockerfile"><span class="nav-number">4.4.</span> <span class="nav-text">創建Dockerfile</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%A8%E9%80%81%E5%88%B0GitHub"><span class="nav-number">4.5.</span> <span class="nav-text">推送到GitHub</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E6%AD%A5-%E9%83%A8%E7%BD%B2%E5%88%B0Zeabur"><span class="nav-number">5.</span> <span class="nav-text">第三步: 部署到Zeabur</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A8%BB%E5%86%8AZeabur%E4%B8%A6%E7%8D%B2%E5%BE%97%E7%8D%8E%E5%8B%B5"><span class="nav-number">5.1.</span> <span class="nav-text">註冊Zeabur並獲得獎勵</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8Zeabur-WP%E9%83%A8%E7%BD%B2%E6%A8%A1%E6%9D%BF"><span class="nav-number">5.2.</span> <span class="nav-text">使用Zeabur WP部署模板</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9B%B2%E7%AB%AFWP%E7%B6%B2%E7%AB%99%E6%AD%A3%E5%BC%8F%E4%B8%8A%E7%B7%9A"><span class="nav-number">5.3.</span> <span class="nav-text">雲端WP網站正式上線</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B6%81%E5%AE%9AGitHub%E9%83%A8%E7%BD%B2%E4%BE%86%E6%BA%90"><span class="nav-number">5.4.</span> <span class="nav-text">綁定GitHub部署來源</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E5%9B%9B%E6%AD%A5-%E6%9B%B4%E6%96%B0%E5%A4%96%E6%8E%9B"><span class="nav-number">6.</span> <span class="nav-text">第四步: 更新外掛</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Zeabur%E6%9C%83%E6%80%8E%E9%BA%BC%E8%99%95%E7%90%86"><span class="nav-number">6.1.</span> <span class="nav-text">Zeabur會怎麼處理?</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%87%8D%E9%BB%9E%E5%9B%9E%E9%A1%A7"><span class="nav-number">7.</span> <span class="nav-text">重點回顧</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="史戴拉"
+      src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+  <p class="site-author-name" itemprop="name">史戴拉</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/blog/archives/">
+          <span class="site-state-item-count">50</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/blog/categories/">
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/blog/tags/">
+        <span class="site-state-item-count">120</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/estellacoding" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;estellacoding" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://open.substack.com/pub/stellacoding" title="Substack → https:&#x2F;&#x2F;open.substack.com&#x2F;pub&#x2F;stellacoding" rel="noopener me" target="_blank"><i class="fas fa-newspaper fa-fw"></i>Substack</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+    
+    
+      
+      
+    
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://estellacoding.github.io/blog/local-github-zeabur-wp-plugin-cicd/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+      <meta itemprop="name" content="史戴拉">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="史戴拉寫扣">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="如何使用 Local + GitHub + Zeabur 實現 WordPress 外掛的 CI/CD 自動部署 | 史戴拉寫扣">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          如何使用 Local + GitHub + Zeabur 實現 WordPress 外掛的 CI/CD 自動部署
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2025-08-07 11:11:11" itemprop="dateCreated datePublished" datetime="2025-08-07T11:11:11+08:00">2025-08-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/WordPress/" itemprop="url" rel="index"><span itemprop="name">WordPress</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>最近在開發 WordPress 外掛時，遇到一個經常重複的流程:</p>
+<blockquote>
+<p>本地開發 → 手動打包 → 上傳到WordPress → 測試 → 修bug → 再打包…</p>
+</blockquote>
+<p>每次修改都要花 3-5 分鐘手動打包、上傳、測試，一天重複 10 次，就是將近 1 小時。不是在寫程式，而只是在搬檔案。這些時間累積起來…是什麼?是再也回不來的青春歲月!(你說這時間拿來盯著bug看體悟無常也不錯)。而這就是為什麼需要 CI/CD，一個持續整合與部署的自動化流程。</p>
+<span id="more"></span>
+<h1 id="為什麼需要CI-CD"><a class="header-anchor" href="#為什麼需要CI-CD"></a>為什麼需要CI/CD?</h1>
+<p>透過自動化部署流程，我們可以:</p>
+<ul>
+<li>大幅提升開發效率: <code>git push</code> 之後，雲端自動更新，省下重複操作的時間。</li>
+<li>完整的版本控制: 每一次提交都有記錄，改了什麼、何時改的，一目了然。</li>
+<li>回復前版本能力: 一旦出問題，立刻切換到上一個穩定版本，不再手忙腳亂。</li>
+<li>專注在開發而不是部署: 讓工具處理重複性工作，只需要專注在功能開發。</li>
+</ul>
+<p>本篇就會分享我是怎麼實現這個流程，會一步一步帶你實作每次 WordPress 外掛部署時自動更新至雲端主機:</p>
+<blockquote>
+<p>Local 開發 → GitHub 版本控制 → Zeabur 自動部署 → 雲端 WordPress 外掛自動更新</p>
+</blockquote>
+<h1 id="使用的工具"><a class="header-anchor" href="#使用的工具"></a>使用的工具</h1>
+<ol>
+<li>
+<p><a target="_blank" rel="noopener" href="https://localwp.com/">Local</a> — 最佳本地 WordPress 開發工具</p>
+<ul>
+<li>一鍵建立本地 WordPress 環境</li>
+<li>支援 SSL、SSH、WP-CLI、資料庫管理</li>
+<li>開發體驗極佳，適合外掛與主題開發</li>
+</ul>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="https://github.com/">GitHub</a> — 版本控制中心</p>
+<ul>
+<li>免費程式碼存放倉庫</li>
+<li>Git 的版本控制，還有分支、合併、回復前版本</li>
+</ul>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="https://zeabur.com/referral?referralCode=stelladai1028">Zeabur</a> — 無伺服器雲平台</p>
+<ul>
+<li>提供 WordPress 模板可一鍵安裝</li>
+<li>支援 GitHub 專案自動部署</li>
+<li>可搭配 Docker 自定義啟動邏輯</li>
+<li>按用量計費，用多少付多少</li>
+</ul>
+</li>
+</ol>
+<h1 id="第一步-建立Repo"><a class="header-anchor" href="#第一步-建立Repo"></a>第一步: 建立Repo</h1>
+<ol>
+<li>前往 <a target="_blank" rel="noopener" href="https://github.com/">GitHub</a></li>
+<li>建立新的 repo</li>
+<li>命名 repo，例如我的是: <code>haoyangder-notification</code></li>
+<li>可見性: 公開或私人皆可</li>
+<li>建議選項
+<ul>
+<li>勾選「Add README」(非必要)</li>
+<li><code>.gitignore</code> 可先不選，稍後我們手動建立</li>
+<li>License: 可選「GNU General Public License v2.0」</li>
+</ul>
+</li>
+<li>建立後你會取得一組遠端 Repo 連結:
+<ul>
+<li><code>https://github.com/yourusername/haoyangder-notification.git</code></li>
+</ul>
+</li>
+</ol>
+<h1 id="第二步-使用Local"><a class="header-anchor" href="#第二步-使用Local"></a>第二步: 使用Local</h1>
+<h2 id="安裝Local"><a class="header-anchor" href="#安裝Local"></a>安裝Local</h2>
+<ol>
+<li>安裝 <a target="_blank" rel="noopener" href="https://localwp.com/">Local</a></li>
+<li>建立新的 WordPress 專案</li>
+<li>建立新的外掛資料夾及程式碼</li>
+<li>專案結構說明:<br>
+Local 建立的 WordPress 專案結構通常是這樣:</li>
+</ol>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">your-local-site/</span><br><span class="line">├── app/</span><br><span class="line">│   ├── public/ ← WordPress 檔案都在這裡</span><br><span class="line">│   │   ├── <span class="keyword">wp</span>-admin/</span><br><span class="line">│   │   ├── <span class="keyword">wp</span>-includes/</span><br><span class="line">│   │   ├── <span class="keyword">wp</span>-content/</span><br><span class="line">│   │   │   ├── themes/</span><br><span class="line">│   │   │   └── plugins/</span><br><span class="line">│   │   │       └── haoyangder-notification/ ← 外掛在這裡(範例外掛名稱)</span><br><span class="line">│   │   ├── <span class="keyword">wp</span>-config.php</span><br><span class="line">│   │   └── ...</span><br><span class="line">│   └── sql/</span><br><span class="line">├── <span class="keyword">conf</span>/</span><br><span class="line">└── logs/</span><br></pre></td></tr></table></figure>
+<h2 id="設定Git版本控制"><a class="header-anchor" href="#設定Git版本控制"></a>設定Git版本控制</h2>
+<p>在 Local 專案根目錄下設定 Git 版控。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 進入專案資料夾(Local專案根目錄)</span></span><br><span class="line"><span class="built_in">cd</span> haoyangder-notification</span><br><span class="line"><span class="comment"># 初始化Git</span></span><br><span class="line">git init</span><br></pre></td></tr></table></figure>
+<h2 id="創建-gitignore"><a class="header-anchor" href="#創建-gitignore"></a>創建.gitignore</h2>
+<p>這段 <code>.gitignore</code> 的目的是:「只追蹤我正在開發的那個外掛，其餘整包 WordPress 與 Local 產生的檔案都排除」，所以 GitHub repo 裡面只會出現我的外掛內容、.gitignore、Dockerfile、README.md等，整包 WordPress 都不會上傳，也不會同步 Local 的環境設定相關檔案。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 忽略所有檔案</span></span><br><span class="line"><span class="string">*</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 但保留我們需要的</span></span><br><span class="line"><span class="type">!.gitignore</span></span><br><span class="line"><span class="type">!Dockerfile</span></span><br><span class="line"><span class="type">!README.md</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 只保留我們的外掛</span></span><br><span class="line"><span class="type">!app/</span></span><br><span class="line"><span class="type">!app/public/</span></span><br><span class="line"><span class="type">!app/public/wp</span><span class="string">-content/</span></span><br><span class="line"><span class="type">!app/public/wp</span><span class="string">-content/plugins/</span></span><br><span class="line"><span class="type">!app/public/wp</span><span class="string">-content/plugins/haoyangder-notification/</span></span><br><span class="line"><span class="type">!app/public/wp</span><span class="string">-content/plugins/haoyangder-notification/**</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 忽略系統檔案</span></span><br><span class="line"><span class="string">.DS_Store</span></span><br><span class="line"><span class="string">Thumbs.db</span></span><br><span class="line"><span class="string">*.log</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 忽略Local相關檔案</span></span><br><span class="line"><span class="string">conf/</span></span><br><span class="line"><span class="string">logs/</span></span><br></pre></td></tr></table></figure>
+<h2 id="創建Dockerfile"><a class="header-anchor" href="#創建Dockerfile"></a>創建Dockerfile</h2>
+<p>這個 <code>Dockerfile</code> 的目的是:「為了部署到 Zeabur 的 WordPress 環境時，自動把正在開發的外掛複製到容器內的 wp-content/plugins 裡面」。</p>
+<p>每次 Zeabur 重新部署時，Docker 都會做以下事情:</p>
+<ol>
+<li>啟動一個全新的 WordPress 容器</li>
+<li>將外掛自動複製到正確位置</li>
+<li>其他 WordPress 檔案完全不變</li>
+</ol>
+<p>這就是為什麼我們可以做到 「只更新外掛」而不更動整個 WordPress 系統的關鍵。</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> wordpress:latest</span><br><span class="line"></span><br><span class="line"><span class="comment"># 建立一個自定義啟動腳本</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> <span class="built_in">echo</span> <span class="string">&#x27;#!/bin/bash&#x27;</span> &gt; /custom-entrypoint.sh &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">    <span class="built_in">echo</span> <span class="string">&#x27;echo &quot;Copying plugin files...&quot;&#x27;</span> &gt;&gt; /custom-entrypoint.sh &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">    <span class="built_in">echo</span> <span class="string">&#x27;mkdir -p /var/www/html/wp-content/plugins/haoyangder-notification/&#x27;</span> &gt;&gt; /custom-entrypoint.sh &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">    <span class="built_in">echo</span> <span class="string">&#x27;cp -r /tmp/plugin/* /var/www/html/wp-content/plugins/haoyangder-notification/ 2&gt;/dev/null || true&#x27;</span> &gt;&gt; /custom-entrypoint.sh &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">    <span class="built_in">echo</span> <span class="string">&#x27;chown -R www-data:www-data /var/www/html/wp-content/plugins/haoyangder-notification/&#x27;</span> &gt;&gt; /custom-entrypoint.sh &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">    <span class="built_in">echo</span> <span class="string">&#x27;chmod -R 755 /var/www/html/wp-content/plugins/haoyangder-notification/&#x27;</span> &gt;&gt; /custom-entrypoint.sh &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">    <span class="built_in">echo</span> <span class="string">&#x27;exec docker-entrypoint.sh &quot;$@&quot;&#x27;</span> &gt;&gt; /custom-entrypoint.sh &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">    <span class="built_in">chmod</span> +x /custom-entrypoint.sh</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 將外掛原始碼複製進容器的暫存區</span></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> app/public/wp-content/plugins/haoyangder-notification/ /tmp/plugin/</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">ENTRYPOINT</span><span class="language-bash"> [<span class="string">&quot;/custom-entrypoint.sh&quot;</span>]</span></span><br><span class="line"><span class="keyword">CMD</span><span class="language-bash"> [<span class="string">&quot;apache2-foreground&quot;</span>]</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Flocal-github-zeabur-wp-plugin-cicd%2Flocal-github-zeabur-wp-plugin-cicd-1.png?alt=media&amp;token=d28e5ee9-ce41-422d-aec7-ce15590f9f11" alt="local-github-zeabur-wp-plugin-cicd-1"></p>
+<h2 id="推送到GitHub"><a class="header-anchor" href="#推送到GitHub"></a>推送到GitHub</h2>
+<p>完成 .gitignore 和 Dockerfile 的設定之後，下一步就是將外掛專案推送到 GitHub。</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 進入專案資料夾</span></span><br><span class="line">cd haoyangder-notification</span><br><span class="line"><span class="comment"># 加入檔案</span></span><br><span class="line">git <span class="built_in">add</span> .</span><br><span class="line"><span class="comment"># 檢查會被加入的檔案</span></span><br><span class="line">git status</span><br></pre></td></tr></table></figure>
+<p>應該只會看到:</p>
+<ul>
+<li>app/public/wp-content/plugins/haoyangder-notification/ 下的檔案</li>
+<li>.gitignore</li>
+<li>Dockerfile</li>
+</ul>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># 提交</span></span><br><span class="line">git commit -m <span class="string">&quot;Initial commit: haoyangder-notification plugin from Local&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="meta"># 連接到GitHub(替換成你的repo網址)</span></span><br><span class="line">git remote <span class="keyword">add</span> origin https://github.com/yourusername/haoyangder-notification.git</span><br><span class="line"></span><br><span class="line"><span class="meta"># 推送到GitHub</span></span><br><span class="line">git branch -M main</span><br><span class="line">git <span class="keyword">push</span> -u origin main</span><br></pre></td></tr></table></figure>
+<h1 id="第三步-部署到Zeabur"><a class="header-anchor" href="#第三步-部署到Zeabur"></a>第三步: 部署到Zeabur</h1>
+<p>現在，我們要把前面準備好的 GitHub 專案部署到 Zeabur，讓每次更新外掛時都能自動同步到雲端 WordPress 網站。</p>
+<h2 id="註冊Zeabur並獲得獎勵"><a class="header-anchor" href="#註冊Zeabur並獲得獎勵"></a>註冊Zeabur並獲得獎勵</h2>
+<p>如果你還沒有帳號，可使用 <a target="_blank" rel="noopener" href="https://zeabur.com/referral?referralCode=stelladai1028">我的推薦連結</a> 註冊 (若為首次升級我們可以各獲得 $5 使用金喔 🎁)。</p>
+<h2 id="使用Zeabur-WP部署模板"><a class="header-anchor" href="#使用Zeabur-WP部署模板"></a>使用Zeabur WP部署模板</h2>
+<p>前往 <a target="_blank" rel="noopener" href="https://zeabur.com/zh-TW/templates/CV344X">Zeabur Templates</a>。點選「部署」，Zeabur 會快速建立一個 WordPress 專案，等待服務初始化完成，即可進入 WordPress 設定畫面。</p>
+<h2 id="雲端WP網站正式上線"><a class="header-anchor" href="#雲端WP網站正式上線"></a>雲端WP網站正式上線</h2>
+<p>服務初始化完成後，Zeabur 會分配一組免費子網域，例如: <code>https://your-site.zeabur.app</code>。可以進入這個網址後台，先處理 WordPress 基本設定。</p>
+<h2 id="綁定GitHub部署來源"><a class="header-anchor" href="#綁定GitHub部署來源"></a>綁定GitHub部署來源</h2>
+<p>讓 Zeabur 在你每次 <code>git push</code> 時，自動重新部署外掛。操作步驟如下:</p>
+<ol>
+<li>進入 Zeabur 控制台 → 點選你的專案 → 點選「服務: wordpress」</li>
+<li>切換到上方的「設定」分頁</li>
+<li>找到「來源」→「GitHub 儲存庫」→ 點選「綁定 GitHub 儲存庫」</li>
+<li>選擇你第一步所建立的 GitHub 專案，例如我的是: <code>haoyangder-notification</code></li>
+<li>選擇分支 main</li>
+<li>啟動指令: 留空即可，Zeabur 會自動使用 Docker 預設啟動方式</li>
+<li>儲存設定</li>
+</ol>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Flocal-github-zeabur-wp-plugin-cicd%2Flocal-github-zeabur-wp-plugin-cicd-2.png?alt=media&amp;token=fbd332e9-6a66-4c61-a1a7-8b9242c1def9" alt="local-github-zeabur-wp-plugin-cicd-2"></p>
+<h1 id="第四步-更新外掛"><a class="header-anchor" href="#第四步-更新外掛"></a>第四步: 更新外掛</h1>
+<p>自動化流程已經準備好囉 🤤。現在，每次你在外掛中完成新功能或修復 Bug後，只需要以下指令，剩下的就交給 CI/CD 自動處理了。</p>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git <span class="keyword">add</span> .</span><br><span class="line">git commit -m <span class="string">&quot;fix: resolve encoding issue in notification message&quot;</span></span><br><span class="line">git <span class="keyword">push</span></span><br></pre></td></tr></table></figure>
+<p>接下來，Zeabur 會自動偵測到 GitHub 儲存庫的變更，並觸發建置流程。</p>
+<h2 id="Zeabur會怎麼處理"><a class="header-anchor" href="#Zeabur會怎麼處理"></a>Zeabur會怎麼處理?</h2>
+<ol>
+<li>自動偵測 Dockerfile: Zeabur 發現專案根目錄有 <code>Dockerfile</code>，便會啟動容器建置流程。如果一切正常，會看到建置日誌開始執行。</li>
+<li>開始建置映像檔
+<ul>
+<li>拉取 <code>wordpress:latest</code> 基礎映像</li>
+<li>執行 <code>custom-entrypoint.sh</code> 腳本</li>
+<li>將最新版的 <code>haoyangder-notification</code> 外掛複製進容器</li>
+<li>完成建置後，部署到雲端環境</li>
+</ul>
+</li>
+<li>即時更新雲端 WordPress 外掛</li>
+<li>若有錯誤，可進入「記錄」查看詳細錯誤訊息</li>
+</ol>
+<p>部署成功後，雲端 WordPress 就會是新外掛版本，不需手動上傳囉！</p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Flocal-github-zeabur-wp-plugin-cicd%2Flocal-github-zeabur-wp-plugin-cicd-3.png?alt=media&amp;token=28dcadcc-6120-4c1f-81a1-6c5b7de2b1d2" alt="local-github-zeabur-wp-plugin-cicd-3"></p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Flocal-github-zeabur-wp-plugin-cicd%2Flocal-github-zeabur-wp-plugin-cicd-4.png?alt=media&amp;token=ef778603-dea5-4359-b851-c4ccfb7e85d2" alt="local-github-zeabur-wp-plugin-cicd-4"></p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Flocal-github-zeabur-wp-plugin-cicd%2Flocal-github-zeabur-wp-plugin-cicd-5.png?alt=media&amp;token=6078458a-37e2-4339-b04e-f608f7a50760" alt="local-github-zeabur-wp-plugin-cicd-5"></p>
+<h1 id="重點回顧"><a class="header-anchor" href="#重點回顧"></a>重點回顧</h1>
+<p>透過打造「Local + GitHub + Zeabur 實現 WordPress 外掛的 CI/CD 自動部署」工作流，我們實現了真正高效、穩定的 WordPress 外掛開發流程。</p>
+<ul>
+<li>開發體驗佳: 繼續使用熟悉的 Local 開發環境。</li>
+<li>版本控制: 每一次修改都清楚記錄在 GitHub。</li>
+<li>真正的自動化部署: <code>git push</code> 後，Zeabur 自動更新雲端外掛，不用手動上傳。</li>
+<li>精準更新範圍: 只同步外掛檔案，WordPress 核心、主題、其他外掛不受影響。</li>
+<li>可回復前版本: 一旦發現問題，可快速切回到上一版本，穩定性大幅提升。</li>
+</ul>
+<p>希望這篇文章能幫助你建立屬於自己的 WordPress 開發工作流程！</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/blog/tags/GitHub/" rel="tag"># GitHub</a>
+              <a href="/blog/tags/WordPress/" rel="tag"># WordPress</a>
+              <a href="/blog/tags/Zeabur/" rel="tag"># Zeabur</a>
+              <a href="/blog/tags/CI-CD/" rel="tag"># CI/CD</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/blog/vibe-coding-stage/" rel="prev" title="我的 Vibe Coding 進化史">
+                  <i class="fa fa-angle-left"></i> 我的 Vibe Coding 進化史
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">史戴拉寫扣</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/blog/js/comments.js"></script><script src="/blog/js/utils.js"></script><script src="/blog/js/motion.js"></script><script src="/blog/js/sidebar.js"></script><script src="/blog/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js","integrity":"sha256-stuqcu2FrjYCXDOytWFA5SoUE/r3nkp6gTglzNSlavU="}}</script>
+  <script src="/blog/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"ams","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/blog/js/third-party/math/mathjax.js"></script>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"estellacoding","repo":"blog","client_id":"Ov23liBnWPuObZGktbAv","client_secret":"9ed6e261cd75af620744058daafa56b80a53ffa8","admin_user":"estellacoding","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":null,"labels":"gitalk","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"7ac5fb6957b13ad5b0d629e651d4aa99"}</script>
+<script src="/blog/js/third-party/comments/gitalk.js"></script>
+
+</body>
+</html>
