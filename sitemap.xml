@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://estellacoding.github.io/blog/conventional-commit-type/</loc>
+    
+    <lastmod>2025-08-14</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://estellacoding.github.io/blog/local-github-zeabur-wp-plugin-cicd/</loc>
     
     <lastmod>2025-08-07</lastmod>
@@ -1345,6 +1354,20 @@
     <priority>0.2</priority>
   </url>
   
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/Conventional-Commits/</loc>
+    <lastmod>2025-08-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/tags/Github/</loc>
+    <lastmod>2025-08-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
 
   
   <url>
@@ -1489,6 +1512,13 @@
   
   <url>
     <loc>https://estellacoding.github.io/blog/categories/WordPress/</loc>
+    <lastmod>2025-08-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://estellacoding.github.io/blog/categories/GitHub/</loc>
     <lastmod>2025-08-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

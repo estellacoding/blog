@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="mask-icon" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"estellacoding.github.io","root":"/blog/","images":"/blog/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/blog/js/config.js"></script>
+
+    <meta name="description" content="用了一陣子的 GitHub Copilot 的「自動產生提交訊息」功能後(大腦外包給AI 😆)，不過有時還是想要手動微調提交訊息，所以想要了解所有的提交類型，以便可以微調提交訊息。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="搞懂慣例式提交">
+<meta property="og:url" content="https://estellacoding.github.io/blog/conventional-commit-type/index.html">
+<meta property="og:site_name" content="史戴拉寫扣">
+<meta property="og:description" content="用了一陣子的 GitHub Copilot 的「自動產生提交訊息」功能後(大腦外包給AI 😆)，不過有時還是想要手動微調提交訊息，所以想要了解所有的提交類型，以便可以微調提交訊息。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fconventional-commit-type%2Fconventional-commit-type-workchronicles.png?alt=media&amp;token=d4e08077-1941-4ab0-b157-9bab5757f22b">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fconventional-commit-type%2Fconventional-commit-type-mermaid.png?alt=media&amp;token=52293308-b2d5-4016-934a-e6b682bd30ff">
+<meta property="article:published_time" content="2025-08-14T03:11:11.000Z">
+<meta property="article:modified_time" content="2025-08-14T03:11:11.000Z">
+<meta property="article:author" content="史戴拉">
+<meta property="article:tag" content="Conventional Commits">
+<meta property="article:tag" content="Github">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fconventional-commit-type%2Fconventional-commit-type-workchronicles.png?alt=media&amp;token=d4e08077-1941-4ab0-b157-9bab5757f22b">
+
+
+<link rel="canonical" href="https://estellacoding.github.io/blog/conventional-commit-type/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://estellacoding.github.io/blog/conventional-commit-type/","path":"conventional-commit-type/","title":"搞懂慣例式提交"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>搞懂慣例式提交 | 史戴拉寫扣</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EG0CKC3093"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-EG0CKC3093","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/blog/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/blog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/blog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">史戴拉寫扣</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Hands-on fuels my soul!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/blog/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/blog/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/blog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%85%A3%E4%BE%8B%E5%BC%8F%E6%8F%90%E4%BA%A4%E6%98%AF%E4%BB%80%E9%BA%BC"><span class="nav-number">1.</span> <span class="nav-text">慣例式提交是什麼?</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A0%BC%E5%BC%8F%E7%B5%90%E6%A7%8B-Syntax"><span class="nav-number">2.</span> <span class="nav-text">格式結構(Syntax)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B8%B8%E8%A6%8B%E6%8F%90%E4%BA%A4%E9%A1%9E%E5%9E%8B"><span class="nav-number">3.</span> <span class="nav-text">常見提交類型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E9%A1%9E%E5%9E%8B"><span class="nav-number">3.1.</span> <span class="nav-text">核心類型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#feat"><span class="nav-number">3.1.1.</span> <span class="nav-text">feat</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fix"><span class="nav-number">3.1.2.</span> <span class="nav-text">fix</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BREAKING-CHANGE-%E6%88%96"><span class="nav-number">3.1.3.</span> <span class="nav-text">BREAKING CHANGE 或 !</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E5%B8%B8%E8%A6%8B%E9%A1%9E%E5%9E%8B"><span class="nav-number">3.2.</span> <span class="nav-text">其他常見類型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#docs"><span class="nav-number">3.2.1.</span> <span class="nav-text">docs</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#style"><span class="nav-number">3.2.2.</span> <span class="nav-text">style</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#chore"><span class="nav-number">3.2.3.</span> <span class="nav-text">chore</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ci"><span class="nav-number">3.2.4.</span> <span class="nav-text">ci</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#build"><span class="nav-number">3.2.5.</span> <span class="nav-text">build</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#refactor"><span class="nav-number">3.2.6.</span> <span class="nav-text">refactor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#perf"><span class="nav-number">3.2.7.</span> <span class="nav-text">perf</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#test"><span class="nav-number">3.2.8.</span> <span class="nav-text">test</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%A4%E6%96%B7%E6%B5%81%E7%A8%8B%E5%9C%96"><span class="nav-number">4.</span> <span class="nav-text">判斷流程圖</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AF%A6%E5%8B%99%E5%BB%BA%E8%AD%B0"><span class="nav-number">5.</span> <span class="nav-text">實務建議</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%94%A8%E9%8C%AF%E6%8F%90%E4%BA%A4%E9%A1%9E%E5%9E%8B%E8%A9%B2%E6%80%8E%E9%BA%BC%E8%BE%A6"><span class="nav-number">6.</span> <span class="nav-text">用錯提交類型該怎麼辦?</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E6%9C%80%E5%BE%8C%E4%B8%80%E6%AC%A1%E6%8F%90%E4%BA%A4%E8%A8%8A%E6%81%AF"><span class="nav-number">6.1.</span> <span class="nav-text">修改最後一次提交訊息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E5%89%8D%E5%B9%BE%E6%AC%A1%E6%8F%90%E4%BA%A4%E8%A8%8A%E6%81%AF"><span class="nav-number">6.2.</span> <span class="nav-text">修改前幾次提交訊息</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B5%90%E8%AB%96"><span class="nav-number">7.</span> <span class="nav-text">結論</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="史戴拉"
+      src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+  <p class="site-author-name" itemprop="name">史戴拉</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/blog/archives/">
+          <span class="site-state-item-count">51</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/blog/categories/">
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/blog/tags/">
+        <span class="site-state-item-count">122</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/estellacoding" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;estellacoding" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://open.substack.com/pub/stellacoding" title="Substack → https:&#x2F;&#x2F;open.substack.com&#x2F;pub&#x2F;stellacoding" rel="noopener me" target="_blank"><i class="fas fa-newspaper fa-fw"></i>Substack</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+    
+    
+      
+      
+    
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://estellacoding.github.io/blog/conventional-commit-type/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+      <meta itemprop="name" content="史戴拉">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="史戴拉寫扣">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="搞懂慣例式提交 | 史戴拉寫扣">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          搞懂慣例式提交
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2025-08-14 11:11:11" itemprop="dateCreated datePublished" datetime="2025-08-14T11:11:11+08:00">2025-08-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/GitHub/" itemprop="url" rel="index"><span itemprop="name">GitHub</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>用了一陣子的 GitHub Copilot 的「自動產生提交訊息」功能後(大腦外包給AI 😆)，不過有時還是想要手動微調提交訊息，所以想要了解所有的提交類型，以便可以微調提交訊息。</p>
+<span id="more"></span>
+<p>還不知道這個功能的小拉粉們，也可以順便看一下 <a href="https://estellacoding.github.io/blog/github-copilot-vscode-ai-conventional-commit/">這篇</a>，教你怎麼在 VS Code 讓 GitHub Copilot 自動生成符合慣例式提交規範的訊息。</p>
+<p>先分享一張經典的 git commit 漫畫插圖，有位工程師常常用「small changes」當提交訊息，被同事提醒「請寫有意義的訊息」，結果他很認真地提交了一段的詩 😆:</p>
+<blockquote>
+<p>What is life if full of care. If we have no time to stand and stare… — William Henry Davies</p>
+</blockquote>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fconventional-commit-type%2Fconventional-commit-type-workchronicles.png?alt=media&amp;token=d4e08077-1941-4ab0-b157-9bab5757f22b" alt="conventional-commit-type-workchronicles"></p>
+<p>雖然這段詩文很發人省思(<s>那我上班的意義是🧐?</s>)，但顯然不是一個好的提交訊息。真正的「有意義」提交訊息，應該是清晰、結構化且語意明確的，能快速理解改了什麼、為什麼改，以及影響範圍。(未來的你一定會感謝現在寫下清楚提交訊息的自己 🥹)。</p>
+<h1 id="慣例式提交是什麼"><a class="header-anchor" href="#慣例式提交是什麼"></a>慣例式提交是什麼?</h1>
+<blockquote>
+<p>核心目標: 讓提交訊息同時具備「人類可讀」與「機器可解析」的語意。</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.conventionalcommits.org/zh-hant/v1.0.0/">慣例式提交(Conventional Commits)</a>是一套標準化的 git 提交訊息格式，讓提交訊息具備「人類可讀」與「機器可解析」的結構。一方面能提升團隊協作、一致性，另一方面也能驅動自動化工具，如自動生成 changelog、SemVer 版本判讀與 CI/CD 流程等。</p>
+<h1 id="格式結構-Syntax"><a class="header-anchor" href="#格式結構-Syntax"></a>格式結構(Syntax)</h1>
+<ul>
+<li>type(必填): 代表此次提交的目的，如 feat、fix等。</li>
+<li>scope(可選): 以括號標註影響範圍，例如 feat(api): …。</li>
+<li>description(必填): 簡潔描述此次提交的變更。</li>
+<li>body(可選): 詳述變更內容、原因等。</li>
+<li>footer(可選): 可用於 BREAKING CHANGE、關閉 issue。</li>
+</ul>
+<p>提交訊息一般包含以下三大區段:</p>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span>&gt;[<span class="keyword">optional</span> scope]: &lt;description&gt;</span><br><span class="line"></span><br><span class="line">[<span class="keyword">optional</span> body]</span><br><span class="line"></span><br><span class="line">[<span class="keyword">optional</span> footer(s)]</span><br></pre></td></tr></table></figure>
+<h1 id="常見提交類型"><a class="header-anchor" href="#常見提交類型"></a>常見提交類型</h1>
+<h2 id="核心類型"><a class="header-anchor" href="#核心類型"></a>核心類型</h2>
+<h3 id="feat"><a class="header-anchor" href="#feat"></a>feat</h3>
+<p>新增功能(feature)。</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">feat: <span class="built_in">add</span> dark mode toggle</span><br><span class="line"></span><br><span class="line">feat(profile): <span class="built_in">enable</span> avatar upload</span><br></pre></td></tr></table></figure>
+<h3 id="fix"><a class="header-anchor" href="#fix"></a>fix</h3>
+<p>修正 bug。</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fix</span>: prevent crash when email <span class="keyword">is</span> <span class="built_in">empty</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">fix</span>(ui): align button <span class="keyword">on</span> mobile</span><br></pre></td></tr></table></figure>
+<h3 id="BREAKING-CHANGE-或"><a class="header-anchor" href="#BREAKING-CHANGE-或"></a>BREAKING CHANGE 或 !</h3>
+<p>不相容的重大變更。</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">feat(api)!: change <span class="keyword">user</span> <span class="title">ID</span> from <span class="keyword">string</span> to <span class="keyword">number</span></span><br><span class="line"></span><br><span class="line">BREAKING CHANGE: <span class="keyword">User</span> <span class="title">ID</span> field <span class="keyword">type</span> has changed from <span class="keyword">string</span> to <span class="keyword">number</span>. </span><br><span class="line">Clients must update their schema <span class="keyword">and</span> related code to handle numeric IDs.</span><br></pre></td></tr></table></figure>
+<h2 id="其他常見類型"><a class="header-anchor" href="#其他常見類型"></a>其他常見類型</h2>
+<h3 id="docs"><a class="header-anchor" href="#docs"></a>docs</h3>
+<p>文件變更，如README、註解等。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docs: update installation guide</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">docs</span><span class="params">(api)</span></span>: add example <span class="keyword">for</span> /users</span><br></pre></td></tr></table></figure>
+<h3 id="style"><a class="header-anchor" href="#style"></a>style</h3>
+<p>格式調整，如空白、縮排。</p>
+<figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">style</span>: <span class="built_in">remove</span> trailing commas</span><br><span class="line"></span><br><span class="line"><span class="built_in">style</span>(lint): enforce ESLint rules</span><br></pre></td></tr></table></figure>
+<h3 id="chore"><a class="header-anchor" href="#chore"></a>chore</h3>
+<p>日常維護任務，如.gitignore、更新腳本。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">chore: update <span class="selector-class">.gitignore</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">chore</span><span class="params">(release)</span></span>: prepare v1.<span class="number">5.0</span></span><br></pre></td></tr></table></figure>
+<h3 id="ci"><a class="header-anchor" href="#ci"></a>ci</h3>
+<p>CI/CD 流程設定，如GitHub Actions、pipeline等。</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ci: <span class="built_in">add</span> caching <span class="keyword">to</span> build job</span><br><span class="line"></span><br><span class="line">ci(circleci): <span class="built_in">enable</span> docker layer caching</span><br></pre></td></tr></table></figure>
+<h3 id="build"><a class="header-anchor" href="#build"></a>build</h3>
+<p>建置或套件變更，如webpack、package.json、Dockerfile。</p>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">build</span>: upgrade <span class="keyword">to</span> Webpack <span class="number">5</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">build</span>(deps): pin lodash <span class="keyword">to</span> v4<span class="number">.17</span><span class="number">.21</span></span><br></pre></td></tr></table></figure>
+<h3 id="refactor"><a class="header-anchor" href="#refactor"></a>refactor</h3>
+<p>重構程式碼，不影響功能行為，如拆分函數、模組化、命名優化。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">refactor: simplify auth middleware</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">refactor</span><span class="params">(utils)</span></span>: replace with native methods</span><br></pre></td></tr></table></figure>
+<h3 id="perf"><a class="header-anchor" href="#perf"></a>perf</h3>
+<p>優化效能，如減少執行時間、降低記憶體使用。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">perf: cache database queries</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">perf</span><span class="params">(list)</span></span>: virtualize long list rendering</span><br></pre></td></tr></table></figure>
+<h3 id="test"><a class="header-anchor" href="#test"></a>test</h3>
+<p>新增或修改測試，如單元測試、E2E、測試修復。</p>
+<figure class="highlight subunit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">test: </span>add coverage for login flow</span><br><span class="line"></span><br><span class="line">test(e2e): fix flaky checkout test</span><br></pre></td></tr></table></figure>
+<h1 id="判斷流程圖"><a class="header-anchor" href="#判斷流程圖"></a>判斷流程圖</h1>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fconventional-commit-type%2Fconventional-commit-type-mermaid.png?alt=media&amp;token=52293308-b2d5-4016-934a-e6b682bd30ff" alt="conventional-commit-type-mermaid"></p>
+<h1 id="實務建議"><a class="header-anchor" href="#實務建議"></a>實務建議</h1>
+<ol>
+<li>標註重大變更: 遇到不相容修改，使用BREAKING CHANGE 或 !。</li>
+<li>一次提交只做一件事: 每個提交聚焦單一變更，方便日後追蹤與回溯。</li>
+<li>合理使用範圍(scope): 範圍標註不必過細，重點是保持易讀。</li>
+</ol>
+<h1 id="用錯提交類型該怎麼辦"><a class="header-anchor" href="#用錯提交類型該怎麼辦"></a>用錯提交類型該怎麼辦?</h1>
+<h2 id="修改最後一次提交訊息"><a class="header-anchor" href="#修改最後一次提交訊息"></a>修改最後一次提交訊息</h2>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1) 直接覆寫訊息</span></span><br><span class="line">git commit <span class="params">--amend</span> -m <span class="string">&quot;fix: FILTERED_ENTITIES&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2)(若已推到遠端)安全強推</span></span><br><span class="line">git push <span class="params">--force-with-lease</span></span><br></pre></td></tr></table></figure>
+<h2 id="修改前幾次提交訊息"><a class="header-anchor" href="#修改前幾次提交訊息"></a>修改前幾次提交訊息</h2>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1) 設定git編輯器</span></span><br><span class="line">git config <span class="comment">--global core.editor &quot;code --wait&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2) 以最近3筆為例</span></span><br><span class="line">git rebase -i HEAD~<span class="number">3</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 3) 編輯訊息</span></span><br><span class="line"><span class="comment"># 把目標那行的`pick`改成`reword`(或r)</span></span><br><span class="line"><span class="comment"># 會再開一次編輯器讓你改成正確內容</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 4) 繼續完成rebase</span></span><br><span class="line">git rebase <span class="comment">--continue</span></span><br><span class="line">(git rebase <span class="comment">--skip)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 5) (若已推到遠端)安全強推</span></span><br><span class="line">git push <span class="comment">--force-with-lease</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 6) 放棄本次rebase</span></span><br><span class="line">git rebase <span class="comment">--abort</span></span><br></pre></td></tr></table></figure>
+<h1 id="結論"><a class="header-anchor" href="#結論"></a>結論</h1>
+<p>掌握慣例式提交能更好地運用 GitHub Copilot 的自動提交功能，讓未來的你感謝現在的自己 🥹，還能有效提升團隊的開發效率。熟悉這些規範後，就能在 AI 生成的基礎上做出更精準的調整，讓每個提交都能清楚傳達變更的意圖囉。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/blog/tags/Conventional-Commits/" rel="tag"># Conventional Commits</a>
+              <a href="/blog/tags/Github/" rel="tag"># Github</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/blog/local-github-zeabur-wp-plugin-cicd/" rel="prev" title="如何使用 Local + GitHub + Zeabur 實現 WordPress 外掛的 CI/CD 自動部署">
+                  <i class="fa fa-angle-left"></i> 如何使用 Local + GitHub + Zeabur 實現 WordPress 外掛的 CI/CD 自動部署
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">史戴拉寫扣</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/blog/js/comments.js"></script><script src="/blog/js/utils.js"></script><script src="/blog/js/motion.js"></script><script src="/blog/js/sidebar.js"></script><script src="/blog/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js","integrity":"sha256-stuqcu2FrjYCXDOytWFA5SoUE/r3nkp6gTglzNSlavU="}}</script>
+  <script src="/blog/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"ams","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/blog/js/third-party/math/mathjax.js"></script>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"estellacoding","repo":"blog","client_id":"Ov23liBnWPuObZGktbAv","client_secret":"9ed6e261cd75af620744058daafa56b80a53ffa8","admin_user":"estellacoding","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":null,"labels":"gitalk","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"1df5a569be0bb878d0e408536cc12f47"}</script>
+<script src="/blog/js/third-party/comments/gitalk.js"></script>
+
+</body>
+</html>
