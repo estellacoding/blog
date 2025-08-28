@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="mask-icon" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"estellacoding.github.io","root":"/blog/","images":"/blog/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/blog/js/config.js"></script>
+
+    <meta name="description" content="還在被物件導向搞得頭昏腦脹嗎？🤯 「什麼是類別？什麼是物件？」">
+<meta property="og:type" content="article">
+<meta property="og:title" content="學物件導向新手村">
+<meta property="og:url" content="https://estellacoding.github.io/blog/oop-newbie-village/index.html">
+<meta property="og:site_name" content="史戴拉寫扣">
+<meta property="og:description" content="還在被物件導向搞得頭昏腦脹嗎？🤯 「什麼是類別？什麼是物件？」">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2025-08-28T03:11:11.000Z">
+<meta property="article:modified_time" content="2025-08-28T03:11:11.000Z">
+<meta property="article:author" content="史戴拉">
+<meta property="article:tag" content="OOP">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://estellacoding.github.io/blog/oop-newbie-village/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://estellacoding.github.io/blog/oop-newbie-village/","path":"oop-newbie-village/","title":"學物件導向新手村"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>學物件導向新手村 | 史戴拉寫扣</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EG0CKC3093"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-EG0CKC3093","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/blog/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/blog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/blog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">史戴拉寫扣</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Hands-on fuels my soul!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/blog/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/blog/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/blog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%82%BA%E4%BB%80%E9%BA%BC%E8%A6%81%E7%94%A8-OOP"><span class="nav-number">1.</span> <span class="nav-text">為什麼要用 OOP?</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%9D%8C-%E4%B8%8D%E7%94%A8-OOP-%E7%9A%84%E7%81%BD%E9%9B%A3"><span class="nav-number">1.1.</span> <span class="nav-text">❌ 不用 OOP 的災難</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%AD%95-%E7%94%A8-OOP-%E7%9A%84%E5%A5%BD%E8%99%95"><span class="nav-number">1.2.</span> <span class="nav-text">⭕ 用 OOP 的好處</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%80%E9%BA%BC%E6%98%AF%E9%A1%9E%E5%88%A5"><span class="nav-number">2.</span> <span class="nav-text">什麼是類別?</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%80%E9%BA%BC%E6%98%AF%E5%BB%BA%E6%A7%8B%E5%AD%90"><span class="nav-number">3.</span> <span class="nav-text">什麼是建構子?</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%80%E9%BA%BC%E6%98%AF%E7%89%A9%E4%BB%B6"><span class="nav-number">4.</span> <span class="nav-text">什麼是物件?</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B0%A1%E5%96%AE%E8%A8%98%E6%86%B6%E6%B3%95"><span class="nav-number">5.</span> <span class="nav-text">簡單記憶法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%80%B2%E9%9A%8E%E6%A6%82%E5%BF%B5%E9%A0%90%E5%91%8A"><span class="nav-number">6.</span> <span class="nav-text">進階概念預告</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="史戴拉"
+      src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+  <p class="site-author-name" itemprop="name">史戴拉</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/blog/archives/">
+          <span class="site-state-item-count">53</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/blog/categories/">
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/blog/tags/">
+        <span class="site-state-item-count">123</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/estellacoding" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;estellacoding" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://open.substack.com/pub/stellacoding" title="Substack → https:&#x2F;&#x2F;open.substack.com&#x2F;pub&#x2F;stellacoding" rel="noopener me" target="_blank"><i class="fas fa-newspaper fa-fw"></i>Substack</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+    
+    
+      
+      
+    
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://estellacoding.github.io/blog/oop-newbie-village/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+      <meta itemprop="name" content="史戴拉">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="史戴拉寫扣">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="學物件導向新手村 | 史戴拉寫扣">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          學物件導向新手村
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2025-08-28 11:11:11" itemprop="dateCreated datePublished" datetime="2025-08-28T11:11:11+08:00">2025-08-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/OOP/" itemprop="url" rel="index"><span itemprop="name">OOP</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>還在被物件導向搞得頭昏腦脹嗎？🤯<br>
+「什麼是類別？什麼是物件？」</p>
+<span id="more"></span>
+<style>
+.callout {
+  border: 1px solid #eee;
+  padding: 1em;
+  background: #eef7fa;
+  margin: 1em 0;
+}
+.callout-icon {
+  font-weight: bold;
+  margin-right: 8px;
+}
+
+/* 僅壓縮 compact-list 區塊內「數字項 + 子彈點」的縱向間距 */
+.compact-list li > p { margin-bottom: 0.25em; }
+
+/* 讓 ol/ul 本身上下距離更緊湊一些（只在此區塊） */
+.compact-list ol,
+.compact-list ul { margin-top: 0.3em; margin-bottom: 0.5em; }
+
+/* 每個數字項目之間再收一點 */
+.compact-list ol > li { margin-bottom: 0.4em; }
+</style>
+<p>別擔心！這篇我想用最直覺的方式，來幫助你理解物件導向程式設計(Object-Oriented Programming，簡稱OOP) 的核心概念，把 OOP 變成一款「狗狗冒險遊戲」🎮，讓你輕鬆搞懂類別、物件、繼承、封裝、多型。準備好跟我一起進入「狗狗冒險遊戲」了嗎?</p>
+<h1 id="為什麼要用-OOP"><a class="header-anchor" href="#為什麼要用-OOP"></a>為什麼要用 OOP?</h1>
+<p>想像你要管理上萬「狗狗」角色…</p>
+<h2 id="❌-不用-OOP-的災難"><a class="header-anchor" href="#❌-不用-OOP-的災難"></a>❌ 不用 OOP 的災難</h2>
+<p>每隻狗狗都要各自定義變數與函式，程式碼超難維護。</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 記住每隻狗狗的所有資料</span></span><br><span class="line">dog1_name = <span class="string">&quot;Husky&quot;</span></span><br><span class="line">dog1_color = <span class="string">&quot;黑白色&quot;</span></span><br><span class="line">dog1_weight = 25</span><br><span class="line"></span><br><span class="line">dog2_name = <span class="string">&quot;Golden&quot;</span></span><br><span class="line">dog2_color = <span class="string">&quot;金色&quot;</span></span><br><span class="line">dog2_weight = 30</span><br><span class="line"></span><br><span class="line"><span class="comment"># 想讓狗狗叫，要寫很多重複函數</span></span><br><span class="line">def dog1_bark():</span><br><span class="line">  print(f<span class="string">&quot;&#123;dog1_name&#125; 正在汪汪叫！&quot;</span>)</span><br><span class="line">def dog2_bark():</span><br><span class="line">  print(f<span class="string">&quot;&#123;dog2_name&#125; 正在汪汪叫！&quot;</span>)</span><br><span class="line"></span><br><span class="line">dog1_bark() <span class="comment"># Husky 正在汪汪叫！</span></span><br><span class="line">dog2_bark() <span class="comment"># Golden 正在汪汪叫！</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 當有10000隻狗時... 😱</span></span><br></pre></td></tr></table></figure>
+<h2 id="⭕-用-OOP-的好處"><a class="header-anchor" href="#⭕-用-OOP-的好處"></a>⭕ 用 OOP 的好處</h2>
+<p>只需要寫一次「狗狗角色模板」，就能生出無數角色。</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 只需要統一寫一次狗狗角色模板</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Dog</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params"><span class="variable language_">self</span>, name, color, weight</span>):</span><br><span class="line">        <span class="variable language_">self</span>.name = name</span><br><span class="line">        <span class="variable language_">self</span>.color = color</span><br><span class="line">        <span class="variable language_">self</span>.weight = weight</span><br><span class="line">   </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">bark</span>(<span class="params"><span class="variable language_">self</span></span>):</span><br><span class="line">        print(f<span class="string">&quot;&#123;self.name&#125; 正在汪汪叫！&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 輕鬆創造和管理多隻狗狗</span></span><br><span class="line">dogs = [</span><br><span class="line">    <span class="title class_">Dog</span>(<span class="string">&quot;Husky&quot;</span>, <span class="string">&quot;黑白色&quot;</span>, <span class="number">25</span>),</span><br><span class="line">    <span class="title class_">Dog</span>(<span class="string">&quot;Golden&quot;</span>, <span class="string">&quot;金色&quot;</span>, <span class="number">30</span>),</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 讓所有狗狗一起叫</span></span><br><span class="line"><span class="keyword">for</span> dog <span class="keyword">in</span> <span class="symbol">dogs:</span></span><br><span class="line">    dog.bark()</span><br><span class="line"><span class="comment"># Husky 正在汪汪叫！</span></span><br><span class="line"><span class="comment"># Golden 正在汪汪叫！</span></span><br></pre></td></tr></table></figure>
+<h1 id="什麼是類別"><a class="header-anchor" href="#什麼是類別"></a>什麼是類別?</h1>
+<blockquote>
+<p><strong>類別(Class)就是狗狗角色模板。</strong></p>
+</blockquote>
+<p>想像你正在設計一款「狗狗冒險遊戲」，正在定義「狗狗」這個角色，而你會怎麼定義?<br>
+<strong>有哪些基礎屬性?</strong><br>
+→ 屬性(Attributes)<br>
+→ 等級、血量、攻擊力、防禦力<br>
+<strong>能做哪些動作?</strong><br>
+→ 方法(Methods)<br>
+→ 攻擊、升級、使用技能<br>
+<strong>角色的初始設定?</strong><br>
+→ 建構子(Constructor)<br>
+→ 等級 1、血量 100、基礎裝備</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Dog</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, name</span>): <span class="comment"># 建構子</span></span><br><span class="line">        <span class="comment"># 屬性</span></span><br><span class="line">        <span class="variable language_">self</span>.name = name <span class="comment"># 狗狗名稱</span></span><br><span class="line">        <span class="variable language_">self</span>.level = <span class="number">1</span> <span class="comment"># 初始等級</span></span><br><span class="line">        <span class="variable language_">self</span>.hp = <span class="number">100</span> <span class="comment"># 初始血量</span></span><br><span class="line">        <span class="variable language_">self</span>.exp = <span class="number">0</span> <span class="comment"># 初始經驗值</span></span><br><span class="line">   </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">bark</span>(<span class="params">self</span>): <span class="comment"># 基礎技能</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;self.name&#125;</span> 汪汪叫！&quot;</span>)</span><br><span class="line">   </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">level_up</span>(<span class="params">self</span>): <span class="comment"># 升級機制</span></span><br><span class="line">        <span class="variable language_">self</span>.level += <span class="number">1</span></span><br><span class="line">        <span class="variable language_">self</span>.hp += <span class="number">20</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;self.name&#125;</span> 升級了！現在是 <span class="subst">&#123;self.level&#125;</span> 級！&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h1 id="什麼是建構子"><a class="header-anchor" href="#什麼是建構子"></a>什麼是建構子?</h1>
+<blockquote>
+<p><strong>建構子(Constructor)就是設定角色初始能力值。</strong></p>
+</blockquote>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Dog</span>:</span><br><span class="line">   <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params"><span class="variable language_">self</span>, name</span>): <span class="comment"># 建構子</span></span><br><span class="line">       <span class="comment"># 屬性</span></span><br><span class="line">       <span class="variable language_">self</span>.name = name <span class="comment"># 狗狗名稱</span></span><br><span class="line">       <span class="variable language_">self</span>.level = <span class="number">1</span> <span class="comment"># 初始等級</span></span><br><span class="line">       <span class="variable language_">self</span>.hp = <span class="number">100</span> <span class="comment"># 初始血量</span></span><br><span class="line">       <span class="variable language_">self</span>.exp = <span class="number">0</span> <span class="comment"># 初始經驗值</span></span><br><span class="line"></span><br><span class="line">husky = <span class="title class_">Dog</span>(<span class="string">&quot;雪球&quot;</span>)</span><br><span class="line">print(husky.level) <span class="comment"># 1</span></span><br><span class="line">print(husky.hp)    <span class="comment"># 100</span></span><br></pre></td></tr></table></figure>
+<h1 id="什麼是物件"><a class="header-anchor" href="#什麼是物件"></a>什麼是物件?</h1>
+<blockquote>
+<p><strong>物件(Object)就是玩家的狗狗角色。</strong></p>
+</blockquote>
+<p>當狗狗角色模板設計完成後，玩家就可以根據狗狗角色模板，實際創建自己在遊戲中的狗狗角色！比如其中一隻叫做 Husky，而它有自己的等級、血量和經驗值等。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 根據Dog類別創造具體的狗狗物件</span></span><br><span class="line">husky = Dog(<span class="string">&quot;Husky&quot;</span>)</span><br><span class="line">golden = Dog(<span class="string">&quot;Golden&quot;</span>)</span><br><span class="line">buddy = Dog(<span class="string">&quot;Buddy&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 每隻狗狗都有自己的特徵</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;husky.name&#125;</span> 等級：<span class="subst">&#123;husky.level&#125;</span>&quot;</span>) <span class="comment"># Husky 等級：1</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;golden.name&#125;</span> 血量：<span class="subst">&#123;golden.hp&#125;</span>&quot;</span>) <span class="comment"># Golden 血量：100</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 每隻狗狗都可以執行相同的行為</span></span><br><span class="line">husky.bark() <span class="comment"># Husky 汪汪叫！</span></span><br><span class="line">buddy.level_up() <span class="comment"># Buddy 升級了！現在是 2 級！</span></span><br></pre></td></tr></table></figure>
+<h1 id="簡單記憶法"><a class="header-anchor" href="#簡單記憶法"></a>簡單記憶法</h1>
+<div class="callout">
+  <span class="callout-icon">💡</span>
+狗狗角色模板🎨 → 狗狗初始能力值⭐ → 玩家的狗狗角色🐶<br>
+</div>
+<div class="callout">
+<span class="callout-icon">1️⃣</span>狗狗角色模板 = 類別(Class)<br>
+<span class="callout-icon">2️⃣</span>狗狗初始能力值 = 建構子(Constructor)<br>
+<span class="callout-icon">3️⃣</span>玩家的狗狗角色 = 物件(Object)
+</div>
+<div class="compact-list">
+<ol>
+<li>
+<p>類別(Class)</p>
+<ul>
+<li>狗狗角色模板</li>
+<li>定義狗狗角色「有」哪些屬性和技能</li>
+<li>只是設計藍圖，不是真的角色</li>
+</ul>
+</li>
+<li>
+<p>建構子(Constructor)</p>
+<ul>
+<li>狗狗初始能力值</li>
+<li>設定狗狗的基礎能力數值</li>
+</ul>
+</li>
+<li>
+<p>物件(Object)</p>
+<ul>
+<li>玩家的狗狗角色</li>
+<li>根據角色模板所建立的實際玩家的角色</li>
+<li>每隻狗都有獨立的屬性與技能特色</li>
+</ul>
+</li>
+</ol>
+</div>
+<h1 id="進階概念預告"><a class="header-anchor" href="#進階概念預告"></a>進階概念預告</h1>
+<p>掌握了類別和物件後，下篇會繼續解鎖以下概念:</p>
+<ul>
+<li>繼承(Inheritance) → 哈士奇、黃金獵犬如何繼承狗狗的基礎能力?</li>
+<li>封裝(Encapsulation) → 如何防止別人亂改狗狗的屬性?</li>
+<li>多型(Polymorphism) → 每隻狗狗叫聲都不一樣?</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/blog/tags/OOP/" rel="tag"># OOP</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/blog/sam-altman-garry-tan-2025/" rel="prev" title="在 AI 時代創業 - Sam Altman 的實戰課">
+                  <i class="fa fa-angle-left"></i> 在 AI 時代創業 - Sam Altman 的實戰課
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">史戴拉寫扣</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/blog/js/comments.js"></script><script src="/blog/js/utils.js"></script><script src="/blog/js/motion.js"></script><script src="/blog/js/sidebar.js"></script><script src="/blog/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js","integrity":"sha256-stuqcu2FrjYCXDOytWFA5SoUE/r3nkp6gTglzNSlavU="}}</script>
+  <script src="/blog/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"ams","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/blog/js/third-party/math/mathjax.js"></script>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"estellacoding","repo":"blog","client_id":"Ov23liBnWPuObZGktbAv","client_secret":"9ed6e261cd75af620744058daafa56b80a53ffa8","admin_user":"estellacoding","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":null,"labels":"gitalk","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"dc2fe8862286a6c09233a41e050b07ec"}</script>
+<script src="/blog/js/third-party/comments/gitalk.js"></script>
+
+</body>
+</html>
