@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="mask-icon" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"estellacoding.github.io","root":"/blog/","images":"/blog/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/blog/js/config.js"></script>
+
+    <meta name="description" content="還記得 上篇 我們學會了用「用狗狗冒險遊戲🐶」理解類別和物件嗎?  類別(Class) &#x3D; 狗狗角色模板 建構子(Constructor) &#x3D; 狗狗初始能力值 物件(Object) &#x3D; 玩家的狗狗角色  來到進階篇，我們要解鎖 OOP 的四大核心機制: 繼承、封裝、多型、抽象。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="學物件導向進階篇">
+<meta property="og:url" content="https://estellacoding.github.io/blog/oop-advanced-village/index.html">
+<meta property="og:site_name" content="史戴拉寫扣">
+<meta property="og:description" content="還記得 上篇 我們學會了用「用狗狗冒險遊戲🐶」理解類別和物件嗎?  類別(Class) &#x3D; 狗狗角色模板 建構子(Constructor) &#x3D; 狗狗初始能力值 物件(Object) &#x3D; 玩家的狗狗角色  來到進階篇，我們要解鎖 OOP 的四大核心機制: 繼承、封裝、多型、抽象。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Foop-advanced-village%2Foop-advanced-village-concept-table.png?alt=media&amp;token=926150a8-5fbb-4f07-add6-9dd021f22f62">
+<meta property="article:published_time" content="2025-09-04T03:11:11.000Z">
+<meta property="article:modified_time" content="2025-09-04T03:11:11.000Z">
+<meta property="article:author" content="史戴拉">
+<meta property="article:tag" content="OOP">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Foop-advanced-village%2Foop-advanced-village-concept-table.png?alt=media&amp;token=926150a8-5fbb-4f07-add6-9dd021f22f62">
+
+
+<link rel="canonical" href="https://estellacoding.github.io/blog/oop-advanced-village/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://estellacoding.github.io/blog/oop-advanced-village/","path":"oop-advanced-village/","title":"學物件導向進階篇"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>學物件導向進階篇 | 史戴拉寫扣</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EG0CKC3093"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-EG0CKC3093","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/blog/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/blog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/blog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">史戴拉寫扣</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Hands-on fuels my soul!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/blog/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/blog/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/blog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%80%E9%BA%BC%E6%98%AF%E7%B9%BC%E6%89%BF"><span class="nav-number">1.</span> <span class="nav-text">什麼是繼承?</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%80%E9%BA%BC%E6%98%AF%E5%B0%81%E8%A3%9D"><span class="nav-number">2.</span> <span class="nav-text">什麼是封裝?</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3%E7%A8%AE%E5%B0%81%E8%A3%9D%E6%96%B9%E5%BC%8F"><span class="nav-number">2.1.</span> <span class="nav-text">3種封裝方式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%80%E9%BA%BC%E6%98%AF%E5%A4%9A%E5%9E%8B"><span class="nav-number">3.</span> <span class="nav-text">什麼是多型?</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%80%E9%BA%BC%E6%98%AF%E6%8A%BD%E8%B1%A1"><span class="nav-number">4.</span> <span class="nav-text">什麼是抽象?</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B8%BD%E7%B5%90"><span class="nav-number">5.</span> <span class="nav-text">總結</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="史戴拉"
+      src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+  <p class="site-author-name" itemprop="name">史戴拉</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/blog/archives/">
+          <span class="site-state-item-count">54</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/blog/categories/">
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/blog/tags/">
+        <span class="site-state-item-count">123</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/estellacoding" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;estellacoding" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://open.substack.com/pub/stellacoding" title="Substack → https:&#x2F;&#x2F;open.substack.com&#x2F;pub&#x2F;stellacoding" rel="noopener me" target="_blank"><i class="fas fa-newspaper fa-fw"></i>Substack</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+    
+    
+      
+      
+    
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://estellacoding.github.io/blog/oop-advanced-village/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+      <meta itemprop="name" content="史戴拉">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="史戴拉寫扣">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="學物件導向進階篇 | 史戴拉寫扣">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          學物件導向進階篇
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2025-09-04 11:11:11" itemprop="dateCreated datePublished" datetime="2025-09-04T11:11:11+08:00">2025-09-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/OOP/" itemprop="url" rel="index"><span itemprop="name">OOP</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>還記得 上篇 我們學會了用「用狗狗冒險遊戲🐶」理解類別和物件嗎?</p>
+<ul>
+<li>類別(Class) = 狗狗角色模板</li>
+<li>建構子(Constructor) = 狗狗初始能力值</li>
+<li>物件(Object) = 玩家的狗狗角色</li>
+</ul>
+<p>來到進階篇，我們要解鎖 OOP 的四大核心機制: 繼承、封裝、多型、抽象。</p>
+<span id="more"></span>
+<style>
+.callout {
+  border: 1px solid #eee;
+  padding: 1em;
+  background: #eef7fa;
+  margin: 1em 0;
+}
+.callout-icon {
+  font-weight: bold;
+  margin-right: 8px;
+}
+
+/* 僅壓縮 compact-list 區塊內「數字項 + 子彈點」的縱向間距 */
+.compact-list li > p { margin-bottom: 0.25em; }
+
+/* 讓 ol/ul 本身上下距離更緊湊一些（只在此區塊） */
+.compact-list ol,
+.compact-list ul { margin-top: 0.3em; margin-bottom: 0.5em; }
+
+/* 每個數字項目之間再收一點 */
+.compact-list ol > li { margin-bottom: 0.4em; }
+</style>
+<h1 id="什麼是繼承"><a class="header-anchor" href="#什麼是繼承"></a>什麼是繼承?</h1>
+<blockquote>
+<p><strong>繼承(Inheritance)就是狗狗專屬技能。</strong></p>
+</blockquote>
+<p>所有狗狗玩家都繼承自「狗狗角色模板」的基礎能力，再加上自己專屬特色技能。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 狗狗角色模板的基礎能力</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Dog</span>:</span><br><span class="line">   <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, name</span>):</span><br><span class="line">       <span class="variable language_">self</span>.name = name</span><br><span class="line">       <span class="variable language_">self</span>.level = <span class="number">1</span></span><br><span class="line">       <span class="variable language_">self</span>.hp = <span class="number">100</span></span><br><span class="line">       <span class="variable language_">self</span>.exp = <span class="number">0</span></span><br><span class="line">  </span><br><span class="line">   <span class="keyword">def</span> <span class="title function_">bark</span>(<span class="params">self</span>):</span><br><span class="line">       <span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;self.name&#125;</span> 汪汪叫！&quot;</span>)</span><br><span class="line">  </span><br><span class="line">   <span class="keyword">def</span> <span class="title function_">level_up</span>(<span class="params">self</span>):</span><br><span class="line">       <span class="variable language_">self</span>.level += <span class="number">1</span></span><br><span class="line">       <span class="variable language_">self</span>.hp += <span class="number">20</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 哈士奇(繼承基礎+哈士奇專精能力)</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Husky</span>(<span class="title class_ inherited__">Dog</span>):</span><br><span class="line">   <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, name</span>):</span><br><span class="line">       <span class="built_in">super</span>().__init__(name)  <span class="comment"># 繼承基礎屬性</span></span><br><span class="line">       <span class="variable language_">self</span>.endurance = <span class="number">25</span>     <span class="comment"># 哈士奇專屬:耐力</span></span><br><span class="line">       <span class="variable language_">self</span>.cold_resistance = <span class="number">20</span></span><br><span class="line">  </span><br><span class="line">   <span class="keyword">def</span> <span class="title function_">howl</span>(<span class="params">self</span>): <span class="comment"># 哈士奇專屬</span></span><br><span class="line">       <span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;self.name&#125;</span> 發出嗷嗚嗚！耐力提升！&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 黃金獵犬(繼承基礎+黃金獵犬專精能力)</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Golden</span>(<span class="title class_ inherited__">Dog</span>):</span><br><span class="line">   <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, name</span>):</span><br><span class="line">       <span class="built_in">super</span>().__init__(name)</span><br><span class="line">       <span class="variable language_">self</span>.friendliness = <span class="number">30</span> <span class="comment"># 黃金獵犬專屬:親和力</span></span><br><span class="line">       <span class="variable language_">self</span>.intelligence = <span class="number">25</span></span><br><span class="line">  </span><br><span class="line">   <span class="keyword">def</span> <span class="title function_">fetch</span>(<span class="params">self</span>): <span class="comment"># 黃金獵犬專屬</span></span><br><span class="line">       <span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;self.name&#125;</span> 快樂地撿球回來！智力提升！&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 柴犬(繼承基礎+柴犬專精能力)</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Shiba</span>(<span class="title class_ inherited__">Dog</span>):</span><br><span class="line">   <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, name</span>):</span><br><span class="line">       <span class="built_in">super</span>().__init__(name)</span><br><span class="line">       <span class="variable language_">self</span>.agility = <span class="number">20</span> <span class="comment"># 柴犬專屬:敏捷</span></span><br><span class="line">       <span class="variable language_">self</span>.independence = <span class="number">15</span></span><br><span class="line">  </span><br><span class="line">   <span class="keyword">def</span> <span class="title function_">spin_attack</span>(<span class="params">self</span>): <span class="comment"># 柴犬專屬</span></span><br><span class="line">       <span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;self.name&#125;</span> 施展柴犬旋風攻擊！敏捷提升！&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 創建不同品種的狗狗</span></span><br><span class="line">husky = Husky(<span class="string">&quot;雪球&quot;</span>)</span><br><span class="line">golden = Golden(<span class="string">&quot;金金&quot;</span>)</span><br><span class="line">shiba = Shiba(<span class="string">&quot;小柴&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 每隻狗都有基礎能力(從Dog繼承)</span></span><br><span class="line">husky.bark()      <span class="comment"># 雪球 汪汪叫！</span></span><br><span class="line">golden.level_up() <span class="comment"># 金金 升級了！現在是 2 級！</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 每個玩家狗狗也各有專屬能力</span></span><br><span class="line">husky.howl()          <span class="comment"># 雪球 發出嗷嗚嗚！耐力提升！</span></span><br><span class="line">golden.fetch()        <span class="comment"># 金金 快樂地撿球回來！智力提升！</span></span><br><span class="line">shiba.spin_attack()   <span class="comment"># 小柴 施展柴犬旋風攻擊！敏捷提升！</span></span><br></pre></td></tr></table></figure>
+<h1 id="什麼是封裝"><a class="header-anchor" href="#什麼是封裝"></a>什麼是封裝?</h1>
+<blockquote>
+<p><strong>封裝(Encapsulation)就是狗狗的機密屬性。</strong></p>
+</blockquote>
+<p>狗狗的有些資訊是需要被保護的重要資料，不是所有人都能看到或修改的，例如：耐力、健康值等，只能透過安全方式來操作。</p>
+<h2 id="3種封裝方式"><a class="header-anchor" href="#3種封裝方式"></a>3種封裝方式</h2>
+<ol>
+<li><code>public</code>: 公開屬性，任何地方都能存取與修改，例如<code>name</code>,<code>hp</code>。</li>
+<li><code>_protected</code>: 約定受保護屬性，代表「內部使用為主」，雖然外部仍能存取，但建議不要直接修改，例如<code>_level</code>。</li>
+<li><code>__private</code>: 完全私有屬性，雙底線避免外部直接存取，正確做法是透過安全方法來修改，例如<code>__stamina</code>、<code>__health</code>。</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Dog</span>:</span><br><span class="line">   <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, name</span>):</span><br><span class="line">       <span class="variable language_">self</span>.name = name</span><br><span class="line">       <span class="variable language_">self</span>._level = <span class="number">1</span> <span class="comment"># 約定受保護屬性(Protected)</span></span><br><span class="line">       <span class="variable language_">self</span>.hp = <span class="number">100</span></span><br><span class="line">       <span class="variable language_">self</span>.__stamina = <span class="number">50</span>    <span class="comment"># 私有屬性(Private):耐力</span></span><br><span class="line">       <span class="variable language_">self</span>.__health = <span class="number">100</span>    <span class="comment"># 私有屬性(Private):健康值</span></span><br><span class="line">  </span><br><span class="line">   <span class="comment"># 公開方法:查看血量</span></span><br><span class="line">   <span class="keyword">def</span> <span class="title function_">show_status</span>(<span class="params">self</span>):</span><br><span class="line">       <span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;self.name&#125;</span> Lv.<span class="subst">&#123;self._level&#125;</span> - HP:<span class="subst">&#123;self.hp&#125;</span>&quot;</span>)</span><br><span class="line">  </span><br><span class="line">   <span class="comment"># 安全方法:餵食可以恢復耐力</span></span><br><span class="line">   <span class="keyword">def</span> <span class="title function_">feed</span>(<span class="params">self, food</span>):</span><br><span class="line">       <span class="keyword">if</span> food == <span class="string">&quot;肉骨頭&quot;</span>:</span><br><span class="line">           <span class="variable language_">self</span>.__stamina += <span class="number">10</span></span><br><span class="line">           <span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;self.name&#125;</span> 吃了肉骨頭！耐力回復 +10&quot;</span>)</span><br><span class="line">       <span class="keyword">else</span>:</span><br><span class="line">           <span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;self.name&#125;</span> 不喜歡 <span class="subst">&#123;food&#125;</span>...&quot;</span>)</span><br><span class="line">  </span><br><span class="line">   <span class="comment"># 安全方法:獸醫檢查才能修改健康值</span></span><br><span class="line">   <span class="keyword">def</span> <span class="title function_">vet_check</span>(<span class="params">self, new_health, is_vet=<span class="literal">False</span></span>):</span><br><span class="line">       <span class="keyword">if</span> is_vet:</span><br><span class="line">           <span class="variable language_">self</span>.__health = new_health</span><br><span class="line">           <span class="built_in">print</span>(<span class="string">f&quot;🐾 獸醫更新 <span class="subst">&#123;self.name&#125;</span> 的健康值為 <span class="subst">&#123;self.__health&#125;</span>&quot;</span>)</span><br><span class="line">       <span class="keyword">else</span>:</span><br><span class="line">           <span class="built_in">print</span>(<span class="string">&quot;❌ 只有獸醫能修改健康值！&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">husky = Dog(<span class="string">&quot;雪球&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 1.Public:可直接存取</span></span><br><span class="line"><span class="built_in">print</span>(husky.name) <span class="comment"># 雪球</span></span><br><span class="line"><span class="built_in">print</span>(husky.hp) <span class="comment"># 100</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. Protected:可存取但不建議</span></span><br><span class="line"><span class="built_in">print</span>(husky._level) <span class="comment"># 1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 3-1. Private:不能直接存取</span></span><br><span class="line"><span class="comment"># print(husky.__stamina) # AttributeError</span></span><br><span class="line"><span class="comment"># 3-2. Private:強行存取</span></span><br><span class="line"><span class="built_in">print</span>(husky._Dog__stamina) <span class="comment"># 50</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 建議用安全方法操作</span></span><br><span class="line">husky.show_status() <span class="comment"># 雪球 Lv.1 - HP:100</span></span><br><span class="line">husky.feed(<span class="string">&quot;肉骨頭&quot;</span>) <span class="comment"># 雪球 吃了肉骨頭！耐力回復 +10</span></span><br><span class="line">husky.vet_check(<span class="number">120</span>, is_vet=<span class="literal">True</span>) <span class="comment"># 🐾 獸醫更新 雪球 的健康值為 120</span></span><br></pre></td></tr></table></figure>
+<h1 id="什麼是多型"><a class="header-anchor" href="#什麼是多型"></a>什麼是多型?</h1>
+<blockquote>
+<p><strong>多型(Polymorphism)就是狗狗的獨特風格。</strong></p>
+</blockquote>
+<p>所有狗狗都會「叫()」，但每種狗狗表現方式不同。</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Dog</span>:</span><br><span class="line">   <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params"><span class="variable language_">self</span>, name</span>):</span><br><span class="line">       <span class="variable language_">self</span>.name = name</span><br><span class="line">       <span class="variable language_">self</span>.hp = <span class="number">100</span></span><br><span class="line">   <span class="keyword">def</span> <span class="title function_">make_sound</span>(<span class="params"><span class="variable language_">self</span></span>):  <span class="comment"># 基礎叫聲</span></span><br><span class="line">       print(f<span class="string">&quot;&#123;self.name&#125;: 汪汪!&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 不同品種的獨特叫聲</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Husky</span>(<span class="title class_">Dog</span>):</span><br><span class="line">   <span class="keyword">def</span> <span class="title function_">make_sound</span>(<span class="params"><span class="variable language_">self</span></span>):</span><br><span class="line">       print(f<span class="string">&quot;&#123;self.name&#125;: Awoooooo!&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Golden</span>(<span class="title class_">Dog</span>):</span><br><span class="line">   <span class="keyword">def</span> <span class="title function_">make_sound</span>(<span class="params"><span class="variable language_">self</span></span>):</span><br><span class="line">       print(f<span class="string">&quot;&#123;self.name&#125;: 汪！汪！&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Poodle</span>(<span class="title class_">Dog</span>):</span><br><span class="line">   <span class="keyword">def</span> <span class="title function_">make_sound</span>(<span class="params"><span class="variable language_">self</span></span>):</span><br><span class="line">       print(f<span class="string">&quot;&#123;self.name&#125;: 汪汪～&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 建立玩家的狗狗角色</span></span><br><span class="line">husky = <span class="title class_">Husky</span>(<span class="string">&quot;雪球&quot;</span>)</span><br><span class="line">golden = <span class="title class_">Golden</span>(<span class="string">&quot;金金&quot;</span>)</span><br><span class="line">poodle = <span class="title class_">Poodle</span>(<span class="string">&quot;捲捲&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 呼叫玩家的狗狗叫聲</span></span><br><span class="line">husky.make_sound()   <span class="comment"># 雪球: Awoooooo!</span></span><br><span class="line">golden.make_sound()  <span class="comment"># 金金: 汪！汪！</span></span><br><span class="line">poodle.make_sound()  <span class="comment"># 捲捲: 汪汪～</span></span><br></pre></td></tr></table></figure>
+<h1 id="什麼是抽象"><a class="header-anchor" href="#什麼是抽象"></a>什麼是抽象?</h1>
+<blockquote>
+<p><strong>抽象(Abstraction)就是狗狗的技能規範。</strong></p>
+</blockquote>
+<p>狗狗角色模板只定義「要做什麼」，不強制寫「怎麼做」，留給玩家狗狗自行實作。</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">from abc import <span class="variable constant_">ABC</span>, abstractmethod</span><br><span class="line"></span><br><span class="line"><span class="comment"># 規範所有狗狗都要有make_sound()</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">AbstractDog</span>(<span class="variable constant_">ABC</span>):</span><br><span class="line">   <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params"><span class="variable language_">self</span>, name</span>):</span><br><span class="line">       <span class="variable language_">self</span>.name = name</span><br><span class="line"></span><br><span class="line">   <span class="variable">@abstractmethod</span></span><br><span class="line">   <span class="keyword">def</span> <span class="title function_">make_sound</span>(<span class="params"><span class="variable language_">self</span></span>): <span class="comment"># 只定義介面不實作</span></span><br><span class="line">       pass</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Husky</span>(<span class="title class_">AbstractDog</span>):</span><br><span class="line">   <span class="keyword">def</span> <span class="title function_">make_sound</span>(<span class="params"><span class="variable language_">self</span></span>):</span><br><span class="line">       print(f<span class="string">&quot;&#123;self.name&#125;: Awoooooo!&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Golden</span>(<span class="title class_">AbstractDog</span>):</span><br><span class="line">   <span class="keyword">def</span> <span class="title function_">make_sound</span>(<span class="params"><span class="variable language_">self</span></span>):</span><br><span class="line">       print(f<span class="string">&quot;&#123;self.name&#125;: 汪！汪！&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Poodle</span>(<span class="title class_">AbstractDog</span>):</span><br><span class="line">   <span class="keyword">def</span> <span class="title function_">make_sound</span>(<span class="params"><span class="variable language_">self</span></span>):</span><br><span class="line">       print(f<span class="string">&quot;&#123;self.name&#125;: 汪汪～&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 建立玩家的狗狗角色</span></span><br><span class="line">husky = <span class="title class_">Husky</span>(<span class="string">&quot;雪球&quot;</span>)</span><br><span class="line">golden = <span class="title class_">Golden</span>(<span class="string">&quot;金金&quot;</span>)</span><br><span class="line">poodle = <span class="title class_">Poodle</span>(<span class="string">&quot;捲捲&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 呼叫玩家的狗狗叫聲</span></span><br><span class="line">husky.make_sound()   <span class="comment"># 雪球: Awoooooo!</span></span><br><span class="line">golden.make_sound()  <span class="comment"># 金金: 汪！汪！</span></span><br><span class="line">poodle.make_sound()  <span class="comment"># 捲捲: 汪汪～</span></span><br></pre></td></tr></table></figure>
+<h1 id="總結"><a class="header-anchor" href="#總結"></a>總結</h1>
+<p>在學物件導向系列中，我們學會了:</p>
+<ul>
+<li>🎨 用「類別」設計角色模板</li>
+<li>⭐ 用「建構子」設定初始能力值</li>
+<li>🐶 用「物件」創造無數獨立角色</li>
+<li>🧬 用「繼承」擴展角色技能</li>
+<li>🔒 用「封裝」保護機密屬性</li>
+<li>🎭 用「多型」創造豐富角色行為</li>
+<li>🧩 用「抽象」規範角色技能</li>
+</ul>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Foop-advanced-village%2Foop-advanced-village-concept-table.png?alt=media&amp;token=926150a8-5fbb-4f07-add6-9dd021f22f62" alt="oop-advanced-village-concept-table"></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/blog/tags/OOP/" rel="tag"># OOP</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/blog/oop-newbie-village/" rel="prev" title="學物件導向新手村">
+                  <i class="fa fa-angle-left"></i> 學物件導向新手村
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">史戴拉寫扣</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/blog/js/comments.js"></script><script src="/blog/js/utils.js"></script><script src="/blog/js/motion.js"></script><script src="/blog/js/sidebar.js"></script><script src="/blog/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js","integrity":"sha256-stuqcu2FrjYCXDOytWFA5SoUE/r3nkp6gTglzNSlavU="}}</script>
+  <script src="/blog/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"ams","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/blog/js/third-party/math/mathjax.js"></script>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"estellacoding","repo":"blog","client_id":"Ov23liBnWPuObZGktbAv","client_secret":"9ed6e261cd75af620744058daafa56b80a53ffa8","admin_user":"estellacoding","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":null,"labels":"gitalk","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"4bb2a9d29128e53f90b294197bca9f54"}</script>
+<script src="/blog/js/third-party/comments/gitalk.js"></script>
+
+</body>
+</html>

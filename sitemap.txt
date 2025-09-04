@@ -1,3 +1,4 @@
+https://estellacoding.github.io/blog/oop-advanced-village/
 https://estellacoding.github.io/blog/oop-newbie-village/
 https://estellacoding.github.io/blog/sam-altman-garry-tan-2025/
 https://estellacoding.github.io/blog/conventional-commit-type/
