@@ -1,3 +1,4 @@
+https://estellacoding.github.io/blog/triangle-inequality-theorem/
 https://estellacoding.github.io/blog/oop-advanced-village/
 https://estellacoding.github.io/blog/oop-newbie-village/
 https://estellacoding.github.io/blog/sam-altman-garry-tan-2025/
@@ -181,6 +182,7 @@ https://estellacoding.github.io/blog/tags/CI-CD/
 https://estellacoding.github.io/blog/tags/Conventional-Commits/
 https://estellacoding.github.io/blog/tags/Github/
 https://estellacoding.github.io/blog/tags/OOP/
+https://estellacoding.github.io/blog/tags/Math/
 https://estellacoding.github.io/blog/categories/AutoML/
 https://estellacoding.github.io/blog/categories/AWS/
 https://estellacoding.github.io/blog/categories/Hexo/
@@ -204,3 +206,4 @@ https://estellacoding.github.io/blog/categories/SQL/
 https://estellacoding.github.io/blog/categories/WordPress/
 https://estellacoding.github.io/blog/categories/GitHub/
 https://estellacoding.github.io/blog/categories/OOP/
+https://estellacoding.github.io/blog/categories/Math/
