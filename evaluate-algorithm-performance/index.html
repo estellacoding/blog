@@ -19,12 +19,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"estellacoding.github.io","root":"/blog/","images":"/blog/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/blog/js/config.js"></script>
 
-    <meta name="description" content="在寫演算法程式時，會遇到一個問題是:「我怎麼知道這段程式碼快不快?」。第一反應可能通常會是直接「把程式跑起來，然後計時」。">
+    <meta name="description" content="在學習或撰寫演算法程式時，會遇到一個問題是:「我怎麼知道這段程式碼快不快?」。直覺上的做法，或許就是直接把「程式跑起來，然後計時」，但這個方法其實隱藏了陷阱，因為「秒數」本身並不一定能公平反映程式效率。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="「計時」不能評估演算法效能?">
 <meta property="og:url" content="https://estellacoding.github.io/blog/evaluate-algorithm-performance/index.html">
 <meta property="og:site_name" content="史戴拉寫扣">
-<meta property="og:description" content="在寫演算法程式時，會遇到一個問題是:「我怎麼知道這段程式碼快不快?」。第一反應可能通常會是直接「把程式跑起來，然後計時」。">
+<meta property="og:description" content="在學習或撰寫演算法程式時，會遇到一個問題是:「我怎麼知道這段程式碼快不快?」。直覺上的做法，或許就是直接把「程式跑起來，然後計時」，但這個方法其實隱藏了陷阱，因為「秒數」本身並不一定能公平反映程式效率。">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fevaluate-algorithm-performance%2Fi-want-all.jpg?alt=media&amp;token=ae71a557-bec3-4ea5-9388-9d22100a7293">
 <meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fevaluate-algorithm-performance%2Fbig-o-complexity-chart.jpg?alt=media&amp;token=fe85c6b5-e094-4626-bb33-8020cd93b102">
@@ -237,7 +237,7 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><p>在寫演算法程式時，會遇到一個問題是:「我怎麼知道這段程式碼快不快?」。第一反應可能通常會是直接「把程式跑起來，然後計時」。</p>
+    <div class="post-body" itemprop="articleBody"><p>在學習或撰寫演算法程式時，會遇到一個問題是:「我怎麼知道這段程式碼快不快?」。直覺上的做法，或許就是直接把「程式跑起來，然後計時」，但這個方法其實隱藏了陷阱，因為「秒數」本身並不一定能公平反映程式效率。</p>
 <span id="more"></span>
 <h1 id="兩大問題"><a class="header-anchor" href="#兩大問題"></a>兩大問題</h1>
 <p>「計時」這種方法其實有兩個大問題。</p>
