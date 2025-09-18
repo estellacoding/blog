@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="mask-icon" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"estellacoding.github.io","root":"/blog/","images":"/blog/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/blog/js/config.js"></script>
+
+    <meta name="description" content="在寫演算法程式時，會遇到一個問題是:「我怎麼知道這段程式碼快不快?」。第一反應可能通常會是直接「把程式跑起來，然後計時」。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="「計時」不能評估演算法效能?">
+<meta property="og:url" content="https://estellacoding.github.io/blog/evaluate-algorithm-performance/index.html">
+<meta property="og:site_name" content="史戴拉寫扣">
+<meta property="og:description" content="在寫演算法程式時，會遇到一個問題是:「我怎麼知道這段程式碼快不快?」。第一反應可能通常會是直接「把程式跑起來，然後計時」。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fevaluate-algorithm-performance%2Fi-want-all.jpg?alt=media&amp;token=ae71a557-bec3-4ea5-9388-9d22100a7293">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fevaluate-algorithm-performance%2Fbig-o-complexity-chart.jpg?alt=media&amp;token=fe85c6b5-e094-4626-bb33-8020cd93b102">
+<meta property="article:published_time" content="2025-09-18T03:11:11.000Z">
+<meta property="article:modified_time" content="2025-09-18T03:11:11.000Z">
+<meta property="article:author" content="史戴拉">
+<meta property="article:tag" content="Complexity">
+<meta property="article:tag" content="Time Complexity">
+<meta property="article:tag" content="Space Complexity">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fevaluate-algorithm-performance%2Fi-want-all.jpg?alt=media&amp;token=ae71a557-bec3-4ea5-9388-9d22100a7293">
+
+
+<link rel="canonical" href="https://estellacoding.github.io/blog/evaluate-algorithm-performance/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://estellacoding.github.io/blog/evaluate-algorithm-performance/","path":"evaluate-algorithm-performance/","title":"「計時」不能評估演算法效能?"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>「計時」不能評估演算法效能? | 史戴拉寫扣</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EG0CKC3093"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-EG0CKC3093","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/blog/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/blog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/blog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">史戴拉寫扣</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Hands-on fuels my soul!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/blog/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/blog/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/blog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%A9%E5%A4%A7%E5%95%8F%E9%A1%8C"><span class="nav-number">1.</span> <span class="nav-text">兩大問題</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A1%AC%E9%AB%94%E5%B7%AE%E7%95%B0"><span class="nav-number">1.1.</span> <span class="nav-text">硬體差異</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B3%87%E6%96%99%E8%A6%8F%E6%A8%A1"><span class="nav-number">1.2.</span> <span class="nav-text">資料規模</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%BA%E7%A4%8E%E5%AE%9A%E7%BE%A9"><span class="nav-number">2.</span> <span class="nav-text">基礎定義</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%A7O%E7%AC%A6%E8%99%9F"><span class="nav-number">2.1.</span> <span class="nav-text">大O符號</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%99%82%E9%96%93%E8%A4%87%E9%9B%9C%E5%BA%A6"><span class="nav-number">2.2.</span> <span class="nav-text">時間複雜度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A9%BA%E9%96%93%E8%A4%87%E9%9B%9C%E5%BA%A6"><span class="nav-number">2.3.</span> <span class="nav-text">空間複雜度</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A4%87%E9%9B%9C%E5%BA%A6%E5%88%86%E6%9E%90%E6%9B%B4%E7%A7%91%E5%AD%B8"><span class="nav-number">3.</span> <span class="nav-text">複雜度分析更科學?</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%80%B2%E9%9A%8E%E6%A6%82%E5%BF%B5%E9%A0%90%E5%91%8A%F0%9F%94%9C"><span class="nav-number">4.</span> <span class="nav-text">進階概念預告🔜</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="史戴拉"
+      src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+  <p class="site-author-name" itemprop="name">史戴拉</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/blog/archives/">
+          <span class="site-state-item-count">56</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/blog/categories/">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/blog/tags/">
+        <span class="site-state-item-count">127</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/estellacoding" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;estellacoding" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://open.substack.com/pub/stellacoding" title="Substack → https:&#x2F;&#x2F;open.substack.com&#x2F;pub&#x2F;stellacoding" rel="noopener me" target="_blank"><i class="fas fa-newspaper fa-fw"></i>Substack</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+    
+    
+      
+      
+    
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://estellacoding.github.io/blog/evaluate-algorithm-performance/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+      <meta itemprop="name" content="史戴拉">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="史戴拉寫扣">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="「計時」不能評估演算法效能? | 史戴拉寫扣">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          「計時」不能評估演算法效能?
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2025-09-18 11:11:11" itemprop="dateCreated datePublished" datetime="2025-09-18T11:11:11+08:00">2025-09-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/Complexity/" itemprop="url" rel="index"><span itemprop="name">Complexity</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>在寫演算法程式時，會遇到一個問題是:「我怎麼知道這段程式碼快不快?」。第一反應可能通常會是直接「把程式跑起來，然後計時」。</p>
+<span id="more"></span>
+<h1 id="兩大問題"><a class="header-anchor" href="#兩大問題"></a>兩大問題</h1>
+<p>「計時」這種方法其實有兩個大問題。</p>
+<h2 id="硬體差異"><a class="header-anchor" href="#硬體差異"></a>硬體差異</h2>
+<p>同一段程式，如果換不同電腦，跑出來的時間會有差。</p>
+<ul>
+<li>Linux (Colab): 95 秒</li>
+<li>Windows 11 (桌機): 138 秒</li>
+</ul>
+<p>同樣的演算法，因為 CPU 核心數、作業系統、甚至快取機制不同，差了 40 秒。所以，單純看「秒數」並不公平。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> psutil, platform, sys, time, os</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">sys_info</span>():</span><br><span class="line">    info = &#123;</span><br><span class="line">        <span class="string">&quot;python&quot;</span>: sys.version.split()[<span class="number">0</span>],</span><br><span class="line">        <span class="string">&quot;platform&quot;</span>: platform.platform(),</span><br><span class="line">        <span class="string">&quot;processor&quot;</span>: platform.processor() <span class="keyword">or</span> platform.machine(),</span><br><span class="line">        <span class="string">&quot;cpu_count&quot;</span>: os.cpu_count()</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> psutil:</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            freq = psutil.cpu_freq()</span><br><span class="line">            <span class="keyword">if</span> freq:</span><br><span class="line">                info[<span class="string">&quot;cpu_freq_MHz&quot;</span>] = <span class="built_in">round</span>(freq.<span class="built_in">max</span> <span class="keyword">or</span> freq.current, <span class="number">1</span>)</span><br><span class="line">        <span class="keyword">except</span> Exception:</span><br><span class="line">            <span class="keyword">pass</span></span><br><span class="line">    <span class="keyword">return</span> info</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">process_data</span>(<span class="params">n: <span class="built_in">int</span></span>) -&gt; <span class="built_in">int</span>:</span><br><span class="line">    total = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">        total += i * i</span><br><span class="line">    <span class="keyword">return</span> total</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">measure</span>(<span class="params">n</span>):</span><br><span class="line">    start = time.perf_counter()</span><br><span class="line">    result = process_data(n)</span><br><span class="line">    end = time.perf_counter()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;n=<span class="subst">&#123;n&#125;</span>, result=<span class="subst">&#123;result&#125;</span>, time=<span class="subst">&#123;end - start:<span class="number">.6</span>f&#125;</span> 秒&quot;</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="string">&quot;== System Info ==&quot;</span>)</span><br><span class="line">print(sys_info(), <span class="string">&quot;\n&quot;</span>)</span><br><span class="line"><span class="meta"># &#123;<span class="string">&#x27;python&#x27;</span>: <span class="string">&#x27;3.12.11&#x27;</span>, <span class="string">&#x27;platform&#x27;</span>: <span class="string">&#x27;Linux-6.1.123+-x86_64-with-glibc2.35&#x27;</span>, <span class="string">&#x27;processor&#x27;</span>: <span class="string">&#x27;x86_64&#x27;</span>, <span class="string">&#x27;cpu_count&#x27;</span>: 2, <span class="string">&#x27;cpu_freq_MHz&#x27;</span>: 2200.2&#125;</span></span><br><span class="line"><span class="meta"># &#123;<span class="string">&#x27;python&#x27;</span>: <span class="string">&#x27;3.13.3&#x27;</span>, <span class="string">&#x27;platform&#x27;</span>: <span class="string">&#x27;Windows-11-10.0.22631-SP0&#x27;</span>, <span class="string">&#x27;processor&#x27;</span>: <span class="string">&#x27;Intel64 Family 6 Model 140 Stepping 1, GenuineIntel&#x27;</span>, <span class="string">&#x27;cpu_count&#x27;</span>: 8, <span class="string">&#x27;cpu_freq_MHz&#x27;</span>: 2419.0&#125;</span></span><br><span class="line"></span><br><span class="line">measure(<span class="built_in">int</span>(<span class="number">1e9</span>))</span><br><span class="line"><span class="meta"># n=1000000000, result=333333332833333333500000000, time=94.522565 秒</span></span><br><span class="line"><span class="meta"># n=1000000000, result=333333332833333333500000000, time=138.439304 秒</span></span><br></pre></td></tr></table></figure>
+<h2 id="資料規模"><a class="header-anchor" href="#資料規模"></a>資料規模</h2>
+<p>同一段程式，如果輸入資料量不同，結果也會有差。</p>
+<ul>
+<li>1,000 萬筆約 0.87 秒</li>
+<li>放大到 10 億筆就要約 100 秒</li>
+</ul>
+<p>輸入放大 100 倍，執行時間也差不多放大 100 倍。這並不是電腦突然「變慢」，而是因為這段程式是線性時間 O(n)，處理每一筆資料都要一步，n 倍資料就要 n 倍時間。所以，「資料量」也會影響到效能。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">process_data</span>(<span class="params">n</span>):</span><br><span class="line">    total = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">        total += i * i</span><br><span class="line">    <span class="keyword">return</span> total</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">measure</span>(<span class="params">n</span>):</span><br><span class="line">    start = time.perf_counter()</span><br><span class="line">    result = process_data(n)</span><br><span class="line">    end = time.perf_counter()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;n=<span class="subst">&#123;n&#125;</span>, result=<span class="subst">&#123;result&#125;</span>, time=<span class="subst">&#123;end - start:<span class="number">.6</span>f&#125;</span> 秒&quot;</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">measure</span>(<span class="number">10</span>_000_000) <span class="comment">#千萬</span></span><br><span class="line"><span class="built_in">measure</span>(int(<span class="number">1</span>e9)) <span class="comment">#10億</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># n=10000000, result=333333283333335000000, time=0.866556 秒</span></span><br><span class="line"><span class="comment"># n=1000000000, result=333333332833333333500000000, time=100.171150 秒</span></span><br></pre></td></tr></table></figure>
+<p>因此，計時並不能真正反映演算法的效率，因為結果混合了硬體、作業系統、程式語言、以及資料規模等外部因素。<u><strong>更科學的做法，則是用「時間複雜度(Time Complexity)」與「空間複雜度(Space Complexity)」這兩個標準，來評估演算法的好壞</strong></u>。</p>
+<p>理想目標就是: 花最少的時間，用最少的空間。但有時這兩個目標會互相衝突，就要思考怎麼「取捨(Trade-off)」。</p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fevaluate-algorithm-performance%2Fi-want-all.jpg?alt=media&amp;token=ae71a557-bec3-4ea5-9388-9d22100a7293" alt="i-want-all"></p>
+<h1 id="基礎定義"><a class="header-anchor" href="#基礎定義"></a>基礎定義</h1>
+<h2 id="大O符號"><a class="header-anchor" href="#大O符號"></a>大O符號</h2>
+<p>在演算法分析中， 「大O符號 (Big O notation)」 是描述「演算法複雜度」的標準語言。它用來表達: 當輸入資料量增加時，演算法的<strong>操作次數</strong>或<strong>記憶體需求</strong>會如何隨之成長。</p>
+<p>這張圖清楚地展示了不同複雜度在輸入規模 n 增加時，所帶來的運算量差異。</p>
+<ul>
+<li>顏色越偏紅，代表效能越差。</li>
+<li>顏色越偏綠，代表效能越好。</li>
+</ul>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fevaluate-algorithm-performance%2Fbig-o-complexity-chart.jpg?alt=media&amp;token=fe85c6b5-e094-4626-bb33-8020cd93b102" alt="big-o-complexity-chart"></p>
+<div style="margin-top: -15px; font-size: 14px; color: #555; text-align: center; font-style: normal; font-family: 'Arial', sans-serif;">
+    (資料來源: 
+    <a target="_blank" rel="noopener" href="https://www.bigocheatsheet.com/" style="color: #555; text-decoration: none;">
+        Know Thy Complexities!)
+    </a>
+</div>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 由好到差排列複雜度</span><br><span class="line"><span class="built_in">O</span>(<span class="number">1</span>) #常數</span><br><span class="line"><span class="built_in">O</span>(log n) #對數</span><br><span class="line"><span class="built_in">O</span>(n) #線性</span><br><span class="line"><span class="built_in">O</span>(n log n) #線性對數</span><br><span class="line"><span class="built_in">O</span>(n^<span class="number">2</span>) #平方</span><br><span class="line"><span class="built_in">O</span>(n^k) #多項式</span><br><span class="line"><span class="built_in">O</span>(<span class="number">2</span>^n) #指數</span><br><span class="line"><span class="built_in">O</span>(n!) #階乘</span><br></pre></td></tr></table></figure>
+<h2 id="時間複雜度"><a class="header-anchor" href="#時間複雜度"></a>時間複雜度</h2>
+<blockquote>
+<p>隨輸入規模 n 增長時，<strong>基本操作次數</strong>的成長趨勢。</p>
+</blockquote>
+<p>同樣的程式在不同電腦上執行時間差異很大，如 Colab: 95秒 vs Windows 11: 138秒，因此不是用「程式跑幾秒」，而是以「程式執行了多少次基本操作」來客觀衡量演算法效率。</p>
+<p>核心概念是當輸入資料量 n 增加時，演算法需要多少次基本操作來完成，關注的是隨著 n 成長的趨勢，而不是實際執行的秒數。舉例來說:</p>
+<ul>
+<li>基本操作次數固定，不隨 n 變化，時間複雜度是常數時間 O(1)。</li>
+<li>遍歷 n 個元素需要 n 次，時間複雜度是線性時間 O(n)。</li>
+<li>雙層迴圈處理 n 個元素的所有配對，約需要 n² 次，時間複雜度是平方時間 O(n²)。</li>
+</ul>
+<h2 id="空間複雜度"><a class="header-anchor" href="#空間複雜度"></a>空間複雜度</h2>
+<blockquote>
+<p>隨輸入規模 n 增長時，<strong>額外記憶體</strong>的成長趨勢。</p>
+</blockquote>
+<p>空間複雜度指執行一個演算法所需的記憶體空間，通常不包含輸入資料本身的空間，只計算演算法額外使用的記憶體。</p>
+<p>核心概念是當輸入資料量 n 增加時，演算法需要分配多少額外的儲存空間。舉例來說:</p>
+<ul>
+<li>僅使用固定數量的變數，額外空間不隨 n 增長，空間複雜度是常數空間 O(1)。</li>
+<li>建立一個長度為 n 的結構，空間隨著 n 成長，空間複雜度是線性空間 O(n)。</li>
+<li>建立一個 n × n 的二維結構，空間隨著 n² 成長，空間複雜度是平方空間 O(n²)。</li>
+</ul>
+<h1 id="複雜度分析更科學"><a class="header-anchor" href="#複雜度分析更科學"></a>複雜度分析更科學?</h1>
+<p>複雜度分析的優勢在於:</p>
+<ol>
+<li>無關硬體: 不受 CPU、記憶體、作業系統影響。</li>
+<li>無關語言: Python、Java、C++ 都適用同樣的分析。</li>
+<li>可規模比較: 可以客觀比較不同演算法在大資料下的表現。</li>
+<li>預測能力: 能預測演算法在更大資料集上的行為。</li>
+</ol>
+<p>所以當一個演算法是 O(n²)，就意味著無論在什麼硬體上運行，當輸入規模增大時，執行時間都會以平方級別成長。這是一個客觀、可預測、可比較的標準。</p>
+<h1 id="進階概念預告🔜"><a class="header-anchor" href="#進階概念預告🔜"></a>進階概念預告🔜</h1>
+<p>在理解了為什麼需要複雜度分析之後，下一篇我們將一起解鎖:</p>
+<ul>
+<li>透過 LeetCode 題目，逐步分析時間複雜度</li>
+<li>看看不同複雜度在演算法實戰中的應用情境</li>
+</ul>
+<p>準備好來點 LeetCode 了嗎?</p>
+<div style="max-width:520px; margin:2em auto; padding:1.5em; border:1px solid #ddd; border-radius:10px; background:#fafafa; text-align:center; box-shadow:0 2px 6px rgba(0,0,0,0.08);">
+  <p style="font-size:1.1em; margin-bottom:1em;">👇 點此免費訂閱，不錯過任何更新</p>
+  <iframe src="https://stellacoding.substack.com/embed" 
+          width="480" height="320" 
+          style="border:1px solid #EEE; background:white; border-radius:6px;" 
+          frameborder="0" scrolling="no"></iframe>
+</div>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/blog/tags/Complexity/" rel="tag"># Complexity</a>
+              <a href="/blog/tags/Time-Complexity/" rel="tag"># Time Complexity</a>
+              <a href="/blog/tags/Space-Complexity/" rel="tag"># Space Complexity</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/blog/triangle-inequality-theorem/" rel="prev" title="三角形成立條件">
+                  <i class="fa fa-angle-left"></i> 三角形成立條件
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">史戴拉寫扣</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/blog/js/comments.js"></script><script src="/blog/js/utils.js"></script><script src="/blog/js/motion.js"></script><script src="/blog/js/sidebar.js"></script><script src="/blog/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js","integrity":"sha256-stuqcu2FrjYCXDOytWFA5SoUE/r3nkp6gTglzNSlavU="}}</script>
+  <script src="/blog/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"ams","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/blog/js/third-party/math/mathjax.js"></script>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"estellacoding","repo":"blog","client_id":"Ov23liBnWPuObZGktbAv","client_secret":"9ed6e261cd75af620744058daafa56b80a53ffa8","admin_user":"estellacoding","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":null,"labels":"gitalk","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"de00706e686002fb8f040bcb2b1b6d8c"}</script>
+<script src="/blog/js/third-party/comments/gitalk.js"></script>
+
+</body>
+</html>
