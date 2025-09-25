@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="mask-icon" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"estellacoding.github.io","root":"/blog/","images":"/blog/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/blog/js/config.js"></script>
+
+    <meta name="description" content="上週 這篇 一同理解了為什麼需要複雜度分析之後，本篇我們將一起透過 LeetCode 題目，逐步分析時間複雜度，看看不同複雜度在演算法實戰中的應用情境。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LeetCode題解析時間複雜度">
+<meta property="og:url" content="https://estellacoding.github.io/blog/leetcode-time-complexity/index.html">
+<meta property="og:site_name" content="史戴拉寫扣">
+<meta property="og:description" content="上週 這篇 一同理解了為什麼需要複雜度分析之後，本篇我們將一起透過 LeetCode 題目，逐步分析時間複雜度，看看不同複雜度在演算法實戰中的應用情境。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2025-09-25T03:11:11.000Z">
+<meta property="article:modified_time" content="2025-09-25T03:11:11.000Z">
+<meta property="article:author" content="史戴拉">
+<meta property="article:tag" content="Complexity">
+<meta property="article:tag" content="Time Complexity">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://estellacoding.github.io/blog/leetcode-time-complexity/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://estellacoding.github.io/blog/leetcode-time-complexity/","path":"leetcode-time-complexity/","title":"LeetCode題解析時間複雜度"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>LeetCode題解析時間複雜度 | 史戴拉寫扣</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EG0CKC3093"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-EG0CKC3093","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/blog/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/blog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/blog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">史戴拉寫扣</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Hands-on fuels my soul!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/blog/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/blog/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/blog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#O-1"><span class="nav-number">1.</span> <span class="nav-text">O(1)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E6%9E%90%E8%A4%87%E9%9B%9C%E5%BA%A6"><span class="nav-number">1.1.</span> <span class="nav-text">分析複雜度</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%99%82%E9%96%93%E8%A4%87%E9%9B%9C%E5%BA%A6%E6%98%AF-O-1"><span class="nav-number">1.1.1.</span> <span class="nav-text">時間複雜度是 O(1)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A9%BA%E9%96%93%E8%A4%87%E9%9B%9C%E5%BA%A6%E6%98%AF-O-1"><span class="nav-number">1.1.2.</span> <span class="nav-text">空間複雜度是 O(1)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#O-log-n"><span class="nav-number">2.</span> <span class="nav-text">O(log n)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E6%9E%90%E8%A4%87%E9%9B%9C%E5%BA%A6-v2"><span class="nav-number">2.1.</span> <span class="nav-text">分析複雜度</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%99%82%E9%96%93%E8%A4%87%E9%9B%9C%E5%BA%A6%E6%98%AF-O-log-n"><span class="nav-number">2.1.1.</span> <span class="nav-text">時間複雜度是 O(log n)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A9%BA%E9%96%93%E8%A4%87%E9%9B%9C%E5%BA%A6%E6%98%AF-O-1-v2"><span class="nav-number">2.1.2.</span> <span class="nav-text">空間複雜度是 O(1)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#O-n"><span class="nav-number">3.</span> <span class="nav-text">O(n)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E6%9E%90%E8%A4%87%E9%9B%9C%E5%BA%A6-v3"><span class="nav-number">3.1.</span> <span class="nav-text">分析複雜度</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%99%82%E9%96%93%E8%A4%87%E9%9B%9C%E5%BA%A6%E6%98%AF-O-n"><span class="nav-number">3.1.1.</span> <span class="nav-text">時間複雜度是 O(n)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A9%BA%E9%96%93%E8%A4%87%E9%9B%9C%E5%BA%A6%E6%98%AF-O-n"><span class="nav-number">3.1.2.</span> <span class="nav-text">空間複雜度是 O(n)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#O-n%C2%B2"><span class="nav-number">4.</span> <span class="nav-text">O(n²)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E6%9E%90%E8%A4%87%E9%9B%9C%E5%BA%A6-v4"><span class="nav-number">4.1.</span> <span class="nav-text">分析複雜度</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%99%82%E9%96%93%E8%A4%87%E9%9B%9C%E5%BA%A6%E6%98%AF-O-n%C2%B2"><span class="nav-number">4.1.1.</span> <span class="nav-text">時間複雜度是 O(n²)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A9%BA%E9%96%93%E8%A4%87%E9%9B%9C%E5%BA%A6%E6%98%AF-O-1-v3"><span class="nav-number">4.1.2.</span> <span class="nav-text">空間複雜度是 O(1)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%80%B2%E9%9A%8E%E6%A6%82%E5%BF%B5%E9%A0%90%E5%91%8A%F0%9F%94%9C"><span class="nav-number">5.</span> <span class="nav-text">進階概念預告🔜</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="史戴拉"
+      src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+  <p class="site-author-name" itemprop="name">史戴拉</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/blog/archives/">
+          <span class="site-state-item-count">57</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/blog/categories/">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/blog/tags/">
+        <span class="site-state-item-count">127</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/estellacoding" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;estellacoding" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://open.substack.com/pub/stellacoding" title="Substack → https:&#x2F;&#x2F;open.substack.com&#x2F;pub&#x2F;stellacoding" rel="noopener me" target="_blank"><i class="fas fa-newspaper fa-fw"></i>Substack</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+    
+    
+      
+      
+    
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://estellacoding.github.io/blog/leetcode-time-complexity/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+      <meta itemprop="name" content="史戴拉">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="史戴拉寫扣">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="LeetCode題解析時間複雜度 | 史戴拉寫扣">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          LeetCode題解析時間複雜度
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2025-09-25 11:11:11" itemprop="dateCreated datePublished" datetime="2025-09-25T11:11:11+08:00">2025-09-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/Complexity/" itemprop="url" rel="index"><span itemprop="name">Complexity</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>上週 <a href="https://estellacoding.github.io/blog/evaluate-algorithm-performance/">這篇</a> 一同理解了為什麼需要複雜度分析之後，本篇我們將一起透過 LeetCode 題目，逐步分析時間複雜度，看看不同複雜度在演算法實戰中的應用情境。</p>
+<span id="more"></span>
+<style>
+.callout {
+  border: 1px solid #eee;
+  padding: 1em;
+  background: #eef7fa;
+  margin: 1em 0;
+}
+.callout-icon {
+  font-weight: bold;
+  margin-right: 8px;
+}
+</style>
+<h1 id="O-1"><a class="header-anchor" href="#O-1"></a>O(1)</h1>
+<blockquote>
+<p>O(1) is holy. - Hamid Tizhoosh</p>
+</blockquote>
+<p>以LeetCode的 <a target="_blank" rel="noopener" href="https://leetcode.com/problems/power-of-two/description/">231.Power of Two</a> 來說明。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">isPowerOfTwo</span>(<span class="params">self, n</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type n: int</span></span><br><span class="line"><span class="string">        :rtype: bool</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">return</span> n&gt;<span class="number">0</span> <span class="keyword">and</span> n&amp;(n-<span class="number">1</span>)==<span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(Solution().isPowerOfTwo(<span class="number">16</span>)) <span class="comment">#True</span></span><br><span class="line"><span class="built_in">print</span>(Solution().isPowerOfTwo(<span class="number">3</span>))  <span class="comment">#False</span></span><br></pre></td></tr></table></figure>
+<div class="callout">
+  <span class="callout-icon">💡</span>
+<strong>2的n次方數字在二進位時只會有一個1</strong><br>
+14 → 01110₂<br>
+15 → 01111₂<br>
+2<sup>4</sup> = 16 → 10000₂
+</div>
+<h2 id="分析複雜度"><a class="header-anchor" href="#分析複雜度"></a>分析複雜度</h2>
+<h3 id="時間複雜度是-O-1"><a class="header-anchor" href="#時間複雜度是-O-1"></a>時間複雜度是 O(1)</h3>
+<ul>
+<li>n&gt;0 #一次比較 → O(1)</li>
+<li>(n-1) #一次減法 → O(1)</li>
+<li>n&amp;(n-1)==0 #一次位元運算 → O(1)</li>
+<li>所以時間複雜度 = O(1) + O(1) + O(1) = O(1)</li>
+</ul>
+<h3 id="空間複雜度是-O-1"><a class="header-anchor" href="#空間複雜度是-O-1"></a>空間複雜度是 O(1)</h3>
+<ul>
+<li>只用了幾個變數: <code>(n-1)</code>、<code>n&amp;(n-1)</code>、布林值</li>
+<li>沒有使用與輸入規模 n 成長相關的額外資料空間</li>
+<li>所以空間複雜度 = O(1)</li>
+</ul>
+<h1 id="O-log-n"><a class="header-anchor" href="#O-log-n"></a>O(log n)</h1>
+<p>以LeetCode的 <a target="_blank" rel="noopener" href="https://leetcode.com/problems/sqrtx/description/">69.Sqrt(x)</a> 來說明。</p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def mySqrt(self, x):</span><br><span class="line">        <span class="keyword">if</span> x &lt; <span class="number">2</span>:</span><br><span class="line">            <span class="literal">return</span> x</span><br><span class="line">       </span><br><span class="line">        left, <span class="literal">right</span> = <span class="number">1</span>, x<span class="comment"> // 2</span></span><br><span class="line">        <span class="keyword">while</span> left &lt;= <span class="literal">right</span>:</span><br><span class="line">            <span class="keyword">mid</span> = (left + <span class="literal">right</span>)<span class="comment"> // 2</span></span><br><span class="line">            square = <span class="keyword">mid</span> * <span class="keyword">mid</span></span><br><span class="line">           </span><br><span class="line">            <span class="keyword">if</span> square == x:</span><br><span class="line">                <span class="literal">return</span> <span class="keyword">mid</span></span><br><span class="line">            elif square &lt; x:</span><br><span class="line">                left = <span class="keyword">mid</span> + <span class="number">1</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="literal">right</span> = <span class="keyword">mid</span> - <span class="number">1</span></span><br><span class="line">       </span><br><span class="line">        <span class="literal">return</span> <span class="literal">right</span></span><br><span class="line"></span><br><span class="line">print(Solution().mySqrt(<span class="number">8</span>)) <span class="comment">#2</span></span><br><span class="line">print(Solution().mySqrt(<span class="number">4</span>)) <span class="comment">#2</span></span><br><span class="line">print(Solution().mySqrt(<span class="number">1</span>)) <span class="comment">#1</span></span><br></pre></td></tr></table></figure>
+<h2 id="分析複雜度-v2"><a class="header-anchor" href="#分析複雜度-v2"></a>分析複雜度</h2>
+<h3 id="時間複雜度是-O-log-n"><a class="header-anchor" href="#時間複雜度是-O-log-n"></a>時間複雜度是 O(log n)</h3>
+<ul>
+<li>每次把搜尋區間 [left, right] 對半縮小</li>
+<li>初始搜尋區間: [1, x//2]，大小約為 x/2</li>
+<li>第 1 次迭代後: 區間縮小一半 → x/4</li>
+<li>第 2 次迭代後: 區間再縮小一半 → x/8</li>
+<li>第 k 次迭代後: x/2<sup>(k+1)</sup> ≈ 1 → 2<sup>(k+1)</sup> = x → k = log₂(x)-1 → ≈ 需要 log₂(x) 次迭代</li>
+<li>所以時間複雜度 = O(log n)</li>
+</ul>
+<h3 id="空間複雜度是-O-1-v2"><a class="header-anchor" href="#空間複雜度是-O-1-v2"></a>空間複雜度是 O(1)</h3>
+<ul>
+<li>只用了幾個變數: <code>left</code>, <code>right</code>, <code>mid</code></li>
+<li>沒有使用與輸入規模 n 成長相關的額外資料空間</li>
+<li>所以空間複雜度 = O(1)</li>
+</ul>
+<h1 id="O-n"><a class="header-anchor" href="#O-n"></a>O(n)</h1>
+<p>以LeetCode的 <a target="_blank" rel="noopener" href="https://leetcode.com/problems/two-sum/description/">1.Two Sum</a> 來說明。</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="symbol">Solution</span>(<span class="symbol">object</span>):</span><br><span class="line">    <span class="symbol">def</span> <span class="symbol">twoSum</span>(<span class="symbol">self, <span class="symbol">nums</span>, <span class="symbol">target</span></span>):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :<span class="symbol">type</span> <span class="symbol">nums: <span class="symbol">List</span></span>[<span class="symbol">int</span>]</span><br><span class="line">        :<span class="symbol">type</span> <span class="symbol">target: <span class="symbol">int</span></span></span><br><span class="line">        :<span class="symbol">rtype: <span class="symbol">List</span></span>[<span class="symbol">int</span>]</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        <span class="symbol">d</span> = &#123;&#125;</span><br><span class="line">        <span class="keyword">for</span> i,v <span class="keyword">in</span> enumerate(nums):</span><br><span class="line">            diff=target-v</span><br><span class="line">            <span class="keyword">if</span> diff <span class="keyword">in</span> d:</span><br><span class="line">                <span class="keyword">return</span> [d[diff],i]</span><br><span class="line">            d[v]=i</span><br><span class="line"></span><br><span class="line">nums = [<span class="number">2</span>,<span class="number">7</span>,<span class="number">11</span>,<span class="number">15</span>]</span><br><span class="line">target = <span class="number">9</span></span><br><span class="line">Solution().twoSum(nums, target) #[<span class="number">0</span>, <span class="number">1</span>]</span><br></pre></td></tr></table></figure>
+<h2 id="分析複雜度-v3"><a class="header-anchor" href="#分析複雜度-v3"></a>分析複雜度</h2>
+<h3 id="時間複雜度是-O-n"><a class="header-anchor" href="#時間複雜度是-O-n"></a>時間複雜度是 O(n)</h3>
+<ul>
+<li>迴圈跑 n 次 <code>(n = len(nums))</code> → O(n)</li>
+<li>每次迭代內的操作:
+<ul>
+<li>計算 <code>diff = target - v</code> → O(1)</li>
+<li>查詢 <code>diff in d</code> → O(1)</li>
+<li>插入 <code>d[v] = i</code> → O(1)</li>
+</ul>
+</li>
+<li>所以時間複雜度 = O(n)</li>
+</ul>
+<h3 id="空間複雜度是-O-n"><a class="header-anchor" href="#空間複雜度是-O-n"></a>空間複雜度是 O(n)</h3>
+<ul>
+<li>只用了幾個變數: <code>i</code>、<code>v</code>、<code>diff</code></li>
+<li>使用了一個字典 d → O(n)</li>
+<li>所以空間複雜度 = O(n)</li>
+</ul>
+<h1 id="O-n²"><a class="header-anchor" href="#O-n²"></a>O(n²)</h1>
+<p>以LeetCode的 <a target="_blank" rel="noopener" href="https://leetcode.com/problems/two-sum/description/">1.Two Sum</a> 來說明。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">twoSum</span>(<span class="params">self, nums, target</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :type target: int</span></span><br><span class="line"><span class="string">        :rtype: List[int]</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(nums)):</span><br><span class="line">          <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(i+<span class="number">1</span>, <span class="built_in">len</span>(nums)):</span><br><span class="line">            <span class="keyword">if</span> nums[i]+nums[j]==target:</span><br><span class="line">              <span class="keyword">return</span> [i,j]</span><br><span class="line"></span><br><span class="line">nums = [<span class="number">2</span>,<span class="number">7</span>,<span class="number">11</span>,<span class="number">15</span>]</span><br><span class="line">target = <span class="number">9</span></span><br><span class="line">Solution().twoSum(nums, target) <span class="comment">#[0, 1]</span></span><br></pre></td></tr></table></figure>
+<h2 id="分析複雜度-v4"><a class="header-anchor" href="#分析複雜度-v4"></a>分析複雜度</h2>
+<h3 id="時間複雜度是-O-n²"><a class="header-anchor" href="#時間複雜度是-O-n²"></a>時間複雜度是 O(n²)</h3>
+<ul>
+<li>當 i=0 → j 從 1 到 n-1，要跑 <strong>n-1 次</strong></li>
+<li>當 i=1 → j 從 2 到 n-1，要跑 <strong>n-2 次</strong><br>
+…</li>
+<li>當 i=n-2 → j 只剩 n-1，要跑 <strong>1 次</strong></li>
+<li>當 i=n-1 → j 沒有值，要跑 <strong>0 次</strong></li>
+<li>總執行次數 = (n-1) + (n-2) + … + 1 = n(n-1)/2 ≈ O(n²)</li>
+<li>所以時間複雜度 = O(n²)</li>
+</ul>
+<h3 id="空間複雜度是-O-1-v3"><a class="header-anchor" href="#空間複雜度是-O-1-v3"></a>空間複雜度是 O(1)</h3>
+<ul>
+<li>只用了幾個變數: <code>i</code>、<code>j</code> 和<code>list [i, j]</code></li>
+<li>沒有使用與輸入規模 n 成長相關的額外資料空間</li>
+<li>所以空間複雜度 = O(1)</li>
+</ul>
+<h1 id="進階概念預告🔜"><a class="header-anchor" href="#進階概念預告🔜"></a>進階概念預告🔜</h1>
+<p>在理解了時間複雜度之後，下一篇我們將一起解鎖:</p>
+<ul>
+<li>透過 LeetCode 題目，逐步分析空間複雜度</li>
+<li>看看不同複雜度在演算法實戰中的應用情境</li>
+</ul>
+<p>準備好再來點 LeetCode 了嗎?</p>
+<div style="max-width:520px; margin:2em auto; padding:1.5em; border:1px solid #ddd; border-radius:10px; background:#fafafa; text-align:center; box-shadow:0 2px 6px rgba(0,0,0,0.08);">
+  <p style="font-size:1.1em; margin-bottom:1em;">👇 點此免費訂閱，不錯過任何更新</p>
+  <iframe src="https://stellacoding.substack.com/embed" 
+          width="480" height="320" 
+          style="border:1px solid #EEE; background:white; border-radius:6px;" 
+          frameborder="0" scrolling="no"></iframe>
+</div>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/blog/tags/Complexity/" rel="tag"># Complexity</a>
+              <a href="/blog/tags/Time-Complexity/" rel="tag"># Time Complexity</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/blog/evaluate-algorithm-performance/" rel="prev" title="「計時」不能評估演算法效能?">
+                  <i class="fa fa-angle-left"></i> 「計時」不能評估演算法效能?
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">史戴拉寫扣</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/blog/js/comments.js"></script><script src="/blog/js/utils.js"></script><script src="/blog/js/motion.js"></script><script src="/blog/js/sidebar.js"></script><script src="/blog/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js","integrity":"sha256-stuqcu2FrjYCXDOytWFA5SoUE/r3nkp6gTglzNSlavU="}}</script>
+  <script src="/blog/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"ams","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/blog/js/third-party/math/mathjax.js"></script>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"estellacoding","repo":"blog","client_id":"Ov23liBnWPuObZGktbAv","client_secret":"9ed6e261cd75af620744058daafa56b80a53ffa8","admin_user":"estellacoding","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":null,"labels":"gitalk","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"22113a2ee5e7c951674fdfed5803f672"}</script>
+<script src="/blog/js/third-party/comments/gitalk.js"></script>
+
+</body>
+</html>
