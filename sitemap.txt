@@ -1,3 +1,4 @@
+https://estellacoding.github.io/blog/aws-kiro-build-fillup-using-specification-driven-development/
 https://estellacoding.github.io/blog/how-prompt-politeness-affects-llm-accuracy/
 https://estellacoding.github.io/blog/estimated-openai-api-usage-for-ai-chatbot/
 https://estellacoding.github.io/blog/trade-off-between-time-space-complexity/
@@ -193,6 +194,11 @@ https://estellacoding.github.io/blog/tags/Complexity/
 https://estellacoding.github.io/blog/tags/Time-Complexity/
 https://estellacoding.github.io/blog/tags/Space-Complexity/
 https://estellacoding.github.io/blog/tags/Prompt/
+https://estellacoding.github.io/blog/tags/Kiro/
+https://estellacoding.github.io/blog/tags/IDE/
+https://estellacoding.github.io/blog/tags/Spec-Coding/
+https://estellacoding.github.io/blog/tags/SDD/
+https://estellacoding.github.io/blog/tags/Spec-Driven-Development/
 https://estellacoding.github.io/blog/categories/AutoML/
 https://estellacoding.github.io/blog/categories/AWS/
 https://estellacoding.github.io/blog/categories/Hexo/
@@ -220,3 +226,4 @@ https://estellacoding.github.io/blog/categories/Math/
 https://estellacoding.github.io/blog/categories/Complexity/
 https://estellacoding.github.io/blog/categories/OpenAI/
 https://estellacoding.github.io/blog/categories/Prompt/
+https://estellacoding.github.io/blog/categories/Kiro/

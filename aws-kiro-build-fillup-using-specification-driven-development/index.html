@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="mask-icon" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"estellacoding.github.io","root":"/blog/","images":"/blog/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/blog/js/config.js"></script>
+
+    <meta name="description" content="Kiro 是 AWS 推出的 Agentic IDE，採用規格驅動開發(Spec-Driven Development)，是指先把需求、技術架構、任務都規劃清楚後，AI 再開始寫程式。本篇文章將帶你實際體驗 Kiro 的 Spec Coding 完整開發流程，從零開始打造一個喝水記錄應用「FillUp!」。 什麼是規格驅動開發(Spec-Driven Development)? 規格驅動開發改變了">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【AWS Kiro 實戰】用規格驅動開發喝水記錄應用">
+<meta property="og:url" content="https://estellacoding.github.io/blog/aws-kiro-build-fillup-using-specification-driven-development/index.html">
+<meta property="og:site_name" content="史戴拉寫扣">
+<meta property="og:description" content="Kiro 是 AWS 推出的 Agentic IDE，採用規格驅動開發(Spec-Driven Development)，是指先把需求、技術架構、任務都規劃清楚後，AI 再開始寫程式。本篇文章將帶你實際體驗 Kiro 的 Spec Coding 完整開發流程，從零開始打造一個喝水記錄應用「FillUp!」。 什麼是規格驅動開發(Spec-Driven Development)? 規格驅動開發改變了">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development%2Fkiro-vibe-spec-navigation-1.jpg?alt=media&amp;token=3fbf66c7-08d2-4bee-9eab-8e4e91988654">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development%2Fkiro-steering-2-1.jpg?alt=media&amp;token=248223a0-822f-45f4-a200-88015b1b6a48">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development%2Fkiro-steering-2-2.jpg?alt=media&amp;token=68f2d798-e2d0-4341-a4ff-2a4ad7e6077d">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development%2Fkiro-steering-2-5.jpg?alt=media&amp;token=b1e4a800-8ba6-49bd-b140-8181b7f20258">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development%2Fkiro-spec-create-a-new-spec-4-1.jpg?alt=media&amp;token=2f721d68-555f-48f7-ac5e-65fd721d9390">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development%2Fkiro-spec-create-a-new-spec-4-2.jpg?alt=media&amp;token=f7716d98-4058-4551-896d-242f6eae30de">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development%2Fkiro-spec-create-a-new-spec-4-3.jpg?alt=media&amp;token=783f2635-8c0b-4474-a299-070efd4cfc34">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development%2Fkiro-spec-create-a-new-spec-4-4.jpg?alt=media&amp;token=1d771710-e49f-4478-9269-b713c1b7b91b">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development%2Fkiro-spec-create-a-new-spec-4-5.jpg?alt=media&amp;token=eabcd94d-bcc9-4522-8cdb-adceec23f989">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development%2Fkiro-tasks-start-task-5-1.jpg?alt=media&amp;token=62d76a2d-c1d0-47a5-855c-c81cb4c6199e">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development%2Fkiro-tasks-start-task-5-2.jpg?alt=media&amp;token=1bc957f2-27ad-4927-abc5-32b208b5fe65">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development%2Fkiro-tasks-start-task-5-3.jpg?alt=media&amp;token=b8d86882-a4d0-4557-a75b-6ef7ec3e7c71">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development%2Fkiro-spec-task-list-in-queue-1.jpg?alt=media&amp;token=8ca591ff-f3cc-4c47-b298-1f169cd33686">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development%2Ffillup-project-screenshot-1.jpg?alt=media&amp;token=b745a030-51bc-4568-ac08-006e192f249c">
+<meta property="article:published_time" content="2025-11-06T03:11:11.000Z">
+<meta property="article:modified_time" content="2025-11-06T03:11:11.000Z">
+<meta property="article:author" content="史戴拉">
+<meta property="article:tag" content="AWS">
+<meta property="article:tag" content="Vibe Coding">
+<meta property="article:tag" content="Kiro">
+<meta property="article:tag" content="IDE">
+<meta property="article:tag" content="Spec Coding">
+<meta property="article:tag" content="SDD">
+<meta property="article:tag" content="Spec-Driven Development">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development%2Fkiro-vibe-spec-navigation-1.jpg?alt=media&amp;token=3fbf66c7-08d2-4bee-9eab-8e4e91988654">
+
+
+<link rel="canonical" href="https://estellacoding.github.io/blog/aws-kiro-build-fillup-using-specification-driven-development/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://estellacoding.github.io/blog/aws-kiro-build-fillup-using-specification-driven-development/","path":"aws-kiro-build-fillup-using-specification-driven-development/","title":"【AWS Kiro 實戰】用規格驅動開發喝水記錄應用"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>【AWS Kiro 實戰】用規格驅動開發喝水記錄應用 | 史戴拉寫扣</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EG0CKC3093"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-EG0CKC3093","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/blog/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/blog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/blog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">史戴拉寫扣</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Hands-on fuels my soul!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/blog/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/blog/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/blog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E7%BD%AE%E6%BA%96%E5%82%99"><span class="nav-number">1.</span> <span class="nav-text">前置準備</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E5%B0%88%E6%A1%88"><span class="nav-number">2.</span> <span class="nav-text">建立專案</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Steering"><span class="nav-number">3.</span> <span class="nav-text">Steering</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E5%84%AA%E9%BB%9E"><span class="nav-number">3.1.</span> <span class="nav-text">主要優點</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A6%8B%E6%96%87%E4%BB%B6"><span class="nav-number">3.2.</span> <span class="nav-text">常見文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AA%94%E6%A1%88%E6%9E%B6%E6%A7%8B"><span class="nav-number">3.3.</span> <span class="nav-text">檔案架構</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Specs"><span class="nav-number">4.</span> <span class="nav-text">Specs</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%9F%E8%83%BD%E8%AA%AA%E6%98%8E"><span class="nav-number">4.1.</span> <span class="nav-text">功能說明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E6%AA%94%E6%A1%88"><span class="nav-number">4.2.</span> <span class="nav-text">主要檔案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Requirements"><span class="nav-number">4.2.1.</span> <span class="nav-text">Requirements</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Design"><span class="nav-number">4.2.2.</span> <span class="nav-text">Design</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Task-list"><span class="nav-number">4.2.3.</span> <span class="nav-text">Task list</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AA%94%E6%A1%88%E6%9E%B6%E6%A7%8B-v2"><span class="nav-number">4.3.</span> <span class="nav-text">檔案架構</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%96%8B%E5%A7%8BFillUp-%E5%AF%A6%E4%BD%9C"><span class="nav-number">5.</span> <span class="nav-text">開始FillUp!實作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Steering-v2"><span class="nav-number">5.1.</span> <span class="nav-text">Steering</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%8B%95%E7%94%A2%E7%94%9F"><span class="nav-number">5.1.1.</span> <span class="nav-text">自動產生</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E8%A8%82%E6%96%87%E4%BB%B6"><span class="nav-number">5.1.2.</span> <span class="nav-text">自訂文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Specs-v2"><span class="nav-number">5.2.</span> <span class="nav-text">Specs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Start-tasks"><span class="nav-number">5.3.</span> <span class="nav-text">Start tasks</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#FillUp-%E5%AF%A6%E4%BD%9C%E6%88%90%E6%9E%9C"><span class="nav-number">6.</span> <span class="nav-text">FillUp!實作成果</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%80%B2%E9%9A%8E%E6%A6%82%E5%BF%B5%E9%A0%90%E5%91%8A"><span class="nav-number">7.</span> <span class="nav-text">進階概念預告</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="史戴拉"
+      src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+  <p class="site-author-name" itemprop="name">史戴拉</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/blog/archives/">
+          <span class="site-state-item-count">62</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/blog/categories/">
+        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/blog/tags/">
+        <span class="site-state-item-count">133</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/estellacoding" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;estellacoding" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://open.substack.com/pub/stellacoding" title="Substack → https:&#x2F;&#x2F;open.substack.com&#x2F;pub&#x2F;stellacoding" rel="noopener me" target="_blank"><i class="fas fa-newspaper fa-fw"></i>Substack</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+    
+    
+      
+      
+    
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://estellacoding.github.io/blog/aws-kiro-build-fillup-using-specification-driven-development/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+      <meta itemprop="name" content="史戴拉">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="史戴拉寫扣">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="【AWS Kiro 實戰】用規格驅動開發喝水記錄應用 | 史戴拉寫扣">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【AWS Kiro 實戰】用規格驅動開發喝水記錄應用
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2025-11-06 11:11:11" itemprop="dateCreated datePublished" datetime="2025-11-06T11:11:11+08:00">2025-11-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/Kiro/" itemprop="url" rel="index"><span itemprop="name">Kiro</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>Kiro 是 AWS 推出的 Agentic IDE，採用規格驅動開發(Spec-Driven Development)，是指先把需求、技術架構、任務都規劃清楚後，AI 再開始寫程式。本篇文章將帶你實際體驗 Kiro 的 Spec Coding 完整開發流程，從零開始打造一個喝水記錄應用「FillUp!」。</p>
+<div class="note info"><p><strong>什麼是規格驅動開發(Spec-Driven Development)?</strong><br>
+規格驅動開發改變了傳統軟體開發的流程。數十年來，「程式碼」一直被視為主角，而「規格書(specifications)」只是輔助說明文件，在程式開始撰寫後常被遺棄或忽視，但在 Spec-Driven Development 中，規格本身就是執行單位。這些規格不再只是描述，而是可被執行、可生成程式碼、可驗證邏輯的文件。<br>
+- <a target="_blank" rel="noopener" href="https://github.com/github/spec-kit">Spec Kit</a></p>
+</div>
+<span id="more"></span>
+<h1 id="前置準備"><a class="header-anchor" href="#前置準備"></a>前置準備</h1>
+<ul>
+<li>安裝 <a target="_blank" rel="noopener" href="https://kiro.dev/downloads">Kiro IDE</a>。</li>
+</ul>
+<h1 id="建立專案"><a class="header-anchor" href="#建立專案"></a>建立專案</h1>
+<ol>
+<li>建立專案資料夾，如<code>fillup-web</code>。</li>
+<li>在 Kiro 中打開項目。</li>
+<li>中間導覽頁可選擇 Vibe 或 Spec 模式。</li>
+<li>左側功能列有 Kiro 面板，其中包含 Specs、Hooks、Steering、MCP 等功能。</li>
+</ol>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development%2Fkiro-vibe-spec-navigation-1.jpg?alt=media&amp;token=3fbf66c7-08d2-4bee-9eab-8e4e91988654" alt="kiro-vibe-spec-navigation-1"></p>
+<h1 id="Steering"><a class="header-anchor" href="#Steering"></a>Steering</h1>
+<div class="note info"><p>Steering = 長期記憶</p>
+</div>
+<h2 id="主要優點"><a class="header-anchor" href="#主要優點"></a>主要優點</h2>
+<p>Steering 是 Kiro 的長期記憶系統，能讓專案知識被「記住」，自動讓 AI 理解並延續你的開發慣例，不再依賴個別工程師的經驗或重複向 AI 解釋規則，確保整個團隊的開發邏輯保持一致。</p>
+<p>具體有以下幾個關鍵優點:</p>
+<ol>
+<li>一致的程式碼(Consistent Code Generation)<br>
+每個元件、API 端點或測試案例，都會自動遵循團隊定義的模式與慣例。</li>
+<li>減少重複(Reduced Repetition)<br>
+不需要再每次對話中重複「專案用什麼框架、命名怎麼取」等，Kiro 自動引用文件。</li>
+<li>團隊一致性(Team Alignment)<br>
+所有人員都能在相同標準下開發，無論是剛加入或資深工程師，都能理解並遵循專案規則。</li>
+<li>可擴展的專案知識(Scalable Project Knowledge)<br>
+可隨著程式碼更新而動態更新，這些文件會成為知識資產，幫助未來開發者延續專案邏輯。</li>
+</ol>
+<h2 id="常見文件"><a class="header-anchor" href="#常見文件"></a>常見文件</h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>檔名</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Product Overview</td>
+<td>product.md</td>
+<td>定義產品的用途、目標使用者、主要功能和業務目標。這有助於 Kiro 了解技術決策背後的原因，並提出符合產品目標的解決方案。</td>
+</tr>
+<tr>
+<td>Technology Stack</td>
+<td>tech.md</td>
+<td>列出本專案所使用的框架、函式庫、開發工具及任何技術限制，如語言版本、部署環境或相依套件。Kiro 在生成程式碼或建議實作方案時，將優先採用這些定義好的技術棧與開發慣例。</td>
+</tr>
+<tr>
+<td>Project Structure</td>
+<td>structure.md</td>
+<td>檔案與目錄結構、命名慣例、匯入(import)模式與架構決策，以確保產生的程式碼能與整合至現有程式庫。</td>
+</tr>
+<tr>
+<td>API Standards</td>
+<td>api-standards.md</td>
+<td>定義 REST 慣例、錯誤回應格式、驗證流程和版本控制策略。包括端點命名模式、HTTP 狀態碼使用方式和請求/回應範例。</td>
+</tr>
+<tr>
+<td>Testing Approach</td>
+<td>testing-standards.md</td>
+<td>建立單元測試模式、整合測試策略、模擬方式(Mocking Approaches)與覆蓋率標準，並記錄團隊偏好的測試函式庫、斷言語法及測試檔案結構。</td>
+</tr>
+<tr>
+<td>Code Style</td>
+<td>code-conventions.md</td>
+<td>規範命名慣例、檔案組織、匯入順序和架構決策，並提供範例說明，如建議的程式碼結構、元件設計模式和需避免的反模式。</td>
+</tr>
+<tr>
+<td>Security Guidelines</td>
+<td>security-policies.md</td>
+<td>身分驗證與授權需求、資料驗證與錯誤回饋規則、輸入清理(Sanitization)與正規化(Normalization)標準，以及常見弱點的防護策略，如XSS／SQLi／CSRF／SSRF／IDOR 等，並納入本應用專屬的安全編碼實務，如密鑰與機密管理、最小權限、依賴套件漏洞管理、日誌與稽核、錯誤處理與回報流程。</td>
+</tr>
+<tr>
+<td>Deployment Process</td>
+<td>deployment-workflow.md</td>
+<td>規劃建置流程、環境設定、部署步驟與回滾策略，並詳列 CI/CD 流水線設計與各環境(Dev／Staging／Prod)的特定需求與差異。</td>
+</tr>
+</tbody>
+</table>
+<div class="note info"><p>Steering 詳細說明可參考 <a target="_blank" rel="noopener" href="https://kiro.dev/docs/steering/">Kiro Doc - Steering</a>。</p>
+</div>
+<h2 id="檔案架構"><a class="header-anchor" href="#檔案架構"></a>檔案架構</h2>
+<figure class="highlight dos"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">.kiro/</span><br><span class="line">  steering/</span><br><span class="line">    product.<span class="built_in">md</span></span><br><span class="line">    tech.<span class="built_in">md</span></span><br><span class="line">    structure.<span class="built_in">md</span></span><br><span class="line">    api-standards.<span class="built_in">md</span></span><br><span class="line">    testing-standards.<span class="built_in">md</span></span><br><span class="line">    code-conventions.<span class="built_in">md</span></span><br><span class="line">    security-policies.<span class="built_in">md</span></span><br><span class="line">    deployment-workflow.<span class="built_in">md</span></span><br></pre></td></tr></table></figure>
+<h1 id="Specs"><a class="header-anchor" href="#Specs"></a>Specs</h1>
+<div class="note info"><p>Specs = 短期記憶</p>
+</div>
+<h2 id="功能說明"><a class="header-anchor" href="#功能說明"></a>功能說明</h2>
+<p>Specs(Specifications) 是一個結構化的開發流程工具，能將抽象的產品構想，轉化為具體可執行的實作計畫。在 Kiro 的工作流程中，每個 Spec 會引導開發者依序完成 3 個核心階段: 需求定義(Requirements) → 技術設計(Design) → 任務分解(Task list)。</p>
+<pre>
+<code class="mermaid">
+
+flowchart TB
+  A[Start a spec]
+  B[requirements.md]
+  C{Happy?}
+  D[Edit&#x2F;Request changes]
+  E[design.md]
+  F{Happy?}
+  G[Edit&#x2F;Request changes]
+  H[Implementation&lt;br&#x2F;&gt;tasks.md]
+
+  A --&gt; B --&gt; C
+  C -- no --&gt; D --&gt; B
+  C -- yes --&gt; E --&gt; F
+  F -- no --&gt; G --&gt; E
+  F -- yes --&gt; H
+</code>
+</pre>
+<h2 id="主要檔案"><a class="header-anchor" href="#主要檔案"></a>主要檔案</h2>
+<p>Kiro 會為每個規格產生 3 個關鍵檔案:</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>檔名</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Requirements</td>
+<td>requirements.md</td>
+<td>以 EARS 格式撰寫使用者故事與驗收準則。</td>
+</tr>
+<tr>
+<td>Design</td>
+<td>design.md</td>
+<td>整體技術架構、流程圖(主要模組間的互動流程)，並說明實作時需考慮的設計決策、相依關係與效能、安全等技術面因素。</td>
+</tr>
+<tr>
+<td>Tasks</td>
+<td>tasks.md</td>
+<td>提供具體的實作計畫，包含可分解、可追蹤的任務項目。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Requirements"><a class="header-anchor" href="#Requirements"></a>Requirements</h3>
+<p>requirements.md 以 EARS(Easy Approach to Requirements Syntax) 格式撰寫。</p>
+<p>EARS 格式格式:</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">WHEN</span><span class="meta"> [條件／事件]</span></span><br><span class="line"><span class="attribute">THE</span> SYSTEM SHALL<span class="meta"> [系統應有的行為]</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">WHEN</span> 使用者提交一份包含無效資料的表單  </span><br><span class="line">THE <span class="keyword">SYSTEM</span> SHALL 在對應欄位顯示驗證錯誤訊息</span><br></pre></td></tr></table></figure>
+<h3 id="Design"><a class="header-anchor" href="#Design"></a>Design</h3>
+<p>design.md 用來記錄技術架構、資料流、與系統運作邏輯。</p>
+<p>內容可包含:</p>
+<ul>
+<li>Architecture (系統架構)</li>
+<li>Data Flow (資料流程)</li>
+<li>Interfaces (介面定義)</li>
+<li>Data Models (資料模型)</li>
+<li>Error Handling (錯誤處理)</li>
+<li>Unit Testing Strategy (測試策略)</li>
+</ul>
+<h3 id="Task-list"><a class="header-anchor" href="#Task-list"></a>Task list</h3>
+<p>tasks.md 包含清楚定義的任務與子任務，每項都有描述、預期結果與所需資源。</p>
+<h2 id="檔案架構-v2"><a class="header-anchor" href="#檔案架構-v2"></a>檔案架構</h2>
+<figure class="highlight dos"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">.kiro/</span><br><span class="line">  specs/</span><br><span class="line">    &lt;specs-name&gt;/</span><br><span class="line">      requirements.<span class="built_in">md</span></span><br><span class="line">      design.<span class="built_in">md</span></span><br><span class="line">      tasks.<span class="built_in">md</span></span><br></pre></td></tr></table></figure>
+<div class="note info"><p>Specs 詳細說明可參考 <a target="_blank" rel="noopener" href="https://kiro.dev/docs/specs/concepts/">Kiro Doc - Specs</a></p>
+</div>
+<h1 id="開始FillUp-實作"><a class="header-anchor" href="#開始FillUp-實作"></a>開始FillUp!實作</h1>
+<h2 id="Steering-v2"><a class="header-anchor" href="#Steering-v2"></a>Steering</h2>
+<h3 id="自動產生"><a class="header-anchor" href="#自動產生"></a>自動產生</h3>
+<p>若為既有專案已有程式碼，或是也可以用 Vibe 的方式先產生專案程式碼後，就可以直接點擊左側導覽列的 Kiro，打開 Kiro 面板，點擊 Agent Steering 裡面的「Generate Steering Docs」按鈕，會自動掃專案程式碼，並建立3個基礎文件: <code>product.md</code>、<code>tech.md</code>、<code>structure.md</code>。</p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development%2Fkiro-steering-2-1.jpg?alt=media&amp;token=248223a0-822f-45f4-a200-88015b1b6a48" alt="kiro-steering-2-1"></p>
+<h3 id="自訂文件"><a class="header-anchor" href="#自訂文件"></a>自訂文件</h3>
+<p>或是不直接產生，用自己的 Steering 文件，則可點擊「Generate a custom steering document」，輸入 Steering 文件名稱，如 <code>product</code>。</p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development%2Fkiro-steering-2-2.jpg?alt=media&amp;token=68f2d798-e2d0-4341-a4ff-2a4ad7e6077d" alt="kiro-steering-2-2"></p>
+<p>因為喝水記錄應用「FillUp!」是從零開始的專案，我先用 ChatGPT 協助先規劃專案、技術棧與檔案結構，所以這邊就使用自訂的 Steering 文件，本次我使用的初版 Steering 的文件內容可參考這個 Notion: <a target="_blank" rel="noopener" href="https://stellacoding.notion.site/FillUp-29b9a83673d680e39a4bde9f4d54c4d3?pvs=74">Product、Tech、Structure</a>。</p>
+<p>我另外還有使用 <a target="_blank" rel="noopener" href="https://github.com/awsdataarchitect/kiro-best-practices/tree/main/.kiro/steering">Steering Samples by Vivek V.</a> 所提供的 Steering 文件:</p>
+<ul>
+<li>.kiro/steering/development-standards.md</li>
+<li>.kiro/steering/git-best-practices.md</li>
+<li>.kiro/steering/mcp-best-practices.md</li>
+<li>.kiro/steering/python-best-practices.md</li>
+<li>.kiro/steering/react-best-practices.md</li>
+<li>.kiro/steering/security-best-practices.md</li>
+<li>.kiro/steering/testing-best-practices.md</li>
+<li>.kiro/steering/typescript-best-practices.md</li>
+</ul>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development%2Fkiro-steering-2-5.jpg?alt=media&amp;token=b1e4a800-8ba6-49bd-b140-8181b7f20258" alt="kiro-steering-2-5"></p>
+<p>這個專案一開始在 Steering 文件中，我本來是沒有 <code>tech.md</code> 和 <code>structure.md</code>(<s>想說有Specs就行</s>)，所以當 Specs 完成後就請 AI 直接開寫程式，結果發現這樣「很不OK」。因為專案拆成多個 Specs 後，每個 Spec 若各自開發，初期看不出問題，但當規格變多、甚至換到 Claude Code 接續開發時，就會出現各種不一致。燒了我很多 Kiro Credits(<s>還我Credits😭</s>)，才真正體會到沒有統一技術棧與檔案結構，整個場面就會逐漸失控(<s>如果不想死趕緊逃跑吧</s>)。</p>
+<p>主要有以下問題:</p>
+<ul>
+<li>混雜的檔案組織策略: 有的依功能(feature-based)，有的依層級(layer-based)。</li>
+<li>缺乏統一的命名規範: 目錄與檔案名稱風格不一致。</li>
+<li>模組邊界不清晰: 同一功能的程式散落在不同資料夾。</li>
+</ul>
+<p>為了解決這些問題，專案最好在開發前就建立好核心文件，不過因為我對技術棧與檔案結構沒有很明確的想法(<s>我是菜菜</s>)，所以我是先用 ChatGPT 協助先規劃專案說明文件 <code>product.md</code>，再請 ChatGPT 根據 <code>product.md</code> 內容，協助建議 <code>tech.md</code> 和 <code>structure.md</code> 內容，所以我還是建議在開始開發前，要先準備好以下這 3 個核心文件:</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>檔名</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Product Overview</td>
+<td>product.md</td>
+<td>定義產品的用途、目標使用者、主要功能和業務目標。這有助於 Kiro 了解技術決策背後的原因，並提出符合產品目標的解決方案。</td>
+</tr>
+<tr>
+<td>Technology Stack</td>
+<td>tech.md</td>
+<td>列出本專案所使用的框架、函式庫、開發工具及任何技術限制，如語言版本、部署環境或相依套件。Kiro 在生成程式碼或建議實作方案時，將優先採用這些既定的技術棧與開發慣例，而非其他替代方案。</td>
+</tr>
+<tr>
+<td>Project Structure</td>
+<td>structure.md</td>
+<td>檔案與目錄結構、命名慣例、匯入(import)順序與架構決策，以確保產生的程式碼能無縫融入現有代碼庫。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="Specs-v2"><a class="header-anchor" href="#Specs-v2"></a>Specs</h2>
+<p>因為我在上一步有準備好 <a target="_blank" rel="noopener" href="https://stellacoding.notion.site/FillUp-29b9a83673d680e39a4bde9f4d54c4d3?pvs=74">Product、Tech、Structure</a> 文件，所以我請 ChatGPT 直接參考後幫我寫 Specs 結構。</p>
+<div class="note warning"><p>我們建議您為專案的不同功能建立多個規格，而不是嘗試為整個程式碼庫只使用單一規格。<br>
+- <a target="_blank" rel="noopener" href="https://kiro.dev/docs/specs/best-practices/#how-many-specs-can-i-have-in-a-single-repo">Kiro 官方文件</a></p>
+</div>
+<p>我一開始嘗試用「單一規格」讓 Kiro 開發整個專案，不過我實際執行後發現，當所有功能都集中在同一份規格中時，開發出來的結果不好，所以才發現其實 Kiro 官方是有建議建立不同規格，不過這段沒有自動化，所以需要先請 ChatGPT 根據 <a target="_blank" rel="noopener" href="https://stellacoding.notion.site/FillUp-29b9a83673d680e39a4bde9f4d54c4d3?pvs=74">Product、Tech、Structure</a> 文件內容，來協助建議 Specs 結構及其提示詞，可參考以下提示詞內容。</p>
+<div class="note info"><p>&lt;role&gt;<br>
+你是「Spec 方案規劃專家」。請根據上傳檔案來設計 .kiro/specs 結構，並為每個 Spec 生成可直接給 Kiro 使用的一段提示詞。<br>
+&lt;/role&gt;</p>
+<p>&lt;objective&gt;<br>
+輸出一份「可落地的 Specs 規劃」與「每個 Spec 的 Kiro 提示詞模板」。要求：<br>
+- 最小可行版本 (MVP)：先開發最小可運行的功能。<br>
+- 以「功能切分（function cut）」為核心，保證單一責任、清楚邊界、可並行開發與測試。<br>
+- 每個 Spec 對應一個端到端的最小可交付流程（1~3 條用戶旅程），其餘拆到其他 Spec。<br>
+- 優先以 project.md 的業務目標為準；若與 tech.md/structure.md 衝突，請說明取捨。<br>
+- 產出/docs/spec/{spec_name}-prompt.md<br>
+- 分段測試：每個模組完成後要能獨立測試。<br>
+- 可讀性優先：程式碼要有清楚的註解與命名。<br>
+- 可維護性：設計需方便後續擴充。<br>
+&lt;/objective&gt;</p>
+<p>&lt;constraints&gt;<br>
+- 語言：繁體中文。<br>
+- 命名：資料夾使用 kebab-case，如：user-authentication。<br>
+- 每個 Spec 必須輸出一段 Kiro 可用的規格提示詞。<br>
+&lt;/constraints&gt;</p>
+<p>&lt;example&gt;<br>
+（樹狀僅示意Kiro官方範例）<br>
+For example, in an e-commerce application, you might organize your specs like this:<br>
+.kiro/specs/<br>
+├── user-authentication/       # Login, signup, password reset<br>
+├── product-catalog/           # Product listing, search, filtering<br>
+├── shopping-cart/             # Add to cart, quantity updates, checkout<br>
+├── payment-processing/        # Payment gateway integration, order confirmation<br>
+└── admin-dashboard/           # Product management, user analytics<br>
+請依實際 project.md/tech.md/structure.md 內容重新規劃，而非照抄此範例。<br>
+&lt;/example&gt;</p>
+</div>
+<p>得到<a target="_blank" rel="noopener" href="https://stellacoding.notion.site/FillUp-29b9a83673d680e39a4bde9f4d54c4d3?pvs=74">每個 Spec 的提示詞</a>後，你可以複製給 Kiro，Kiro 會幫你逐步引導你以下事項:</p>
+<ol>
+<li>建立 <code>.kiro/specs/&#123;spec-name&#125;/requirements.md</code>。</li>
+<li>確認需求文件內容。</li>
+<li>建立 <code>.kiro/specs/&#123;spec-name&#125;/design.md</code>。</li>
+<li>確認技術設計文件內容。</li>
+<li>建立 <code>.kiro/specs/&#123;spec-name&#125;/tasks.md</code>。</li>
+<li>確認任務清單文件內容。</li>
+<li>手動或自動逐步執行任務。</li>
+</ol>
+<p>而我的 FillUp! 專案，ChatGPT 建議的 Specs 結構如下:</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">.kiro/specs/</span><br><span class="line">├── hydration<span class="literal">-recording</span>/  <span class="comment"># 快速容量記錄 + 水桶動畫（核心 MVP）</span></span><br><span class="line">├── goals<span class="operator">-and</span><span class="literal">-settings</span>/   <span class="comment"># 每日目標、時段、單位與預設容量</span></span><br><span class="line">├── gamification<span class="literal">-badges</span>/  <span class="comment"># 達標/連續天數徽章與慶祝動畫</span></span><br><span class="line">├── stats<span class="operator">-and</span><span class="literal">-trends</span>/     <span class="comment"># 每日/週/月統計與趨勢圖</span></span><br><span class="line">├── smart<span class="literal">-reminders</span>/      <span class="comment"># 智慧提醒（Web Push / Notification）</span></span><br><span class="line">└── <span class="built_in">sync-and</span><span class="literal">-profile</span>/     <span class="comment"># 匿名裝置識別 +（可選）JWT 登入與資料同步</span></span><br></pre></td></tr></table></figure>
+<p>以下我示範新增 Specs 的實際流程，每個 Specs 按照一樣流程即可。</p>
+<p>1.點擊「Create a new spec」新增 Specs。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development%2Fkiro-spec-create-a-new-spec-4-1.jpg?alt=media&amp;token=2f721d68-555f-48f7-ac5e-65fd721d9390" alt="kiro-spec-create-a-new-spec-4-1"></p>
+<p>2.輸入提示詞。</p>
+<div class="note info"><p>請在「hydration-recording」Spec 內完成：<br>
+- 前端：React 18 + Vite + Tailwind + Zustand + Framer Motion；頁面 Home，元件 BucketVisualizer、QuickInputButtons；服務 hydration.service；狀態 useHydrationStore。<br>
+- 後端：FastAPI 路由 /api/hydration（POST 新增、GET 取當日彙總、DELETE 撤銷可選）；模型 hydration；Schema HydrationCreate/HydrationOut。<br>
+- 資料：內部以 ml 為單位，本地 IndexedDB 作為離線快取；恢復網路自動同步。<br>
+- 互動：點按預設容量（250/350/500 或自訂）→ 3 秒內完成提交與水桶填充動畫（60fps）；完成率=當日總和/目標。<br>
+- 測試：前端 RTL/Jest（按鈕點擊→狀態/畫面）；後端 pytest（路由與聚合）。請附驗收規格（acceptance criteria）與 API 契約（OpenAPI 片段）。</p>
+<p>請依此功能切分產出前後端程式碼骨架與範例實作，檔案放到對應的 frontend/backend 目錄，遵守既有匯入與命名慣例。</p>
+</div>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development%2Fkiro-spec-create-a-new-spec-4-2.jpg?alt=media&amp;token=f7716d98-4058-4551-896d-242f6eae30de" alt="kiro-spec-create-a-new-spec-4-2"></p>
+<p>3.建立 <code>requirements.md</code> 需求文件。<br>
+請一定要確認需求，因為接下來都會以這份需求繼續撰寫技術設計及任務清單文件。確認需求文件內容後，點擊「Move to design phase」。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development%2Fkiro-spec-create-a-new-spec-4-3.jpg?alt=media&amp;token=783f2635-8c0b-4474-a299-070efd4cfc34" alt="kiro-spec-create-a-new-spec-4-3"></p>
+<p>4.建立 <code>design.md</code> 技術設計文件。<br>
+確認技術設計文件內容後，點擊「Move to implementation plan」。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development%2Fkiro-spec-create-a-new-spec-4-4.jpg?alt=media&amp;token=1d771710-e49f-4478-9269-b713c1b7b91b" alt="kiro-spec-create-a-new-spec-4-4"></p>
+<p>5.建立 <code>tasks.md</code> 任務清單文件。<br>
+確認任務清單文件內容，<span style="color: red; font-weight: bold; text-decoration: underline;">先不執行任務</span>。</p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development%2Fkiro-spec-create-a-new-spec-4-5.jpg?alt=media&amp;token=eabcd94d-bcc9-4522-8cdb-adceec23f989" alt="kiro-spec-create-a-new-spec-4-5"></p>
+<h2 id="Start-tasks"><a class="header-anchor" href="#Start-tasks"></a>Start tasks</h2>
+<p>彎彎繞繞這麼久，終於可以開始 AI 寫程式了🥲，可參考 Kiro 為第一個 Specs「hydration-recording」所產生的文件內容: <a target="_blank" rel="noopener" href="https://stellacoding.notion.site/FillUp-29b9a83673d680e39a4bde9f4d54c4d3?pvs=74">Requirements &amp; Design &amp; Task list</a>。</p>
+<p>當任務清單完成時，這時就可以手動逐步點擊「Start task」，或是請 Kiro 自動逐步幫忙執行任務。</p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development%2Fkiro-tasks-start-task-5-1.jpg?alt=media&amp;token=62d76a2d-c1d0-47a5-855c-c81cb4c6199e" alt="kiro-tasks-start-task-5-1"></p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development%2Fkiro-tasks-start-task-5-2.jpg?alt=media&amp;token=1bc957f2-27ad-4927-abc5-32b208b5fe65" alt="kiro-tasks-start-task-5-2"></p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development%2Fkiro-tasks-start-task-5-3.jpg?alt=media&amp;token=b8d86882-a4d0-4557-a75b-6ef7ec3e7c71" alt="kiro-tasks-start-task-5-3"></p>
+<div class="note warning"><p><strong>可以一次執行規格中的所有任務嗎?</strong><br>
+是的，可以要求 Kiro 執行 tasks.md 檔案中的所有任務，Kiro 將開始執行您的所有任務。但注意: 我們不建議這樣做，因為我們建議按任務執行以獲得更好的結果。<br>
+- <a target="_blank" rel="noopener" href="https://kiro.dev/docs/specs/best-practices/#how-many-specs-can-i-have-in-a-single-repo">Kiro 官方文件</a></p>
+</div>
+<p>如果想一次執行所有任務(<s>就去旁邊廢</s>)，你可以一個一個點擊「Start task」來執行任務，Kiro 會自動排程任務，在對話的右上角，點擊 「Task List」 按鈕，可查看目前的任務執行狀態。「CURRENT TASKS」是正在執行的任務，而「TASKS IN QUEUE」則是排程中的任務。</p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development%2Fkiro-spec-task-list-in-queue-1.jpg?alt=media&amp;token=8ca591ff-f3cc-4c47-b298-1f169cd33686" alt="kiro-spec-task-list-in-queue-1"></p>
+<p>另外也可以用對話方式，輸入提示詞，讓 Kiro 一次執行所有任務。不過我實際執行後發現，Kiro 常會漏執行部分 Tasks，建議執行過程中需要再次確認是否有被漏掉的任務。</p>
+<div class="note info"><p>一次執行所有任務的提示詞:<br>
+#{your_spec_name} Execute all tasks in the spec</p>
+</div>
+<h1 id="FillUp-實作成果"><a class="header-anchor" href="#FillUp-實作成果"></a>FillUp!實作成果</h1>
+<p>經過上面的 Steering + Specs 流程，FillUp! 已經誕生了！🎉</p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development%2Ffillup-project-screenshot-1.jpg?alt=media&amp;token=b745a030-51bc-4568-ac08-006e192f249c" alt="fillup-project-screenshot-1"></p>
+<div style="margin-top: -15px; font-size: 14px; color: #555; text-align: center; font-style: normal; font-family: 'Arial', sans-serif;">(專案連結: <a target="_blank" rel="noopener" href="https://github.com/estellacoding/fillup-web" style="color: #555; text-decoration: none;"> GitHub Repository)</a></div>
+<h1 id="進階概念預告"><a class="header-anchor" href="#進階概念預告"></a>進階概念預告</h1>
+<p>完成 Kiro 的 Spec Coding 之後，下一篇我們將一起解鎖 MCP Server。</p>
+<ul>
+<li>AWS Documentation MCP Server: 可與 AWS 官方文件互動的工具，支援文件內容搜尋、知識檢索與自動化推薦，協助開發者快速找到所需的技術資訊。</li>
+<li>AWS Diagram MCP Server: 可透過 Python 的 Diagrams 套件，產生 AWS 架構圖(AWS Diagrams)、序列圖(Sequence Diagrams)、流程圖(Flow Diagrams)、類別圖(Class Diagrams)等圖表。</li>
+<li>AWS CDK MCP Server: 提供用於 AWS 雲端部署與架構開發的工具集，如 AWS Cloud Development Kit(CDK) 的最佳實踐、Infrastructure as Code 設計模式，以及透過 CDK Nag 進行安全性合規檢查的工具。</li>
+</ul>
+<div style="max-width:520px; margin:2em auto; padding:1.5em; border:1px solid #ddd; border-radius:10px; background:#fafafa; text-align:center; box-shadow:0 2px 6px rgba(0,0,0,0.08);">
+  <p style="font-size:1.1em; margin-bottom:1em;">👇 點此免費訂閱，不錯過任何更新</p>
+  <iframe src="https://stellacoding.substack.com/embed" 
+          width="480" height="320" 
+          style="border:1px solid #EEE; background:white; border-radius:6px;" 
+          frameborder="0" scrolling="no"></iframe>
+</div>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/blog/tags/AWS/" rel="tag"># AWS</a>
+              <a href="/blog/tags/Vibe-Coding/" rel="tag"># Vibe Coding</a>
+              <a href="/blog/tags/Kiro/" rel="tag"># Kiro</a>
+              <a href="/blog/tags/IDE/" rel="tag"># IDE</a>
+              <a href="/blog/tags/Spec-Coding/" rel="tag"># Spec Coding</a>
+              <a href="/blog/tags/SDD/" rel="tag"># SDD</a>
+              <a href="/blog/tags/Spec-Driven-Development/" rel="tag"># Spec-Driven Development</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/blog/how-prompt-politeness-affects-llm-accuracy/" rel="prev" title="語氣不禮貌模型答案越準確?">
+                  <i class="fa fa-angle-left"></i> 語氣不禮貌模型答案越準確?
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">史戴拉寫扣</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/blog/js/comments.js"></script><script src="/blog/js/utils.js"></script><script src="/blog/js/motion.js"></script><script src="/blog/js/sidebar.js"></script><script src="/blog/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js","integrity":"sha256-stuqcu2FrjYCXDOytWFA5SoUE/r3nkp6gTglzNSlavU="}}</script>
+  <script src="/blog/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"ams","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/blog/js/third-party/math/mathjax.js"></script>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"estellacoding","repo":"blog","client_id":"Ov23liBnWPuObZGktbAv","client_secret":"9ed6e261cd75af620744058daafa56b80a53ffa8","admin_user":"estellacoding","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":null,"labels":"gitalk","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"07f78a0dc8db836c1d63aadefefe34fb"}</script>
+<script src="/blog/js/third-party/comments/gitalk.js"></script>
+
+</body>
+</html>
