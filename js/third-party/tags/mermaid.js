@@ -1,7 +1,7 @@
 /* global NexT, CONFIG, mermaid */
 
 document.addEventListener('page:loaded', () => {
-  const mermaidElements = document.querySelectorAll('pre > .mermaid');
+  const mermaidElements = document.querySelectorAll('pre > .mermaid, pre.mermaid');
   if (mermaidElements.length) {
     NexT.utils.getScript(CONFIG.mermaid.js, {
       condition: window.mermaid
@@ -16,8 +16,9 @@ document.addEventListener('page:loaded', () => {
         if (CONFIG.copycode.enable) {
           NexT.utils.registerCopyButton(box, box, element.textContent);
         }
-        const parent = element.parentNode;
-        parent.parentNode.replaceChild(box, parent);
+        // Handle both <pre class="mermaid"> and <pre><code class="mermaid">
+        const targetElement = element.tagName === 'PRE' ? element : element.parentNode;
+        targetElement.parentNode.replaceChild(box, targetElement);
       });
       mermaid.initialize({
         theme    : CONFIG.darkmode && window.matchMedia('(prefers-color-scheme: dark)').matches ? CONFIG.mermaid.theme.dark : CONFIG.mermaid.theme.light,
