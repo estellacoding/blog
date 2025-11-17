@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="mask-icon" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"estellacoding.github.io","root":"/blog/","images":"/blog/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/blog/js/config.js"></script>
+
+    <meta name="description" content="上週 這篇 一同走過 Kiro 的 Spec Coding 實作流程，理解 Kiro 如何透過明確的規格來生成程式碼，本篇將延伸這個概念，帶你進一步探索 Kiro 的另一個強大能力 MCP Server。 什麼是 MCP? 模型上下文協定(Model Context Protocol)是一種開源標準，將 AI 應用程序連接到外部系統。透過 MCP，可連接到各種資料來源(如本機檔案、資料庫)、工具(">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【AWS Kiro 進階】實作 MCP 擴充 AI 能力邊界">
+<meta property="og:url" content="https://estellacoding.github.io/blog/aws-kiro-build-fillup-using-specification-driven-development-mcp/index.html">
+<meta property="og:site_name" content="史戴拉寫扣">
+<meta property="og:description" content="上週 這篇 一同走過 Kiro 的 Spec Coding 實作流程，理解 Kiro 如何透過明確的規格來生成程式碼，本篇將延伸這個概念，帶你進一步探索 Kiro 的另一個強大能力 MCP Server。 什麼是 MCP? 模型上下文協定(Model Context Protocol)是一種開源標準，將 AI 應用程序連接到外部系統。透過 MCP，可連接到各種資料來源(如本機檔案、資料庫)、工具(">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-mcp%2Faws-iam-add-user-permissions.jpg?alt=media&amp;token=15f6fe29-7ab4-415e-aa28-5080fd195a91">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-mcp%2Faws-iam-add-user-key-1.jpg?alt=media&amp;token=d92c1459-59f8-4d44-89dd-0098dedb27be">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-mcp%2Faws-iam-add-user-key-2.jpg?alt=media&amp;token=a2bd4195-d4b5-47c7-8936-e4edfc120b02">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-mcp%2Faws-iam-add-user-key-3.jpg?alt=media&amp;token=b5f2f5f1-926c-4e2e-81f6-620c98fd9e03">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-mcp%2Fkiro-mcp-servers-open-mcp-config.jpg?alt=media&amp;token=e813e7dc-800b-4a04-81cc-dd5c1df346ce">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-mcp%2Fkiro-mcp-servers-open-mcp-config-json-file.jpg?alt=media&amp;token=f34b4cdd-9939-47f8-a9ef-051dbb43d312">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-mcp%2Fkiro-mcp-servers-open-mcp-config-success.jpg?alt=media&amp;token=79290fad-e061-4025-ad3c-0c786e5627aa">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-mcp%2Fkiro-mcp-servers-debug-1.jpg?alt=media&amp;token=22286d93-8c37-446d-af1f-81bf9558c204">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-mcp%2Fkiro-mcp-servers-debug-2.jpg?alt=media&amp;token=0982d8ad-a454-4bbd-a5d9-8fc00f29df8c">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-mcp%2Fkiro-mcp-servers-debug-3.jpg?alt=media&amp;token=a3f2830c-d22b-4828-9ae3-163283af036f">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-mcp%2Fkiro-mcp-chrome-devtools-mcp-1.jpg?alt=media&amp;token=902b74d6-6292-43e4-9f6f-85c064b2e319">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-mcp%2Fkiro-mcp-chrome-devtools-mcp-2.jpg?alt=media&amp;token=15c5ca3f-6fa3-42f0-ac34-a5bc2461b945">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-mcp%2Fkiro-mcp-chrome-devtools-mcp-3.jpg?alt=media&amp;token=a7c509bc-73ab-4667-a1e7-320fa2d25703">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-mcp%2Fkiro-mcp-chrome-devtools-mcp-4.jpg?alt=media&amp;token=03949620-7877-4d93-85d7-bcff7a43f832">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-mcp%2Fkiro-mcp-chrome-devtools-mcp-5.jpg?alt=media&amp;token=74457a74-b7b1-44ad-9351-0f8acd82d5d6">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-mcp%2Fkiro-mcp-aws-diagram-mcp.jpg?alt=media&amp;token=2ca1c626-5cc4-4cf0-8193-feedb87a1876">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-mcp%2Fkiro-mcp-aws-diagram-mcp-generic-icon.jpg?alt=media&amp;token=fe5b055f-50dd-4794-b91f-ee1cb2516aa4">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-mcp%2Fkiro-mcp-aws-cdk-mcp.jpg?alt=media&amp;token=267c62e2-8102-423f-a54d-70bfd817279a">
+<meta property="article:published_time" content="2025-11-17T07:00:00.000Z">
+<meta property="article:modified_time" content="2025-11-17T07:00:00.000Z">
+<meta property="article:author" content="史戴拉">
+<meta property="article:tag" content="AWS">
+<meta property="article:tag" content="Kiro">
+<meta property="article:tag" content="MCP">
+<meta property="article:tag" content="IDE">
+<meta property="article:tag" content="Vibe Coding">
+<meta property="article:tag" content="Spec Coding">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-mcp%2Faws-iam-add-user-permissions.jpg?alt=media&amp;token=15f6fe29-7ab4-415e-aa28-5080fd195a91">
+
+
+<link rel="canonical" href="https://estellacoding.github.io/blog/aws-kiro-build-fillup-using-specification-driven-development-mcp/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://estellacoding.github.io/blog/aws-kiro-build-fillup-using-specification-driven-development-mcp/","path":"aws-kiro-build-fillup-using-specification-driven-development-mcp/","title":"【AWS Kiro 進階】實作 MCP 擴充 AI 能力邊界"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>【AWS Kiro 進階】實作 MCP 擴充 AI 能力邊界 | 史戴拉寫扣</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EG0CKC3093"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-EG0CKC3093","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/blog/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/blog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/blog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">史戴拉寫扣</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Hands-on fuels my soul!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/blog/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/blog/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/blog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E7%BD%AE%E6%BA%96%E5%82%99"><span class="nav-number">1.</span> <span class="nav-text">前置準備</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D-uv"><span class="nav-number">1.1.</span> <span class="nav-text">安裝 uv</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A8%AD%E5%AE%9A-AWS"><span class="nav-number">1.2.</span> <span class="nav-text">設定 AWS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A8%AD%E5%AE%9A%E5%B8%B3%E6%88%B6%E6%AC%8A%E9%99%90"><span class="nav-number">1.2.1.</span> <span class="nav-text">設定帳戶權限</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D-AWS-CLI"><span class="nav-number">1.2.2.</span> <span class="nav-text">安裝 AWS CLI</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MCP-Server"><span class="nav-number">2.</span> <span class="nav-text">MCP Server</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#AWS-MCP"><span class="nav-number">2.1.</span> <span class="nav-text">AWS MCP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Documentation"><span class="nav-number">2.1.1.</span> <span class="nav-text">Documentation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Diagram"><span class="nav-number">2.1.2.</span> <span class="nav-text">Diagram</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CDK"><span class="nav-number">2.1.3.</span> <span class="nav-text">CDK</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A5%BD%E7%94%A8-MCP"><span class="nav-number">2.2.</span> <span class="nav-text">好用 MCP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Chrome-DevTools"><span class="nav-number">2.2.1.</span> <span class="nav-text">Chrome DevTools</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Context7"><span class="nav-number">2.2.2.</span> <span class="nav-text">Context7</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AF%A6%E4%BD%9C"><span class="nav-number">3.</span> <span class="nav-text">實作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B0%E5%A2%9E-MCP"><span class="nav-number">3.1.</span> <span class="nav-text">新增 MCP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%99%A4%E9%8C%AF-MCP"><span class="nav-number">3.2.</span> <span class="nav-text">除錯 MCP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-MCP"><span class="nav-number">3.3.</span> <span class="nav-text">使用 MCP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E7%AB%AF%E9%99%A4%E9%8C%AF"><span class="nav-number">3.3.1.</span> <span class="nav-text">前端除錯</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9E%B6%E6%A7%8B%E8%A6%96%E8%A6%BA%E5%8C%96"><span class="nav-number">3.3.2.</span> <span class="nav-text">架構視覺化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2%E6%96%87%E4%BB%B6%E6%9F%A5%E8%A9%A2"><span class="nav-number">3.3.3.</span> <span class="nav-text">部署文件查詢</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%80%B2%E9%9A%8E%E6%A6%82%E5%BF%B5%E9%A0%90%E5%91%8A"><span class="nav-number">4.</span> <span class="nav-text">進階概念預告</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="史戴拉"
+      src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+  <p class="site-author-name" itemprop="name">史戴拉</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/blog/archives/">
+          <span class="site-state-item-count">63</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/blog/categories/">
+        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/blog/tags/">
+        <span class="site-state-item-count">134</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/estellacoding" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;estellacoding" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://open.substack.com/pub/stellacoding" title="Substack → https:&#x2F;&#x2F;open.substack.com&#x2F;pub&#x2F;stellacoding" rel="noopener me" target="_blank"><i class="fas fa-newspaper fa-fw"></i>Substack</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+    
+    
+      
+      
+    
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://estellacoding.github.io/blog/aws-kiro-build-fillup-using-specification-driven-development-mcp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+      <meta itemprop="name" content="史戴拉">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="史戴拉寫扣">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="【AWS Kiro 進階】實作 MCP 擴充 AI 能力邊界 | 史戴拉寫扣">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【AWS Kiro 進階】實作 MCP 擴充 AI 能力邊界
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2025-11-17 15:00:00" itemprop="dateCreated datePublished" datetime="2025-11-17T15:00:00+08:00">2025-11-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/Kiro/" itemprop="url" rel="index"><span itemprop="name">Kiro</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>上週 <a href="https://estellacoding.github.io/blog/aws-kiro-build-fillup-using-specification-driven-development/">這篇</a> 一同走過 Kiro 的 Spec Coding 實作流程，理解 Kiro 如何透過明確的規格來生成程式碼，本篇將延伸這個概念，帶你進一步探索 Kiro 的另一個強大能力 MCP Server。</p>
+<div class="note info"><p><strong>什麼是 MCP?</strong><br>
+模型上下文協定(Model Context Protocol)是一種開源標準，將 AI 應用程序連接到外部系統。透過 MCP，可連接到各種資料來源(如本機檔案、資料庫)、工具(如搜尋引擎、計算器)，以及工作流程(如特定用途的提示詞)，讓 AI 應用程式能夠存取關鍵資訊並執行實際任務。<br>
+- <a target="_blank" rel="noopener" href="https://modelcontextprotocol.io/docs/getting-started/intro">MCP 官方文件</a></p>
+</div>
+<span id="more"></span>
+<h1 id="前置準備"><a class="header-anchor" href="#前置準備"></a>前置準備</h1>
+<ol>
+<li>安裝 <a target="_blank" rel="noopener" href="https://kiro.dev/downloads">Kiro IDE</a>。</li>
+<li>安裝 <a target="_blank" rel="noopener" href="https://docs.astral.sh/uv/getting-started/installation/">uv</a>。</li>
+<li>具有 S3 和 CloudFront 存取權限的 AWS 帳戶。(用於部署)</li>
+<li>安裝並設定好 AWS CLI。(用於部署)</li>
+<li>在 Kiro 中打開項目，如<code>fillup-web</code>。</li>
+</ol>
+<h2 id="安裝-uv"><a class="header-anchor" href="#安裝-uv"></a>安裝 uv</h2>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安裝uv</span></span><br><span class="line">pip <span class="keyword">install</span> uv</span><br><span class="line"><span class="comment"># 更新uv</span></span><br><span class="line">pip <span class="keyword">install</span> --upgrade uv</span><br></pre></td></tr></table></figure>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 檢查是否已安裝</span></span><br><span class="line"><span class="attribute">uv</span> self version</span><br><span class="line"><span class="attribute">uv</span> <span class="number">0</span>.<span class="number">9</span>.<span class="number">9</span> (<span class="number">4</span>fac4cb7e <span class="number">2025</span>-<span class="number">11</span>-<span class="number">12</span>)</span><br></pre></td></tr></table></figure>
+<div class="note info"><p>安裝文件可參考 <a target="_blank" rel="noopener" href="https://docs.astral.sh/uv/getting-started/installation/">Astral - Installing uv</a>。</p>
+</div>
+<h2 id="設定-AWS"><a class="header-anchor" href="#設定-AWS"></a>設定 AWS</h2>
+<h3 id="設定帳戶權限"><a class="header-anchor" href="#設定帳戶權限"></a>設定帳戶權限</h3>
+<p>登入 <a target="_blank" rel="noopener" href="https://aws.amazon.com/tw/console/">AWS 管理主控台</a>，進入 IAM 新增人員後，點擊「新增許可」將該人員加入 <code>AmazonS3FullAccess</code> 及 <code>CloudFrontFullAccess</code> 這2個權限，另外也需新增該人員的存取金鑰，用於下一步在終端機使用 AWS CLI 時，可輸入金鑰以確認身份。</p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-mcp%2Faws-iam-add-user-permissions.jpg?alt=media&amp;token=15f6fe29-7ab4-415e-aa28-5080fd195a91" alt="aws-iam-add-user-permissions"></p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-mcp%2Faws-iam-add-user-key-1.jpg?alt=media&amp;token=d92c1459-59f8-4d44-89dd-0098dedb27be" alt="aws-iam-add-user-key-1"></p>
+<p>記得在<u><strong>點擊「完成」前，保存「私密存取金鑰」</strong></u>，否則離開此畫面就不會再顯示。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-mcp%2Faws-iam-add-user-key-2.jpg?alt=media&amp;token=a2bd4195-d4b5-47c7-8936-e4edfc120b02" alt="aws-iam-add-user-key-2"></p>
+<p>如果真的沒有保存到，因為每個人員只能有2個存取金鑰，所以可以先刪除原本的存取金鑰，然後再點擊「建立存取金鑰」重新建立一個新的存取金鑰就好。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-mcp%2Faws-iam-add-user-key-3.jpg?alt=media&amp;token=b5f2f5f1-926c-4e2e-81f6-620c98fd9e03" alt="aws-iam-add-user-key-3"></p>
+<h3 id="安裝-AWS-CLI"><a class="header-anchor" href="#安裝-AWS-CLI"></a>安裝 AWS CLI</h3>
+<figure class="highlight dsconfig"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Windows安裝</span></span><br><span class="line"><span class="string">msiexec</span>.<span class="string">exe</span> /<span class="string">i</span> <span class="string">https</span>://<span class="string">awscli</span>.<span class="string">amazonaws</span>.<span class="string">com</span>/<span class="string">AWSCLIV2</span>.<span class="string">msi</span></span><br><span class="line"><span class="comment">#macOS安裝</span></span><br><span class="line"><span class="string">sudo</span> <span class="string">installer</span> -<span class="string">pkg</span> ./<span class="string">AWSCLIV2</span>.<span class="string">pkg</span> -<span class="string">target</span> /</span><br><span class="line"></span><br><span class="line"><span class="comment">#查看版本</span></span><br><span class="line"><span class="string">aws</span> <span class="built_in">--version</span></span><br><span class="line"><span class="string">aws-cli</span>/<span class="string">2</span>.<span class="string">31</span>.<span class="string">19</span> <span class="string">Python</span>/<span class="string">3</span>.<span class="string">13</span>.<span class="string">7</span> <span class="string">Windows</span>/<span class="string">11</span> <span class="string">exe</span>/<span class="string">AMD64</span></span><br><span class="line"><span class="string">aws-cli</span>/<span class="string">2</span>.<span class="string">31</span>.<span class="string">37</span> <span class="string">Python</span>/<span class="string">3</span>.<span class="string">13</span>.<span class="string">9</span> <span class="string">Darwin</span>/<span class="string">24</span>.<span class="string">6</span>.<span class="string">0</span> <span class="string">exe</span>/<span class="string">arm64</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#設定登入憑證</span></span><br><span class="line"><span class="string">aws</span> <span class="string">configure</span></span><br><span class="line"><span class="string">AWS</span> <span class="string">Access</span> <span class="string">Key</span> <span class="string">ID</span>: &lt;<span class="string">your_aws_access_key_id</span>&gt;</span><br><span class="line"><span class="string">AWS</span> <span class="string">Secret</span> <span class="string">Access</span> <span class="string">Key</span>: &lt;<span class="string">your_aws_secret_access_key</span>&gt;</span><br><span class="line"><span class="string">Default</span> <span class="string">region</span> <span class="string">name</span>: <span class="string">ap-northeast-1</span></span><br><span class="line"><span class="string">Default</span> <span class="string">output</span> <span class="string">format</span>: <span class="string">json</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#確認登入身份</span></span><br><span class="line"><span class="string">aws</span> <span class="string">sts</span> <span class="built_in">get-caller-identity</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;UserId&quot;</span>: <span class="string">&quot;&lt;show_your_user_id&gt;&quot;</span>,</span><br><span class="line">    <span class="string">&quot;Account&quot;</span>: <span class="string">&quot;&lt;show_your_account_id&gt;&quot;</span>,</span><br><span class="line">    <span class="string">&quot;Arn&quot;</span>: <span class="string">&quot;&lt;show_your_arn&gt;&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<div class="note info"><p>安裝文件可參考 <a target="_blank" rel="noopener" href="https://docs.aws.amazon.com/zh_tw/cli/latest/userguide/getting-started-install.html">AWS CLI</a>。</p>
+</div>
+<h1 id="MCP-Server"><a class="header-anchor" href="#MCP-Server"></a>MCP Server</h1>
+<p>本次將安裝並設定這些 MCP，Chrome DevTools 前端除錯、AWS Diagram MCP Server 架構視覺化，以及 AWS Documentation MCP Server 與 AWS CDK MCP Server 部署文件查詢。</p>
+<div class="note info"><p>MCP Server 詳細說明可參考 <a target="_blank" rel="noopener" href="https://kiro.dev/docs/mcp/">Kiro Doc - MCP</a>。<br>
+AWS 提供的 MCP 清單可參考 <a target="_blank" rel="noopener" href="https://awslabs.github.io/mcp/">AWS MCP Servers</a>。</p>
+</div>
+<h2 id="AWS-MCP"><a class="header-anchor" href="#AWS-MCP"></a>AWS MCP</h2>
+<h3 id="Documentation"><a class="header-anchor" href="#Documentation"></a>Documentation</h3>
+<div class="note primary"><p>AWS Documentation MCP Server<br>
+適用場景: 查 API 差異、部署步驟、AWS 最佳實踐。</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>功能項目</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Read Documentation</td>
+<td>取得 AWS 官方文件內容並轉換為 Markdown 格式。</td>
+</tr>
+<tr>
+<td>Search Documentation</td>
+<td>使用官方搜尋 API 搜尋 AWS 文件 (僅支援全球區域)。</td>
+</tr>
+<tr>
+<td>Recommendations</td>
+<td>根據 AWS 文件頁面，提供相關內容推薦 (僅支援全球區域)。</td>
+</tr>
+<tr>
+<td>Get Available Services List</td>
+<td>取得中國區可用的 AWS 服務清單 (僅限中國區域)。</td>
+</tr>
+</tbody>
+</table>
+<div class="note info"><p>Documentation 詳細說明可參考 <a target="_blank" rel="noopener" href="https://github.com/awslabs/mcp/tree/main/src/aws-documentation-mcp-server">AWS Documentation MCP Server</a>。</p>
+</div>
+<h3 id="Diagram"><a class="header-anchor" href="#Diagram"></a>Diagram</h3>
+<div class="note primary"><p>AWS Diagram MCP Server<br>
+適用場景: 產生雲端系統架構圖，協助架構審查與文件維護。</p>
+</div>
+<p>透過 Python 的 Diagrams 套件生成架構圖，支援的圖表類型包含:</p>
+<ul>
+<li>AWS 架構圖 (AWS Diagrams)</li>
+<li>序列圖 (Sequence Diagrams)</li>
+<li>流程圖 (Flow Diagrams)</li>
+<li>類別圖 (Class Diagrams)</li>
+</ul>
+<div class="note info"><p>AWS Diagram 詳細說明可參考 <a target="_blank" rel="noopener" href="https://github.com/awslabs/mcp/tree/main/src/aws-diagram-mcp-server">AWS Diagram MCP Server</a>。</p>
+</div>
+<h3 id="CDK"><a class="header-anchor" href="#CDK"></a>CDK</h3>
+<div class="note primary"><p>AWS CDK MCP Server<br>
+適用場景: 設計、審查與驗證 AWS 基礎架構、生成安全性檢查報告。</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>功能項目</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CDK General Guidance</td>
+<td>1.AWS Solutions Constructs與GenAI CDK的架構範本。<br>2.結構化的決策流程。<br>3.CDK Nag與Lambda Powertools提升安全自動化。</td>
+</tr>
+<tr>
+<td>CDK Nag Integration</td>
+<td>1.存取CDK Nag規則。<br>2.解釋CDK Nag規則。<br>3.檢查CDK程式碼中是否包含CDK Nag的忽略規則註解。</td>
+</tr>
+<tr>
+<td>AWS Solutions Constructs</td>
+<td>1.搜尋和探索AWS Solutions Constructs模式。<br>2.根據常見架構需求推薦最適合的模式。<br>3.取得AWS Solutions Constructs的官方文件。</td>
+</tr>
+<tr>
+<td>Generative AI CDK Constructs</td>
+<td>1.依名稱或類型搜尋GenAI CDK Constructs。<br>2.探索AI/ML的專用架構元件。<br>3.取得生成式AI應用程式的最佳實踐。</td>
+</tr>
+<tr>
+<td>Lambda Layer Documentation Provider</td>
+<td>1.查詢Lambda Layers的官方文件。<br>2.取得通用Lambda Layer與Python專用Layer的程式碼範例。<br>3.檢索目錄結構資訊和實作最佳實務。<br>4.與AWS Documentation MCP Server整合。</td>
+</tr>
+<tr>
+<td>Amazon Bedrock Agent Schema Generation</td>
+<td>1.建立Bedrock Agent且Action Group需呼叫Lambda可使用。<br>2.簡化Bedrock Agent schema的建立流程。<br>3.自動將程式碼檔案轉換為相容的OpenAPI規格。</td>
+</tr>
+</tbody>
+</table>
+<div class="note info"><p>CDK 詳細說明可參考 <a target="_blank" rel="noopener" href="https://github.com/awslabs/mcp/tree/main/src/cdk-mcp-server">AWS CDK MCP Server</a>。</p>
+</div>
+<h2 id="好用-MCP"><a class="header-anchor" href="#好用-MCP"></a>好用 MCP</h2>
+<h3 id="Chrome-DevTools"><a class="header-anchor" href="#Chrome-DevTools"></a>Chrome DevTools</h3>
+<div class="note primary"><p>Chrome DevTools MCP<br>
+適用場景: 前端錯誤偵測與效能診斷、自動擷取畫面、提出修正建議。</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>功能項目</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Get performance insights</td>
+<td>記錄瀏覽器執行軌跡，提供效能分析與優化建議。</td>
+</tr>
+<tr>
+<td>Advanced browser debugging</td>
+<td>分析網路請求、自動截圖、讀取Console錯誤記錄。</td>
+</tr>
+<tr>
+<td>Reliable automation</td>
+<td>內建Puppeteer控制Chrome執行常用操作，並等待操作結果完成。</td>
+</tr>
+</tbody>
+</table>
+<div class="note info"><p>Chrome DevTools 詳細說明可參考 <a target="_blank" rel="noopener" href="https://github.com/ChromeDevTools/chrome-devtools-mcp">Chrome DevTools MCP</a>。</p>
+</div>
+<h3 id="Context7"><a class="header-anchor" href="#Context7"></a>Context7</h3>
+<div class="note primary"><p>Context7<br>
+適用場景: 即時查詢最新官方文件。</p>
+</div>
+<p>Context7 MCP 會從官方來源取得最新或對應特定版本的文件與程式碼範例，並直接放入 LLM 的提示詞上下文中，讓模型基於正確版本回答，確保內容即時且避免引用過時資訊。</p>
+<ul>
+<li>提供符合最新版本的程式碼範例。</li>
+<li>使用真實存在且對應特定版本的 API 與方法。</li>
+<li>依最新或特定版本給出精準建議。</li>
+</ul>
+<div class="note info"><p>Context7 詳細說明可參考 <a target="_blank" rel="noopener" href="https://github.com/upstash/context7">Context7 MCP</a>。</p>
+</div>
+<h1 id="實作"><a class="header-anchor" href="#實作"></a>實作</h1>
+<h2 id="新增-MCP"><a class="header-anchor" href="#新增-MCP"></a>新增 MCP</h2>
+<p>點擊「Open MCP Config」。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-mcp%2Fkiro-mcp-servers-open-mcp-config.jpg?alt=media&amp;token=e813e7dc-800b-4a04-81cc-dd5c1df346ce" alt="kiro-mcp-servers-open-mcp-config"></p>
+<p>開啟 <code>mcp.json</code> 檔案，可以選擇設定在「User Config」或「Workspace Config」，我選擇設定在「Workspace Config」，因為可以將 VS Code 設定也提交至 GitHub 中。</p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-mcp%2Fkiro-mcp-servers-open-mcp-config-json-file.jpg?alt=media&amp;token=f34b4cdd-9939-47f8-a9ef-051dbb43d312" alt="kiro-mcp-servers-open-mcp-config-json-file"></p>
+<p>接著將以下 MCP 設定內容貼入 <code>mcpServers</code> 區塊中，然後儲存檔案。</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://awslabs.github.io/mcp/servers/aws-documentation-mcp-server">AWS Documentation MCP Server</a>。</li>
+<li><a target="_blank" rel="noopener" href="https://awslabs.github.io/mcp/servers/aws-diagram-mcp-server">AWS Diagram MCP Server</a>。</li>
+<li><a target="_blank" rel="noopener" href="https://awslabs.github.io/mcp/servers/cdk-mcp-server">AWS CDK MCP Server</a>。</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/ChromeDevTools/chrome-devtools-mcp">Chrome DevTools MCP</a>。</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/upstash/context7">Context7 MCP</a>。</li>
+</ul>
+<figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;mcpServers&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;awslabs.aws-documentation-mcp-server&quot;</span>: &#123;</span><br><span class="line">      <span class="string">&quot;disabled&quot;</span>: false,</span><br><span class="line">      <span class="string">&quot;command&quot;</span>: <span class="string">&quot;uvx&quot;</span>,</span><br><span class="line">      <span class="string">&quot;args&quot;</span>: [<span class="string">&quot;--from&quot;</span>, <span class="string">&quot;awslabs.aws-documentation-mcp-server@latest&quot;</span>, <span class="string">&quot;awslabs.aws-documentation-mcp-server&quot;</span>],</span><br><span class="line">      <span class="string">&quot;env&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;FASTMCP_LOG_LEVEL&quot;</span>: <span class="string">&quot;ERROR&quot;</span>,</span><br><span class="line">        <span class="string">&quot;AWS_DOCUMENTATION_PARTITION&quot;</span>: <span class="string">&quot;aws&quot;</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="string">&quot;autoApprove&quot;</span>: []</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">&quot;awslabs.aws-diagram-mcp-server&quot;</span>: &#123;</span><br><span class="line">      <span class="string">&quot;disabled&quot;</span>: false,      </span><br><span class="line">      <span class="string">&quot;command&quot;</span>: <span class="string">&quot;uvx&quot;</span>,</span><br><span class="line">      <span class="string">&quot;args&quot;</span>: [<span class="string">&quot;--from&quot;</span>, <span class="string">&quot;awslabs.aws-diagram-mcp-server&quot;</span>, <span class="string">&quot;awslabs.aws-diagram-mcp-server&quot;</span>],</span><br><span class="line">      <span class="string">&quot;env&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;FASTMCP_LOG_LEVEL&quot;</span>: <span class="string">&quot;ERROR&quot;</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="string">&quot;autoApprove&quot;</span>: [</span><br><span class="line">        <span class="string">&quot;list_icons&quot;</span>,</span><br><span class="line">        <span class="string">&quot;generate_diagram&quot;</span>,</span><br><span class="line">        <span class="string">&quot;get_diagram_examples&quot;</span></span><br><span class="line">      ]</span><br><span class="line">    &#125;,    </span><br><span class="line">    <span class="string">&quot;awslabs.cdk-mcp-server&quot;</span>: &#123;</span><br><span class="line">      <span class="string">&quot;disabled&quot;</span>: false,</span><br><span class="line">      <span class="string">&quot;command&quot;</span>: <span class="string">&quot;uvx&quot;</span>,</span><br><span class="line">      <span class="string">&quot;args&quot;</span>: [<span class="string">&quot;--from&quot;</span>, <span class="string">&quot;awslabs.cdk-mcp-server@latest&quot;</span>, <span class="string">&quot;awslabs.cdk-mcp-server&quot;</span>],</span><br><span class="line">      <span class="string">&quot;env&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;FASTMCP_LOG_LEVEL&quot;</span>: <span class="string">&quot;ERROR&quot;</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="string">&quot;autoApprove&quot;</span>: [</span><br><span class="line">        <span class="string">&quot;GetAwsSolutionsConstructPattern&quot;</span></span><br><span class="line">      ]</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">&quot;chrome-devtools&quot;</span>: &#123;</span><br><span class="line">      <span class="string">&quot;disabled&quot;</span>: false,</span><br><span class="line">      <span class="string">&quot;command&quot;</span>: <span class="string">&quot;npx&quot;</span>,</span><br><span class="line">      <span class="string">&quot;args&quot;</span>: [<span class="string">&quot;-y&quot;</span>, <span class="string">&quot;chrome-devtools-mcp@latest&quot;</span>]</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">&quot;context7&quot;</span>: &#123;</span><br><span class="line">      <span class="string">&quot;disabled&quot;</span>: false,</span><br><span class="line">      <span class="string">&quot;command&quot;</span>: <span class="string">&quot;npx&quot;</span>,</span><br><span class="line">      <span class="string">&quot;args&quot;</span>: [<span class="string">&quot;-y&quot;</span>, <span class="string">&quot;@upstash/context7-mcp&quot;</span>],</span><br><span class="line">      <span class="string">&quot;env&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;CONTEXT7_API_KEY&quot;</span>: <span class="string">&quot;&lt;your_context7_api_key&gt;&quot;</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;  </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>成功設定 MCP 則會出現綠色勾勾。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-mcp%2Fkiro-mcp-servers-open-mcp-config-success.jpg?alt=media&amp;token=79290fad-e061-4025-ad3c-0c786e5627aa" alt="kiro-mcp-servers-open-mcp-config-success"></p>
+<h2 id="除錯-MCP"><a class="header-anchor" href="#除錯-MCP"></a>除錯 MCP</h2>
+<p>如果 MCP 設定錯誤，則會出現紅色叉叉。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-mcp%2Fkiro-mcp-servers-debug-1.jpg?alt=media&amp;token=22286d93-8c37-446d-af1f-81bf9558c204" alt="kiro-mcp-servers-debug-1"></p>
+<p>「Output」視窗中會有錯誤訊息，舉例我這次的錯誤訊息是無法連接到 MCP Server。</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[warn] [awslabs.aws-documentation-mcp-<span class="keyword">server</span>] <span class="keyword">Log</span> <span class="keyword">from</span> MCP <span class="keyword">Server</span>: An executable named `awslabs.aws-documentation-mcp-<span class="keyword">server</span>.exe` <span class="keyword">is</span> <span class="keyword">not</span> provided <span class="keyword">by</span> package `awslabs-aws-documentation-mcp-<span class="keyword">server</span>`.</span><br><span class="line"></span><br><span class="line">[error] [awslabs.aws-documentation-mcp-<span class="keyword">server</span>] Error connecting <span class="keyword">to</span> MCP <span class="keyword">server</span>: MCP error <span class="number">-32000</span>: <span class="keyword">Connection</span> closed</span><br></pre></td></tr></table></figure>
+<p>此時可以先點擊「Retry」重新嘗試連接，如果還是無法連接，則可以點擊「Ask Kiro」，Kiro 會自動將錯誤訊息與對應提示詞丟到對話中，直接請 AI 協助分析並解決問題。(太猛👍)</p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-mcp%2Fkiro-mcp-servers-debug-2.jpg?alt=media&amp;token=0982d8ad-a454-4bbd-a5d9-8fc00f29df8c" alt="kiro-mcp-servers-debug-2"></p>
+<p>然後…問題就直接被解掉了(<s>心髒爆擊😂</s>)。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-mcp%2Fkiro-mcp-servers-debug-3.jpg?alt=media&amp;token=a3f2830c-d22b-4828-9ae3-163283af036f" alt="kiro-mcp-servers-debug-3"></p>
+<h2 id="使用-MCP"><a class="header-anchor" href="#使用-MCP"></a>使用 MCP</h2>
+<h3 id="前端除錯"><a class="header-anchor" href="#前端除錯"></a>前端除錯</h3>
+<div class="note info"><p>提示詞:<br>
+啟動前端，使用 Chrome DevTools 測試應用，找出錯誤並修正。</p>
+</div>
+<p>自動執行使用者操作，如點擊來重現 bug。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-mcp%2Fkiro-mcp-chrome-devtools-mcp-1.jpg?alt=media&amp;token=902b74d6-6292-43e4-9f6f-85c064b2e319" alt="kiro-mcp-chrome-devtools-mcp-1"></p>
+<p>自動開啟瀏覽器頁面。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-mcp%2Fkiro-mcp-chrome-devtools-mcp-2.jpg?alt=media&amp;token=15c5ca3f-6fa3-42f0-ac34-a5bc2461b945" alt="kiro-mcp-chrome-devtools-mcp-2"></p>
+<p>自動瀏覽器頁面內容截圖。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-mcp%2Fkiro-mcp-chrome-devtools-mcp-3.jpg?alt=media&amp;token=a7c509bc-73ab-4667-a1e7-320fa2d25703" alt="kiro-mcp-chrome-devtools-mcp-3"></p>
+<p>自動檢查 Console 與 Network 請求。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-mcp%2Fkiro-mcp-chrome-devtools-mcp-4.jpg?alt=media&amp;token=03949620-7877-4d93-85d7-bcff7a43f832" alt="kiro-mcp-chrome-devtools-mcp-4"></p>
+<p>最後…總結列出所有已修復的問題(<s>心髒爆擊again😂</s>)。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-mcp%2Fkiro-mcp-chrome-devtools-mcp-5.jpg?alt=media&amp;token=74457a74-b7b1-44ad-9351-0f8acd82d5d6" alt="kiro-mcp-chrome-devtools-mcp-5"></p>
+<h3 id="架構視覺化"><a class="header-anchor" href="#架構視覺化"></a>架構視覺化</h3>
+<p>我實際執行後發現在產生一般流程圖時，可以正常建立節點與流程關係，不過會沒有對應的圖示。目前還是生成 AWS 雲端架構圖效果較好。</p>
+<div class="note info"><p>提示詞:<br>
+Generate AWS service architecture diagrams.</p>
+</div>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-mcp%2Fkiro-mcp-aws-diagram-mcp.jpg?alt=media&amp;token=2ca1c626-5cc4-4cf0-8193-feedb87a1876" alt="kiro-mcp-aws-diagram-mcp"></p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-mcp%2Fkiro-mcp-aws-diagram-mcp-generic-icon.jpg?alt=media&amp;token=fe5b055f-50dd-4794-b91f-ee1cb2516aa4" alt="kiro-mcp-aws-diagram-mcp-generic-icon"></p>
+<h3 id="部署文件查詢"><a class="header-anchor" href="#部署文件查詢"></a>部署文件查詢</h3>
+<p>新增 Specs，並輸入部署至 AWS Cloud 的提示詞。</p>
+<div class="note info"><p>提示詞:<br>
+I have a web-based application need to deploy to AWS Cloud. Create a comprehensive AWS architecture with following high-level requirements:<br>
+1) Must use AWS serverless services, such as Cloudfront, S3, etc…<br>
+2) Follow each service’s configuration best practice.<br>
+3) Prefer to use Infrasturce as Code solution to deploy, such as AWS CDK.</p>
+</div>
+<div style="margin-top: -15px; margin-bottom: 15px;font-size: 14px; color: #555; text-align: center; font-style: normal; font-family: 'Arial', sans-serif;">
+(參考資料: <a target="_blank" rel="noopener" href="https://github.com/lyhsiang/AWS-Kiro-Workshops/blob/main/Spec-Coding/Kiro-Spec-Workshop.md" style="color: #555; text-decoration: none;">Kiro Spec Workshop: Hands-On Exercises)
+</a>
+</div>
+<p>跟著 Kiro 逐步引導完成 <code>requirements.md</code> 需求文件、<code>design.md</code> 技術設計文件，及 <code>tasks.md</code> 任務清單文件。詳細可參考 Specs「aws-cloud」所產生的文件內容: <a target="_blank" rel="noopener" href="https://stellacoding.notion.site/FillUp-29b9a83673d680e39a4bde9f4d54c4d3?pvs=74">Requirements &amp; Design &amp; Task list</a>。</p>
+<p>當 AI 需要查詢文件時，Kiro 會自動使用 AWS Documentation MCP Server 或 AWS CDK MCP Server 查詢相關 AWS 部署文件內容。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-mcp%2Fkiro-mcp-aws-cdk-mcp.jpg?alt=media&amp;token=267c62e2-8102-423f-a54d-70bfd817279a" alt="kiro-mcp-aws-cdk-mcp"></p>
+<p>重要提醒，若只是測試 AWS 部署，記得要把 AWS 資源清掉，以免漏財!</p>
+<div class="note info"><p>提示詞:<br>
+Create and execute cleanup procedures:<br>
+- Document all deployed AWS resources.<br>
+- Create cleanup scripts for complete resource removal.<br>
+- Verify all resources are properly deleted.<br>
+- Document any persistent data that needs backup.<br>
+- Create re-deployment procedures for future use.</p>
+</div>
+<div style="margin-top: -15px; margin-bottom: 15px;font-size: 14px; color: #555; text-align: center; font-style: normal; font-family: 'Arial', sans-serif;">
+(參考資料: <a target="_blank" rel="noopener" href="https://github.com/lyhsiang/AWS-Kiro-Workshops/blob/main/Spec-Coding/Kiro-Spec-Workshop.md" style="color: #555; text-decoration: none;">Kiro Spec Workshop: Hands-On Exercises)
+</a>
+</div>
+<h1 id="進階概念預告"><a class="header-anchor" href="#進階概念預告"></a>進階概念預告</h1>
+<p>完成 Kiro 的 MCP 實作之後，下一篇我們將一起解鎖 Agent Hooks。Agent Hooks 是一種事件驅動的自動化機制，能在開發過程中偵測特定事件並自動執行動作。</p>
+<div style="max-width:520px; margin:2em auto; padding:1.5em; border:1px solid #ddd; border-radius:10px; background:#fafafa; text-align:center; box-shadow:0 2px 6px rgba(0,0,0,0.08);">
+  <p style="font-size:1.1em; margin-bottom:1em;">👇 點此免費訂閱，不錯過任何更新</p>
+  <iframe src="https://stellacoding.substack.com/embed" 
+          width="480" height="320" 
+          style="border:1px solid #EEE; background:white; border-radius:6px;" 
+          frameborder="0" scrolling="no"></iframe>
+</div>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/blog/tags/AWS/" rel="tag"># AWS</a>
+              <a href="/blog/tags/Kiro/" rel="tag"># Kiro</a>
+              <a href="/blog/tags/MCP/" rel="tag"># MCP</a>
+              <a href="/blog/tags/IDE/" rel="tag"># IDE</a>
+              <a href="/blog/tags/Vibe-Coding/" rel="tag"># Vibe Coding</a>
+              <a href="/blog/tags/Spec-Coding/" rel="tag"># Spec Coding</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/blog/aws-kiro-build-fillup-using-specification-driven-development/" rel="prev" title="【AWS Kiro 實戰】用規格驅動開發喝水記錄應用">
+                  <i class="fa fa-angle-left"></i> 【AWS Kiro 實戰】用規格驅動開發喝水記錄應用
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">史戴拉寫扣</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/blog/js/comments.js"></script><script src="/blog/js/utils.js"></script><script src="/blog/js/motion.js"></script><script src="/blog/js/sidebar.js"></script><script src="/blog/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js","integrity":"sha256-stuqcu2FrjYCXDOytWFA5SoUE/r3nkp6gTglzNSlavU="}}</script>
+  <script src="/blog/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"ams","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/blog/js/third-party/math/mathjax.js"></script>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"estellacoding","repo":"blog","client_id":"Ov23liBnWPuObZGktbAv","client_secret":"9ed6e261cd75af620744058daafa56b80a53ffa8","admin_user":"estellacoding","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":null,"labels":"gitalk","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"6f5e48bc5fc8fa5abbcca15645abde81"}</script>
+<script src="/blog/js/third-party/comments/gitalk.js"></script>
+
+</body>
+</html>
