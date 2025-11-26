@@ -1,3 +1,4 @@
+https://estellacoding.github.io/blog/aws-kiro-build-fillup-using-specification-driven-development-hooks/
 https://estellacoding.github.io/blog/aws-kiro-build-fillup-using-specification-driven-development-mcp/
 https://estellacoding.github.io/blog/github-copilot-vscode-ai-mermaid-uml/
 https://estellacoding.github.io/blog/aws-kiro-build-fillup-using-specification-driven-development/
@@ -201,6 +202,8 @@ https://estellacoding.github.io/blog/tags/Oracle-APEX/
 https://estellacoding.github.io/blog/tags/LiveLabs/
 https://estellacoding.github.io/blog/tags/AI-Assisted-Development/
 https://estellacoding.github.io/blog/tags/Project-Management/
+https://estellacoding.github.io/blog/tags/Hooks/
+https://estellacoding.github.io/blog/tags/Agent/
 https://estellacoding.github.io/blog/categories/AutoML/
 https://estellacoding.github.io/blog/categories/Apps-Script/
 https://estellacoding.github.io/blog/categories/AWS/

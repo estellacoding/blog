@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b">
+  <link rel="mask-icon" href="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstella-coding-logo-black-word-removebg.png?alt=media&token=c666151f-86ea-4033-abc1-d06be5041e2b" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"estellacoding.github.io","root":"/blog/","images":"/blog/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/blog/js/config.js"></script>
+
+    <meta name="description" content="上週 這篇 一同走過 Kiro 的 MCP 實作流程，理解 Kiro 如何透過 MCP 將 AI 連接到其他資料，本篇將延伸這個概念，帶你進一步探索 Kiro 的另一個強大能力 Agent Hooks。 什麼是 Hooks? Agent Hooks 是一種能在特定事件發生時自動觸發 AI 代理行為的自動化工具。當 IDE 中發生特定事件，如儲存、建立、刪除檔案時，Hooks 會自動執行預先定義的流">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【AWS Kiro 進階】實作 Hooks 自動化開發流程">
+<meta property="og:url" content="https://estellacoding.github.io/blog/aws-kiro-build-fillup-using-specification-driven-development-hooks/index.html">
+<meta property="og:site_name" content="史戴拉寫扣">
+<meta property="og:description" content="上週 這篇 一同走過 Kiro 的 MCP 實作流程，理解 Kiro 如何透過 MCP 將 AI 連接到其他資料，本篇將延伸這個概念，帶你進一步探索 Kiro 的另一個強大能力 Agent Hooks。 什麼是 Hooks? Agent Hooks 是一種能在特定事件發生時自動觸發 AI 代理行為的自動化工具。當 IDE 中發生特定事件，如儲存、建立、刪除檔案時，Hooks 會自動執行預先定義的流">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-hooks%2Fkiro-hooks-add-hook-open-kiro-hook-ui.jpg?alt=media&amp;token=4a0ce744-5bdb-40bb-8c92-2c8635a7beaa">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-hooks%2Fkiro-hooks-add-hook-create-an-agent-hook.jpg?alt=media&amp;token=362f2240-20b8-481d-b0b7-8daabed7a88c">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-hooks%2Fkiro-hooks-add-hook-hook-enabled.jpg?alt=media&amp;token=445e9713-8f58-4e1a-8a35-0da28c937cc0">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-hooks%2Fkiro-hooks-add-hook-hook-created.jpg?alt=media&amp;token=7bf7f70f-7723-4e00-a54e-6645a810015f">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-hooks%2Fkiro-hook-execute-hook-1.jpg?alt=media&amp;token=654dced1-8461-416f-a583-d00d942c921b">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-hooks%2Fkiro-hook-execute-hook-2.jpg?alt=media&amp;token=f86523f0-b9d2-4707-89ef-a0a2a0aba0e7">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-hooks%2Fkiro-hook-execute-hook-3.jpg?alt=media&amp;token=2a17f608-784f-4038-ae11-43fa9b86d0c9">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-hooks%2Fkiro-hooks-traditional-chinese-translation-sync.png?alt=media&amp;token=55ac1832-fd91-4466-a739-c36bfa7a3ca2">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-hooks%2Fkiro-hooks-execute-traditional-chinese-translation-sync-1.png?alt=media&amp;token=70d509a0-9bbf-47e4-b576-43485cd0e896">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-hooks%2Fkiro-hooks-execute-traditional-chinese-translation-sync-2.png?alt=media&amp;token=59534292-034d-4c91-8585-6269f8a4e6a8">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-hooks%2Fkiro-hooks-execute-traditional-chinese-translation-sync-3.png?alt=media&amp;token=f0acd403-89fc-4fff-ae1a-79f27838ebbf">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-hooks%2Fkiro-hooks-execute-traditional-chinese-translation-sync-4.png?alt=media&amp;token=1fdaa236-e460-4d5a-8d14-2ee8feb5119d">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-hooks%2Fkiro-hooks-cdk-architecture-diagram-generator-event-file-saved.jpg?alt=media&amp;token=e3879f13-8334-4e03-8264-20f4423d9829">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-hooks%2Fkiro-hooks-cdk-architecture-diagram-generator-execute-hook-4.jpg?alt=media&amp;token=84cbc015-e70a-4cd2-9831-489fd97da6a8">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-hooks%2Fkiro-hooks-cdk-architecture-diagram-generator-execute-hook-1.jpg?alt=media&amp;token=010fbd27-7350-462e-95c2-ace81f1ab980">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-hooks%2Fkiro-hooks-cdk-architecture-diagram-generator-execute-hook-2.jpg?alt=media&amp;token=a0bfcac7-554f-4c43-a6f0-91abc93f7178">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-hooks%2Fkiro-hooks-cdk-architecture-diagram-generator-execute-hook-3.jpg?alt=media&amp;token=7fd03592-1e11-4e64-8a15-9da60dc1c00e">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-hooks%2Fkiro-hooks-cdk-architecture-diagram-generator-event-manual-1.jpg?alt=media&amp;token=aeddbe3a-9553-4d9b-bc67-698582882558">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-hooks%2Fkiro-hooks-cdk-architecture-diagram-generator-event-manual-2.jpg?alt=media&amp;token=dba3d5bb-4df5-4f74-98c7-5865e9d54e51">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-hooks%2Fkiro-hooks-cdk-architecture-diagram-generator-event-manual-3.jpg?alt=media&amp;token=6f63b885-a53e-43f5-82ad-d8357fd2192a">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-hooks%2Fkiro-hooks-cdk-architecture-diagram-generator-event-manual-final-diagram.jpg?alt=media&amp;token=f4d43d32-2e48-4bf4-9b70-87584d0dad91">
+<meta property="article:published_time" content="2025-11-26T07:00:00.000Z">
+<meta property="article:modified_time" content="2025-11-26T07:00:00.000Z">
+<meta property="article:author" content="史戴拉">
+<meta property="article:tag" content="AWS">
+<meta property="article:tag" content="Kiro">
+<meta property="article:tag" content="IDE">
+<meta property="article:tag" content="Vibe Coding">
+<meta property="article:tag" content="Spec Coding">
+<meta property="article:tag" content="Hooks">
+<meta property="article:tag" content="Agent">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-hooks%2Fkiro-hooks-add-hook-open-kiro-hook-ui.jpg?alt=media&amp;token=4a0ce744-5bdb-40bb-8c92-2c8635a7beaa">
+
+
+<link rel="canonical" href="https://estellacoding.github.io/blog/aws-kiro-build-fillup-using-specification-driven-development-hooks/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://estellacoding.github.io/blog/aws-kiro-build-fillup-using-specification-driven-development-hooks/","path":"aws-kiro-build-fillup-using-specification-driven-development-hooks/","title":"【AWS Kiro 進階】實作 Hooks 自動化開發流程"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>【AWS Kiro 進階】實作 Hooks 自動化開發流程 | 史戴拉寫扣</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EG0CKC3093"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-EG0CKC3093","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/blog/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/blog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/blog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">史戴拉寫扣</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Hands-on fuels my soul!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/blog/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/blog/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/blog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E7%BD%AE%E6%BA%96%E5%82%99"><span class="nav-number">1.</span> <span class="nav-text">前置準備</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E7%94%A2%E7%94%9F%E5%99%A8"><span class="nav-number">2.</span> <span class="nav-text">文件產生器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B0%E5%A2%9E-Hooks"><span class="nav-number">2.1.</span> <span class="nav-text">新增 Hooks</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A8%AD%E5%AE%9A%E5%A0%B4%E6%99%AF"><span class="nav-number">2.2.</span> <span class="nav-text">設定場景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%A6%E4%BD%9C%E6%88%90%E6%9E%9C"><span class="nav-number">2.3.</span> <span class="nav-text">實作成果</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%90%8C%E6%AD%A5%E7%BF%BB%E8%AD%AF"><span class="nav-number">3.</span> <span class="nav-text">同步翻譯</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B0%E5%A2%9E-Hooks-v2"><span class="nav-number">3.1.</span> <span class="nav-text">新增 Hooks</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A8%AD%E5%AE%9A%E5%A0%B4%E6%99%AF-v2"><span class="nav-number">3.2.</span> <span class="nav-text">設定場景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%A6%E4%BD%9C%E6%88%90%E6%9E%9C-v2"><span class="nav-number">3.3.</span> <span class="nav-text">實作成果</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#AWS%E6%9E%B6%E6%A7%8B%E5%9C%96"><span class="nav-number">4.</span> <span class="nav-text">AWS架構圖</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B0%E5%A2%9E-Hooks-v3"><span class="nav-number">4.1.</span> <span class="nav-text">新增 Hooks</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A8%AD%E5%AE%9A%E5%A0%B4%E6%99%AF-v3"><span class="nav-number">4.2.</span> <span class="nav-text">設定場景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%A6%E4%BD%9C%E6%88%90%E6%9E%9C-v3"><span class="nav-number">4.3.</span> <span class="nav-text">實作成果</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B6%93%E9%A9%97%E5%88%86%E4%BA%AB"><span class="nav-number">5.</span> <span class="nav-text">經驗分享</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B8%BD%E7%B5%90"><span class="nav-number">6.</span> <span class="nav-text">總結</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#AWS-Kiro-%E7%B3%BB%E5%88%97%E6%96%87%E7%AB%A0"><span class="nav-number">7.</span> <span class="nav-text">AWS Kiro 系列文章</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="史戴拉"
+      src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+  <p class="site-author-name" itemprop="name">史戴拉</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/blog/archives/">
+          <span class="site-state-item-count">64</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/blog/categories/">
+        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/blog/tags/">
+        <span class="site-state-item-count">136</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/estellacoding" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;estellacoding" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://open.substack.com/pub/stellacoding" title="Substack → https:&#x2F;&#x2F;open.substack.com&#x2F;pub&#x2F;stellacoding" rel="noopener me" target="_blank"><i class="fas fa-newspaper fa-fw"></i>Substack</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+    
+    
+      
+      
+    
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://estellacoding.github.io/blog/aws-kiro-build-fillup-using-specification-driven-development-hooks/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/hexo%2Fstellacoding_logo_v1.png?alt=media&token=ae90d59c-5e7c-4d67-86a7-b87035725b96">
+      <meta itemprop="name" content="史戴拉">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="史戴拉寫扣">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="【AWS Kiro 進階】實作 Hooks 自動化開發流程 | 史戴拉寫扣">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【AWS Kiro 進階】實作 Hooks 自動化開發流程
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2025-11-26 15:00:00" itemprop="dateCreated datePublished" datetime="2025-11-26T15:00:00+08:00">2025-11-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/Kiro/" itemprop="url" rel="index"><span itemprop="name">Kiro</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>上週 <a href="https://estellacoding.github.io/blog/aws-kiro-build-fillup-using-specification-driven-development-mcp/">這篇</a> 一同走過 Kiro 的 MCP 實作流程，理解 Kiro 如何透過 MCP 將 AI 連接到其他資料，本篇將延伸這個概念，帶你進一步探索 Kiro 的另一個強大能力 Agent Hooks。</p>
+<div class="note info"><p><strong>什麼是 Hooks?</strong><br>
+Agent Hooks 是一種能在特定事件發生時自動觸發 AI 代理行為的自動化工具。當 IDE 中發生特定事件，如儲存、建立、刪除檔案時，Hooks 會自動執行預先定義的流程，從而簡化開發工作流程。<br>
+- <a target="_blank" rel="noopener" href="https://kiro.dev/docs/hooks/">Kiro Doc - Hooks</a></p>
+</div>
+<span id="more"></span>
+<style>
+.callout {
+  border: 1px solid #eee;
+  padding: 1em 1em 1em 1em; /* 上右下左 */
+  background: #eef7fa;
+  margin: 1em 0; /* 上下/右左 */
+  border-radius: 8px;
+  line-height: 1.9;
+}
+.callout-icon {
+  font-weight: bold;
+  margin-right: 8px;
+}
+.callout ul {
+  margin: 0.39em 0 0.39em 1em;
+  padding: 0;
+}
+.callout li {
+  margin-bottom: 0.6em;
+}
+</style>
+<h1 id="前置準備"><a class="header-anchor" href="#前置準備"></a>前置準備</h1>
+<ol>
+<li>安裝 <a target="_blank" rel="noopener" href="https://kiro.dev/downloads">Kiro IDE</a>。</li>
+<li>在 Kiro 中打開項目，如<code>fillup-web</code>。</li>
+</ol>
+<h1 id="文件產生器"><a class="header-anchor" href="#文件產生器"></a>文件產生器</h1>
+<p>當更新程式碼時，自動從目前檔案中擷取結構化資訊，如函式、類別、參數、回傳值，再依照專案規範自動補齊說明、生成使用範例，更新至 <code>README.md</code>，讓文件維持一致性與最新狀態。</p>
+<h2 id="新增-Hooks"><a class="header-anchor" href="#新增-Hooks"></a>新增 Hooks</h2>
+<p>點擊「Open Kiro Hook UI」。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-hooks%2Fkiro-hooks-add-hook-open-kiro-hook-ui.jpg?alt=media&amp;token=4a0ce744-5bdb-40bb-8c92-2c8635a7beaa" alt="kiro-hooks-add-hook-open-kiro-hook-ui"></p>
+<p>輸入提示詞後，Kiro 自動生成 Hook 設定內容。<br>
+<img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-hooks%2Fkiro-hooks-add-hook-create-an-agent-hook.jpg?alt=media&amp;token=362f2240-20b8-481d-b0b7-8daabed7a88c" alt="kiro-hooks-add-hook-create-an-agent-hook"></p>
+<div class="note info"><div style="line-height:2; margin:0; padding:0;">
+文件產生器提示詞:<br>
+Generate comprehensive documentation for the current file:<br>
+1. Extract function and class signatures<br>
+2. Document parameters and return types<br>
+3. Provide usage examples based on existing code<br>
+4. Update the README.md with any new exports<br>
+5. Ensure documentation follows project standards
+</div></div>
+<div style="margin-top: -15px; margin-bottom: 15px;font-size: 14px; color: #555; text-align: center; font-style: normal; font-family: 'Arial', sans-serif;">
+(參考資料: <a target="_blank" rel="noopener" href="https://kiro.dev/docs/hooks/examples/" style="color: #555; text-decoration: none;">Kiro Doc - Hook examples)
+</a>
+</div>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-hooks%2Fkiro-hooks-add-hook-hook-enabled.jpg?alt=media&amp;token=445e9713-8f58-4e1a-8a35-0da28c937cc0" alt="kiro-hooks-add-hook-hook-created"></p>
+<h2 id="設定場景"><a class="header-anchor" href="#設定場景"></a>設定場景</h2>
+<p>偵測前端 TypeScript/TS/TSX 及後端 Python 檔案的變更後更新 <code>README.md</code>。</p>
+<ol>
+<li>Event: File Saved</li>
+<li>File path(s) to watch: <code>frontend/src/**/*.ts</code>、<code>frontend/src/**/*.tsx</code>、<code>backend/app/**/*.py</code></li>
+</ol>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-hooks%2Fkiro-hooks-add-hook-hook-created.jpg?alt=media&amp;token=7bf7f70f-7723-4e00-a54e-6645a810015f" alt="kiro-hooks-add-hook-hook-enabled"></p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- Instructions for Kiro agent --&gt;</span><br><span class="line">Generate comprehensive documentation for the edited file:</span><br><span class="line"></span><br><span class="line"><span class="bullet">1.</span> <span class="strong">**Extract and Document Signatures**</span>:</span><br><span class="line"><span class="bullet">   -</span> Identify all exported functions, classes, interfaces, and types</span><br><span class="line"><span class="bullet">   -</span> Document each with clear descriptions of purpose and behavior</span><br><span class="line"><span class="bullet">   -</span> Include parameter types, names, and descriptions</span><br><span class="line"><span class="bullet">   -</span> Document return types and what they represent</span><br><span class="line"><span class="bullet">   -</span> Note any thrown errors or edge cases</span><br><span class="line"></span><br><span class="line"><span class="bullet">2.</span> <span class="strong">**Provide Usage Examples**</span>:</span><br><span class="line"><span class="bullet">   -</span> Create practical usage examples based on existing code patterns</span><br><span class="line"><span class="bullet">   -</span> Show common use cases and integration patterns</span><br><span class="line"><span class="bullet">   -</span> Include examples of error handling where applicable</span><br><span class="line"><span class="bullet">   -</span> Reference related components or services</span><br><span class="line"></span><br><span class="line"><span class="bullet">3.</span> <span class="strong">**Update README.md**</span>:</span><br><span class="line"><span class="bullet">   -</span> Add or update entries for any new exports</span><br><span class="line"><span class="bullet">   -</span> Maintain consistent formatting with existing documentation</span><br><span class="line"><span class="bullet">   -</span> Include links to related documentation</span><br><span class="line"><span class="bullet">   -</span> Update API reference sections if applicable</span><br><span class="line"></span><br><span class="line"><span class="bullet">4.</span> <span class="strong">**Follow Project Standards**</span>:</span><br><span class="line"><span class="bullet">   -</span> Use TypeScript best practices for frontend files</span><br><span class="line"><span class="bullet">   -</span> Follow Python/FastAPI conventions for backend files</span><br><span class="line"><span class="bullet">   -</span> Maintain consistency with existing documentation style</span><br><span class="line"><span class="bullet">   -</span> Include JSDoc/docstring comments in the source code</span><br><span class="line"><span class="bullet">   -</span> Ensure documentation is clear, concise, and actionable</span><br><span class="line"></span><br><span class="line"><span class="bullet">5.</span> <span class="strong">**Documentation Format**</span>:</span><br><span class="line"><span class="bullet">   -</span> Add inline comments for complex logic</span><br><span class="line"><span class="bullet">   -</span> Use proper JSDoc format for TypeScript/React components</span><br><span class="line"><span class="bullet">   -</span> Use Python docstrings (Google or NumPy style) for backend code</span><br><span class="line"><span class="bullet">   -</span> Include type information and examples in comments</span><br><span class="line"><span class="bullet">   -</span> Link to relevant external documentation when appropriate</span><br><span class="line"></span><br><span class="line">Please generate the documentation and update both the source file with inline documentation and the README.md with any new exports or significant changes.</span><br></pre></td></tr></table></figure>
+<h2 id="實作成果"><a class="header-anchor" href="#實作成果"></a>實作成果</h2>
+<p>我以下是執行第2個 Spec 的第1個任務，可參考 Kiro 為第2個 Specs「goals-and-settings-prompt」所產生的文件內容: <a target="_blank" rel="noopener" href="https://stellacoding.notion.site/FillUp-29b9a83673d680e39a4bde9f4d54c4d3?pvs=74">Requirements &amp; Design &amp; Task list</a>。</p>
+<p>當 Kiro 偵測到檔案有變更時，就會自動排程並更新 <code>README.md</code> 文件。</p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-hooks%2Fkiro-hook-execute-hook-1.jpg?alt=media&amp;token=654dced1-8461-416f-a583-d00d942c921b" alt="kiro-hook-execute-hook-1"></p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-hooks%2Fkiro-hook-execute-hook-2.jpg?alt=media&amp;token=f86523f0-b9d2-4707-89ef-a0a2a0aba0e7" alt="kiro-hook-execute-hook-2"></p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-hooks%2Fkiro-hook-execute-hook-3.jpg?alt=media&amp;token=2a17f608-784f-4038-ae11-43fa9b86d0c9" alt="kiro-hook-execute-hook-3"></p>
+<h1 id="同步翻譯"><a class="header-anchor" href="#同步翻譯"></a>同步翻譯</h1>
+<p>當繁體中文文檔更新時，系統會自動比對新增或修改的字串，並檢查所有其他語系檔案是否一致。對於新增的字串會自動加入至其他語系的檔案中並自動翻譯，而對於修改的字串則會在其他語系的檔案中自動翻譯，同時產生一份所有語系的更新摘要。</p>
+<h2 id="新增-Hooks-v2"><a class="header-anchor" href="#新增-Hooks-v2"></a>新增 Hooks</h2>
+<div class="note info"><div style="line-height:2; margin:0; padding:0;">
+同步翻譯提示詞:<br>
+When an Traditional Chinese locale file is updated:<br>
+1. Identify which string keys were added or modified<br>
+2. Check all other language files for these keys<br>
+3. For missing keys, automatically translate from the source language to the target languages<br>
+4. For modified keys, update the translation to match the modified source text<br>
+5. Generate a summary of changes across all languages
+</div></div>
+<h2 id="設定場景-v2"><a class="header-anchor" href="#設定場景-v2"></a>設定場景</h2>
+<p>偵測 <code>/zh-TW/translation.json</code> 檔案的變更，自動更新所有其他語系文件。(雖然提示詞及指令有生成摘要，雖然實際執行後發現不太會主動生成摘要，不過瑕不掩瑜🤭。)</p>
+<ol>
+<li>Event: File Saved</li>
+<li>File path(s) to watch: <code>frontend/src/locales/zh-TW/translation.json</code></li>
+</ol>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-hooks%2Fkiro-hooks-traditional-chinese-translation-sync.png?alt=media&amp;token=55ac1832-fd91-4466-a739-c36bfa7a3ca2" alt="kiro-hooks-traditional-chinese-translation-sync"></p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;!<span class="comment">-- Instructions for Kiro agent --&gt;</span></span><br><span class="line">A Traditional Chinese locale <span class="built_in">file</span> has been updated. Please perform <span class="keyword">the</span> following tasks:</span><br><span class="line"></span><br><span class="line"><span class="number">1.</span> **Identify Changes**: Compare <span class="keyword">the</span> updated zh-TW/translation.json <span class="keyword">with</span> its previous <span class="built_in">version</span> <span class="built_in">to</span> identify which <span class="keyword">string</span> <span class="built_in">keys</span> were added <span class="keyword">or</span> modified.</span><br><span class="line"></span><br><span class="line"><span class="number">2.</span> **Check Other Locale Files**: Examine all other language <span class="built_in">files</span> <span class="keyword">in</span> frontend/src/locales/ (en/translation.json, zh-CN/translation.json) <span class="keyword">for</span> these <span class="built_in">keys</span>.</span><br><span class="line"></span><br><span class="line"><span class="number">3.</span> **Translate Missing Keys**: For <span class="keyword">any</span> <span class="built_in">keys</span> that exist <span class="keyword">in</span> zh-TW but are missing <span class="keyword">in</span> other language <span class="built_in">files</span>:</span><br><span class="line">   - Translate <span class="built_in">from</span> Traditional Chinese <span class="built_in">to</span> <span class="keyword">the</span> target language (English <span class="keyword">for</span> en/, Simplified Chinese <span class="keyword">for</span> zh-CN/)</span><br><span class="line">   - Add <span class="keyword">the</span> translated <span class="built_in">keys</span> <span class="built_in">to</span> <span class="keyword">the</span> respective <span class="built_in">files</span></span><br><span class="line">   - Maintain <span class="keyword">the</span> same JSON structure <span class="keyword">and</span> formatting</span><br><span class="line"></span><br><span class="line"><span class="number">4.</span> **Update Modified Keys**: For <span class="built_in">keys</span> that were modified <span class="keyword">in</span> zh-TW <span class="keyword">and</span> already exist <span class="keyword">in</span> other languages:</span><br><span class="line">   - Update <span class="keyword">the</span> translations <span class="keyword">in</span> other language <span class="built_in">files</span> <span class="built_in">to</span> match <span class="keyword">the</span> modified source <span class="keyword">text</span></span><br><span class="line">   - Ensure semantic consistency across all translations</span><br><span class="line"></span><br><span class="line"><span class="number">5.</span> **Generate Summary**: Create <span class="keyword">a</span> comprehensive summary including:</span><br><span class="line">   - List <span class="keyword">of</span> added <span class="built_in">keys</span> <span class="keyword">with</span> translations <span class="keyword">for</span> <span class="keyword">each</span> language</span><br><span class="line">   - List <span class="keyword">of</span> modified <span class="built_in">keys</span> <span class="keyword">with</span> <span class="keyword">before</span>/<span class="keyword">after</span> translations</span><br><span class="line">   - Total count <span class="keyword">of</span> changes per language <span class="built_in">file</span></span><br><span class="line">   - Any <span class="built_in">keys</span> that might need manual review due <span class="built_in">to</span> context <span class="keyword">or</span> complexity</span><br><span class="line"></span><br><span class="line">Please ensure all JSON <span class="built_in">files</span> remain valid <span class="keyword">and</span> properly formatted <span class="keyword">after</span> updates.</span><br></pre></td></tr></table></figure>
+<h2 id="實作成果-v2"><a class="header-anchor" href="#實作成果-v2"></a>實作成果</h2>
+<p>我更改 <code>zh-TW/translation.json</code> 檔案中的「操作已被使用者取消。」字串後，Kiro 會排程 Hook「Traditional Chinese Translation Sync」，然後自動更新其他語系檔案。</p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-hooks%2Fkiro-hooks-execute-traditional-chinese-translation-sync-1.png?alt=media&amp;token=70d509a0-9bbf-47e4-b576-43485cd0e896" alt="kiro-hooks-execute-traditional-chinese-translation-sync-1"></p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-hooks%2Fkiro-hooks-execute-traditional-chinese-translation-sync-2.png?alt=media&amp;token=59534292-034d-4c91-8585-6269f8a4e6a8" alt="kiro-hooks-execute-traditional-chinese-translation-sync-2"></p>
+<p>我在 <code>zh-TW/translation.json</code> 檔案中新增字串後，Kiro 會排程 Hook「Traditional Chinese Translation Sync」，然後自動更新其他語系檔案。</p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-hooks%2Fkiro-hooks-execute-traditional-chinese-translation-sync-3.png?alt=media&amp;token=f0acd403-89fc-4fff-ae1a-79f27838ebbf" alt="kiro-hooks-execute-traditional-chinese-translation-sync-3"></p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-hooks%2Fkiro-hooks-execute-traditional-chinese-translation-sync-4.png?alt=media&amp;token=1fdaa236-e460-4d5a-8d14-2ee8feb5119d" alt="kiro-hooks-execute-traditional-chinese-translation-sync-4"></p>
+<h1 id="AWS架構圖"><a class="header-anchor" href="#AWS架構圖"></a>AWS架構圖</h1>
+<p>監控 CDK 文件的變動，並使用 AWS Diagram MCP Server 工具，自動生成對應的 AWS 雲端架構圖。</p>
+<div class="callout">
+  <span class="callout-icon">💡</span><strong>什麼是 AWS CDK?</strong>
+  <br>
+  AWS 雲端開發套件(AWS Cloud Development Kit, AWS CDK)是一種基礎架構即程式碼(Infrastructure as Code, IaC)的軟體開發框架，可使用 TypeScript, JavaScript, Python, Java, C#/.Net, Go 等程式語言定義 AWS 雲端基礎架構，CDK 會將程式碼轉換為 CloudFormation 模板，並自動佈建 AWS 雲端資源。
+  <br>
+  AWS CDK 包含兩個主要部分:<br>
+  <ul>
+    <li>AWS CDK Construct Library: 預先編寫的模組化和可重複使用的程式碼，稱為建構(Construct)，可以使用、修改和整合來快速開發雲端基礎架構。</li>
+    <li>AWS CDK Toolkit: 管理與 CDK 應用程式互動的工具。</li>
+  </ul>
+  AWS CDK 詳細說明可參考 <a target="_blank" rel="noopener" href="https://docs.aws.amazon.com/zh_tw/cdk/v2/guide/home.html">AWS 官方文件 - AWS CDK</a>
+</div>
+<h2 id="新增-Hooks-v3"><a class="header-anchor" href="#新增-Hooks-v3"></a>新增 Hooks</h2>
+<div class="note info"><div style="line-height:2; margin:0; padding:0;">
+AWS架構圖提示詞:<br>
+1) Analyze the modified CDK files and generate or update AWS service architecture diagrams using the Python diagrams package DSL.<br>
+2) Parse the CDK code to identify AWS services, their relationships, and data flow.<br>
+3) If the previous diagram not exist, create a visual representation showing the infrastructure components, connections, and dependencies. Include proper grouping for VPCs, subnets, and logical service boundaries.<br>
+4) Delete the previous diagram before creating a new one. Output the Python diagrams code that can be executed to generate the architecture diagram.<br>
+</div></div>
+<div style="margin-top: -15px; margin-bottom: 15px;font-size: 14px; color: #555; text-align: center; font-style: normal; font-family: 'Arial', sans-serif;">
+(參考資料: <a target="_blank" rel="noopener" href="https://github.com/lyhsiang/AWS-Kiro-Workshops/blob/main/Spec-Coding/Kiro-Spec-Workshop.md" style="color: #555; text-decoration: none;">Kiro Spec Workshop: Hands-On Exercises)
+</a>
+</div>
+<h2 id="設定場景-v3"><a class="header-anchor" href="#設定場景-v3"></a>設定場景</h2>
+<p>偵測與 AWS 相關的基礎架構檔案的變更，自動使用 AWS Diagram MCP Server，產生或更新 AWS 架構圖。我的專案的基礎架構檔案是統一放在 <code>infra</code> 目錄下，因此設定監控 <code>**/infra/**/*.ts</code> 及 <code>**/infra/**/*.py</code> 檔案。</p>
+<ol>
+<li>Event: File Saved</li>
+<li>File path(s) to watch: <code>**/infra/**/*.ts</code>、<code>**/infra/**/*.py</code></li>
+</ol>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-hooks%2Fkiro-hooks-cdk-architecture-diagram-generator-event-file-saved.jpg?alt=media&amp;token=e3879f13-8334-4e03-8264-20f4423d9829" alt="kiro-hooks-cdk-architecture-diagram-generator-event-file-saved"></p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&lt;!<span class="comment">-- Instructions for Kiro agent --&gt;</span></span><br><span class="line">A CDK infrastructure <span class="built_in">file</span> has been modified. Please:</span><br><span class="line"></span><br><span class="line"><span class="number">1.</span> Analyze <span class="keyword">the</span> modified CDK <span class="built_in">file</span> <span class="built_in">to</span> identify:</span><br><span class="line">   - AWS services being used (EC2, Lambda, S3, RDS, VPC, etc.)</span><br><span class="line">   - Service relationships <span class="keyword">and</span> connections</span><br><span class="line">   - Data flow between components</span><br><span class="line">   - Network architecture (VPCs, subnets, security groups)</span><br><span class="line">   - Logical groupings <span class="keyword">and</span> boundaries</span><br><span class="line"></span><br><span class="line"><span class="number">2.</span> Check <span class="keyword">if</span> <span class="keyword">a</span> previous architecture diagram exists <span class="keyword">in</span> <span class="keyword">the</span> project (look <span class="keyword">for</span> .py <span class="built_in">files</span> <span class="keyword">using</span> <span class="keyword">the</span> diagrams package <span class="keyword">or</span> generated diagram images)</span><br><span class="line"></span><br><span class="line"><span class="number">3.</span> If <span class="keyword">a</span> previous diagram exists, <span class="built_in">delete</span> <span class="keyword">it</span> <span class="keyword">before</span> creating <span class="keyword">the</span> <span class="built_in">new</span> <span class="literal">one</span></span><br><span class="line"></span><br><span class="line"><span class="number">4.</span> Generate Python code <span class="keyword">using</span> <span class="keyword">the</span> diagrams package that:</span><br><span class="line">   - Creates <span class="keyword">a</span> visual architecture diagram</span><br><span class="line">   - Groups related services (VPCs, subnets, application layers)</span><br><span class="line">   - Shows connections <span class="keyword">and</span> data flow <span class="keyword">with</span> arrows</span><br><span class="line">   - Uses appropriate AWS service icons</span><br><span class="line">   - Includes <span class="built_in">clear</span> labels <span class="keyword">and</span> descriptions</span><br><span class="line">   - Follows AWS architecture diagram best practices</span><br><span class="line"></span><br><span class="line"><span class="number">5.</span> Output <span class="keyword">the</span> complete Python diagrams code that can be executed <span class="built_in">to</span> generate <span class="keyword">the</span> diagram</span><br><span class="line"></span><br><span class="line"><span class="number">6.</span> Save <span class="keyword">the</span> Python code <span class="built_in">to</span> <span class="keyword">a</span> <span class="built_in">file</span> (e.g., `architecture_diagram.py`) <span class="keyword">and</span> execute <span class="keyword">it</span> <span class="built_in">to</span> generate <span class="keyword">the</span> diagram image</span><br><span class="line"></span><br><span class="line">The diagram should be <span class="built_in">clear</span>, professional, <span class="keyword">and</span> accurately represent <span class="keyword">the</span> infrastructure defined <span class="keyword">in</span> <span class="keyword">the</span> CDK code.</span><br></pre></td></tr></table></figure>
+<p>這邊要來分享一個 Kiro 很貼心的地方，自動生成的「File path(s) to watch」設定得相當寬鬆，幾乎把所有可能出現 AWS CDK 程式碼的路徑都涵蓋進來，如 <code>**/*cdk*.ts</code>、<code>**/*cdk*.py</code>、<code>**/infra/**/*.ts</code>、<code>**/infra/**/*.py</code>、<code>**/infrastructure/**/*.ts</code>、<code>**/infrastructure/**/*.py</code>。包含常見命名 <code>infra</code> 與 <code>infrastructure</code>，甚至可能沒被放到特定資料夾裡都想到了(<s>他知道我會亂放?!😂</s>)。</p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-hooks%2Fkiro-hooks-cdk-architecture-diagram-generator-execute-hook-4.jpg?alt=media&amp;token=84cbc015-e70a-4cd2-9831-489fd97da6a8" alt="kiro-hooks-cdk-architecture-diagram-generator-execute-hook-4"></p>
+<h2 id="實作成果-v3"><a class="header-anchor" href="#實作成果-v3"></a>實作成果</h2>
+<p>我以下是執行 AWS 雲端部署 Spec 的第1個任務，可參考 Kiro 為 AWS 雲端部署「aws-serverless-deployment」所產生的 Spec 文件內容: <a target="_blank" rel="noopener" href="https://stellacoding.notion.site/FillUp-29b9a83673d680e39a4bde9f4d54c4d3?pvs=74">Requirements &amp; Design &amp; Task list</a>。</p>
+<p>當 Kiro 偵測到 AWS 相關的基礎架構檔案有變更時，就會自動排程產生或更新 AWS 架構圖。</p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-hooks%2Fkiro-hooks-cdk-architecture-diagram-generator-execute-hook-1.jpg?alt=media&amp;token=010fbd27-7350-462e-95c2-ace81f1ab980" alt="kiro-hooks-cdk-architecture-diagram-generator-execute-hook-1"></p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-hooks%2Fkiro-hooks-cdk-architecture-diagram-generator-execute-hook-2.jpg?alt=media&amp;token=a0bfcac7-554f-4c43-a6f0-91abc93f7178" alt="kiro-hooks-cdk-architecture-diagram-generator-execute-hook-2"></p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-hooks%2Fkiro-hooks-cdk-architecture-diagram-generator-execute-hook-3.jpg?alt=media&amp;token=7fd03592-1e11-4e64-8a15-9da60dc1c00e" alt="kiro-hooks-cdk-architecture-diagram-generator-execute-hook-3"></p>
+<h1 id="經驗分享"><a class="header-anchor" href="#經驗分享"></a>經驗分享</h1>
+<p>當 Hook 設定為自動觸發時，目前就無法以手動方式執行。因此，如果需要在特定情況下手動觸發，我建議另外建立一個相同設定的 Hook，並將觸發方式改為「Manual Trigger」。這樣就能在需要時隨時手動執行。而考量到 AI 工具更新速度…，我猜這個功能應該很快也會補上(小小許願😄)。</p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-hooks%2Fkiro-hooks-cdk-architecture-diagram-generator-event-manual-1.jpg?alt=media&amp;token=aeddbe3a-9553-4d9b-bc67-698582882558" alt="kiro-hooks-cdk-architecture-diagram-generator-event-manual-1"></p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-hooks%2Fkiro-hooks-cdk-architecture-diagram-generator-event-manual-2.jpg?alt=media&amp;token=dba3d5bb-4df5-4f74-98c7-5865e9d54e51" alt="kiro-hooks-cdk-architecture-diagram-generator-event-manual-2"></p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-hooks%2Fkiro-hooks-cdk-architecture-diagram-generator-event-manual-3.jpg?alt=media&amp;token=6f63b885-a53e-43f5-82ad-d8357fd2192a" alt="kiro-hooks-cdk-architecture-diagram-generator-event-manual-3"></p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Faws-kiro-build-fillup-using-specification-driven-development-hooks%2Fkiro-hooks-cdk-architecture-diagram-generator-event-manual-final-diagram.jpg?alt=media&amp;token=f4d43d32-2e48-4bf4-9b70-87584d0dad91" alt="kiro-hooks-cdk-architecture-diagram-generator-event-manual-final-diagram"></p>
+<h1 id="總結"><a class="header-anchor" href="#總結"></a>總結</h1>
+<p>本篇文章透過「文件產生器」、「同步翻譯」以及「AWS 架構圖」3個實戰案例，示範 Kiro Hooks 如何成為一個能自動執行重複性工作的自動化引擎，主動在開發過程中偵測特定事件並自動執行動作，確保程式碼與文檔的一致性，並持續協助維護專案品質，真正從「工具」進化為「智慧開發夥伴」。</p>
+<p>回顧 Kiro 作為一個 Agentic IDE 的完整生態，可以看見一個具備清晰分工的自動化體系:</p>
+<ul>
+<li>核心方法｜規格驅動開發(Spec-Driven Development)<br>
+定義需求、技術架構、任務，用規格引導 AI 正確開發。</li>
+<li>LLM(大腦)｜推理與行動<br>
+理解開發者意圖與程式碼邏輯，並提供程式碼與技術建議。</li>
+<li>MCP(感知)｜存取外部資料<br>
+讓 AI 能存取各種資料來源、工具以及工作流程。</li>
+<li>Hooks(反射)｜自動化機制<br>
+從被動到「主動行動」，當特定事件發生時自動執行流程。</li>
+</ul>
+<div style="max-width:520px; margin:2em auto; padding:1.5em; border:1px solid #ddd; border-radius:10px; background:#fafafa; text-align:center; box-shadow:0 2px 6px rgba(0,0,0,0.08);">
+  <p style="font-size:1.1em; margin-bottom:1em;">👇 點此免費訂閱，不錯過任何更新</p>
+  <iframe src="https://stellacoding.substack.com/embed" 
+          width="480" height="320" 
+          style="border:1px solid #EEE; background:white; border-radius:6px;" 
+          frameborder="0" scrolling="no"></iframe>
+</div>
+<h1 id="AWS-Kiro-系列文章"><a class="header-anchor" href="#AWS-Kiro-系列文章"></a>AWS Kiro 系列文章</h1>
+<ul>
+<li><a href="https://estellacoding.github.io/blog/aws-kiro-build-fillup-using-specification-driven-development/">【AWS Kiro 實戰】用規格驅動開發喝水記錄應用<br>
+先寫規格再讓AI開發，用規格引導AI正確開發</a></li>
+<li><a href="https://estellacoding.github.io/blog/aws-kiro-build-fillup-using-specification-driven-development-mcp/">【AWS Kiro 進階】實作 MCP 擴充 AI 能力邊界<br>
+設定MCP及實作前端除錯、架構視覺化與AWS部署文件查詢</a></li>
+<li><a href="https://estellacoding.github.io/blog/aws-kiro-build-fillup-using-specification-driven-development-hooks/">【AWS Kiro 進階】實作 Hooks 自動化開發流程<br>
+設定Hooks自動觸發更新文件、同步翻譯、AWS架構圖</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/blog/tags/AWS/" rel="tag"># AWS</a>
+              <a href="/blog/tags/Kiro/" rel="tag"># Kiro</a>
+              <a href="/blog/tags/IDE/" rel="tag"># IDE</a>
+              <a href="/blog/tags/Vibe-Coding/" rel="tag"># Vibe Coding</a>
+              <a href="/blog/tags/Spec-Coding/" rel="tag"># Spec Coding</a>
+              <a href="/blog/tags/Hooks/" rel="tag"># Hooks</a>
+              <a href="/blog/tags/Agent/" rel="tag"># Agent</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/blog/aws-kiro-build-fillup-using-specification-driven-development-mcp/" rel="prev" title="【AWS Kiro 進階】實作 MCP 擴充 AI 能力邊界">
+                  <i class="fa fa-angle-left"></i> 【AWS Kiro 進階】實作 MCP 擴充 AI 能力邊界
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">史戴拉寫扣</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/blog/js/comments.js"></script><script src="/blog/js/utils.js"></script><script src="/blog/js/motion.js"></script><script src="/blog/js/sidebar.js"></script><script src="/blog/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js","integrity":"sha256-stuqcu2FrjYCXDOytWFA5SoUE/r3nkp6gTglzNSlavU="}}</script>
+  <script src="/blog/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"ams","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/blog/js/third-party/math/mathjax.js"></script>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"estellacoding","repo":"blog","client_id":"Ov23liBnWPuObZGktbAv","client_secret":"9ed6e261cd75af620744058daafa56b80a53ffa8","admin_user":"estellacoding","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":null,"labels":"gitalk","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"f8c563ecabff63f50b4b53e8314b4423"}</script>
+<script src="/blog/js/third-party/comments/gitalk.js"></script>
+
+</body>
+</html>
