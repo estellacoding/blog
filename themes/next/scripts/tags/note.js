@@ -5,7 +5,7 @@
 'use strict';
 
 module.exports = ctx => function(args, content) {
-  const keywords = ['default', 'primary', 'info', 'success', 'warning', 'danger', 'no-icon'];
+  const keywords = ['default', 'primary', 'info', 'success', 'warning', 'danger', 'question', 'no-icon'];
   const className = [];
   for (let i = 0; i < 2; i++) {
     if (keywords.includes(args[0])) {

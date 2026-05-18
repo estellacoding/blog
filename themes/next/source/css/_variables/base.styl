@@ -298,80 +298,88 @@ $post-reward-img-width        = 180px;
 // --------------------------------------------------
 // Read note light_bg_offset from NexT config and set in '$lbg%' to use it as string variable.
 $lbg = hexo-config('note.light_bg_offset') is a 'unit' ? unit(hexo-config('note.light_bg_offset'), '%') : 0;
-$note-types = 'default' 'primary' 'info' 'success' 'warning' 'danger';
+$note-types = 'default' 'primary' 'info' 'success' 'warning' 'danger' 'question';
 
 $note-border-radius         = 3px;
 
 $note-border = {
-  default : #777,
-  primary : #6f42c1,
-  info    : #428bca,
-  success : #5cb85c,
-  warning : #f0ad4e,
-  danger  : #d9534f
+  default  : #777,
+  primary  : #6f42c1,
+  info     : #428bca,
+  success  : #5cb85c,
+  warning  : #f0ad4e,
+  danger   : #d9534f,
+  question : #17a2b8
 };
 
 $note-bg = {
-  default : lighten(spin($note-border.default, 0), 94% + $lbg),
-  primary : lighten(spin($note-border.primary, 10), 92% + $lbg),
-  info    : lighten(spin($note-border.info, -10), 91% + $lbg),
-  success : lighten(spin($note-border.success, 10), 90% + $lbg),
-  warning : lighten(spin($note-border.warning, 10), 88% + $lbg),
-  danger  : lighten(spin($note-border.danger, -10), 92% + $lbg)
+  default  : lighten(spin($note-border.default, 0), 94% + $lbg),
+  primary  : lighten(spin($note-border.primary, 10), 92% + $lbg),
+  info     : lighten(spin($note-border.info, -10), 91% + $lbg),
+  success  : lighten(spin($note-border.success, 10), 90% + $lbg),
+  warning  : lighten(spin($note-border.warning, 10), 88% + $lbg),
+  danger   : lighten(spin($note-border.danger, -10), 92% + $lbg),
+  question : lighten(spin($note-border.question, -10), 90% + $lbg)
 };
 
 $note-text = {
-  default : $note-border.default,
-  primary : $note-border.primary,
-  info    : $note-border.info,
-  success : $note-border.success,
-  warning : $note-border.warning,
-  danger  : $note-border.danger
+  default  : $note-border.default,
+  primary  : $note-border.primary,
+  info     : $note-border.info,
+  success  : $note-border.success,
+  warning  : $note-border.warning,
+  danger   : $note-border.danger,
+  question : $note-border.question
 };
 
 $note-icon = {
-  default : '\f0a9',
-  primary : '\f055',
-  info    : '\f05a',
-  success : '\f058',
-  warning : '\f06a',
-  danger  : '\f056'
+  default  : '\f0a9',
+  primary  : '\f055',
+  info     : '\f05a',
+  success  : '\f058',
+  warning  : '\f06a',
+  danger   : '\f056',
+  question : '\f059'
 };
 
 $note-modern-border = {
-  default : #e1e1e1,
-  primary : #e1c2ff,
-  info    : #b3e5ef,
-  success : #d0e6be,
-  warning : #fae4cd,
-  danger  : #ebcdd2
+  default  : #e1e1e1,
+  primary  : #e1c2ff,
+  info     : #b3e5ef,
+  success  : #d0e6be,
+  warning  : #fae4cd,
+  danger   : #ebcdd2,
+  question : #b8e4ec
 };
 
 $note-modern-bg = {
-  default : lighten(spin($note-modern-border.default, 10), 60% + ($lbg * 4)),
-  primary : lighten(spin($note-modern-border.primary, 10), 40% + ($lbg * 4)),
-  info    : lighten(spin($note-modern-border.info, 10), 50% + ($lbg * 4)),
-  success : lighten(spin($note-modern-border.success, 10), 40% + ($lbg * 4)),
-  warning : lighten(spin($note-modern-border.warning, 10), 43% + ($lbg * 4)),
-  danger  : lighten(spin($note-modern-border.danger, 10), 35% + ($lbg * 4))
+  default  : lighten(spin($note-modern-border.default, 10), 60% + ($lbg * 4)),
+  primary  : lighten(spin($note-modern-border.primary, 10), 40% + ($lbg * 4)),
+  info     : lighten(spin($note-modern-border.info, 10), 50% + ($lbg * 4)),
+  success  : lighten(spin($note-modern-border.success, 10), 40% + ($lbg * 4)),
+  warning  : lighten(spin($note-modern-border.warning, 10), 43% + ($lbg * 4)),
+  danger   : lighten(spin($note-modern-border.danger, 10), 35% + ($lbg * 4)),
+  question : lighten(spin($note-modern-border.question, 10), 50% + ($lbg * 4))
 };
 
 $note-modern-text = {
-  default : $grey-dim,
-  primary : #6f42c1,
-  info    : #31708f,
-  success : #3c763d,
-  warning : #8a6d3b,
-  danger  : #a94442
+  default  : $grey-dim,
+  primary  : #6f42c1,
+  info     : #31708f,
+  success  : #3c763d,
+  warning  : #8a6d3b,
+  danger   : #a94442,
+  question : #117a8b
 };
 
 $note-modern-hover = {
-  default : darken(spin($note-modern-text.default, -10), 32%),
-  primary : darken(spin($note-modern-text.primary, -10), 22%),
-  info    : darken(spin($note-modern-text.info, -10), 32%),
-  success : darken(spin($note-modern-text.success, -10), 27%),
-  warning : darken(spin($note-modern-text.warning, -10), 18%),
-  danger  : darken(spin($note-modern-text.danger, -10), 22%)
+  default  : darken(spin($note-modern-text.default, -10), 32%),
+  primary  : darken(spin($note-modern-text.primary, -10), 22%),
+  info     : darken(spin($note-modern-text.info, -10), 32%),
+  success  : darken(spin($note-modern-text.success, -10), 27%),
+  warning  : darken(spin($note-modern-text.warning, -10), 18%),
+  danger   : darken(spin($note-modern-text.danger, -10), 22%),
+  question : darken(spin($note-modern-text.question, -10), 25%)
 };
 
 
