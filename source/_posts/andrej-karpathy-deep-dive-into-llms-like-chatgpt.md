@@ -1,5 +1,5 @@
 ---
-title: 深入理解 LLM 是如何訓練出來的(Karpathy 3.5 小時神課筆記)
+title: 跟著 Karpathy 深入理解 LLM 是如何訓練出來?
 date: 2026-05-18 11:11:11
 updated: 2026-05-18 11:11:11
 tags:
@@ -13,25 +13,45 @@ categories:
 comments: true
 ---
 
-每次有人問我「ChatGPT 到底是怎麼學會講話的?」我都很想直接把這支影片丟給他~~然後叫他看完再來聊~~。Stanford CS146S(The Modern Software Developer, Fall 2025)的指定教材裡，有一支由 Andrej Karpathy 親自講解的 [Deep Dive into LLMs like ChatGPT](https://www.youtube.com/watch?v=7xTGNNLPyMI)，整整 3 小時 31 分鐘，從零開始把 LLM 的完整訓練流程講透。這篇是我整理的學習筆記，幫自己(也幫你)用 30 分鐘把這支神課的精華快速吸收一遍。
+[Stanford CS146S: The Modern Software Developer, Fall 2025](https://themodernsoftware.dev/) 的指定教材裡，有一支由 Andrej Karpathy 親自講解的 [Deep Dive into LLMs like ChatGPT](https://www.youtube.com/watch?v=7xTGNNLPyMI)，整整 3 個多小時，從零開始講解 LLM 的完整訓練流程。再一次跟著 Karpathy 深入理解 LLM 是如何訓練出來的吧!
 
 <!-- more -->
 
-# LLM 訓練的三大階段
-Karpathy 在影片裡把 LLM 的訓練拆成三個主要階段，用念書來比喻會非常好懂:
+主要介紹了三種關鍵技術：Pre-training、SFT，以及 RL。
 
-| 階段 | 對應到學習過程 | 目的 |
-|---|---|---|
-| 預訓練 (Pre-training) | 讀教科書、背景知識 | 把整個網路的知識壓縮進神經網路 |
-| 監督式微調 (SFT) | 模仿教科書範例解答 | 把基礎模型訓練成會回答問題的助理 |
-| 強化學習 (RL) | 自己做練習題、試錯 | 讓模型自己摸索出最佳解題策略 |
+1. **Pre-training**
+   - 資料從哪裡來?
+   - 什麼是分詞 (Tokenization)?
+   - 模型如何透過預測下一個 token 學會語言?
+   - 為什麼 Base Model 還不是 ChatGPT?
 
-{% note info %}
-這個比喻是 Karpathy 在影片中段提到的，我覺得是整支影片最好用的心智模型，後面看到任何 LLM 的新聞或論文，幾乎都能套進這三個階段去理解。
-{% endnote %}
+2. **Supervised Fine-tuning，SFT**
+   - 對話資料怎麼訓練模型?
+   - 為什麼 SFT 讓模型從「文字接龍」變成能「遵循指令並回答問題」？
+   - 為什麼模型會幻覺?
+   - 為什麼工具使用、搜尋能力與上下文 (Context window) 很重要?
 
-# 預訓練 (Pre-training)
-## 資料從哪來?
+3. **Reinforcement Learning，RL / RLHF**
+   - RL 和 SFT 差在哪？
+   - 為什麼 DeepSeek-R1 讓大家重新關注 RL？
+   - AlphaGo 的 Move 37 給 LLM 什麼啟示？
+   - RLHF 如何讓模型更符合人類偏好？
+
+# LLM 訓練流程
+
+![Dataset-Preprocessing-Pre-training-Post-training]()
+
+| 階段 | 關鍵方法 | 比喻 | 產出」 |
+|-|-|-|-|
+| Dataset | 資料蒐集 | 蒐集所有可能用來學習的教材 | 原始資料 |
+| Preprocessing | 資料前處理 | 整理、過濾、清洗教材，並切成模型看得懂的 token | 可訓練資料 |
+| Pre-training | 預訓練 | 閱讀海量教科書、網路文章與程式碼以建立背景知識 | Base model |
+| Post-training | SFT | 模仿人類專家或教科書上的範例解答 | SFT model |
+| Post-training | RL / RLHF | 自己做練習題，透過試錯與回饋來發現更好解法 | RL model |
+
+# 預訓練
+
+## 資料從哪裡來?
 所有 LLM 的起點都是「網路上的所有文字」。Hugging Face 釋出的 [🍷 FineWeb](https://huggingface.co/spaces/HuggingFaceFW/blogpost-fineweb-v1) 是個很好的觀察對象:
 - 來源是 Common Crawl(從 2007 年開始爬整個網路的非營利組織)。
 - 處理後約 **15 兆(15 trillion)個 token**，磁碟空間 **44TB**。
@@ -41,7 +61,7 @@ Karpathy 在影片裡把 LLM 的訓練拆成三個主要階段，用念書來比
 
 > 預訓練不是讓模型「記住」網路的所有東西，而是把網路做一個**有損壓縮 (lossy compression)**，把知識以機率的形式儲存在神經網路的參數裡。
 
-## 分詞 (Tokenization)
+## 什麼是分詞?
 神經網路看不懂文字，只看得懂數字。所以要把文字切成一塊一塊的 token，這個過程叫做分詞，目前主流演算法是 **Byte Pair Encoding (BPE)**。
 
 - GPT-4 大約用了 **100,277 個 token** 來表示所有可能的文字片段。
@@ -53,6 +73,10 @@ Karpathy 在影片裡把 LLM 的訓練拆成三個主要階段，用念書來比
 {% endnote %}
 
 ## 神經網路怎麼學?
+{% note question %}
+模型如何透過預測下一個 token 學會語言?
+{% endnote %}
+
 預訓練的核心任務超簡單，只有一句話: **預測下一個 token 是什麼**。
 
 - 輸入: 一段 token 序列(context window，現在動輒 8K~128K)。
@@ -63,6 +87,8 @@ Karpathy 在影片裡把 LLM 的訓練拆成三個主要階段，用念書來比
 - **GPT-2 (2019)**: 16 億參數、1024 token context、訓練 ~1000 億 tokens，當年成本約 4 萬美金。
 - **Karpathy 用 llm.c 重現 GPT-2**: 只花了 **672 美金**(優化後可能降到 100 美金)，6 年硬體+軟體進步真的很猛。
 - 現代前沿模型如 Llama 3.1、GPT-4: 數千張 H100 GPU 連續訓練數個月。
+
+## 為什麼 Base Model 還不是 ChatGPT?
 
 ## 基礎模型 (Base Model)
 預訓練完的產物叫做「基礎模型」，但它**不是 ChatGPT**。
