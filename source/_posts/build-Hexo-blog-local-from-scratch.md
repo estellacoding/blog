@@ -42,7 +42,7 @@ npm install -g hexo-cli
 `Error: EACCES: permission denied, mkdir '/usr/local/lib/node_modules/hexo-cli'
 {% endcodeblock %}
 
-{% img [class names] https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-1%2Fhexo-install-2.png?alt=media&token=465d42db-474c-4bc7-a54a-48a36699386b [80%] [80%] '"title text" "alt text"' %}
+![hexo-install-2.png](https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-1%2Fhexo-install-2.png?alt=media&token=465d42db-474c-4bc7-a54a-48a36699386b)
 
 以超級使用者的權限，全局安裝 Hexo CLI 工具，可以在系統的任何地方使用 `hexo` 指令來管理 Hexo 所架設的部落格。
 - sudo: 以超級使用者（root）權限執行命令。
@@ -54,14 +54,14 @@ npm install -g hexo-cli
 sudo npm install -g hexo-cli
 {% endcodeblock %}
 
-{% img [class names] https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-1%2Fhexo-install-3.png?alt=media&token=93dfef60-2dd8-4225-aae4-d8f2753031a2 [80%] [80%] '"title text" "alt text"' %}
+![hexo-install-3.png](https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-1%2Fhexo-install-3.png?alt=media&token=93dfef60-2dd8-4225-aae4-d8f2753031a2)
 
 檢查Hexo的指令工具是否安裝成功
 {% codeblock %}
 hexo -v
 {% endcodeblock %}
 
-{% img [class names] https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-1%2Fhexo-install-4.png?alt=media&token=6af8f292-1253-447f-9fe0-7a5ae926d01c [80%] [80%] '"title text" "alt text"' %}
+![hexo-install-4.png](https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-1%2Fhexo-install-4.png?alt=media&token=6af8f292-1253-447f-9fe0-7a5ae926d01c)
 
 # 創建 Hexo
 
@@ -70,7 +70,7 @@ hexo -v
 hexo init <folder>
 {% endcodeblock %}
 
-{% img [class names] https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-1%2Fhexo-build-1.png?alt=media&token=eb110cdc-3dd5-4a58-b183-3209c0258d88 [80%] [80%] '"title text" "alt text"' %}
+![hexo-build-1.png](https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-1%2Fhexo-build-1.png?alt=media&token=eb110cdc-3dd5-4a58-b183-3209c0258d88)
 
 切換到該專案資料夾中，安裝所有必需的 npm 套件，`npm install` 會根據 package.json 檔案中的所列套件(dependencies)下載並安裝，以確保 Hexo 專案可以正常運行。
 {% codeblock %}
@@ -78,10 +78,11 @@ cd <folder>
 npm install
 {% endcodeblock %}
 
-{% img [class names] https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-1%2Fhexo-build-2.png?alt=media&token=1b63478d-6b5d-4ad9-a946-4fe1cef58bf3 [80%] [80%] '"title text" "alt text"' %}
+![hexo-build-2.png](https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-1%2Fhexo-build-2.png?alt=media&token=1b63478d-6b5d-4ad9-a946-4fe1cef58bf3)
 
 安裝完成後，專案資料夾就會有以下檔案。
-{% img [class names] https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-1%2Fhexo-build-3.png?alt=media&token=921609c7-5eb2-4e5d-bcb6-ee2c08a9b652 [80%] [80%] '"title text" "alt text"' %}
+
+![hexo-build-3.png](https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-1%2Fhexo-build-3.png?alt=media&token=921609c7-5eb2-4e5d-bcb6-ee2c08a9b652)
 
 # 更改部落格基本資訊
 進入專案資料夾下的 _config.yml，可以修改部落格的基本資訊，以下是我先修改的地方，`permalink` 的預設值是 `:year/:month/:day/:title/`，不過我只想保留 `title/` 就好。
@@ -135,10 +136,10 @@ rm -rf node_modules && npm install --force
 
 出現 `Hexo is running at http://localhost:4000/blog` 表示成功。
 
-{% img [class names] https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-1%2Fhexo-local-activate-1.png?alt=media&token=41e3418a-97cb-4c5a-b1c3-aae3f6fbd4d6 [80%] [80%] '"title text" "alt text"' %}
+![hexo-local-activate-1.png](https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-1%2Fhexo-local-activate-1.png?alt=media&token=41e3418a-97cb-4c5a-b1c3-aae3f6fbd4d6)
 
 點擊該連結 http://localhost:4000/blog 即可連至本地端 Hexo 部落格。
 
-{% img [class names] https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-1%2Fhexo-local-activate-2.png?alt=media&token=06e87360-24bc-485d-b8e0-61a2fe44acb9 [80%] [80%] '"title text" "alt text"' %}
+![hexo-local-activate-2.png](https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-1%2Fhexo-local-activate-2.png?alt=media&token=06e87360-24bc-485d-b8e0-61a2fe44acb9)
 
 其他 Hexo 架站說明請看 [架設部落格第一次就上手 Hexo + Github + 自訂網域](https://chanchandev.com/note/Hexo/hexo-introduction/2335841689/)。

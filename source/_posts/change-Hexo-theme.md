@@ -26,7 +26,8 @@ git clone https://github.com/next-theme/hexo-theme-next themes/next
 {% endcodeblock %}
 
 下載完成會在 themes 資料夾下出現 next 的資料夾。
-{% img [hexo-theme-1.png] https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-2%2Fhexo-theme-1.png?alt=media&token=efb26864-ad9c-4561-b6b2-4c989fb17d75 [80%] [80%] '"title text" "alt text"' %}
+
+![hexo-theme-1.png](https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-2%2Fhexo-theme-1.png?alt=media&token=efb26864-ad9c-4561-b6b2-4c989fb17d75)
 
 # 更改成使用 NexT 主題
 
@@ -144,7 +145,7 @@ codeblock:
 # 更改導覽列樣式
 我這邊是打開首頁、關於、標籤、分類、歸檔的導覽列。
 
-{% img [hexo-theme-1.png] https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-2%2Fhexo-theme-2.png?alt=media&token=3ed99fd8-9387-4eec-9109-800a611dd9ff [80%] [80%] '"title text" "alt text"' %}
+![hexo-theme-2.png](https://firebasestorage.googleapis.com/v0/b/stellacoding1111.appspot.com/o/article%2Fhexo-2%2Fhexo-theme-2.png?alt=media&token=3ed99fd8-9387-4eec-9109-800a611dd9ff)
 
 進入 themes/next 資料夾底下的 _config.yml，將 menu 底下的 home、about、tags、categories、archives 打開，即將 `#` 刪除。
 {% codeblock %}
