@@ -7,7 +7,7 @@
 - 寫作與部署流程：[hexo-workflow.md](hexo-workflow.md)
 - 備份與還原：[hexo-backup-and-restore.md](hexo-backup-and-restore.md)
 
-> 這份清單是 2026-10-19 拿 NexT 官方 npm 版本（8.20.0 / 8.21.0）逐檔比對整理出來的。比對方式見[升級 NexT](#升級-next)。
+> 這份清單是 2026-10-19 拿 NexT 官方 npm 版本逐檔比對整理出來的，同一天也已經升級到 8.29.0。比對和升級方式見[升級 NexT](#升級-next)。
 
 ## Hexo 全域設定（`_config.yml`）
 
@@ -30,9 +30,10 @@
 
 主題直接放在 `themes/next/`，是一般資料夾，不是 submodule，也不是 npm 套件。
 
-- **版本**：`package.json` 標示 `8.20.0`，但大部分程式碼跟 npm 的 8.21.0 一樣，`_vendors.yml` 則是 8.20.0 的版本。也就是說，這是兩版之間的 git 快照，升級時以 8.21.0 為比對基準。
+- **版本**：`8.29.0`，2026-10-19 從 npm 套件升級，之前是介於 8.20.0 和 8.21.0 之間的 git 快照。下次升級時以 npm 的 `hexo-theme-next@8.29.0` 為比對基準。
+- **前端套件版本**：寫在 `_vendors.yml`，跟主題版本走。8.29.0 用的是 mermaid 11、MathJax 4。
 - **保留的檔案**：只保留 NexT `package.json` 的 `files` 欄位列出的執行時檔案，再加上 `package.json`（版本號從這裡讀）和授權文件。主題開發用的 CI、測試、lint 設定已經刪除，`package.json` 裡的 `scripts` 和 `devDependencies` 也一起移除。
-- **`languages/default.yml`**：內容跟 `en.yml` 相同，是舊版 NexT 留下的 fallback 語系檔，保留不動。
+- **`languages/default.yml`**：指向 `en.yml` 的 symlink，是 Hexo 的 fallback 語系檔，保留不動。
 
 ### 主題設定（`themes/next/_config.yml`）
 
@@ -40,6 +41,7 @@
 |---|---|---|
 | `custom_file_path.style` | `source/_data/styles.styl` | 載入自訂樣式，見下方 |
 | `scheme` | `Gemini` | 預設是 Muse |
+| `darkmode` | `false` | 從 8.29 開始預設改成 `true`（跟隨系統深色模式），這裡明確關閉，維持淺色 |
 | `favicon` | small / medium / apple_touch_icon / safari_pinned_tab | 都指向 Firebase Storage 上的 logo 圖 |
 | `menu` | home、about、tags、categories、archives | 對應 `source/about`、`tags`、`categories` 頁面 |
 | `avatar` | `url`（Firebase Storage）、`rounded: true` | |
@@ -116,22 +118,45 @@
 
 ## 升級 NexT
 
-1. **先比對現況**：下載跟目前程式碼相同的版本當基準，比對後應該只剩上面列出的客製化。
+2026-10-19 用以下流程從 8.21 升到 8.29.0。下次升級時，把 `OLD` 換成目前版本、`NEW` 換成目標版本。
+
+1. **下載基準版和新版**，放在 repo 外的暫存資料夾：
 
    ```bash
-   mkdir -p /tmp/next-up && cd /tmp/next-up
-   npm pack hexo-theme-next@8.21.0 && mkdir base && tar xzf hexo-theme-next-8.21.0.tgz -C base
-   diff -rqw base/package ~/Documents/github-repo/blog/themes/next
+   OLD=8.29.0; NEW=8.30.0; W=/tmp/next-up; mkdir -p $W && cd $W
+   for v in $OLD $NEW; do npm pack hexo-theme-next@$v && mkdir -p $v && tar xzf hexo-theme-next-$v.tgz -C $v; done
    ```
 
-2. **換上新版**：用新版的 `package` 內容整個取代 `themes/next/`。
-3. **重新套用客製化**：
-   - 用 `diff` 把舊的 `_config.yml` 設定搬到新版的 `_config.yml`
-   - 重新套用上面的 3 項程式碼修改
-4. **驗證**：
-   - `hexo cl && hexo g` 不應該有錯誤
-   - 用 `hexo s` 檢查這幾篇文章：
+2. **確認現況**：執行 `diff -rqw $W/$OLD/package themes/next`，結果應該只剩上面列出的客製化。
+3. **產生升級前的網站**：先 `hexo cl && hexo g`，把 `public/` 複製一份到暫存資料夾，等一下拿來比對。
+4. **換上新版，用 three-way merge 套回客製化**：
+
+   ```bash
+   cp -R themes/next $W/ours && rm -rf themes/next && cp -R $W/$NEW/package themes/next
+   for f in _config.yml scripts/tags/note.js source/css/_variables/base.styl \
+            source/js/third-party/tags/mermaid.js layout/_macro/sidebar.njk; do
+     cp $W/ours/$f $W/m.tmp
+     git merge-file -p $W/m.tmp $W/$OLD/package/$f $W/$NEW/package/$f > themes/next/$f
+   done
+   cp $W/ours/layout/_partials/sidebar/subscribe.njk themes/next/layout/_partials/sidebar/
+   ln -sf en.yml themes/next/languages/default.yml
+   ```
+
+   - 有衝突的檔案會出現 `<<<<<<<` 標記，要手動處理。
+   - 再刪掉 `docs/` 裡的翻譯版，以及 `package.json` 的 `scripts`、`devDependencies`。
+5. **檢查預設值的變更**：
+
+   ```bash
+   diff <(grep -v '^\s*#' $W/$OLD/package/_config.yml) <(grep -v '^\s*#' $W/$NEW/package/_config.yml)
+   ```
+
+   如果原本的設定剛好等於舊的預設值，merge 時就會被換成新的預設值。8.29 的 `darkmode` 就是這樣，要手動改回來。
+6. **驗證**：
+   - `hexo cl && hexo g` 不應該有錯誤。
+   - 用 `hexo s` 實際打開頁面檢查：
+     - 首頁
      - 有 mermaid 圖的文章，例如 `automl-introduction`
-     - 有 `{% note question %}` 的文章
-     - 有數學公式的文章
-     - 留言區（Gitalk）
+     - 有數學公式的文章，例如 `how-prompt-politeness-affects-llm-accuracy`
+     - `::: fact` / `::: tip` 區塊
+     - Gitalk 留言區
+     - console 沒有錯誤
