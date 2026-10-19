@@ -2,6 +2,8 @@ version: 2
 updates:
 - package-ecosystem: npm
   directory: "/"
+  # repo 預設 branch 是 master（編譯後的網站），package.json 在 source
+  target-branch: source
   schedule:
     interval: daily
   open-pull-requests-limit: 20
