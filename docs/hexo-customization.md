@@ -1,47 +1,99 @@
 # Hexo Blog 客製化與依賴
 
-這份文件記錄主題和外掛做過哪些客製化、每個 npm 套件的用途，以及升級 NexT 時要注意什麼。
+這份文件記錄整個專案相對於 Hexo 和 NexT 預設值改了哪些地方，以及每個 npm 套件的用途，供升級或排查時對照。
 
 相關文件：
 
 - 寫作與部署流程：[hexo-workflow.md](hexo-workflow.md)
 - 備份與還原：[hexo-backup-and-restore.md](hexo-backup-and-restore.md)
 
-## 主題：NexT 8.20.0
+> 這份清單是 2026-10-19 拿 NexT 官方 npm 版本（8.20.0 / 8.21.0）逐檔比對整理出來的。比對方式見[升級 NexT](#升級-next)。
 
-`_config.yml` 設定 `theme: next`。主題直接放在 `themes/next/`，是一般資料夾，不是 submodule，也不是 npm 套件。
+## Hexo 全域設定（`_config.yml`）
 
-`themes/next/` 只保留執行時需要的檔案，依照 NexT `package.json` 的 `files` 欄位：
-
-- `languages/`、`layout/`、`scripts/`、`source/`
-- `_config.yml`、`_vendors.yml`
-- `package.json`：`scripts/` 會從這裡讀取版本號；開發用的 `scripts`、`devDependencies` 已移除
-- `LICENSE.md`、`README.md`、`docs/`（授權相關）
-
-NexT 原本給主題開發用的檔案已經移除，網站輸出不受影響，包括：
-
-- `.github/`、`.githooks/`、`test/`
-- eslint / stylelint 設定、crowdin、renovate
-- 翻譯版 README
-
-### 客製化清單
-
-| 項目 | 檔案 | 說明 |
+| 區塊 | 設定 | 說明 |
 |---|---|---|
-| 主題設定 | `themes/next/_config.yml` | 所有 NexT 設定都直接改在這裡 |
-| 自訂樣式 | `source/_data/styles.styl` | 由 `custom_file_path.style` 載入。內容包括：<br>• markdown-it-container 的 `.tip`、`.fact` 區塊<br>• 標題與內文的間距<br>• 訂閱區塊樣式（目前註解掉） |
-| `question` note 類型 | `themes/next/scripts/tags/note.js`<br>`themes/next/source/css/_variables/base.styl` | 新增 `{% note question %}`，青綠色，使用 `fa-question-circle` 圖示，classic 和 modern 兩種樣式都支援 |
-| 訂閱區塊（停用中） | `themes/next/layout/_partials/sidebar/subscribe.njk`<br>`themes/next/layout/_macro/sidebar.njk` | 連到 Substack 週報。sidebar 的 include 目前註解掉了，要啟用時把註解拿掉，並一起把 `styles.styl` 裡的對應樣式恢復 |
+| Site | `title: 史戴拉寫扣`、`subtitle: 'Hands-on fuels my soul!'`、`author: 史戴拉` | |
+| | `language: en` | NexT 介面文字用英文（`themes/next/languages/en.yml`），文章內容不受影響 |
+| | `timezone: 'Asia/Taipei'` | |
+| URL | `url: https://estellacoding.github.io/blog` | 網站放在 `/blog` 子路徑，本地預覽網址也是 `/blog/` |
+| | `permalink: :title/` | 文章網址等於檔名，例如 `source/_posts/db-join.md` → `/blog/db-join/`。**改檔名就等於改網址** |
+| Writing | `external_link.enable: true` | 外部連結開新分頁 |
+| | `syntax_highlighter: highlight.js`，`auto_detect: true`、`wrap: true` | 程式碼高亮 |
+| Date | `updated_option: 'mtime'` | 沒寫 `updated` 的頁面（about、tags 等）會用檔案修改時間。重新 clone 後這些頁面的 `updated` 和 sitemap 的 `lastmod` 會變成 clone 的時間，屬於正常現象 |
+| Markdown | `markdown:` 整段 | markdown-it 渲染設定：<br>• `breaks: true`：單一換行就會換行<br>• 啟用 sub、sup、ins、checkbox、emoji、mark 外掛<br>• 兩個自訂容器 `::: tip`、`::: fact`，樣式寫在 `styles.styl`<br>• 標題錨點 |
+| Mermaid | `mermaid.enable: true`、`loadScript: false` | 由 `hexo-filter-mermaid-diagrams` 轉成 HTML，mermaid.js 交給 NexT 載入 |
+| Deploy | `deploy:` | 推到 `master`，見 [hexo-workflow.md](hexo-workflow.md#部署-commit-訊息) |
+| Theme | `theme: next` | |
 
-### 升級 NexT 時
+## 主題：NexT
 
-新版主題會整個覆蓋 `themes/next/`。升級前先用 `git diff` 或上面的清單，確認以下內容都有搬過去：
+主題直接放在 `themes/next/`，是一般資料夾，不是 submodule，也不是 npm 套件。
 
-1. `themes/next/_config.yml` 的設定
-2. `question` note 類型的修改
-3. 訂閱區塊的兩個檔案
+- **版本**：`package.json` 標示 `8.20.0`，但大部分程式碼跟 npm 的 8.21.0 一樣，`_vendors.yml` 則是 8.20.0 的版本。也就是說，這是兩版之間的 git 快照，升級時以 8.21.0 為比對基準。
+- **保留的檔案**：只保留 NexT `package.json` 的 `files` 欄位列出的執行時檔案，再加上 `package.json`（版本號從這裡讀）和授權文件。主題開發用的 CI、測試、lint 設定已經刪除，`package.json` 裡的 `scripts` 和 `devDependencies` 也一起移除。
+- **`languages/default.yml`**：內容跟 `en.yml` 相同，是舊版 NexT 留下的 fallback 語系檔，保留不動。
 
-`source/_data/styles.styl` 不在主題資料夾內，升級時不會被覆蓋。
+### 主題設定（`themes/next/_config.yml`）
+
+| 區塊 | 設定 | 說明 |
+|---|---|---|
+| `custom_file_path.style` | `source/_data/styles.styl` | 載入自訂樣式，見下方 |
+| `scheme` | `Gemini` | 預設是 Muse |
+| `favicon` | small / medium / apple_touch_icon / safari_pinned_tab | 都指向 Firebase Storage 上的 logo 圖 |
+| `menu` | home、about、tags、categories、archives | 對應 `source/about`、`tags`、`categories` 頁面 |
+| `avatar` | `url`（Firebase Storage）、`rounded: true` | |
+| `social` | GitHub、Substack | Instagram 已註解掉 |
+| `footer.copyright` | `"史戴拉寫扣"` | |
+| `text_align` | `desktop: left`、`mobile: left` | 預設是 justify |
+| `codeblock.copy_button` | `enable: true`、`style: mac` | 程式碼區塊的複製按鈕 |
+| `note` | `style: flat`、`icons: true` | `{% note %}` 的外觀 |
+| `mermaid.enable` | `true` | |
+| `math` | `every_page: true`、`mathjax.enable: true`、`tags: ams` | 每頁都會載入 MathJax，不用在 front matter 寫 `mathjax: true` |
+| `gitalk` | `enable: true`，repo `estellacoding/blog`，`labels: gitalk` | 留言系統，存在 repo 的 GitHub Issues |
+| `google_analytics.tracking_id` | `G-EG0CKC3093` | |
+
+> **關於 Gitalk 的 `client_secret`**：Gitalk 是純前端元件，`client_secret` 一定會出現在部署出去的 HTML 裡，所以不管 source 有沒有推，它本來就是公開的。這是 Gitalk 架構上的限制。如果要更換，到 GitHub → Settings → Developer settings → OAuth Apps 重新產生，再更新設定檔。
+
+### 主題程式碼修改
+
+升級時要重新套用的只有下面這 3 項：
+
+| 項目 | 檔案 | 修改內容 |
+|---|---|---|
+| `question` note 類型 | `scripts/tags/note.js`<br>`source/css/_variables/base.styl` | • `note.js` 的 `keywords` 加上 `'question'`<br>• `base.styl` 的 `$note-types` 和各色票表都加上 `question`，包括 border、bg、text、icon `\f059`，以及 modern 版的 border、bg、text、hover<br>• 用法：`{% note question %}...{% endnote %}` |
+| mermaid 支援 `<pre class="mermaid">` | `source/js/third-party/tags/mermaid.js` | • 原版只抓 `pre > .mermaid`，但 `hexo-filter-mermaid-diagrams` 輸出的是 `<pre class="mermaid">`<br>• 改成也抓 `pre.mermaid`，替換時以 `<pre>` 本身為目標<br>• **少了這個修改，mermaid 圖不會被渲染** |
+| 訂閱區塊（停用中） | `layout/_partials/sidebar/subscribe.njk`（新增）<br>`layout/_macro/sidebar.njk` | • 連到 Substack 週報<br>• `sidebar.njk` 裡的 include 目前註解掉了<br>• 要啟用時把註解拿掉，並一起恢復 `styles.styl` 裡註解掉的樣式 |
+
+### 自訂樣式（`source/_data/styles.styl`）
+
+這個檔案在主題資料夾外，升級時不會被覆蓋。內容包括：
+
+- `.tip`、`.fact`：markdown-it-container 的兩種提示區塊
+- `.post-header`、`.post-body`：調整標題和內文的間距
+- 訂閱區塊樣式：目前註解掉，跟上面的訂閱區塊一起使用
+
+## 頁面與特殊檔案（`source/`）
+
+| 路徑 | 用途 |
+|---|---|
+| `_posts/` | 已發佈的文章 |
+| `_drafts/` | 草稿，`render_drafts: false`，不會出現在網站上 |
+| `_data/styles.styl` | 自訂樣式 |
+| `about/index.md` | 關於頁（`type: "about"`） |
+| `tags/index.md`、`categories/index.md` | 標籤頁和分類頁，給 NexT 產生列表用（`type: "tags"` / `"categories"`） |
+| `404/index.md` | 自訂 404 頁，`permalink: /404.html`，GitHub Pages 找不到頁面時會顯示這頁 |
+| `google3acc54eb417970a2.html` | Google Search Console 網站擁有權驗證檔（`layout: false`）。**不要刪**，刪掉會失去驗證 |
+
+## 文章範本（`scaffolds/`）
+
+| 指令 | 範本 | 產出位置 |
+|---|---|---|
+| `hexo new "slug"` | `post.md` | `source/_posts/` |
+| `hexo new draft "slug"` | `draft.md` | `source/_drafts/` |
+| `hexo publish "slug"` | — | 把草稿移到 `_posts/`，並補上 `date` / `updated` |
+
+範本已經包含 `updated`、`categories`、`comments: true` 和 `<!-- more -->`，跟現有文章的 front matter 格式一致。因為 `permalink: :title/`，`slug` 就是文章網址，建議用英文小寫加 `-`。
 
 ## npm 套件
 
@@ -51,25 +103,35 @@ NexT 原本給主題開發用的檔案已經移除，網站輸出不受影響，
 | `hexo-server` | `hexo s` 本地預覽 |
 | `hexo-deployer-git` | `hexo deploy` 推到 `master` |
 | `hexo-generator-*`（archive / category / index / tag / sitemap） | 產生列表頁和 sitemap |
-| `hexo-renderer-markdown-it` + `markdown-it-*` | Markdown 渲染。外掛清單在 `_config.yml` 的 `markdown.plugins` |
-| `hexo-renderer-stylus` | 編譯 NexT 和 `styles.styl` 的 stylus |
-| `hexo-filter-mermaid-diagrams` | 把 ` ```mermaid ` 區塊轉成 `<pre class="mermaid">`，mermaid.js 由 NexT 載入（`_config.yml` 的 `mermaid.loadScript: false`）。**這個套件是必要的**：實測移除後，mermaid 圖會變成一般程式碼區塊 |
+| `hexo-renderer-markdown-it` + `markdown-it-*` | Markdown 渲染，外掛清單在 `_config.yml` 的 `markdown.plugins` |
+| `hexo-renderer-stylus` | 編譯 NexT 和 `styles.styl` |
+| `hexo-filter-mermaid-diagrams` | 把 ` ```mermaid ` 轉成 `<pre class="mermaid">`。**必要**，實測移除後 mermaid 圖會變成一般程式碼區塊 |
 
 已移除的套件：
 
-- `hexo-theme-landscape`、`hexo-renderer-ejs`：Hexo 預設主題用的，NexT 用不到。已移除，連同 `_config.landscape.yml`，實測網站輸出沒有變化。
+- `hexo-theme-landscape`、`hexo-renderer-ejs`：Hexo 預設主題用的，NexT 用不到。連同 `_config.landscape.yml` 一起移除，實測網站輸出沒有變化。
 - `fsevents`：原本手動加在 devDependencies，但它只能在 macOS 安裝，在其他平台會讓 `npm install` 失敗。macOS 上 `chokidar` 本來就會自動以 optional dependency 的方式裝它，不需要手動列出。
 
-### 套件更新
+套件更新由 `.github/dependabot.yml` 負責，每天檢查一次，對 `source` 開 PR。因為 repo 的預設 branch 是 `master`，所以設定裡要寫 `target-branch: source`。
 
-`.github/dependabot.yml` 每天檢查 npm 套件更新，並對 `source` branch 開 PR。因為 repo 的預設 branch 是 `master`，所以設定裡要寫 `target-branch: source`。
+## 升級 NexT
 
-## 文章範本（scaffolds）
+1. **先比對現況**：下載跟目前程式碼相同的版本當基準，比對後應該只剩上面列出的客製化。
 
-| 指令 | 範本 | 產出位置 |
-|---|---|---|
-| `hexo new "slug"` | `scaffolds/post.md` | `source/_posts/` |
-| `hexo new draft "slug"` | `scaffolds/draft.md` | `source/_drafts/` |
-| `hexo publish "slug"` | — | 把草稿移到 `_posts/`，並補上 `date` / `updated` |
+   ```bash
+   mkdir -p /tmp/next-up && cd /tmp/next-up
+   npm pack hexo-theme-next@8.21.0 && mkdir base && tar xzf hexo-theme-next-8.21.0.tgz -C base
+   diff -rqw base/package ~/Documents/github-repo/blog/themes/next
+   ```
 
-範本已經包含 `updated`、`categories`、`comments: true` 和 `<!-- more -->`，跟現有文章的 front matter 格式一致。
+2. **換上新版**：用新版的 `package` 內容整個取代 `themes/next/`。
+3. **重新套用客製化**：
+   - 用 `diff` 把舊的 `_config.yml` 設定搬到新版的 `_config.yml`
+   - 重新套用上面的 3 項程式碼修改
+4. **驗證**：
+   - `hexo cl && hexo g` 不應該有錯誤
+   - 用 `hexo s` 檢查這幾篇文章：
+     - 有 mermaid 圖的文章，例如 `automl-introduction`
+     - 有 `{% note question %}` 的文章
+     - 有數學公式的文章
+     - 留言區（Gitalk）
