@@ -50,7 +50,7 @@ git status --short && git log origin/source..HEAD --oneline   # 兩者都沒有�
 ### 1. 環境
 
 ```bash
-node -v          # 建議 18 以上（目前使用 v22）
+node -v          # Hexo 8 需要 20.19 以上（目前使用 v22）
 git --version
 hexo version || npm install -g hexo-cli   # 也可以不裝，改用 npx hexo ...
 ```

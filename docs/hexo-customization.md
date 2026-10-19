@@ -7,7 +7,7 @@
 - 寫作與部署流程：[hexo-workflow.md](hexo-workflow.md)
 - 備份與還原：[hexo-backup-and-restore.md](hexo-backup-and-restore.md)
 
-> 這份清單是 2026-10-19 拿 NexT 官方 npm 版本逐檔比對整理出來的，同一天也已經升級到 8.29.0。比對和升級方式見[升級 NexT](#升級-next)。
+> 目前版本：Hexo 8.1.2、NexT 8.29.0（2026-10-19 升級）。這份清單是拿官方 npm 版本逐檔比對整理出來的，升級方式見[升級 NexT](#升級-next)和[升級 Hexo 與 npm 套件](#升級-hexo-與-npm-套件)。
 
 ## Hexo 全域設定（`_config.yml`）
 
@@ -101,10 +101,10 @@
 
 | 套件 | 用途 |
 |---|---|
-| `hexo` | 核心 |
+| `hexo` 8.x | 核心。需要 Node.js 20.19 以上 |
 | `hexo-server` | `hexo s` 本地預覽 |
 | `hexo-deployer-git` | `hexo deploy` 推到 `master` |
-| `hexo-generator-*`（archive / category / index / tag / sitemap） | 產生列表頁和 sitemap |
+| `hexo-generator-*`（archive / category / index 4.x / tag / sitemap） | 產生列表頁和 sitemap |
 | `hexo-renderer-markdown-it` + `markdown-it-*` | Markdown 渲染，外掛清單在 `_config.yml` 的 `markdown.plugins` |
 | `hexo-renderer-stylus` | 編譯 NexT 和 `styles.styl` |
 | `hexo-filter-mermaid-diagrams` | 把 ` ```mermaid ` 轉成 `<pre class="mermaid">`。**必要**，實測移除後 mermaid 圖會變成一般程式碼區塊 |
@@ -115,6 +115,21 @@
 - `fsevents`：原本手動加在 devDependencies，但它只能在 macOS 安裝，在其他平台會讓 `npm install` 失敗。macOS 上 `chokidar` 本來就會自動以 optional dependency 的方式裝它，不需要手動列出。
 
 套件更新由 `.github/dependabot.yml` 負責，每天檢查一次，對 `source` 開 PR。因為 repo 的預設 branch 是 `master`，所以設定裡要寫 `target-branch: source`。
+
+## 升級 Hexo 與 npm 套件
+
+2026-10-19 把 `hexo` 從 7.3.0 升到 8.1.2、`hexo-generator-index` 從 3 升到 4，流程如下：
+
+1. 查 release notes 裡的 Breaking Changes。Hexo 8 只有一項：要求 Node.js 20.19 以上。
+2. 先 `hexo cl && hexo g`，把 `public/` 複製到暫存資料夾。
+3. 執行 `npm install <套件>@<版本>`，再重新 `hexo cl && hexo g`。
+4. 比對新舊 `public/` 的差異。要把每個檔案排序後再比，因為 NexT 每次產生時的隨機顏色和 tag 順序都不一樣。
+5. 用 `hexo s` 打開受影響的頁面，實際檢查。
+
+**Hexo 8 踩到的坑**：`{% img %}` 標籤會對網址再編碼一次。如果網址已經含有 `%2F`（例如 Firebase Storage 的圖片），會變成 `%252F`，圖片就壞了。
+
+- 解法是改用 Markdown 的 `![說明](網址)`，已經套用到 `change-Hexo-theme`、`build-Hexo-blog-local-from-scratch` 兩篇。
+- **之後插入圖片請用 Markdown 語法**，不要用 `{% img %}`。
 
 ## 升級 NexT
 
