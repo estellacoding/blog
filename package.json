@@ -5,7 +5,8 @@
   "scripts": {
     "build": "hexo generate",
     "clean": "hexo clean",
-    "deploy": "hexo deploy",
+    "predeploy": "test -z \"$(git status --porcelain)\" || { echo 'ERROR: source 有未 commit 的變更，請先 commit 再部署'; exit 1; }; git fetch -q && git merge-base --is-ancestor HEAD @{u} || { echo 'ERROR: source 有未 push 的 commit，請先 git push 再部署'; exit 1; }",
+    "deploy": "hexo clean && hexo deploy -g -m \"Deploy $(git rev-parse --short HEAD): $(git log -1 --pretty=%s)\"",
     "server": "hexo server"
   },
   "hexo": {
