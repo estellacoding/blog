@@ -4,7 +4,7 @@ date: 2025-08-14 11:11:11
 updated: 2025-08-14 11:11:11
 tags:
   - Conventional Commits
-  - Github
+  - GitHub
 categories: GitHub
 comments: true
 ---
