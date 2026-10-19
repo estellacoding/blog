@@ -1,6 +1,6 @@
 # Hexo Blog 日常工作流程
 
-這份文件說明 branch 架構、寫文章到部署的流程、部署訊息、常用指令，以及改主題後沒有生效時的排查方式。
+這份文件說明 branch 架構、寫文章到部署的流程、部署訊息、常用指令，以及改主題沒生效、VS Code 顯示異常時的排查方式。
 
 相關文件：
 
@@ -132,3 +132,29 @@ diff <(curl -s http://localhost:4000/blog/your-post/) public/your-post/index.htm
 ```
 
 沒有輸出代表兩邊一致。如果有差異，代表 server 還在送舊版，需要重啟。
+
+## VS Code 顯示異常
+
+VS Code 的 Source Control 會同時列出兩個 repo：`blog`（應該在 `source`）和 `.deploy_git`（在 `master`）。`.deploy_git` 的「Publish Branch」不用按，`npm run deploy` 會自己 push。
+
+### blog 顯示 master，還有幾千個未 commit 的檔案
+
+代表 `blog` 被切到 `master` 了（例如在 Graph 或 branch 選單點到）。`master` 沒有 `.gitignore`，所以 `node_modules/` 等都會變成未追蹤。原稿都在 `source` 的 commit 裡，不會遺失，切回來就好：
+
+```bash
+git checkout source
+git branch -D master   # 如果多出本地 master，刪掉即可，不影響網站
+```
+
+**不要在 `blog` 裡切到 `master`**，部署一律用 `npm run deploy`。
+
+### Graph 只看到 Deploy 紀錄，看不到 source 的 commit
+
+`source` 和 `master` 沒有共同祖先，Graph 的 `Auto` 會把比較基準也畫進來；如果基準是 `origin/master`，339 筆部署紀錄會排在前面，把 `source` 的 commit 擠到最下面。改成以 `origin/source` 為基準：
+
+```bash
+git config branch.source.vscode-merge-base origin/source
+git remote set-head origin source   # 只改本地，GitHub 預設 branch 仍是 master
+```
+
+改完執行 `Cmd+Shift+P` → **Developer: Reload Window**，只按 ↻ 不會生效。這兩個設定存在本地 `.git/config`，重新 clone 後要再設一次。

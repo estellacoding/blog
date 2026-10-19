@@ -65,6 +65,13 @@ cd blog
 npm install
 ```
 
+用 VS Code 的話，再設定 Graph 以 `source` 為主，原因見 [hexo-workflow.md](hexo-workflow.md#vs-code-顯示異常)：
+
+```bash
+git config branch.source.vscode-merge-base origin/source
+git remote set-head origin source
+```
+
 ### 3. 還原 .deploy_git（保留 master 部署歷史）
 
 ```bash
