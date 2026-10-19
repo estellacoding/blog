@@ -1,6 +1,6 @@
 {
   "name": "hexo-theme-next",
-  "version": "8.20.0",
+  "version": "8.29.0",
   "description": "Elegant and powerful theme for Hexo.",
   "main": "package.json",
   "files": [
@@ -12,7 +12,10 @@
     "_config.yml",
     "_vendors.yml"
   ],
-  "repository": "next-theme/hexo-theme-next",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/next-theme/hexo-theme-next.git"
+  },
   "keywords": [
     "hexo",
     "theme",
