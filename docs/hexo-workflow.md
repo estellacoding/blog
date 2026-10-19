@@ -1,6 +1,6 @@
 # Hexo Blog 日常工作流程
 
-這份文件說明 branch 架構、寫文章到部署的流程、部署訊息怎麼設定、常用指令，以及改主題後沒有生效時的排查方式。
+這份文件說明 branch 架構、寫文章到部署的流程、部署訊息、常用指令，以及改主題後沒有生效時的排查方式。
 
 相關文件：
 
@@ -60,17 +60,7 @@ npm run deploy
 
 ## 部署 commit 訊息
 
-`hexo deploy` 是透過 `hexo-deployer-git` 在 `.deploy_git/` 裡 commit，再 push 到 `master`。預設訊息是：
-
-```
-Site updated: {{ now("yyyy-MM-dd HH:mm:ss") }}
-```
-
-也就是 `Site updated: 2026-04-29 00:41:14` 這種格式，看不出這次部署對應到哪個版本。
-
-### 目前做法：自動帶入 source commit
-
-`npm run deploy` 會自動把 `source` 最新 commit 的 hash 和標題當成部署訊息：
+`npm run deploy` 會把 `source` 最新 commit 的 hash 和標題當成部署訊息（取代 hexo-deployer-git 預設的 `Site updated: <時間>`）：
 
 ```
 Deploy 8694ee03: post: move unfinished Karpathy draft out of source
@@ -85,41 +75,9 @@ Deploy 8694ee03: post: move unfinished Karpathy draft out of source
 | `predeploy` | 執行 `npm run deploy` 前，npm 會自動先跑這個：<br>• `git status --porcelain` 不是空的（有未 commit 的變更）→ 擋下<br>• `HEAD` 不在 `origin/source` 上（有未 push 的 commit）→ 擋下 |
 | `deploy` | `hexo clean && hexo deploy -g -m "Deploy <hash>: <subject>"` |
 
-**為什麼不為每次部署寫 conventional commit（`post:`、`feat:` 等）？**
+部署訊息不另外寫 conventional commit（`post:`、`feat:` 等），因為有意義的紀錄已經在 `source` 的 commit 上，而且一次部署常包含好幾個 commit。
 
-- 有意義的紀錄已經在 `source` 的 commit 上。
-- 一次部署常常包含好幾個 `source` commit，很難只用一個 type 描述。
-- `docs:` 這類修改根本不會進到網站。
-
-所以部署訊息只需要記錄「對應哪個 source 版本」就夠了。
-
-### 其他做法：手動指定訊息
-
-需要時也可以略過 npm script，直接用 hexo 指令。這兩種方式都**沒有**前面的未 commit / 未 push 檢查。
-
-#### 方式 A：部署時用 `-m` 指定（單次）
-
-```bash
-hexo clean && hexo deploy -g -m "post: add Karpathy LLM deep-dive"
-```
-
-`-m`、`--msg`、`--message` 三種寫法都可以。Hexo 會把指令列參數合併進 deploy 設定，所以這三個參數都會傳給 deployer。
-
-#### 方式 B：在 `_config.yml` 改預設格式（永久）
-
-```yaml
-deploy:
-  type: git
-  repo: https://github.com/estellacoding/blog
-  branch: master
-  message: "Deploy: {{ now('YYYY-MM-DD HH:mm') }}"
-```
-
-`message` 支援 nunjucks 語法，可以用 `{{ now('格式') }}` 放入時間。
-
-優先順序是：指令列的 `-m` > `_config.yml` 的 `message` > 內建預設值。
-
-> 這個行為定義在 `node_modules/hexo-deployer-git/lib/deployer.js` 的 `commitMessage()`。
+需要自訂訊息時可以直接執行 `hexo clean && hexo deploy -g -m "訊息"`，但這樣**不會**經過 `predeploy` 的檢查。
 
 ## 指令備忘
 

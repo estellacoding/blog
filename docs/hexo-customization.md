@@ -7,7 +7,7 @@
 - 寫作與部署流程：[hexo-workflow.md](hexo-workflow.md)
 - 備份與還原：[hexo-backup-and-restore.md](hexo-backup-and-restore.md)
 
-> 目前版本：Hexo 8.1.2、NexT 8.29.0（2026-10-19 升級）。這份清單是拿官方 npm 版本逐檔比對整理出來的，升級方式見[升級 NexT](#升級-next)和[升級 Hexo 與 npm 套件](#升級-hexo-與-npm-套件)。
+> 目前版本：Hexo 8.1.2、NexT 8.29.0。升級方式見[升級 NexT](#升級-next)和[升級 Hexo 與 npm 套件](#升級-hexo-與-npm-套件)。
 
 ## Hexo 全域設定（`_config.yml`）
 
@@ -30,9 +30,9 @@
 
 主題直接放在 `themes/next/`，是一般資料夾，不是 submodule，也不是 npm 套件。
 
-- **版本**：`8.29.0`，2026-10-19 從 npm 套件升級，之前是介於 8.20.0 和 8.21.0 之間的 git 快照。下次升級時以 npm 的 `hexo-theme-next@8.29.0` 為比對基準。
+- **版本**：`8.29.0`，來自 npm 套件 `hexo-theme-next@8.29.0`，下次升級時以它為比對基準。
 - **前端套件版本**：寫在 `_vendors.yml`，跟主題版本走。8.29.0 用的是 mermaid 11、MathJax 4。
-- **保留的檔案**：只保留 NexT `package.json` 的 `files` 欄位列出的執行時檔案，再加上 `package.json`（版本號從這裡讀）和授權文件。主題開發用的 CI、測試、lint 設定已經刪除，`package.json` 裡的 `scripts` 和 `devDependencies` 也一起移除。
+- **保留的檔案**：只保留 NexT `package.json` 的 `files` 欄位列出的執行時檔案，再加上 `package.json`（版本號從這裡讀）、`README.md` 和授權文件。主題開發用的 CI、測試、lint 設定已經刪除，`package.json` 裡的 `scripts` 和 `devDependencies` 也一起移除。
 - **`languages/default.yml`**：指向 `en.yml` 的 symlink，是 Hexo 的 fallback 語系檔，保留不動。
 
 ### 主題設定（`themes/next/_config.yml`）
@@ -95,7 +95,7 @@
 | `hexo new draft "slug"` | `draft.md` | `source/_drafts/` |
 | `hexo publish "slug"` | — | 把草稿移到 `_posts/`，並補上 `date` / `updated` |
 
-範本已經包含 `updated`、`categories`、`comments: true` 和 `<!-- more -->`，跟現有文章的 front matter 格式一致。因為 `permalink: :title/`，`slug` 就是文章網址，建議用英文小寫加 `-`。
+`post.md` 包含 `date`、`updated`、`categories`、`comments: true` 和 `<!-- more -->`，跟現有文章的 front matter 格式一致；`draft.md` 沒有日期，由 `hexo publish` 補上。因為 `permalink: :title/`，`slug` 就是文章網址，建議用英文小寫加 `-`。
 
 ## npm 套件
 
@@ -109,31 +109,28 @@
 | `hexo-renderer-stylus` | 編譯 NexT 和 `styles.styl` |
 | `hexo-filter-mermaid-diagrams` | 把 ` ```mermaid ` 轉成 `<pre class="mermaid">`。**必要**，實測移除後 mermaid 圖會變成一般程式碼區塊 |
 
-已移除的套件：
+不要加回的套件：
 
-- `hexo-theme-landscape`、`hexo-renderer-ejs`：Hexo 預設主題用的，NexT 用不到。連同 `_config.landscape.yml` 一起移除，實測網站輸出沒有變化。
-- `fsevents`：原本手動加在 devDependencies，但它只能在 macOS 安裝，在其他平台會讓 `npm install` 失敗。macOS 上 `chokidar` 本來就會自動以 optional dependency 的方式裝它，不需要手動列出。
+- `hexo-theme-landscape`、`hexo-renderer-ejs`：Hexo 預設主題用的，NexT 用不到。
+- `fsevents`：只能在 macOS 安裝，手動列出會讓其他平台 `npm install` 失敗；macOS 上 `chokidar` 會自動以 optional dependency 裝它。
 
 套件更新由 `.github/dependabot.yml` 負責，每天檢查一次，對 `source` 開 PR。因為 repo 的預設 branch 是 `master`，所以設定裡要寫 `target-branch: source`。
 
 ## 升級 Hexo 與 npm 套件
 
-2026-10-19 把 `hexo` 從 7.3.0 升到 8.1.2、`hexo-generator-index` 從 3 升到 4，流程如下：
-
-1. 查 release notes 裡的 Breaking Changes。Hexo 8 只有一項：要求 Node.js 20.19 以上。
+1. 查 release notes 裡的 Breaking Changes。
 2. 先 `hexo cl && hexo g`，把 `public/` 複製到暫存資料夾。
 3. 執行 `npm install <套件>@<版本>`，再重新 `hexo cl && hexo g`。
 4. 比對新舊 `public/` 的差異。要把每個檔案排序後再比，因為 NexT 每次產生時的隨機顏色和 tag 順序都不一樣。
 5. 用 `hexo s` 打開受影響的頁面，實際檢查。
 
-**Hexo 8 踩到的坑**：`{% img %}` 標籤會對網址再編碼一次。如果網址已經含有 `%2F`（例如 Firebase Storage 的圖片），會變成 `%252F`，圖片就壞了。
+**已知的坑（Hexo 8）**：`{% img %}` 標籤會對網址再編碼一次。如果網址已經含有 `%2F`（例如 Firebase Storage 的圖片），會變成 `%252F`，圖片就壞了。
 
-- 解法是改用 Markdown 的 `![說明](網址)`，已經套用到 `change-Hexo-theme`、`build-Hexo-blog-local-from-scratch` 兩篇。
-- **之後插入圖片請用 Markdown 語法**，不要用 `{% img %}`。
+**插入圖片請用 Markdown 的 `![說明](網址)`**，不要用 `{% img %}`。
 
 ## 升級 NexT
 
-2026-10-19 用以下流程從 8.21 升到 8.29.0。下次升級時，把 `OLD` 換成目前版本、`NEW` 換成目標版本。
+把 `OLD` 換成目前版本、`NEW` 換成目標版本。
 
 1. **下載基準版和新版**，放在 repo 外的暫存資料夾：
 
@@ -165,7 +162,7 @@
    diff <(grep -v '^\s*#' $W/$OLD/package/_config.yml) <(grep -v '^\s*#' $W/$NEW/package/_config.yml)
    ```
 
-   如果原本的設定剛好等於舊的預設值，merge 時就會被換成新的預設值。8.29 的 `darkmode` 就是這樣，要手動改回來。
+   如果原本的設定剛好等於舊的預設值，merge 時就會被換成新的預設值，要手動改回來（例如 8.29 的 `darkmode`）。
 6. **驗證**：
    - `hexo cl && hexo g` 不應該有錯誤。
    - 用 `hexo s` 實際打開頁面檢查：

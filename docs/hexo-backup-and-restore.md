@@ -90,10 +90,6 @@ hexo s                                 # http://localhost:4000/blog/ 可以正�
 
 **還原時不要部署。** 等使用者確認之後，再依照 [hexo-workflow.md](hexo-workflow.md#寫文章到上線的流程) 部署。
 
-## 為什麼不直接把 .deploy_git commit 進 source？
+## 為什麼不把 .deploy_git commit 進 source？
 
-- **推不上去**：`.deploy_git/` 本身是 git repo。`git add` 只會記一個 gitlink（指向某個 commit 的指標），裡面的檔案和歷史都不會被收進去，clone 下來只會拿到空資料夾。
-- **只複製檔案也沒用**：等於把 `public/` 再存一份到 `source`。repo 會變大，每次部署都會多出大量 diff，而且還是沒有 `master` 的歷史。
-- **改用 submodule 更麻煩**：每次部署後 submodule 指向的 commit 都會變，`source` 會一直出現待 commit 的變更。
-
-`master` 的內容和歷史本來就完整存在 GitHub 上，還原時多跑第 3 步那一行就能拿回來。
+`.deploy_git/` 本身是 git repo，`git add` 只會記一個 gitlink，clone 下來是空資料夾；改成複製檔案或 submodule 則會讓 repo 變大、每次部署都產生待 commit 的變更。`master` 的內容和歷史本來就在 GitHub 上，還原時多跑第 3 步那一行就能拿回來。
