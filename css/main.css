@@ -704,6 +704,9 @@ pre code {
 .post-body .label.danger {
   background: #fae8eb;
 }
+.post-body .label.question {
+  background: ;
+}
 .post-body .link-grid {
   display: grid;
   grid-gap: 1.5rem;
@@ -942,6 +945,23 @@ pre code {
   font-family: 'Font Awesome 6 Free';
   font-weight: 900;
   color: #d9534f;
+}
+.post-body .note.question {
+  background: #e4fcfb;
+  border-left-color: #17a2b8;
+}
+.post-body .note.question h2,
+.post-body .note.question h3,
+.post-body .note.question h4,
+.post-body .note.question h5,
+.post-body .note.question h6 {
+  color: #17a2b8;
+}
+.post-body .note.question:not(.no-icon)::before {
+  content: '\f059';
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
+  color: #17a2b8;
 }
 .post-body .tabs {
   margin-bottom: 20px;
@@ -1329,7 +1349,7 @@ pre code {
     vertical-align: middle;
   }
   .links-of-author a::before {
-    background: #e8472f;
+    background: #b39c6e;
     display: inline-block;
     margin-right: 3px;
     transform: translateY(-2px);
